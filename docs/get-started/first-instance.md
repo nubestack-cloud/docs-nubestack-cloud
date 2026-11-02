@@ -1,120 +1,87 @@
 ---
-action_tabs: true
-title: Your first instance
-description: From an SSH key to logging in to an instance with a public IP, then cleaning up what you made.
+title: Launch your first instance
+description: Add an SSH key, start an Ubuntu instance with a public IP in Karachi, log in, then clean up.
 ---
 
-# Your first instance
+# Launch your first instance
 
-This walk-through starts an Ubuntu instance in Karachi that you can log in to over SSH from your
-computer, then removes everything again. It takes about ten minutes. You need a role of project
-admin or project member on a project, here `web-shop`.
+This walk-through starts an Ubuntu instance in Karachi that you can log in to over SSH, then
+removes it again. It takes about ten minutes. Each step shows the console and the same request
+with the API; follow either.
 
-<div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
-<span>Show instructions for</span>
-<div><button type="button" data-interface-choice="Console" aria-pressed="true">Console</button><button type="button" data-interface-choice="API" aria-pressed="false">API</button></div>
-</div>
+## Before you start
 
-<div class="docs-method-note" markdown>
-
-[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
-
-</div>
-
+- A role of project admin or project member on a project, here `web-shop`, in Karachi. See
+  [Create a project](create-a-project.md).
+- An SSH key pair on your computer. No key yet? Run `ssh-keygen -t ed25519`.
+- For the API tabs: a service account's API key and the variables set as in
+  [API: Before you start](../api/index.md#before-you-start).
 
 ## 1. Add your SSH key
 
 === "Console"
 
-    1. On your computer, print your public key. No key yet? Make one with `ssh-keygen -t ed25519`.
+    1. Print your public key on your computer:
 
-       ```bash
-       cat ~/.ssh/id_ed25519.pub
-       ```
+        ```bash
+        cat ~/.ssh/id_ed25519.pub
+        ```
 
-    2. In the console, pick the project in **Workspace**. In the left panel, under **Compute**, choose
-       **SSH keys**, then **Add SSH key**.
-    3. Paste the whole line into **Public key**. Never paste the private key: the console refuses it.
+    2. In the console, pick `web-shop` in **Workspace**. Under **Compute**, choose **SSH keys**,
+       then **Add SSH key**.
+    3. Paste the whole line into **Public key**. Never paste the private key: the console
+       refuses it.
     4. Leave **Who can use it** on **Only me** and choose **Add SSH key**.
-
-    [SSH keys](../compute/ssh-keys.md) has the details.
 
 === "API"
 
-    <span id="the-same-with-the-api" data-docs-method="API"></span>
-
     ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/ssh-keys" \
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/ssh-keys" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Idempotency-Key: $(uuidgen)" \
       -H "Content-Type: application/json" \
-      --data '{
-      "display_name": "my-laptop",
-      "public_key": "REPLACE_WITH_YOUR_COMPLETE_PUBLIC_SSH_KEY"
-    }'
+      -d "{\"display_name\": \"my-laptop\", \"public_key\": \"$(cat ~/.ssh/id_ed25519.pub)\"}"
     ```
 
-    Returns `201` directly. Read the returned resource or current state to verify the change.
+    The answer is `201 Created` with the key and its `id` (`ssh_…`). Adding a key takes effect at
+    once; there is no operation to follow.
 
-    [Request fields and responses](../api/reference/ssh-keys.md).
+## 2. Check the network and the Internet gateway
 
-
-## 2. Make sure the network reaches the Internet
+A public IP needs a network that reaches the project's router and an **Internet gateway** in the
+location. A project made with **Set up a network** and **Create an Internet gateway** has both.
 
 === "Console"
 
-    A public IP needs a routed network and an **Internet gateway** in the location.
+    1. Under **Networking**, choose **Networks**. The network `default` (`10.0.0.0/24`) was made
+       with the project. No network in Karachi? [Create one](../networking/networks.md).
+    2. Under **Networking**, choose **Internet gateways**. If Karachi has none, choose **Create
+       Internet gateway**, pick **Karachi** and confirm. It is ready when its outbound address
+       shows.
 
-    1. Under **Networking**, choose **Networks**. The project's network, `app` with `192.0.2.0/24`,
-       was made with the project. No network in Karachi? Choose **Set up network** in the notice at the
-       top, or [create one](../networking/networks.md#create-a-network) as **Routed**.
-    2. Under **Networking**, choose **Internet gateways**. If Karachi is not listed, choose **Create
-       Internet gateway**, pick **Karachi** and confirm. The gateway is ready when its **Outbound
-       address** shows.
-
-    ![The Internet gateways page: Karachi's gateway with its outbound address and the networks behind it](../assets/screens/networking/internet-gateways.webp)
+    ![Internet gateways: Karachi's gateway with its outbound address and the networks behind it](../assets/screens/networking/internet-gateways.webp)
 
 === "API"
 
-    **Create a network**
+    Find the network's ID:
 
     ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/networks" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "location": "loc_example",
-      "display_name": "app",
-      "routed": true,
-      "subnet": {
-        "cidr": "<private-ipv4-cidr>",
-        "enable_dhcp": true
-      },
-      "tags": {
-        "env": "prod"
-      }
-    }'
+    curl -sS "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/networks?location=pak-khi-1" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY"
     ```
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/networking.md).
-
-    **Add an Internet gateway**
+    Add a gateway if the location has none. `{placement_id}` is the project's ID in that
+    location: `placements[].id` in `GET /v1/orgs/$ORG/projects/$PROJECT`.
 
     ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/placements/$PLACEMENT_ID/internet-gateway" \
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/placements/$PLACEMENT/internet-gateway" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Idempotency-Key: $(uuidgen)" \
       -H "Content-Type: application/json" \
-      --data '{}'
+      -d '{}'
     ```
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/networking.md).
-
+    The answer is `202 Accepted` with an operation to follow.
 
 ## 3. Create the instance
 
@@ -123,121 +90,119 @@ admin or project member on a project, here `web-shop`.
     1. Under **Compute**, choose **Instances**, then **Create instance**.
     2. **Location**: Karachi.
     3. **Name**: `web-1`.
-    4. **Size**: Small or Medium. You can resize later.
-    5. **Image**: Ubuntu 24.04.
-    6. **Network**: `app`. Under **Public IP**, choose **A new public IP**.
+    4. **Size**: a small size is enough; you can resize later.
+    5. **Image**: an Ubuntu image.
+    6. **Network**: `default`. Under **Public IP**, choose **A new public IP**.
     7. **Access**: choose your SSH key and turn on **Allow SSH (port 22) from anywhere**.
     8. Check the summary on the right, then choose **Create instance**.
 
-    The page shows **Instance requested** with a link to follow the operation. The instance appears
-    in the list as **Creating**, then **Active**, usually within a minute or two.
+    ![The create page filled in: Karachi, a size, an Ubuntu image, the network with a new public IP, and an SSH key](../assets/screens/compute/instance-create.webp)
+
+=== "API"
+
+    Sizes and images come from the location's catalog:
+    `GET /v1/orgs/$ORG/catalog?location=$KHI`. Use their `slug`s.
+
+    ```bash
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $(uuidgen)" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "location": "loc_01jbkhi",
+        "display_name": "web-1",
+        "offering": "small",
+        "image": "ubuntu-24-04",
+        "network_id": "net_01jbdefault",
+        "ssh_key_id": "ssh_01jbayesha",
+        "public_ip": true,
+        "security_group_templates": ["ssh"]
+      }'
+    ```
+
+    `security_group_templates: ["ssh"]` opens TCP 22 from anywhere, like the console's switch.
+    The answer is `202 Accepted`:
+
+    ```json
+    {
+      "operation": {"id": "op_01jbweb1", "state": "queued", "href": "/v1/orgs/org_01jbacme/operations/op_01jbweb1"},
+      "server": {"id": "srv_01jbweb1", "href": "/v1/orgs/org_01jbacme/projects/prj_01jbwebshop/servers/srv_01jbweb1"}
+    }
+    ```
+
+## 4. Wait until it is active
+
+=== "Console"
+
+    The page shows **Instance requested**. Choose **Follow the operation** to watch each step, or
+    wait for the instance to read **Active** in the list, usually within a minute or two. The list
+    shows the public IP beside it, marked **public**.
 
     ![The instances list: web-1 is active with its public IP](../assets/screens/compute/instances-list.webp)
 
 === "API"
 
+    Read the operation until its `state` is `succeeded`; wait a few seconds between reads.
+
     ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "location": "loc_example",
-      "display_name": "web-1",
-      "offering": "medium",
-      "image": "ubuntu-24-04",
-      "network_id": "net_example",
-      "ssh_key_id": "ssh_example",
-      "public_ip": true,
-      "security_group_templates": ["ssh"]
-    }'
+    curl -sS "$NUBESTACK_API/v1/orgs/$ORG/operations/op_01jbweb1" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY"
     ```
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+    Then read the instance for its addresses:
 
-    [Request fields and responses](../api/reference/instances.md).
+    ```bash
+    curl -sS "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/srv_01jbweb1" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY"
+    ```
 
+## 5. Log in
 
-## 4. Log in
+Log in as the image's default user, `ubuntu` on Ubuntu images, at the public IP:
+
+```bash
+ssh ubuntu@203.0.113.21
+```
+
+!!! tip "Refused or timing out?"
+
+    Check, in this order: the instance is **Active**; it has a public IP; one of its security
+    groups allows TCP 22 from your address; the location has an Internet gateway. The instance's
+    **Console log** tab shows whether it booted. See [Troubleshooting](../help/troubleshooting.md).
+
+Once you are in, narrow SSH to your own addresses: add a rule for your office range to the
+[security group](../networking/security-groups.md), then remove the rule open to `0.0.0.0/0`.
+
+## 6. Clean up
+
+Delete what you made so it stops counting in your usage.
 
 === "Console"
 
-    The list shows the public IP beside the instance, marked **public**. Log in as the image's default
-    user, `ubuntu` on Ubuntu images:
-
-    ```bash
-    ssh ubuntu@203.0.113.21
-    ```
-
-    !!! tip "Refused or timing out?"
-
-        Check, in this order: the instance is **Active**; it has a public IP; one of its security groups
-        allows TCP 22 from your address; the location has an Internet gateway. The instance's
-        **Console log** tab shows whether it booted. More in [Troubleshooting](../help/troubleshooting.md).
-
-
-    Once you are in, narrow SSH to your own addresses: add a rule for your office range in the
-    [security group](../networking/security-groups.md#add-and-remove-rules), then remove the rule open to
-    `0.0.0.0/0`.
+    1. **Instances**: choose **Manage → Delete** on `web-1` and confirm. Its system disk goes with
+       it.
+    2. **Public IPs**: the address stays allocated to the project after the instance is gone.
+       Choose **Manage → Release** on it and confirm.
+    3. Optional: an Internet gateway counts as gateway hours while it exists. If you made it only
+       for this, delete it under **Internet gateways**.
 
 === "API"
 
-    Use the public address returned on the instance. SSH is the same guest connection for either creation method:
-
     ```bash
-    ssh ubuntu@203.0.113.21
-    ```
-
-    Replace the documentation address with your allocated address. An API key does not replace the instance's private SSH key. After confirming access, [narrow the SSH rule](../networking/security-groups.md#add-and-remove-rules) to your own address range.
-
-
-## 5. Clean up
-
-=== "Console"
-
-    Delete what you made so it stops counting in your usage:
-
-    1. **Instances**: choose **Manage → Delete** on `web-1` and confirm. Its system disk goes with it.
-    2. **Public IPs**: the address stays allocated to the project after the instance is gone. Choose
-       **Manage → Release** on it and confirm.
-    3. Optional: the Internet gateway counts as **Internet gateway hours** while it exists. If you made
-       it only for this, choose **Manage → Delete gateway** under **Internet gateways**.
-    4. Optional: remove the SSH rule you added, or the key, if you no longer need them.
-
-=== "API"
-
-    **Delete an instance**
-
-    ```bash
-    curl --fail-with-body -i -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$SERVER_ID" \
+    curl -sS -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/srv_01jbweb1" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY"
-    ```
+      -H "Idempotency-Key: $(uuidgen)"
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/instances.md).
-
-    **Release a public IP**
-
-    ```bash
-    curl --fail-with-body -i -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/floating-ips/$ADDRESS_ID" \
+    curl -sS -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/floating-ips/fip_01jbweb1" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY"
+      -H "Idempotency-Key: $(uuidgen)"
     ```
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+    Each answers `202 Accepted`. Follow the instance's operation to `succeeded` before you
+    release its address.
 
-    [Request fields and responses](../api/reference/public-ips.md).
+## Next
 
-    **Remove the Internet gateway**
-
-    ```bash
-    curl --fail-with-body -i -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/placements/$PLACEMENT_ID/internet-gateway" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY"
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/networking.md).
+- [Publish a web application](../tutorials/publish-web-application.md) with cloud-init.
+- [Add a volume](../storage/volumes.md) for data that outlives the instance.
+- [Invite your colleagues](../organization/members.md).

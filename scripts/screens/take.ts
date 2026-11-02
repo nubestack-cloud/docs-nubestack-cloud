@@ -25,6 +25,7 @@ if (!existsSync(join(portal, "node_modules", ".bin", "vite"))) {
 }
 const { chromium } = await import(pathToFileURL(join(portal, "node_modules", "playwright", "index.mjs")).href);
 const filter = process.argv.slice(2);
+const BRAND_MARK = `<svg viewBox="0 0 320 352" width="26" height="28" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="24" stroke-linecap="round" stroke-linejoin="round"><path d="M40 80 160 13 280 80"/><path d="M12 128V266l115 67"/><path d="M308 128V266l-115 67"/></g><path fill="#3c7f7c" stroke="#3c7f7c" stroke-width="8" stroke-linejoin="round" d="M72 106 109 85V118L204 196V85l38 21V244l-22 21L109 175V276L72 252Z"/></svg>`;
 
 /** PNG to WebP, by the browser's own encoder: no image library needed. */
 async function webp(browser: Browser, png: Buffer, quality = 0.86): Promise<Buffer> {
@@ -129,6 +130,13 @@ try {
         const target = /^[.#\[]|^[a-z]+\[|^main|^table|^h1/.test(shot.wait) ? page.locator(shot.wait).first() : page.locator("main.content").getByText(shot.wait).first();
         await target.waitFor({ state: "visible", timeout: 15_000 });
       }
+      // The portal carries the platform's own wordmark; NubeStack Cloud's console shows the
+      // service's. Draw NubeStack's mark and name in its place, for the shot only.
+      await page.evaluate((mark) => {
+        for (const lockup of document.querySelectorAll(".brand-lockup")) {
+          lockup.innerHTML = `${mark}<span style="font-weight:700;letter-spacing:-.01em;white-space:nowrap">NubeStack<span style="font-weight:450"> Cloud</span></span>`;
+        }
+      }, BRAND_MARK);
       if (shot.act) await shot.act(page);
       await page.waitForLoadState("networkidle");
       await page.waitForTimeout(400);

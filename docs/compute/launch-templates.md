@@ -1,134 +1,133 @@
 ---
-action_tabs: true
 title: Launch templates
+description: Save an instance's settings as a versioned template and launch one to ten instances like it in one step.
 ---
 
 # Launch templates
 
-A launch template saves instance settings so you can repeat a launch. Use it for consistent web servers, batch workers or the instances maintained by an [instance group](instance-groups.md). Templates belong to one project and contain a location-specific instance configuration.
+A **launch template** keeps an instance's settings, so you can start one to ten instances like it
+in one step: location, size, image, network, security groups and rules, SSH key, server group,
+new data volumes, public IP, load balancer and user data.
 
-<div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
-<span>Show instructions for</span>
-<div><button type="button" data-interface-choice="Console" aria-pressed="true">Console</button><button type="button" data-interface-choice="API" aria-pressed="false">API</button></div>
-</div>
+**Use it for** instances you start often, and as the source of an
+[instance group](instance-groups.md).
 
-<div class="docs-method-note" markdown>
+Find them under **Compute → Launch templates**.
 
-[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
-
-</div>
-
-![Saved launch templates and versions](../assets/screens/compute/launch-templates.webp)
-
+![Launch templates: name, location, size, image and current version](../assets/screens/compute/launch-templates.webp)
 
 ## Save a template
 
 === "Console"
 
-    1. Open **Compute → Instances → Create instance**.
-    2. Choose the location, size, image, network, SSH key and other settings.
-    3. Choose **Save as launch template**. Name it `web-server` and add a description.
-    4. Review the saved settings. User data, if included, is kept securely and is never shown back.
+    1. Choose **Create launch template**.
+    2. Give it a name, an optional description and the prefix its instances are named with.
+    3. Choose the instance settings, as on the [instance create page](instances.md).
+    4. Choose **Save launch template**. Nothing is created until you launch it.
 
-    Alternatively, open **Compute → Launch templates** and use the create action to prepare the settings there. A template cannot reserve an existing volume, fixed private IP or existing public IP for repeated use. New-volume definitions can be included so each instance gets its own data disk.
-
-    ![A template's version, settings and launched instances](../assets/screens/compute/launch-template-detail.webp)
+    You can also fill in the instance create page and choose **Save as launch template** under
+    the summary.
 
 === "API"
 
-    <span id="with-the-api" data-docs-method="API"></span>
+    `server` is what `POST …/servers` takes, without a fixed address, an existing public IP or
+    existing volumes.
 
     ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/launch-templates" \
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/launch-templates" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Idempotency-Key: $(uuidgen)" \
       -H "Content-Type: application/json" \
-      --data '{
-      "name": "web-server",
-      "server": {
-        "location": "loc_example",
-        "display_name": "web",
-        "offering": "medium",
-        "image": "ubuntu-24-04",
-        "network_id": "net_example",
-        "ssh_key_id": "ssh_example"
-      }
-    }'
+      -d '{
+        "name": "web",
+        "description": "Web front end, joins web-pool",
+        "server": {
+          "location": "loc_01jbkhi", "display_name": "web", "offering": "medium",
+          "image": "ubuntu-24-04", "network_id": "net_01jbapp",
+          "security_group_ids": ["sgr_01jbweb"], "ssh_key_id": "ssh_01jbayesha",
+          "load_balancer": {"pool_id": "lbp_01jbwebpool", "port": 8080}
+        }
+      }'
     ```
 
-    Returns `201` directly. Read the returned resource or current state to verify the change.
+    The answer is `201 Created`.
 
-    [Request fields and responses](../api/reference/launch-templates.md).
+A template keeps nothing only one instance can use. Each instance launched from it gets a new
+public IP and new volumes, if the template asks for them.
 
+**User data** is kept with the template, encrypted, and never shown again. It is sent to each
+instance you launch and deleted with the template. Keep secrets out of user data where you can;
+fetch them at boot instead.
+
+![A template's page: what each instance gets, its versions, and Launch](../assets/screens/compute/launch-template-detail.webp)
 
 ## Launch instances
 
 === "Console"
 
-    Open a template and choose **Launch**. Select a version and a count from 1 to 10. A single launch uses the configured base name; a multi-instance launch adds numbered suffixes. Follow the launch operation and inspect each result: some instances can succeed while others fail.
-
-    Launches use the quota and catalog available at that moment. Saving a template does not reserve capacity, addresses or storage.
+    Choose **Manage → Launch…** on the template, then how many instances (1 to 10). Or, on the
+    instance create page, choose **Start from: A launch template**, pick the template and
+    version, and say how many.
 
 === "API"
 
     ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/instance-launches" \
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/instance-launches" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Idempotency-Key: $(uuidgen)" \
       -H "Content-Type: application/json" \
-      --data '{
-      "count": 2,
-      "template": {
-        "id": "ltp_example",
-        "version": 1
-      }
-    }'
+      -d '{"count": 3, "template": {"id": "ltp_01jbweb", "version": 2}}'
     ```
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+    The answer is `202 Accepted`. Follow the launch with
+    `GET …/instance-launches/{launch_id}`: each instance's operation, and the launch's state.
 
-    [Request fields and responses](../api/reference/launch-templates.md).
+How a launch works:
 
+- Instances are named after the template: `web-1`, `web-2` and so on, using the next numbers no
+  instance of the project has yet.
+- They are admitted together or not at all. If the project's quota cannot take all of them,
+  nothing is created and the page says which quota is short.
+- Each is then created on its own. If one fails, the others carry on. A launch is
+  **succeeded** when every instance succeeded, **failed** when none did, and **partially
+  succeeded** otherwise.
 
-## Versions and editing
+## Change a template
+
+Every save is a new **version**; **Versions** on the template's page lists them, and **Show**
+opens an older one. A launch always uses the version current when it started. In the API,
+`PATCH …/launch-templates/{id}` with `If-Match` renames the template or saves a new version.
+
+A template can go out of date when a network or image it names is deleted. Launching it is then
+refused, naming the setting; save a new version.
+
+## Delete a template
 
 === "Console"
 
-    Editing the instance settings creates another template version. The detail page lets you inspect versions and see the instances launched from them. Existing instances are unchanged. An instance group can pin one version or use the latest version for each new instance; changing the template does not rebuild existing group members.
+    Choose **Manage → Delete…** and confirm. Instances launched from it stay.
 
 === "API"
 
     ```bash
-    curl --fail-with-body -i -X PATCH "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/launch-templates/$TEMPLATE_ID" \
+    curl -sS -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/launch-templates/ltp_01jbweb" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "If-Match: $ETAG" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "description": "Web application template"
-    }'
+      -H "Idempotency-Key: $(uuidgen)" \
+      -H 'If-Match: "3"'
     ```
 
-    Returns `200` directly. Read the returned resource or current state to verify the change.
+**What blocks a delete**
 
-    [Request fields and responses](../api/reference/launch-templates.md).
+| Refusal | Why | Resolve |
+|---|---|---|
+| `launch_template_in_use` | A launch has not yet created its instances, or an instance group uses the template | Wait for the launch to create its instances; delete the instance group that uses it |
 
+## Limits and good practice
 
-## Delete and limits
+- Up to 50 templates per project. Names are unique in the project, ignoring case.
+- Test a new version with a one-instance launch before an instance group uses it.
 
-=== "Console"
+## Related
 
-    Remove or update instance groups that reference the template before deleting it. Deleting a template leaves instances it already launched running, but removes the reusable definition. Each template supports up to 100 versions. Keep secrets out of names and descriptions, and prefer version-pinned templates for predictable replacements.
-
-=== "API"
-
-    ```bash
-    curl --fail-with-body -i -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/launch-templates/$TEMPLATE_ID" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "If-Match: $ETAG"
-    ```
-
-    Returns `200` directly. Read the returned resource or current state to verify the change.
-
-    [Request fields and responses](../api/reference/launch-templates.md).
+- [Instances](instances.md) · [Instance groups](instance-groups.md)
+- [API reference: Launch templates](../api/reference/launch-templates.md)

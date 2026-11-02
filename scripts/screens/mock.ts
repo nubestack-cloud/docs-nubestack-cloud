@@ -181,7 +181,7 @@ export async function installMock(page: Page, helpers: Helpers, options: MockOpt
         url: `https://console.${loc.slug}.example/auth/switch/kp-${loc.slug}/?next=${server ? `/project/instances/${server}/` : "/project/"}` });
     }
     const forwarding = path.match(/\/servers\/([a-z]{3}_[0-9a-z]+)\/forwarding$/);
-    if (forwarding) return json({ offered: true, items: [{ network_id: W.ID.netApp, network: "app", port_id: "port-web1", addresses: ["192.0.2.11"], forwarding: [], others: [] }] });
+    if (forwarding) return json({ offered: true, items: [{ network_id: W.ID.netApp, network: "app", port_id: "port-web1", addresses: ["10.0.0.11"], forwarding: [], others: [] }] });
 
     const item = path.match(/\/(volume-snapshots|images|networks|servers|volumes|load-balancers|load-balancer-listeners|load-balancer-pools|load-balancer-health-monitors|security-groups|floating-ips|server-groups|subnets|routers|ports)\/([a-z]{3}_[0-9a-z]+)$/);
     if (item) {
@@ -190,9 +190,13 @@ export async function installMock(page: Page, helpers: Helpers, options: MockOpt
     }
     const related = path.match(/\/([a-z-]+)\/([a-z]{3}_[0-9a-z]+)\/related$/);
     if (related) return json(ours(helpers.relatedOf(related[1] ?? "", related[2] ?? "", W.LISTS as Record<string, unknown[]>)));
-    if (path.endsWith("/activity")) {
-      return json({ items: W.OPERATIONS.items.slice(1, 3), next_cursor: null });
+    // A resource's activity: the operations that acted on it, newest first.
+    const activity = path.match(/\/([a-z]{3}_[0-9a-z]+)\/activity$/);
+    if (activity) {
+      const mine = W.OPERATIONS.items.filter((o) => o.resource.id === activity[1]).map((o) => ({ ...o, role: "target" }));
+      return json({ items: mine, next_cursor: null });
     }
+    if (path.endsWith("/activity")) return json({ items: [], next_cursor: null });
     const collection = path.split("/").pop() ?? "";
     if (path.startsWith(`${P}/`) && collection in W.LISTS) {
       const location = url.searchParams.get("location");

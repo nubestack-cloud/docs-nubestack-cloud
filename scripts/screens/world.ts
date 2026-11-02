@@ -1,9 +1,10 @@
 // The sample world the documentation's screenshots show: the organization Acme, its projects
 // web-shop and analytics in NubeStack's two locations, Karachi (pak-khi-1) and Islamabad
 // (pak-isb-1), and its people. Sample data only: names are invented, e-mail addresses use
-// acme.example, and every public address is from a documentation range (203.0.113.0/24,
-// 198.51.100.0/24, 192.0.2.0/24). Shapes are the customer API's, as the Nexus portal's own mock
-// (portal/e2e/mock-api.ts) answers them.
+// acme.example, every public address is from a documentation range (203.0.113.0/24,
+// 198.51.100.0/24, 192.0.2.0/24), and private networks use 10.0.0.0/24 and 10.0.1.0/24, the kind
+// of private range a location accepts (10.0.0.0/24 is a new project's default). Shapes are the
+// customer API's, as the Nexus portal's own mock (portal/e2e/mock-api.ts) answers them.
 
 // A fixed moment, so relative times and the month's costs read the same on every run.
 export const FIXED_NOW = Date.parse("2026-10-21T07:30:00Z");
@@ -91,7 +92,7 @@ export const ID = {
   rtrKhi: "rtr_01jbkhi00000000000000000001", rtrIsb: "rtr_01jbisb00000000000000000001",
   sgpSpread: "sgp_01jbspread00000000000000001",
   template: "ltp_01jbweb00000000000000000001", group: "igr_01jbweb00000000000000000001", group2: "igr_01jbbatch000000000000000001",
-  certWww: "crt_01jbwww00000000000000000001", certApi: "crt_01jbapi00000000000000000001",
+  certWww: "crt_01jbwww00000000000000000001", certApi: "crt_01jbapi00000000000000000001", certShop: "crt_01jbshop0000000000000000001",
   schedBackup: "sch_01jbnightly000000000000001", schedPower: "sch_01jbofficehours0000000001",
 };
 
@@ -102,19 +103,19 @@ export const LISTS: Record<string, Row[]> = {
     resource("server", ID.web1, C.web1, "pak-khi-1", "web-1", {
       flavor: MEDIUM, image_id: "img-ubuntu-2404", key_name: "ayesha-laptop", locked: false, availability_zone: "nova",
       security_groups: ["default", "web"], volumes_attached: [],
-      addresses: [addr("192.0.2.11", "app", "fixed"), addr("203.0.113.21", "app", "floating")],
+      addresses: [addr("10.0.0.11", "app", "fixed"), addr("203.0.113.21", "app", "floating")],
     }, { status: "ACTIVE", tags: { env: "prod", team: "web" } }),
     resource("server", ID.web2, C.web2, "pak-khi-1", "web-2", {
       flavor: MEDIUM, image_id: "img-ubuntu-2404", key_name: "ayesha-laptop", locked: false, availability_zone: "nova",
-      security_groups: ["default", "web"], volumes_attached: [], addresses: [addr("192.0.2.12", "app", "fixed")],
+      security_groups: ["default", "web"], volumes_attached: [], addresses: [addr("10.0.0.12", "app", "fixed")],
     }, { status: "ACTIVE", tags: { env: "prod", team: "web" } }),
     resource("server", ID.db1, C.db1, "pak-khi-1", "db-1", {
       flavor: LARGE, image_id: "img-ubuntu-2404", key_name: "ayesha-laptop", locked: false, availability_zone: "nova",
-      security_groups: ["db"], volumes_attached: [{ id: C.volDb }], addresses: [addr("198.51.100.10", "db", "fixed")],
+      security_groups: ["db"], volumes_attached: [{ id: C.volDb }], addresses: [addr("10.0.1.10", "db", "fixed")],
     }, { status: "ACTIVE", tags: { env: "prod", team: "data" } }),
     resource("server", ID.batch1, C.batch1, "pak-isb-1", "batch-1", {
       flavor: SMALL, image_id: "img-ubuntu-2404", key_name: "ayesha-laptop", locked: false, availability_zone: "nova",
-      security_groups: ["default"], volumes_attached: [], addresses: [addr("192.0.2.20", "app", "fixed")],
+      security_groups: ["default"], volumes_attached: [], addresses: [addr("10.0.0.20", "app", "fixed")],
     }, { status: "SHUTOFF", tags: { env: "dev" } }),
   ],
   networks: [
@@ -130,14 +131,14 @@ export const LISTS: Record<string, Row[]> = {
   ],
   subnets: [
     resource("subnet", "sbn_01jbapp00000000000000000001", C.subApp, "pak-khi-1", "app-v4",
-      { cidr: "192.0.2.0/24", network_id: C.netApp, gateway_ip: "192.0.2.1", enable_dhcp: true,
-        allocation_pools: [{ start: "192.0.2.10", end: "192.0.2.199" }], dns_nameservers: [], ip_version: 4 }),
+      { cidr: "10.0.0.0/24", network_id: C.netApp, gateway_ip: "10.0.0.1", enable_dhcp: true,
+        allocation_pools: [{ start: "10.0.0.10", end: "10.0.0.199" }], dns_nameservers: [], ip_version: 4 }),
     resource("subnet", "sbn_01jbdb000000000000000000001", C.subDb, "pak-khi-1", "db-v4",
-      { cidr: "198.51.100.0/24", network_id: C.netDb, gateway_ip: "198.51.100.1", enable_dhcp: true,
-        allocation_pools: [{ start: "198.51.100.10", end: "198.51.100.199" }], dns_nameservers: [], ip_version: 4 }),
+      { cidr: "10.0.1.0/24", network_id: C.netDb, gateway_ip: "10.0.1.1", enable_dhcp: true,
+        allocation_pools: [{ start: "10.0.1.10", end: "10.0.1.199" }], dns_nameservers: [], ip_version: 4 }),
     resource("subnet", "sbn_01jbappisb000000000000000001", C.subIsb, "pak-isb-1", "app-v4",
-      { cidr: "192.0.2.0/24", network_id: C.netIsb, gateway_ip: "192.0.2.1", enable_dhcp: true,
-        allocation_pools: [{ start: "192.0.2.10", end: "192.0.2.199" }], dns_nameservers: [], ip_version: 4 }),
+      { cidr: "10.0.0.0/24", network_id: C.netIsb, gateway_ip: "10.0.0.1", enable_dhcp: true,
+        allocation_pools: [{ start: "10.0.0.10", end: "10.0.0.199" }], dns_nameservers: [], ip_version: 4 }),
   ],
   routers: [
     resource("router", ID.rtrKhi, C.rtrKhi, "pak-khi-1", "web-shop-private", {
@@ -150,21 +151,21 @@ export const LISTS: Record<string, Row[]> = {
   ],
   ports: [
     resource("port", "prt_01jbweb10000000000000000001", "port-web1", "pak-khi-1", "", { device_id: C.web1, device_owner: "compute:nova",
-      network_id: C.netApp, security_group_ids: [C.sgDefault, C.sgWeb], fixed_ips: [{ ip_address: "192.0.2.11", subnet_id: C.subApp }] }),
+      network_id: C.netApp, security_group_ids: [C.sgDefault, C.sgWeb], fixed_ips: [{ ip_address: "10.0.0.11", subnet_id: C.subApp }] }),
     resource("port", "prt_01jbweb20000000000000000001", "port-web2", "pak-khi-1", "", { device_id: C.web2, device_owner: "compute:nova",
-      network_id: C.netApp, security_group_ids: [C.sgDefault, C.sgWeb], fixed_ips: [{ ip_address: "192.0.2.12", subnet_id: C.subApp }] }),
+      network_id: C.netApp, security_group_ids: [C.sgDefault, C.sgWeb], fixed_ips: [{ ip_address: "10.0.0.12", subnet_id: C.subApp }] }),
     resource("port", "prt_01jbdb100000000000000000001", "port-db1", "pak-khi-1", "", { device_id: C.db1, device_owner: "compute:nova",
-      network_id: C.netDb, security_group_ids: [C.sgDb], fixed_ips: [{ ip_address: "198.51.100.10", subnet_id: C.subDb }] }),
+      network_id: C.netDb, security_group_ids: [C.sgDb], fixed_ips: [{ ip_address: "10.0.1.10", subnet_id: C.subDb }] }),
     resource("port", "prt_01jbbatch1000000000000000001", "port-batch1", "pak-isb-1", "", { device_id: C.batch1, device_owner: "compute:nova",
-      network_id: C.netIsb, security_group_ids: [C.sgDefaultIsb], fixed_ips: [{ ip_address: "192.0.2.20", subnet_id: C.subIsb }] }),
+      network_id: C.netIsb, security_group_ids: [C.sgDefaultIsb], fixed_ips: [{ ip_address: "10.0.0.20", subnet_id: C.subIsb }] }),
     resource("port", "prt_01jbrtrapp00000000000000001", "port-rtr-app", "pak-khi-1", "", { device_id: C.rtrKhi,
-      device_owner: "network:router_interface", network_id: C.netApp, fixed_ips: [{ ip_address: "192.0.2.1", subnet_id: C.subApp }] }),
+      device_owner: "network:router_interface", network_id: C.netApp, fixed_ips: [{ ip_address: "10.0.0.1", subnet_id: C.subApp }] }),
     resource("port", "prt_01jbrtrdb000000000000000001", "port-rtr-db", "pak-khi-1", "", { device_id: C.rtrKhi,
-      device_owner: "network:router_interface", network_id: C.netDb, fixed_ips: [{ ip_address: "198.51.100.1", subnet_id: C.subDb }] }),
+      device_owner: "network:router_interface", network_id: C.netDb, fixed_ips: [{ ip_address: "10.0.1.1", subnet_id: C.subDb }] }),
     resource("port", "prt_01jbrtrisb00000000000000001", "port-rtr-isb", "pak-isb-1", "", { device_id: C.rtrIsb,
-      device_owner: "network:router_interface", network_id: C.netIsb, fixed_ips: [{ ip_address: "192.0.2.1", subnet_id: C.subIsb }] }),
+      device_owner: "network:router_interface", network_id: C.netIsb, fixed_ips: [{ ip_address: "10.0.0.1", subnet_id: C.subIsb }] }),
     resource("port", "prt_01jblbvip00000000000000001", C.lbVipPort, "pak-khi-1", "", { device_id: C.lb,
-      device_owner: "Octavia", network_id: C.netApp, security_group_ids: [], fixed_ips: [{ ip_address: "192.0.2.50", subnet_id: C.subApp }] }),
+      device_owner: "Octavia", network_id: C.netApp, security_group_ids: [], fixed_ips: [{ ip_address: "10.0.0.50", subnet_id: C.subApp }] }),
   ],
   "security-groups": [
     resource("security_group", ID.sgDefault, C.sgDefault, "pak-khi-1", "default", { rules: [
@@ -188,9 +189,9 @@ export const LISTS: Record<string, Row[]> = {
   ],
   "floating-ips": [
     resource("floating_ip", ID.fipWeb, "fip-web1", "pak-khi-1", "203.0.113.21", { floating_ip_address: "203.0.113.21",
-      port_id: "port-web1", fixed_ip_address: "192.0.2.11" }, { tags: { env: "prod" } }),
+      port_id: "port-web1", fixed_ip_address: "10.0.0.11" }, { tags: { env: "prod" } }),
     resource("floating_ip", ID.fipLb, "fip-lb", "pak-khi-1", "203.0.113.40", { floating_ip_address: "203.0.113.40",
-      port_id: C.lbVipPort, fixed_ip_address: "192.0.2.50" }, { tags: { env: "prod" } }),
+      port_id: C.lbVipPort, fixed_ip_address: "10.0.0.50" }, { tags: { env: "prod" } }),
     resource("floating_ip", ID.fipFree, "fip-spare", "pak-khi-1", "198.51.100.7", { floating_ip_address: "198.51.100.7" }),
   ],
   "server-groups": [
@@ -216,7 +217,7 @@ export const LISTS: Record<string, Row[]> = {
   ],
   "load-balancers": [
     { ...resource("load_balancer", ID.lb, C.lb, "pak-khi-1", "web-lb", {
-      vip_address: "192.0.2.50", vip_port_id: C.lbVipPort, vip_subnet_id: C.subApp,
+      vip_address: "10.0.0.50", vip_port_id: C.lbVipPort, vip_subnet_id: C.subApp,
       provisioning_status: "ACTIVE", operating_status: "ONLINE", listener_ids: [C.lstHttp, C.lstHttps], pool_ids: [C.pool],
       provider: "amphora", flavor: "standard" }), status: "ACTIVE" },
   ],
@@ -230,8 +231,8 @@ export const LISTS: Record<string, Row[]> = {
     resource("lb_pool", ID.pool, C.pool, "pak-khi-1", "web-pool", { loadbalancer_id: C.lb, protocol: "HTTP", lb_algorithm: "ROUND_ROBIN",
       healthmonitor_id: C.hm, provisioning_status: "ACTIVE", listener_ids: [C.lstHttp, C.lstHttps],
       members: [
-        { address: "192.0.2.11", protocol_port: 8080, operating_status: "ONLINE", weight: 1, name: "web-1" },
-        { address: "192.0.2.12", protocol_port: 8080, operating_status: "ONLINE", weight: 1, name: "web-2" },
+        { address: "10.0.0.11", protocol_port: 8080, operating_status: "ONLINE", weight: 1, name: "web-1" },
+        { address: "10.0.0.12", protocol_port: 8080, operating_status: "ONLINE", weight: 1, name: "web-2" },
       ] }),
   ],
   "load-balancer-health-monitors": [
@@ -258,24 +259,29 @@ for (const l of LISTS["load-balancer-listeners"]!) {
   l["lb_parent_id"] = ID.lb;
   l["lb_configuration"] = { version: "v1", values: { name: l.display_name, protocol: l.attributes["protocol"], port: l.attributes["protocol_port"],
     pool_id: C.pool, algorithm: null, ...(l.attributes["protocol"] === "TERMINATED_HTTPS" ? { tls_secret_id: "secret-www" } : {}) } };
+  // Spec 070 §12: an HTTPS listener's default certificate, and one more served by host name (SNI).
+  if (l.attributes["protocol"] === "TERMINATED_HTTPS") {
+    l["lb_certificates"] = [{ certificate_id: ID.certWww, role: "default" }, { certificate_id: ID.certShop, role: "sni" }];
+  }
 }
 for (const p of LISTS["load-balancer-pools"]!) {
   p["lb_parent_id"] = ID.lb;
   p["lb_configuration"] = { version: "v1", values: { name: p.display_name, protocol: "HTTP", port: null, pool_id: null, algorithm: "ROUND_ROBIN" } };
   p["lb_members"] = { version: "m1", values: [
-    { address: "192.0.2.11", port: 8080, weight: 1, backup: false, enabled: true },
-    { address: "192.0.2.12", port: 8080, weight: 1, backup: false, enabled: true }] };
+    { address: "10.0.0.11", port: 8080, weight: 1, backup: false, enabled: true },
+    { address: "10.0.0.12", port: 8080, weight: 1, backup: false, enabled: true }] };
 }
 
 // ---- Certificates, templates, groups, schedules -------------------------------------------
-const certificate = (id: string, name: string, cn: string, days: number, inUse: { listener_id: string; listener_name: string }[]) => ({
+const certificate = (id: string, name: string, cn: string, days: number, inUse: { listener_id: string; listener_name: string; role: string }[]) => ({
   id, display_name: name, location: "pak-khi-1", state: "active", subject: `CN=${cn}`, names: [cn, ...(cn.startsWith("www.") ? [cn.slice(4)] : [])],
   not_before: ago(30 * DAY), not_after: ahead(days * DAY + 60), days_left: days,
   fingerprint_sha256: "3f9a1c0e7b2d4a6f8c1e3b5d7f9a2c4e6b8d0f1a3c5e7b9d2f4a6c8e0b1d3f5a", key_type: "EC", key_bits: 256, chain_length: 1,
   in_use_by: inUse, last_operation: null, error: null, created_at: ago(30 * DAY),
 });
 export const CERTIFICATES = [
-  certificate(ID.certWww, "www-2026", "www.acme.example", 214, [{ listener_id: ID.lstHttps, listener_name: "https" }]),
+  certificate(ID.certWww, "www-2026", "www.acme.example", 214, [{ listener_id: ID.lstHttps, listener_name: "https", role: "default" }]),
+  certificate(ID.certShop, "shop-2026", "shop.acme.example", 180, [{ listener_id: ID.lstHttps, listener_name: "https", role: "sni" }]),
   certificate(ID.certApi, "api-2025", "api.acme.example", 12, []),
 ];
 

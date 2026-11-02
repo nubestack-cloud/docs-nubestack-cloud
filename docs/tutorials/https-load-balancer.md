@@ -1,77 +1,153 @@
 ---
 title: Serve an application over HTTPS
-action_tabs: true
+description: Put a load balancer with your TLS certificates in front of two instances, serving two domains from one HTTPS listener.
 ---
 
 # Serve an application over HTTPS
 
-Give several application instances one HTTPS endpoint. An Application load balancer terminates TLS with a certificate you upload and forwards traffic to its backend pool.
+Give two application instances one HTTPS address for two domains, `www.acme.example` and
+`shop.acme.example`. The load balancer ends TLS with your certificates, picks the right one for
+each domain, and sends plain HTTP to the instances.
 
-<div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
-<span>Show instructions for</span>
-<div><button type="button" data-interface-choice="Console" aria-pressed="true">Console</button><button type="button" data-interface-choice="API" aria-pressed="false">API</button></div>
-</div>
-
-<div class="docs-method-note" markdown>
-
-[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. `{P}` below means `/v1/orgs/{org_id}/projects/{project_id}`. Reuse an idempotency key for retries of one request; use a new key for each new action.
-
-</div>
-
-<figure class="docs-diagram">
-<div>
-<!-- diagram: https-application -->
-</div>
-<figcaption>The certificate is selected on the HTTPS listener. Backend reachability and application health must be checked separately.</figcaption>
+<figure class="ns-diagram">
+--8<-- "https-sni.svg"
+<figcaption>One HTTPS listener with a default certificate and one served by host name. The instances behind it receive plain HTTP on port 8080.</figcaption>
 </figure>
 
+**You will use:** instances, a security group, certificates, a load balancer and a public IP, all
+in Karachi.
 
-## Before you begin
+## Before you start
 
-You need a project location offering the Application load balancer type, two reachable backends serving your application, a domain you control and a valid certificate with its matching private key. Certificates are uploaded, not automatically issued or renewed by this page.
+- Two instances, `web-1` and `web-2`, on the same network, each serving your application over
+  HTTP on port 8080. [Publish a web application](publish-web-application.md) shows how to start
+  one with cloud-init.
+- A security group on both instances that allows TCP 8080 from the network's range, for example
+  `10.0.0.0/24`, so the load balancer can reach them.
+- A certificate and its private key for each domain, in PEM, from your certificate authority.
+- A location that offers HTTPS termination: the load balancer's **Type** list says
+  **HTTPS with your certificate** for a type that can end TLS. If none does, use a TCP listener on
+  443 and end TLS on the instances.
 
-Keep all resources in one project and location. Decide the backend port and a health-check path. Ensure backend security groups and guest firewalls allow traffic from the balancer's network as required.
-
-
-
-## Build the HTTPS frontend
+## 1. Upload both certificates
 
 === "Console"
 
-    1. Open **Security → Certificates → Upload certificate**. Upload the PEM leaf, matching unencrypted private key and required intermediate chain. Follow its operation and check expiry and domains.
-    2. Open **Networking → Load balancers → Create load balancer**. Choose **Application**, the backend subnet and a recognizable name.
-    3. Add an HTTPS listener on port 443 and select the uploaded certificate. Add a pool and the instances' private addresses and application ports.
-    4. Add an HTTP health check with a path and expected status that represent application readiness. Follow creation until the tree is ready.
-    5. Allocate a public IP and attach it to the load balancer. An Internet gateway and routed network are required.
-    6. At your existing DNS provider, point the domain to that public IP. Wait for your DNS change to propagate.
-
-    ![Inspect listeners, pools and backend health](../assets/screens/networking/load-balancer-listeners.webp)
+    1. Under **Security**, choose **Certificates**, then **Upload certificate**.
+    2. **Location** Karachi. Paste the **Certificate**, the **Chain** if your authority gave you
+       one, and the **Private key**. **Name**: `www-2026`.
+    3. Choose **Upload certificate**. Repeat for the second domain, named `shop-2026`.
 
 === "API"
 
-    <span id="with-the-api" data-docs-method="API"></span>
+    Keep each upload in a local file, never in your shell history:
 
-    Create the certificate with `POST {P}/certificates` and follow its operation. Use an Application offering from the location's catalog for `POST {P}/load-balancers`.
+    ```bash
+    jq -n --rawfile crt www.crt --rawfile key www.key --rawfile chain chain.pem \
+      '{location: "loc_01jbkhi", display_name: "www-2026", certificate: $crt, chain: $chain, private_key: $key}' \
+      > www-2026.json
 
-    The API protocol for HTTPS termination is `TERMINATED_HTTPS`. Set the listener's `certificate_id`, pool, members and health check using the fields in the [load balancer reference](../api/reference/load-balancers.md). A Standard TCP listener does not terminate HTTPS.
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/certificates" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $(uuidgen)" \
+      -H "Content-Type: application/json" \
+      --data-binary @www-2026.json
+    ```
 
-    Allocate and associate the frontend address through the [public IP endpoints](../api/reference/public-ips.md). Follow each operation before a dependent change; the first `202` is not proof that the service is ready.
+    Repeat for `shop-2026`. Each answers `202 Accepted` with the certificate's `id` (`crt_…`).
 
+[Certificates](../security/certificates.md) lists what an upload must contain.
 
-## Verify end to end
+## 2. Create the load balancer
 
-Open the actual domain over HTTPS or run `curl --fail https://YOUR_DOMAIN/`. Check the certificate covers the domain, its chain is trusted and the application responds. Backend health must be green; a load balancer's active state alone does not prove a member is serving correctly.
+=== "Console"
 
-If you use a temporary public IP test, certificate name verification will not match the IP unless the certificate explicitly covers it. Prefer the real hostname rather than disabling TLS verification as your final test.
+    1. Under **Networking**, choose **Load balancers**, then **Create load balancer**.
+    2. **Location** Karachi, **Name** `web-lb`, and a **Type** that offers HTTPS with your
+       certificate.
+    3. **Subnet**: the instances' network.
+    4. **Listeners**: protocol **HTTPS, TLS ends here**, port `443`, **Certificate** `www-2026`.
+       Under **Also serve these certificates (by host name)**, choose `shop-2026`.
+    5. **Add a pool of instances**: `web-1` and `web-2`, each on port `8080`, **Balancing** round
+       robin. Add a **Health check** of type HTTP.
+    6. Choose **Create load balancer** and follow the operation.
 
-## Rotate a certificate
+    ![The load balancer's Listeners tab: the HTTPS listener names its certificate and the one it serves by host name](../assets/screens/security/listener-sni.webp)
 
-Upload the replacement first. On the balancer's **Listeners** tab choose **Switch certificate**, select the replacement and follow the operation. Verify the served certificate before deleting the old one.
+=== "API"
 
-![Switch the certificate on an HTTPS listener](../assets/screens/networking/certificate-switch.webp)
+    ```bash
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/load-balancers" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $(uuidgen)" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "location": "loc_01jbkhi",
+        "display_name": "web-lb",
+        "offering": "application",
+        "subnet_id": "sbn_01jbdefault",
+        "listeners": [{
+          "protocol": "TERMINATED_HTTPS",
+          "port": 443,
+          "certificate_id": "crt_01jbwww",
+          "sni_certificate_ids": ["crt_01jbshop"],
+          "pool": {
+            "algorithm": "ROUND_ROBIN",
+            "members": [
+              {"server_id": "srv_01jbweb1", "port": 8080},
+              {"server_id": "srv_01jbweb2", "port": 8080}
+            ],
+            "health_monitor": {"type": "HTTP"}
+          }
+        }]
+      }'
+    ```
 
-A listener currently serves one selected certificate. Multiple-certificate SNI support is coming later. There is no automatic renewal in this workflow.
+    `offering` is the type's `slug` from the location's catalog. The answer is `202 Accepted`.
+
+## 3. Give it a public IP
+
+=== "Console"
+
+    1. Under **Networking**, choose **Public IPs**, then **Allocate a public IP** in Karachi.
+    2. Open the load balancer. Under **Public exposure**, choose **Attach a public IP** and pick
+       the address.
+
+=== "API"
+
+    ```bash
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/floating-ips/fip_01jblb:associate" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $(uuidgen)" \
+      -H "Content-Type: application/json" \
+      -d '{"load_balancer_id": "lbs_01jbweblb"}'
+    ```
+
+## 4. Point your domains at it and test
+
+Add `A` records for `www.acme.example` and `shop.acme.example` with the public IP at your DNS
+provider. Before DNS has spread, test each name directly:
+
+```bash
+curl -I --resolve www.acme.example:443:203.0.113.40 https://www.acme.example/
+curl -I --resolve shop.acme.example:443:203.0.113.40 https://shop.acme.example/
+openssl s_client -connect 203.0.113.40:443 -servername shop.acme.example </dev/null | openssl x509 -noout -subject
+```
+
+The last command prints the certificate served for `shop.acme.example`: `CN=shop.acme.example`.
+
+## Keep it running
+
+- **Renewals.** Upload the new certificate, then on the **Listeners** tab choose **Change
+  certificates** and pick it in place of the old one. Delete the old one after. See
+  [Rotate a certificate](../security/certificates.md#rotate-a-certificate).
+- **More domains.** Add up to ten certificates by host name to the same listener. See
+  [Several certificates on one listener](../security/sni.md).
+- **Health.** The **Listeners** tab shows each instance's recorded health. An instance that fails
+  its checks stops getting traffic.
 
 ## Clean up
 
-Update or remove DNS records, detach and release the public IP, then delete the load balancer. Its backend instances and uploaded certificates remain. Delete the unused certificate after no listener references it, and remove backend resources only if nothing else needs them.
+Delete the load balancer: its listeners, pools and health checks go with it, and its public IP is
+detached and stays allocated until you release it. Then delete the certificates and, if you made
+them for this, the instances.

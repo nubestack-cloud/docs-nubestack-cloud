@@ -1,1 +1,39 @@
-<svg class="cloud-diagram" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 310" role="img" aria-labelledby="network-path-title network-path-desc"><title id="network-path-title">A public connection to an instance</title><desc id="network-path-desc">An inbound connection uses a public IP and Internet gateway to reach a routed network. The instance security group must allow the port.</desc><style>.diagram-bg{fill:var(--docs-surface,#f8fafb);stroke:var(--docs-border,#dce5ea)}.diagram-card{fill:var(--md-default-bg-color,#fff);stroke:var(--docs-border,#dce5ea);stroke-width:1.5}.diagram-title{fill:var(--docs-heading,#152735);font:600 16px system-ui,sans-serif}.diagram-small{fill:var(--docs-muted,#596876);font:13px system-ui,sans-serif}.diagram-label{fill:var(--md-typeset-a-color,#245f60);font:600 12px system-ui,sans-serif;letter-spacing:1px}.diagram-line{fill:none;stroke:var(--docs-line,#8ba6ad);stroke-width:2}.diagram-accent{fill:var(--docs-tint,#e6f2ef);stroke:var(--docs-accent,#3c7f7c)}.diagram-ink{fill:var(--md-typeset-a-color,#245f60)}</style><defs><marker id="network-path-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7" fill="#8ba6ad"/></marker></defs><text x="24" y="34" class="diagram-label" text-anchor="start">HOW TRAFFIC REACHES AN INSTANCE</text><rect x="24" y="110" width="142" height="72" rx="10" class="diagram-card"/><text x="42" y="139" class="diagram-title" text-anchor="start">Your computer</text><text x="42" y="162" class="diagram-small" text-anchor="start">SSH or HTTPS</text><path d="M168 146H212" class="diagram-line" marker-end="url(#network-path-arrow)"/><rect x="214" y="110" width="154" height="72" rx="10" class="diagram-accent"/><text x="232" y="139" class="diagram-title" text-anchor="start">Public IP</text><text x="232" y="162" class="diagram-small" text-anchor="start">Allocated address</text><path d="M369 146H414" class="diagram-line" marker-end="url(#network-path-arrow)"/><rect x="416" y="65" width="440" height="220" rx="14" class="diagram-bg"/><text x="438" y="94" class="diagram-label" text-anchor="start">PROJECT · ONE LOCATION</text><rect x="438" y="110" width="170" height="72" rx="10" class="diagram-card"/><text x="456" y="139" class="diagram-title" text-anchor="start">Internet gateway</text><text x="456" y="162" class="diagram-small" text-anchor="start">Internet path</text><path d="M610 146H650" class="diagram-line" marker-end="url(#network-path-arrow)"/><rect x="652" y="110" width="180" height="72" rx="10" class="diagram-card"/><text x="670" y="139" class="diagram-title" text-anchor="start">Instance</text><text x="670" y="162" class="diagram-small" text-anchor="start">Private network address</text><text x="652" y="211" class="diagram-small" text-anchor="start">Security group allows the port</text><text x="438" y="254" class="diagram-small" text-anchor="start">A route provides a path. A security group permits traffic.</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 290" role="img" aria-labelledby="dn-title dn-desc">
+  <title id="dn-title">How traffic reaches your instances and the Internet</title>
+  <desc id="dn-desc">In one location, the project's private routing joins its networks. An Internet gateway lets instances reach the Internet through a shared outbound address. A public IP brings traffic from the Internet to one instance, here web-1 on the network app. web-2 has no public IP: it can reach out through the gateway but cannot be reached from the Internet.</desc>
+  <defs>
+    <marker id="dn-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-arrow" d="M0 0L8 4L0 8z"/></marker>
+    <marker id="dn-arrow-teal" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-arrow-teal" d="M0 0L8 4L0 8z"/></marker>
+  </defs>
+  <rect class="d-box" x="10" y="122" width="116" height="44" rx="22"/>
+  <text class="d-title" x="68" y="149" text-anchor="middle">Internet</text>
+
+  <rect class="d-box" x="180" y="40" width="186" height="56" rx="8"/>
+  <text class="d-title" x="196" y="64">Internet gateway</text>
+  <text class="d-muted" x="196" y="83">outbound via 198.51.100.2</text>
+  <rect class="d-box-teal" x="180" y="196" width="186" height="56" rx="8"/>
+  <text class="d-title" x="196" y="220">Public IP</text>
+  <text class="d-muted" x="196" y="239">203.0.113.21 → web-1</text>
+
+  <rect class="d-box" x="412" y="40" width="164" height="56" rx="8"/>
+  <text class="d-title" x="428" y="64">Private routing</text>
+  <text class="d-muted" x="428" y="83">joins your networks</text>
+
+  <rect class="d-zone-teal" x="618" y="16" width="172" height="262" rx="10"/>
+  <text class="d-label" x="634" y="40">Network · app</text>
+  <text class="d-muted d-mono" x="634" y="58">10.0.0.0/24</text>
+  <rect class="d-box" x="634" y="96" width="140" height="56" rx="8"/>
+  <text class="d-title" x="650" y="120">web-1</text>
+  <text class="d-muted d-mono" x="650" y="139">10.0.0.11</text>
+  <rect class="d-box" x="634" y="196" width="140" height="56" rx="8"/>
+  <text class="d-title" x="650" y="220">web-2</text>
+  <text class="d-muted d-mono" x="650" y="239">10.0.0.12</text>
+
+  <path class="d-line" d="M180 68C150 68 150 132 126 138" marker-end="url(#dn-arrow)"/>
+  <text class="d-muted" x="132" y="92">out</text>
+  <path class="d-flow" d="M126 150C150 156 150 224 180 224" marker-end="url(#dn-arrow-teal)"/>
+  <text class="d-muted" x="132" y="206">in</text>
+  <path class="d-line" d="M412 68H366" marker-end="url(#dn-arrow)"/>
+  <path class="d-line" d="M618 68H576" marker-end="url(#dn-arrow)"/>
+  <path class="d-flow" d="M366 224H596V124H634" marker-end="url(#dn-arrow-teal)"/>
+</svg>

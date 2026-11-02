@@ -1,176 +1,132 @@
 ---
-action_tabs: true
 title: Instance groups
+description: Keep a number of a launch template's instances running, replace failed ones, join a load balancer pool and change the count on a schedule.
 ---
 
 # Instance groups
 
-An instance group keeps a desired number of instances running from a [launch template](launch-templates.md). Use it for replaceable application replicas. It can replace failed members, add or remove instances, and maintain membership in a load balancer pool.
+An **instance group** keeps a number of instances from a [launch template](launch-templates.md)
+running. It replaces instances that fail, adds or removes instances when you change the count,
+and can keep them in a load balancer pool.
 
-<div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
-<span>Show instructions for</span>
-<div><button type="button" data-interface-choice="Console" aria-pressed="true">Console</button><button type="button" data-interface-choice="API" aria-pressed="false">API</button></div>
-</div>
+**Use it for** replaceable application replicas, such as web servers behind a load balancer.
+Scaling is by count, set by hand or on a schedule; scaling on CPU or traffic is not offered.
 
-<div class="docs-method-note" markdown>
+Find them under **Compute → Instance groups**.
 
-[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+![Instance groups: the desired count, the instances running and the template](../assets/screens/compute/instance-groups.webp)
 
-</div>
+## Before you start
 
-This is count-based scaling with manual and scheduled changes. CPU-triggered or request-triggered autoscaling is not offered here.
-
-![Instance groups and their desired and current sizes](../assets/screens/compute/instance-groups.webp)
-
+- A [launch template](launch-templates.md) that starts a working instance on its own: image,
+  network, security groups and user data. Test it with one launch first.
+- Instances that hold no data you need to keep: the group deletes instances when it scales down.
+  Keep data on volumes or outside the instances.
 
 ## Create a group
 
 === "Console"
 
-    1. Prepare a launch template with a working image, network, access and application setup.
-    2. Open **Compute → Instance groups → Create instance group**.
-    3. Choose a name, template and version. Pin a version for predictable new members, or use the latest version at each launch.
-    4. Set the desired count, minimum and maximum. Set the creation concurrency, shown as surge, to control how many new members may be created at once.
-    5. Optionally choose a load balancer pool in the same location and the application's backend port.
-    6. Create the group. Its saved definition appears immediately; the instances are then created through operations.
+    1. Choose **Create instance group**.
+    2. **Name**: its instances are named `<name>-1`, `<name>-2` and so on.
+    3. **Template** and **version**: pin a version, or use the latest at each create.
+    4. **Desired**, **Minimum** and **Maximum** instances, from 0 to 100. **Surge**: how many
+       instances it may create at once (1 to 10).
+    5. Optional: a load balancer **pool** in the same location, and the port the instances serve
+       on. Each instance joins the pool once it runs, and leaves it before it is deleted.
+    6. Choose **Create instance group**. The group exists at once; its instances are created by
+       operations.
 
-    ![Create a group from a launch template](../assets/screens/compute/instance-group-create.webp)
+    ![Create instance group: template, counts, surge and pool](../assets/screens/compute/instance-group-create.webp)
 
 === "API"
 
-    <span id="with-the-api" data-docs-method="API"></span>
-
     ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/instance-groups" \
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/instance-groups" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Idempotency-Key: $(uuidgen)" \
       -H "Content-Type: application/json" \
-      --data '{
-      "name": "web",
-      "template_id": "ltp_example",
-      "template_version": 1,
-      "desired": 2,
-      "min": 1,
-      "max": 4,
-      "max_surge": 1
-    }'
+      -d '{
+        "name": "web",
+        "template_id": "ltp_01jbweb",
+        "desired": 3, "min": 2, "max": 6, "max_surge": 1,
+        "pool_id": "lbp_01jbwebpool", "member_port": 8080
+      }'
     ```
 
-    Returns `201` directly. Read the returned resource or current state to verify the change.
+    The answer is `201 Created` with the group and its `ETag`.
 
-    [Request fields and responses](../api/reference/instance-groups.md).
-
-
-## Size, replacement and editing
+## Change the count or the settings
 
 === "Console"
 
-    Open the group to see members, recent activity, its template and scheduled sizes. Change **Size** to the count you need, within its bounds. Scaling down deletes members, so store persistent application data separately and design instances to be replaceable.
+    Open the group. **Size** changes the desired count within its bounds. **Edit** changes the
+    name, template version, bounds, surge and pool; the location stays fixed. A new version
+    applies to instances created from then on; existing instances are not rebuilt.
 
-    ![The group's members, size and schedules](../assets/screens/compute/instance-group-detail.webp)
-
-    Use **Edit** to change the name, template version, bounds, surge and optional pool. The location remains fixed. A version change affects future creations and replacements; it does not roll out a rebuild of every existing member.
-
-    The group replaces instances it identifies as failed. It does not prove application-level health or repair a broken application configuration. [Load balancer health checks](../networking/load-balancers.md) decide whether a backend receives traffic.
-
-    ![Edit a group's template version, bounds and creation concurrency](../assets/screens/compute/instance-group-edit.webp)
+    ![An instance group's page: members, size, template and scheduled sizes](../assets/screens/compute/instance-group-detail.webp)
 
 === "API"
 
+    Changes need the group's current version in `If-Match`:
+
     ```bash
-    curl --fail-with-body -i -X PATCH "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/instance-groups/$INSTANCE_GROUP_ID" \
+    curl -sS -X PATCH "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/instance-groups/igr_01jbweb" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "If-Match: $ETAG" \
+      -H "Idempotency-Key: $(uuidgen)" \
+      -H 'If-Match: "4"' \
       -H "Content-Type: application/json" \
-      --data '{
-      "desired": 3
-    }'
+      -d '{"desired": 4}'
     ```
 
-    Returns `200` directly. Read the returned resource or current state to verify the change.
+    The answer is `200 OK`. A stale version answers `412`; read the group again and retry.
 
-    [Request fields and responses](../api/reference/instance-groups.md).
+## Pause, resume and scheduled sizes
 
+- **Pause** stops the group acting on its count; its instances keep running. **Resume** lets it
+  act again. Deleting a member while the group is active makes it create a replacement.
+- **Scheduled sizes** change the desired count at set days and times, for example 4 instances
+  on weekday mornings and 2 at night. They are [size schedules](../storage/schedules.md).
+- The group pauses itself, saying why, when it cannot create instances, for example when the
+  person it runs as loses the right to.
 
-## Pause and scheduled sizes
+## How it connects
+
+- Each instance is created from the template as an ordinary [instance](instances.md), and counts
+  against the project's quota in the location.
+- With a pool, the group keeps the [load balancer](../networking/load-balancers.md)'s members in
+  step. The load balancer's health checks decide which instances get traffic; the group replaces
+  only instances that failed to run.
+
+## Delete a group
 
 === "Console"
 
-    **Pause** stops the group acting to reach its desired count. It leaves existing instances running. **Resume** allows it to reconcile the count again. Manual deletion of a member while the group is active can cause a replacement.
-
-    In **Scheduled sizes**, set counts for particular days and local times. These are [size schedules](../storage/schedules.md). Review the time zone and the next run, and keep scheduled counts inside the group's bounds.
-
-=== "API"
-
-    **Pause an instance group**
-
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/instance-groups/$INSTANCE_GROUP_ID:pause" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "If-Match: $ETAG"
-    ```
-
-    Returns `200` directly. Read the returned resource or current state to verify the change.
-
-    [Request fields and responses](../api/reference/instance-groups.md).
-
-    **Resume an instance group**
-
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/instance-groups/$INSTANCE_GROUP_ID:resume" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "If-Match: $ETAG"
-    ```
-
-    Returns `200` directly. Read the returned resource or current state to verify the change.
-
-    [Request fields and responses](../api/reference/instance-groups.md).
-
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/schedules" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "kind": "resize",
-      "name": "morning-size",
-      "target_type": "instance_group",
-      "target_ids": [
-        "igr_example"
-      ],
-      "time_zone": "Asia/Karachi",
-      "desired": 3,
-      "recurrence": {
-        "frequency": "daily",
-        "time": "08:00"
-      }
-    }'
-    ```
-
-    Returns `201` directly. Read the returned resource or current state to verify the change.
-
-    [Request fields and responses](../api/reference/schedules.md).
-
-## Delete and limits
-
-=== "Console"
-
-    The delete confirmation offers whether to keep or delete existing instances. Read that choice carefully: keeping them stops group management but leaves resource usage. Pool membership and size schedules also need review during cleanup. The API allows desired counts up to 100, subject to configured bounds, quota and available capacity. This group manages one location; use a separate design for another location.
+    Choose **Delete** and pick whether its instances are kept or deleted with it.
 
 === "API"
 
     ```bash
-    curl --fail-with-body -i -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/instance-groups/$INSTANCE_GROUP_ID" \
+    curl -sS -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/instance-groups/igr_01jbweb?instances=keep" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "If-Match: $ETAG"
+      -H "Idempotency-Key: $(uuidgen)" \
+      -H 'If-Match: "4"'
     ```
 
-    Returns `200` directly. Read the returned resource or current state to verify the change.
+    `instances` is `keep` (the default) or `delete`.
 
-    [Request fields and responses](../api/reference/instance-groups.md).
+Nothing blocks deleting a group. Kept instances become ordinary instances and stay in any pool
+until you remove them; remove the group's size schedules too.
 
-    For group deletion, the `instances` query parameter defaults to `keep`. Use `instances=delete` only when you intend to delete the member instances too.
+## Limits and good practice
+
+- Up to 100 instances per group, within the project's quota.
+- Make instances disposable: configure them from the template's user data, and keep state
+  elsewhere.
+- Use a health check on the pool so traffic stops going to an instance that is up but broken.
+
+## Related
+
+- [Launch templates](launch-templates.md) · [Schedules](../storage/schedules.md)
+- [Tutorial: run a group of instances](../tutorials/scale-an-application.md)
+- [API reference: Instance groups](../api/reference/instance-groups.md)

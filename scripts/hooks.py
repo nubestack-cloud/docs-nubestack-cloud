@@ -4,7 +4,7 @@
    from a slice of openapi/v1.json (that group's operations and the schemas they use). The slices
    are written to .cache/api/ at build time; nothing generated is committed.
 2. The Errors page's problem-code table, from data/problems.json (`<!-- problem-table -->`).
-3. Screenshots with a title become figures with a caption: ![alt](src "Caption").
+3. A screenshot alone in a paragraph becomes a captioned figure.
 """
 from __future__ import annotations
 
@@ -155,12 +155,22 @@ def on_page_markdown(markdown, page, config, files):
     return markdown
 
 
-_FIGURE = re.compile(r'<p>\s*(<img\b[^>]*\btitle="([^"]+)"[^>]*>)\s*</p>')
+_FIGURE = re.compile(r'<p>\s*(<img\b[^>]*>)\s*</p>')
 
 
 def on_page_content(content, page, config, files):
+    """A screenshot alone in its paragraph becomes a figure. Its caption is the image's title
+    when it has one (`![alt](src "Caption")`), else its alt text."""
     def figure(match: re.Match) -> str:
-        img = re.sub(r'\s*title="[^"]*"', "", match[1])
-        return f'<figure class="ns-shot">{img}<figcaption>{match[2]}</figcaption></figure>'
+        img = match[1]
+        if "assets/screens/" not in img:
+            return match[0]
+        title = re.search(r'\btitle="([^"]*)"', img)
+        alt = re.search(r'\balt="([^"]*)"', img)
+        caption = title[1] if title else (alt[1] if alt else "")
+        img = re.sub(r'\s*title="[^"]*"', "", img)
+        if "loading=" not in img:
+            img = img.replace("<img ", '<img loading="lazy" decoding="async" ', 1)
+        return f'<figure class="ns-shot">{img}<figcaption>{caption}</figcaption></figure>'
 
     return _FIGURE.sub(figure, content)

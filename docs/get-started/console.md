@@ -1,42 +1,65 @@
 ---
-title: Find your way around the console
+title: The console
+description: How the NubeStack Cloud console is laid out, how lists stay current and how to follow a change.
 ---
 
-# Find your way around the console
+# The console
 
-The console has two workspaces: your organization and a selected project. The organization is where you manage people, policy and budgets. A project is where you create instances, networks and storage.
+The console has two kinds of workspace: your **organization**, where you manage people, quota
+and settings, and each of its **projects**, where you create instances, networks and storage.
 
-## Choose the workspace first
+![A project's overview: the side panel by service, counts, recent activity and quota](../assets/screens/get-started/project-overview.webp)
 
-1. Use the organization switcher to choose the organization you intend to work in.
-2. Select a project such as `web-shop` in the workspace controls, or open it from **Projects**.
-3. Check the project name and your role. Owners and organization admins can inspect a project without automatically having permission to change its workloads.
-4. On a create page, choose the location before the size, image, network or volume. Choices below depend on it.
+## The layout
 
-![A project's overview, services and recent activity](../assets/screens/get-started/project-overview.webp)
+- **Top bar.** The **Organization** list, and the **Workspace** list: the organization itself
+  or one of its projects. Type in **Find a project** to search a long list. On the right: the
+  notification bell, the light or dark theme, and your account menu with **E-mail notices**,
+  **Password and sign-in** and **Sign out**.
+- **Side panel.** What you can open in the workspace. In a project: **Overview**, then
+  **Compute**, **Networking**, **Storage** and **Security**, and at the bottom **Quota and
+  usage**, **Consoles and CLI**, **Activity** and **Settings**. **Collapse** narrows the panel.
+- **Content.** Lists, detail pages and create pages.
 
-## Find a service or resource
+## Lists, detail pages and the Manage menu
 
-Use the service navigation for Compute, Networking, Security and Storage. Lists show resources across the project's locations; narrow by location, state or tag where offered. Search names, IDs or addresses using the list's search control.
+A list shows the project's resources of one kind in every location. Filter by location, state or
+tag, or type a name, ID or address into the search box.
 
-Open a resource for its detail page, links to related services and activity. **Manage** on a row or detail page offers actions allowed by your role and the resource's current state. An absent or disabled action can mean read-only access, a running change or a resource dependency; read the explanation before changing roles.
+Open a resource for its detail page: its settings, the resources it is connected to, and its
+activity. **Manage**, on a row or on the detail page, holds the actions you can take now. An
+action that is missing or greyed out says why when you point at it: your role, a change still
+running, or another resource in the way.
 
 ## Follow a change
 
-After creating or changing a cloud resource, use **Follow the operation** in the notice. A request is accepted before the location finishes it. Wait for its final result before depending on it; a green instance state also does not prove your guest application finished starting.
+Creating, changing or deleting something in a location takes a moment. The console accepts the
+request at once and shows a notice such as **Instance requested**, with **Follow the operation**.
+The operation page shows each step and how the location answered.
 
-Use project **Activity** for operations, or the organization's audit log for membership, policy and security events. Copy request and operation IDs when you need help.
+Every operation of a project is under **Activity**. The organization's **Audit log** records every
+change, refusal and security event. See [Operations](../concepts/operations.md).
 
-## Check freshness
+## How current a list is
 
-Lists display the last observation and partial or stale-data notices. **Refresh** asks for a new read. Native-tool changes appear after inventory is read; do not create a duplicate merely because an earlier observation does not show the resource.
+Lists show what each location last reported, with the time (**Last read**). A location that has
+not answered for a while is marked stale; its rows stay, with the time they are from. One
+location's trouble never empties a page.
 
-## Use the guide in your preferred way
+Choose **Refresh** above a list, or **Check for changes** on a resource, to read it again now.
+Something made with a location's own tools appears after the next regular read, or at once after
+a refresh.
 
-Service procedures have **Console** and **API** tabs. The Console tab shows the browser steps and screenshots; the API tab shows the corresponding requests. Prerequisites, verification and resource limits apply to both. Choose a method before following the steps, and open a screenshot to inspect small controls.
+## Words the console uses
 
-## Settings and personal choices
+- **Created by: Nexus** means NubeStack Cloud's own automation made the resource, for example
+  the network built with a new project.
+- **outside Nexus** marks a resource made with a location's own tools, such as Horizon or the
+  OpenStack CLI. Nexus is the name of the platform NubeStack Cloud runs on.
 
-Project **Settings** groups access, locations and deletion. Organization **Settings** controls organization policy and closure. The account menu contains your **E-mail notices** preferences; these apply only to the selected organization and person.
+The [glossary](../help/glossary.md) explains the other terms.
 
-For a complete first task, continue with [your first instance](first-instance.md). The [glossary](../help/glossary.md) explains the words used throughout the console and this guide.
+## Next
+
+- [Understand your organization and its roles](organizations.md).
+- [Create a project](create-a-project.md).

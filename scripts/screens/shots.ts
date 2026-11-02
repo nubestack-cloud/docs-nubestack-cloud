@@ -2,7 +2,7 @@
 // docs/assets/screens/<name>.webp, which the pages import.
 import type { Page } from "playwright";
 import type { Shot } from "./take.ts";
-import { CERTIFICATES, ID, INVITATION_ID, INVITEE, ORG, PROJECT, SERVICE_ACCOUNT, STATEMENT_OPEN, TEMPLATE } from "./world.ts";
+import { ID, INVITATION_ID, INVITEE, ORG, PROJECT, SERVICE_ACCOUNT, STATEMENT_OPEN, TEMPLATE } from "./world.ts";
 
 const org = (section: string) => `/orgs/${ORG}/${section}`;
 const project = (section: string) => `/orgs/${ORG}/projects/${PROJECT}/${section}`;
@@ -51,10 +51,15 @@ export const SHOTS: Shot[] = [
   { name: "storage/schedule-edit", path: project(`schedules/${ID.schedBackup}/edit`), wait: "main h1", clip: "main", height: 1400 },
   { name: "networking/public-ip-detail", path: project(`public-ips/${ID.fipWeb}`), wait: "main h1", clip: "main" },
   { name: "networking/network-ranges", path: project(`networks/${ID.netApp}`), wait: "main h1", act: chain(click(/^Address range/, "tab"), click("Edit ranges")), clip: "dialog", height: 1100 },
-  { name: "networking/certificate-switch", path: project(`load-balancers/${ID.lb}`), wait: "main h1", clip: "dialog",
-    mock: { extra: { [`/v1/orgs/${ORG}/projects/${PROJECT}/certificates`]: { items: [...CERTIFICATES,
-      { ...CERTIFICATES[0], id: "crt_01jbrenewal000000000000001", display_name: "www-renewal", in_use_by: [], days_left: 365, not_after: "2027-10-21T07:30:00Z" }] } } },
-    act: chain(click(/^Listeners/, "tab"), click(/Switch certificate/), async page => { await page.locator("[role=dialog] select").selectOption("crt_01jbrenewal000000000000001"); }) },
+  // Spec 070 §12: an HTTPS listener's certificates, the default and the ones served by host name.
+  { name: "security/listener-certificates", path: project(`load-balancers/${ID.lb}`), wait: "main h1", clip: "dialog", height: 1100,
+    act: chain(click(/^Listeners/, "tab"), click(/^Change certificates/)) },
+  { name: "security/listener-sni", path: project(`load-balancers/${ID.lb}`), wait: "main h1", clip: "main", height: 1300,
+    act: click(/^Listeners/, "tab") },
+  { name: "security/second-factor", path: org("settings"), wait: "main h1", clip: "main", height: 1000,
+    act: click(/^Security/, "tab") },
+  { name: "organization/quota-presets", path: org("quota-presets"), wait: "main h1", clip: "main" },
+  { name: "organization/quota-requests", path: org("quota-requests"), wait: "main h1", clip: "main" },
   { name: "organization/member-project-roles", path: org("members"), wait: "Bilal Ahmed", act: chain(manage("Bilal Ahmed"), item("Project roles")), clip: "dialog" },
   { name: "organization/notifications", path: org("notifications"), wait: "main h1", clip: "main" },
   { name: "organization/quota-request", path: org("quota-requests/new"), wait: "main h1", clip: "main", height: 1200 },

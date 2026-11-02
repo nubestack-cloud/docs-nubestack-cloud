@@ -1,5 +1,4 @@
 ---
-action_tabs: true
 title: Instances
 description: Create virtual machines in Karachi or Islamabad, with their network, public IP, SSH key, firewall, user data and volumes.
 ---
@@ -9,160 +8,182 @@ description: Create virtual machines in Karachi or Islamabad, with their network
 An **instance** is a virtual machine in one of your project's locations. It keeps its disk, its
 addresses and its security groups in that location; nothing about it moves to another.
 
-<div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
-<span>Show instructions for</span>
-<div><button type="button" data-interface-choice="Console" aria-pressed="true">Console</button><button type="button" data-interface-choice="API" aria-pressed="false">API</button></div>
-</div>
+**Use it for** anything you would run on a server: web and application servers, databases,
+build agents, batch jobs. To start several alike, use a [launch template](launch-templates.md);
+to keep a number of them running, an [instance group](instance-groups.md).
 
-<div class="docs-method-note" markdown>
-
-[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
-
-</div>
-
-**Use it for** anything you would run on a server: web and application servers, databases, build
-agents, batch jobs. Several instances of the same kind are easier with a
-[launch template](launch-templates.md), and a set kept at a fixed size with an
-[instance group](instance-groups.md).
-
-Find them in a project under **Compute → Instances**. Project admins and project members create,
-change and delete instances. Project readers, and the organization's owners, admins and viewers,
-see them.
+Find instances in a project under **Compute → Instances**.
 
 ![The instances list: name, location, status, address, size and tags](../assets/screens/compute/instances-list.webp)
 
+## Before you start
+
+- A role of project admin or project member. Project readers, and organization owners, admins
+  and viewers, can see instances but not create them.
+- A [network](../networking/networks.md) in the location. The project's first network is made
+  for you when the project is created.
+- An [SSH key](ssh-keys.md), to log in to a Linux instance.
+- For a public IP, an [Internet gateway](../networking/internet-gateways.md) in the location.
 
 ## Create an instance
 
 === "Console"
 
-    Choose **Create instance**. The page has numbered sections; the summary on the right says what
-    will be made, and how much of the project's quota in that location it takes.
+    Choose **Create instance**. The summary on the right says what will be made and what the
+    project's quota in that location will be afterwards.
 
-    ![The create page filled in: Karachi, web-3, Medium, Ubuntu 24.04, the app network with a new public IP, and an SSH key](../assets/screens/compute/instance-create.webp)
+    ![The create page filled in for web-3 in Karachi, with the summary on the right](../assets/screens/compute/instance-create.webp)
 
     1. **Start from**: your own settings, or [a launch template](launch-templates.md).
-    2. **Location**: where the instance runs. Its disk, network and addresses stay there. Sizes,
-       images and networks below come from the chosen location.
-    3. **Name**: how it is listed, up to 255 characters; it is also the name in the location's own
-       dashboard. You can rename it later. **Instances** starts 1 to 10 at once, named `name-1`,
-       `name-2` and so on ([how several are named](launch-templates.md#launch-instances)).
-    4. **Size**: vCPUs, memory and root disk, from the sizes the location offers. A size that would
-       exceed the project's quota there is marked. Change it later with
-       [Resize](manage-instances.md#what-each-action-does).
-    5. **Image**: the operating system it starts from. The location's images come first; your own
-       [images](images.md) follow under **Your images**.
-    6. **Network**: how it is reached.
-       - Choose one of the project's [networks](../networking/networks.md) in that location. With
-         **No network** the instance has no network access at all.
-       - **Private address (optional)**: leave it empty and the location picks one. To fix one, use an
-         address from a range the network keeps for static addresses. If the network hands out no
-         addresses itself (DHCP off), you must give one here.
-       - **Public IP**: **No public IP** keeps it reachable only from its private network.
-         **A new public IP** allocates one with the instance; it stays allocated, and counted in your
-         usage, after the instance is deleted, until you release it. **One you have** uses an
-         unattached [public IP](../networking/public-ips.md) of the project. A public IP needs an
-         [Internet gateway](../networking/internet-gateways.md) in the location.
+    2. **Location**: where the instance runs. Sizes, images and networks below come from it.
+    3. **Instance name**: up to 255 characters. It is also the name in the location's own
+       tools, and you can rename it later. **Instances**, beside it, starts one to ten at once,
+       named `name-1`, `name-2` and so on.
+    4. **Size**: vCPUs, memory and root disk, from the sizes the location offers. A size that
+       would go over the project's quota is marked. Change it later with
+       [Resize](manage-instances.md#resize).
+    5. **Image**: the operating system it starts from. The location's images come first; your
+       own [images](images.md) follow under **Your images**.
+    6. **Network**:
+        - One of the project's networks in that location. Without a network, the instance has
+          no network access at all.
+        - **Private address (optional)**: leave it empty and the location picks one. A fixed
+          address must come from a range the network keeps for static addresses; with DHCP off
+          on the network, you must give one.
+        - **Public IP**: **No public IP**, **A new public IP** (allocated with the instance, and
+          kept after it is deleted until you release it), or **One you have** (an unattached
+          [public IP](../networking/public-ips.md) of the project).
     7. **Access**:
-       - **SSH key**: the [key](ssh-keys.md) copied into the instance so you can log in. With
-         **No key** you cannot log in with SSH.
-       - **Firewall**: the location's `default` [security group](../networking/security-groups.md) is
-         chosen to start with; choose others as well or instead. **Allow SSH (port 22) from anywhere**
-         and **Allow web traffic (ports 80 and 443) from anywhere** add only the rules none of the
-         chosen groups already has, to the first group you choose. When that is `default`, the rule
-         applies to every instance of the project in that location that uses `default`. With no group
-         chosen, a group named `<project>-access` is made for the rules. The page says which group gets
-         which rule before you create.
-       - **User data (cloud-init)**: a script or cloud-init document the instance runs at its first
-         start, up to 49,149 bytes. It is passed once to the location and is not kept or shown again.
-    8. **Server group** (optional): a [server group](server-groups.md) of this location, to
-       keep the instance on a different host from the group's others, or on the same one. It joins the
-       group now and cannot join, leave or change group later.
-    9. **Volumes** (optional): up to 8 data disks, attached in the order listed once the instance runs.
-       - **Existing volumes**: [volumes](../storage/volumes.md) of the project in this location that are
-         available and attached to nothing.
-       - **New volumes**: choose **Add a new volume**, then its name, size in GiB and type. New
-         volumes are made empty, before the instance, and count against the project's volume quota.
-
-       If a volume cannot be attached, the instance and every volume are kept, the operation says
-       **partially succeeded**, and you can attach the volume from its menu.
+        - **SSH key**: the [key](ssh-keys.md) copied into the instance. With **No key** you
+          cannot log in with SSH.
+        - **Firewall**: the location's `default` [security group](../networking/security-groups.md)
+          is chosen to start with. **Allow SSH (port 22) from anywhere** and **Allow web traffic
+          (ports 80 and 443) from anywhere** add the rules none of the chosen groups has yet, to
+          the first group chosen. The page says which group gets which rule.
+        - **User data (cloud-init)**: a script or cloud-init document run at the first start,
+          up to 49,149 bytes. It is not kept or shown again.
+    8. **Server group** (optional): a [server group](server-groups.md), to keep the instance on
+       a different host from the group's others, or on the same one. It cannot change later.
+    9. **Volumes** (optional): up to 8 data disks, existing available volumes or new empty
+       ones, attached in the order listed once the instance runs.
     10. **Load balancer** (optional): a pool of one of the project's
-        [load balancers](../networking/load-balancers.md) in this location, and the port the instance
-        serves on. Once the instance runs it joins the pool at its private address on the network you
-        chose. If that fails, the instance stays and the operation says **partially succeeded**.
-    11. **Tags** (optional): [labels](../concepts/tags.md) such as `env: prod`.
+        [load balancers](../networking/load-balancers.md) in this location, and the port the
+        instance serves on.
+    11. Choose **Create instance**. **Save as launch template** keeps these settings for later.
 
-    Choose **Create instance**. The page shows **Instance requested**; the instance appears in the
-    list as **Creating**, then **Active**. **Save as launch template** keeps these settings to launch
-    again later. **View the API request** shows the exact request the page will send.
+    The page shows **Instance requested**. The instance appears as **Creating**, then **Active**.
 
 === "API"
 
-    <span id="with-the-api" data-docs-method="API"></span>
-
     ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers" \
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Idempotency-Key: $(uuidgen)" \
       -H "Content-Type: application/json" \
-      --data '{
-      "location": "loc_example",
-      "display_name": "web-1",
-      "offering": "medium",
-      "image": "ubuntu-24-04",
-      "network_id": "net_example",
-      "ssh_key_id": "ssh_example"
-    }'
+      -d '{
+        "location": "loc_01jbkhi",
+        "display_name": "web-3",
+        "offering": "medium",
+        "image": "ubuntu-24-04",
+        "network_id": "net_01jbapp",
+        "ssh_key_id": "ssh_01jbayesha",
+        "security_group_ids": ["sgr_01jbweb"],
+        "public_ip": true,
+        "volumes": [{"new": {"display_name": "web-3-data", "size_gb": 20}}],
+        "tags": {"env": "prod", "team": "web"}
+      }'
     ```
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+    `offering` and `image` are `slug`s from `GET /v1/orgs/$ORG/catalog?location=…`. Other
+    fields: `fixed_ip`, `public_ip_id` (one you have), `security_group_templates` (`ssh`,
+    `web`), `user_data` (plain text), `server_group_id` and `load_balancer`
+    (`{pool_id, port}`).
 
-    [Request fields and responses](../api/reference/instances.md).
+    The answer is `202 Accepted` with the operation and the new instance's `id`. To start
+    several at once, use `POST …/instance-launches`; see
+    [Launch templates](launch-templates.md).
 
+If a volume or the load balancer pool cannot be joined, the instance is kept and the operation
+says **partially succeeded**. Attach the volume or add the member afterwards.
 
 ## Find an instance
 
 === "Console"
 
-    The list shows each instance's location, status, address, size and tags. Type in **Find by name,
-    ID or address**, or filter by location, state or tag. Instances made with the location's own tools
-    are listed too.
+    The list shows each instance's location, status, address, size and tags. Type in **Find by
+    name, ID or address**, or filter by location, state or tag. Instances made with a location's
+    own tools are listed too.
 
-    Open an instance for its page:
+    Open an instance for its page: **Overview**, **Networks**, **Tags**, **Metadata**,
+    **Console log**, **Schedules** and **Activity**.
 
-    ![An instance's page: addresses, size, image, its group, template, server group, SSH key and load balancer](../assets/screens/compute/instance-detail.webp)
-
-    | Tab | What it has |
-    |---|---|
-    | **Overview** | Status, size, image, addresses, security groups, disks, and links to its instance group, launch template, server group, SSH key and load balancers |
-    | **Networks** | The networks it is on, with their addresses; attach and detach networks |
-    | **Tags** | Its tags |
-    | **Metadata** | Set and remove metadata keys |
-    | **Console log** | What the instance printed while it started and ran |
-    | **Schedules** | Backup and power [schedules](../storage/schedules.md) acting on it |
-    | **Activity** | Every operation on it |
-
-    Next: [Manage instances](manage-instances.md): stop, start, resize, rebuild, consoles and
-    deleting.
+    ![An instance's overview: status, size, image, addresses, security groups, disks and links](../assets/screens/compute/instance-detail.webp)
 
 === "API"
 
-    Set `COLLECTION=servers` to list instances. Read a known instance with `GET {P}/servers/{id}`; relations and activity have their own read endpoints.
     ```bash
-    curl --fail-with-body -i -X GET "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/$COLLECTION" \
+    curl -sS "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers?location=pak-khi-1&tag=env:prod" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY"
     ```
 
-    Returns `200` directly. Read the returned resource or current state to verify the change.
+    Read one with `GET …/servers/{server_id}`, and what it is connected to with
+    `GET …/servers/{server_id}/related`. Lists are paged; see [Requests](../api/requests.md).
 
-    [Request fields and responses](../api/reference/resources.md).
+## How instances connect
 
+| Connected to | How |
+|---|---|
+| [Networks](../networking/networks.md) | One at creation; more with **Attach network** |
+| [Security groups](../networking/security-groups.md) | Chosen at creation; changed with **Manage → Security groups** |
+| [Public IPs](../networking/public-ips.md) | At creation, or **Manage → Add public IP** |
+| [Volumes](../storage/volumes.md) | At creation, or **Manage → Attach volume** |
+| [Load balancers](../networking/load-balancers.md) | At creation, or from the load balancer's **Change members** |
+| [Schedules](../storage/schedules.md) | From the instance's **Schedules** tab |
 
-## Good to know
+## Delete an instance
 
-- Instances made with a location's own dashboard, CLI or Terraform count against the same quota
-  and can be managed here like any other. Their page says **Created by: outside Nexus**.
-- A stopped instance still counts instance hours, its disks and its public IPs; its vCPU and RAM
-  hours stop. See [Usage and costs](../concepts/usage-and-costs.md).
-- Not offered: starting an instance from a volume (instances start from an image), and moving an
-  instance to another location.
+=== "Console"
+
+    Choose **Manage → Delete** and confirm. Read the dialog: it names any volume the location is
+    set to delete with the instance.
+
+    ![The delete dialog: what goes with the instance and what stays](../assets/screens/compute/instance-delete.webp)
+
+=== "API"
+
+    ```bash
+    curl -sS -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/srv_01jbweb3" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $(uuidgen)"
+    ```
+
+What goes with it and what stays:
+
+- **Goes:** its system disk, its addresses on its networks, and volumes the location is set to
+  delete with it.
+- **Stays:** attached volumes otherwise, public IPs (still allocated and counted until you
+  release them), and security groups.
+- If it joined a load balancer pool when it was created, it is taken out of the pool first.
+  Members you added on the load balancer are not touched.
+
+**What blocks a delete**
+
+| Refusal | Why | Resolve |
+|---|---|---|
+| The instance is locked | **Lock** stops every change | **Manage → Unlock**, then delete |
+| A change is still running | The instance is creating, resizing or similar | Wait for its operation to finish |
+
+## Limits and good practice
+
+- Up to 8 data volumes at creation, 10 security groups and 1 to 10 instances per request.
+- User data up to 49,149 bytes. Keep secrets out of it where you can.
+- Not offered: starting an instance from a volume, or moving one to another location. Save it as
+  an [image](images.md) and start a new one in the same location.
+- Keep data on volumes, not the system disk, so you can replace an instance without losing it.
+- Tag instances (`env`, `team`) to filter lists and break down [costs](../organization/statements-and-costs.md).
+
+## Related
+
+- [Manage an instance](manage-instances.md) · [Connect to an instance](connect-to-instances.md)
+- [Launch templates](launch-templates.md) · [Instance groups](instance-groups.md)
+- [API reference: Instances](../api/reference/instances.md)

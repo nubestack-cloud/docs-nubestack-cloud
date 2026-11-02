@@ -143,7 +143,7 @@
 }
 .md-typeset figure figcaption { font-size: .68rem; color: var(--md-default-fg-color--light); margin-top: .7em; max-width: 42rem; }
 .md-typeset figure.ns-diagram { margin: 1.6em 0; max-width: 100%; }
-.md-typeset figure.ns-diagram svg { width: 100%; height: auto; max-height: 30rem; }
+.md-typeset figure.ns-diagram svg { width: 100%; height: auto; }
 
 /* Diagram classes, shared by every inline SVG in docs/assets/diagrams. */
 .ns-diagram { --d-line: var(--md-default-fg-color--lighter); }
@@ -177,15 +177,15 @@
 .md-typeset .grid.cards p { margin: .4em 0; }
 
 /* ---- Home -------------------------------------------------------------------------------- */
-.md-typeset .ns-hero { padding: 1.5rem 0 1rem; max-width: 40rem; }
+.md-typeset .ns-hero { padding: 1.5rem 0 1rem; max-width: 46rem; }
 .md-typeset .ns-hero h1 { font-size: 2.4em; line-height: 1.12; margin: 0 0 .5em; }
 .md-typeset .ns-hero p { font-size: 1.08em; color: var(--md-default-fg-color--light); }
 .md-typeset .ns-hero .md-button { margin: .4em .5em .4em 0; }
 .md-typeset .ns-eyebrow { font-size: .66rem; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; color: var(--md-primary-fg-color); margin: 0; }
-.md-typeset .ns-locations { display: flex; flex-wrap: wrap; gap: .5rem; margin: .8rem 0 0; padding: 0; list-style: none; }
-.md-typeset .ns-locations li {
-  margin: 0; padding: .25rem .7rem; border: 1px solid var(--ns-border); border-radius: 999px; font-size: .7rem;
-  background: var(--ns-surface);
+.md-typeset .ns-locations { display: flex; flex-wrap: wrap; gap: .5rem; margin: .8rem 0 0; }
+.md-typeset .ns-locations > span {
+  display: inline-flex; align-items: center; gap: .3rem; padding: .2rem .7rem; font-size: .7rem;
+  border: 1px solid var(--ns-border); border-radius: 999px; background: var(--ns-surface);
 }
 .md-typeset .ns-locations code { background: none; padding: 0; }
 

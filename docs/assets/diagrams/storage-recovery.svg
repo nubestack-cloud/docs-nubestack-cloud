@@ -1,1 +1,27 @@
-<svg class="cloud-diagram" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 300" role="img" aria-labelledby="storage-recovery-title storage-recovery-desc"><title id="storage-recovery-title">Restore a data volume from a snapshot</title><desc id="storage-recovery-desc">A data volume is attached to an instance. Its snapshot stays in the same storage. Restoring creates a separate volume, leaving the source unchanged.</desc><style>.diagram-bg{fill:var(--docs-surface,#f8fafb);stroke:var(--docs-border,#dce5ea)}.diagram-card{fill:var(--md-default-bg-color,#fff);stroke:var(--docs-border,#dce5ea);stroke-width:1.5}.diagram-title{fill:var(--docs-heading,#152735);font:600 16px system-ui,sans-serif}.diagram-small{fill:var(--docs-muted,#596876);font:13px system-ui,sans-serif}.diagram-label{fill:var(--md-typeset-a-color,#245f60);font:600 12px system-ui,sans-serif;letter-spacing:1px}.diagram-line{fill:none;stroke:var(--docs-line,#8ba6ad);stroke-width:2}.diagram-accent{fill:var(--docs-tint,#e6f2ef);stroke:var(--docs-accent,#3c7f7c)}.diagram-ink{fill:var(--md-typeset-a-color,#245f60)}</style><defs><marker id="storage-recovery-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0L7 3.5L0 7" fill="#8ba6ad"/></marker></defs><text x="24" y="32" class="diagram-label" text-anchor="start">PERSISTENT DATA AND RECOVERY POINTS</text><rect x="24" y="100" width="165" height="78" rx="10" class="diagram-card"/><text x="42" y="129" class="diagram-title" text-anchor="start">Instance</text><text x="42" y="152" class="diagram-small" text-anchor="start">System disk is separate</text><path d="M190 139H237" class="diagram-line" marker-end="url(#storage-recovery-arrow)"/><rect x="240" y="100" width="165" height="78" rx="10" class="diagram-accent"/><text x="258" y="129" class="diagram-title" text-anchor="start">Data volume</text><text x="258" y="152" class="diagram-small" text-anchor="start">Your persistent data</text><path d="M406 139H453" class="diagram-line" marker-end="url(#storage-recovery-arrow)"/><rect x="456" y="100" width="165" height="78" rx="10" class="diagram-card"/><text x="474" y="129" class="diagram-title" text-anchor="start">Snapshot</text><text x="474" y="152" class="diagram-small" text-anchor="start">Point-in-time copy</text><path d="M622 139H669" class="diagram-line" marker-end="url(#storage-recovery-arrow)"/><rect x="672" y="100" width="182" height="78" rx="10" class="diagram-card"/><text x="690" y="129" class="diagram-title" text-anchor="start">Restored volume</text><text x="690" y="152" class="diagram-small" text-anchor="start">A new, separate disk</text><rect x="224" y="65" width="412" height="155" rx="14" fill="none" stroke="#8ba6ad" stroke-dasharray="5 5"/><text x="244" y="205" class="diagram-small" text-anchor="start">Volume and snapshot share the same storage</text><text x="24" y="267" class="diagram-small" text-anchor="start">Use a separate storage destination for an independent backup.</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 170" role="img" aria-labelledby="dv-title dv-desc">
+  <title id="dv-title">Restoring a volume from a snapshot</title>
+  <desc id="dv-desc">The volume db-data is attached to the instance db-1. A snapshot of it, db-data-before-upgrade, records its contents at one moment, on the same storage as the volume. To restore, make a new volume from the snapshot and attach it to an instance; the original volume is not changed.</desc>
+  <defs>
+    <marker id="dv-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-arrow-teal" d="M0 0L8 4L0 8z"/></marker>
+  </defs>
+  <rect class="d-box" x="10" y="52" width="140" height="56" rx="8"/>
+  <text class="d-title" x="26" y="76">db-1</text>
+  <text class="d-muted" x="26" y="95">Instance</text>
+  <rect class="d-box-teal" x="196" y="52" width="160" height="56" rx="8"/>
+  <text class="d-title" x="212" y="76">db-data</text>
+  <text class="d-muted" x="212" y="95">Volume · 100 GiB</text>
+  <rect class="d-box" x="404" y="52" width="196" height="56" rx="8"/>
+  <text class="d-title" x="420" y="76">db-data-before-upgrade</text>
+  <text class="d-muted" x="420" y="95">Snapshot · same storage</text>
+  <rect class="d-box-teal" x="648" y="52" width="142" height="56" rx="8"/>
+  <text class="d-title" x="664" y="76">db-data-restored</text>
+  <text class="d-muted" x="664" y="95">New volume</text>
+  <path class="d-line" d="M150 80H196"/>
+  <text class="d-muted" x="152" y="70">attached</text>
+  <path class="d-flow" d="M356 80H404" marker-end="url(#dv-arrow)"/>
+  <text class="d-muted" x="360" y="70">snapshot</text>
+  <path class="d-flow" d="M600 80H648" marker-end="url(#dv-arrow)"/>
+  <text class="d-muted" x="606" y="70">restore</text>
+  <text class="d-muted" x="404" y="140">A snapshot shares the volume's storage: it is a recovery point,</text>
+  <text class="d-muted" x="404" y="157">not a backup on separate storage.</text>
+</svg>

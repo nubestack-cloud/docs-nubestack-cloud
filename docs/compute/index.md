@@ -1,74 +1,79 @@
 ---
 title: Compute
+description: Instances and everything that helps you start them, place them and keep them running.
 ---
 
 # Compute
 
-Run virtual machines for your applications. Start with an instance, save repeatable settings in a template, or maintain a group of replaceable replicas.
+Compute is where your workloads run: **instances**, the virtual machines, and the pieces that
+help you start them, place them and keep a number of them running. Find it in a project's side
+panel under **Compute**.
 
-## Choose a guide
+<div class="grid cards" markdown>
 
-<div class="guide-cards" markdown>
-<div class="guide-card" markdown>
+-   :material-server-outline:{ .lg .middle } **[Instances](instances.md)**
 
-### [Instances](instances.md)
+    ---
 
-Choose an image, size, network, access and data disks.
+    Create a virtual machine in Karachi or Islamabad with its network, public IP, SSH key,
+    firewall, user data and volumes.
+
+-   :material-tune-variant:{ .lg .middle } **[Manage an instance](manage-instances.md)**
+
+    ---
+
+    Stop, start, reboot, resize, rebuild, rescue, lock, shelve, rename and delete.
+
+-   :material-console-line:{ .lg .middle } **[Connect to an instance](connect-to-instances.md)**
+
+    ---
+
+    SSH, the browser console, the console log, networks, public IPs and security groups.
+
+-   :material-key-variant:{ .lg .middle } **[SSH keys](ssh-keys.md)**
+
+    ---
+
+    Public keys copied into new instances so you can log in without a password.
+
+-   :material-layers-outline:{ .lg .middle } **[Images](images.md)**
+
+    ---
+
+    The operating systems each location offers, and instances you saved as images.
+
+-   :material-server-network:{ .lg .middle } **[Server groups](server-groups.md)**
+
+    ---
+
+    Keep instances on different hosts, or together on one.
+
+-   :material-file-document-edit-outline:{ .lg .middle } **[Launch templates](launch-templates.md)**
+
+    ---
+
+    Save an instance's settings and launch one to ten like it in one step.
+
+-   :material-server-plus-outline:{ .lg .middle } **[Instance groups](instance-groups.md)**
+
+    ---
+
+    Keep a number of a template's instances running, replace failed ones, change the count on a
+    schedule.
 
 </div>
-<div class="guide-card" markdown>
 
-### [Manage instances](manage-instances.md)
+## How compute connects
 
-Connect to the console, restart, resize, rebuild or delete.
+- An instance runs in one **location** and never moves. Its size and image come from that
+  location's catalog.
+- It joins one or more **networks** in the same location and is filtered by **security groups**.
+  A **public IP** makes it reachable from the Internet. See [Networking](../networking/index.md).
+- Its system disk goes with it. Keep data on a **volume**, which outlives it. See
+  [Storage](../storage/index.md).
+- It can join a **load balancer** pool when it is created, or later from the load balancer.
 
-</div>
-<div class="guide-card" markdown>
+## Where to start
 
-### [SSH keys](ssh-keys.md)
-
-Keep private keys with you and register their public halves.
-
-</div>
-<div class="guide-card" markdown>
-
-### [Images](images.md)
-
-Use a published image or save a prepared system disk.
-
-</div>
-<div class="guide-card" markdown>
-
-### [Server groups](server-groups.md)
-
-Keep instances on different hosts, or together.
-
-</div>
-<div class="guide-card" markdown>
-
-### [Launch templates](launch-templates.md)
-
-Version a reusable instance configuration.
-
-</div>
-<div class="guide-card" markdown>
-
-### [Instance groups](instance-groups.md)
-
-Maintain a desired count with replacement and scheduled sizes.
-
-</div>
-</div>
-
-## Which building block do you need?
-
-| Goal | Use |
-|---|---|
-| One virtual machine | An instance |
-| Repeat the same settings | A launch template |
-| Keep a count running | An instance group |
-| Spread replicas across hosts | A server group chosen at instance creation |
-
-Instances start from images. Booting an instance directly from a volume is not offered by the console. Availability of sizes and images depends on the location.
-
-[Walk through a web application](../tutorials/publish-web-application.md) or [scale replicas](../tutorials/scale-an-application.md).
+New to NubeStack Cloud? [Launch your first instance](../get-started/first-instance.md) walks
+through an SSH key, an instance with a public IP and logging in.

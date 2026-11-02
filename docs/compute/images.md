@@ -1,129 +1,91 @@
 ---
-action_tabs: true
 title: Images
+description: The operating systems each location offers, and saving an instance's system disk as an image of your own.
 ---
 
 # Images
 
-An image is a template for an instance's system disk. Use the location's published operating-system images for a fresh start, or save an existing instance as a project image to reuse its installed software.
+An **image** is a saved system disk that new instances start from. There are two kinds:
 
-<div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
-<span>Show instructions for</span>
-<div><button type="button" data-interface-choice="Console" aria-pressed="true">Console</button><button type="button" data-interface-choice="API" aria-pressed="false">API</button></div>
-</div>
+- **The location's images**: the operating systems NubeStack publishes in each location, such as
+  Ubuntu or Debian. You choose one when you create an instance; you cannot change or delete them.
+- **Your images**: an instance of yours saved as it is, private to the project, to start new
+  instances with the same setup.
 
-<div class="docs-method-note" markdown>
+Find your own under **Compute → Images**.
 
-[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+![Your images: name, location, size and status](../assets/screens/compute/images.webp)
 
-</div>
+## Before you start
 
-![The location's and project's images](../assets/screens/compute/images.webp)
-
-
-## Use an image
-
-=== "Console"
-
-    Open **Compute → Images** to inspect saved project images in your project's locations. Published operating-system choices are shown on **Create instance**; the project image list does not replace that catalog. During [instance creation](instances.md), choose an image offered in the selected location. Project images appear under **Your images**. An image in Karachi cannot be used directly in Islamabad.
-
-    An image does not carry a running instance's memory, network identity or attached data volumes. Set the network, SSH key, security groups and volumes for each new instance.
-
-=== "API"
-
-    <span id="with-the-api" data-docs-method="API"></span>
-
-    Use the catalog `image` name for a published image, or `image_id` for a saved project image.
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "location": "loc_example",
-      "display_name": "web-1",
-      "offering": "medium",
-      "image": "ubuntu-24-04",
-      "network_id": "net_example",
-      "ssh_key_id": "ssh_example"
-    }'
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/instances.md).
-
+A running or stopped instance to save, and a role of project admin or project member.
 
 ## Save an instance as an image
 
 === "Console"
 
-    1. Prepare the instance. Remove temporary files and secrets you do not want copied, and stop application writes. Shut it down first if the application requires that for a consistent disk copy.
-    2. Open **Compute → Instances**, then **Manage → Create image** on an active or stopped instance.
-    3. Give the image a descriptive name, such as `web-base-2026-11`.
-    4. Follow the operation until it succeeds, then check **Compute → Images**.
-    5. Launch a test instance from the saved image and verify it before relying on it.
+    1. Choose **Create image**, or **Manage → Create image** on an instance.
+    2. Choose the instance and name the image.
+    3. Choose **Create image** and follow the operation.
 
-    ![The instance menu includes Create image](../assets/screens/compute/instance-manage-menu.webp)
-
-    ![Choose an instance and image name in the Create image dialog](../assets/screens/compute/image-create.webp)
+    ![Create image: the instance and the image's name](../assets/screens/compute/image-create.webp)
 
 === "API"
 
     ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$SERVER_ID:create-image" \
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/srv_01jbweb1:create-image" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Idempotency-Key: $(uuidgen)" \
       -H "Content-Type: application/json" \
-      --data '{
-      "display_name": "web-base"
-    }'
+      -d '{"display_name": "web-golden"}'
     ```
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+The image is the instance's system disk as it is at that moment, in the instance's location.
+Attached volumes are not part of it. For a consistent copy, stop the instance first, or at least
+stop what writes to its disk.
 
-    [Request fields and responses](../api/reference/instances.md).
+## Start an instance from an image
 
+Choose **Manage → Start an instance from it** on the image, or pick it under **Your images** when
+you [create an instance](instances.md). In the API, pass `image_id` instead of `image`. You can
+also make a bootable [volume](../storage/volumes.md) from it.
 
-## Rename and delete
+## Rename or delete an image
 
 === "Console"
 
-    Use the image's **Manage** menu to rename or delete a project image you control. Location-provided images are managed by NubeStack. Check [launch templates](launch-templates.md) and [instance groups](instance-groups.md) before deleting an image they will need for future launches or replacements.
-
-    Deleting an image does not serve as a way to delete instances already created from it. Image storage and availability are local to each location, and quota or a resource dependency can refuse deletion.
+    Open the image for **Rename**, or choose **Manage → Delete** and confirm.
 
 === "API"
 
-    **Rename an image**
-
     ```bash
-    curl --fail-with-body -i -X PATCH "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/images/$RESOURCE_ID" \
+    curl -sS -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/images/img_01jbgolden" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "display_name": "web-base-v2"
-    }'
+      -H "Idempotency-Key: $(uuidgen)"
     ```
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+    `PATCH …/images/{id}` with `{"display_name": "…"}` renames it.
 
-    [Request fields and responses](../api/reference/images.md).
+Instances already started from a deleted image keep running; no new ones can start from it.
 
-    **Delete an image**
+**What blocks a delete**
 
-    ```bash
-    curl --fail-with-body -i -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/images/$IMAGE_ID" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY"
-    ```
+| Refusal | Why | Resolve |
+|---|---|---|
+| `image_protected` | The image is marked protected in the location | Remove the protection with the location's own tools, then delete |
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+## Limits and good practice
 
-    [Request fields and responses](../api/reference/images.md).
+- An image stays in its location. To use the same setup in the other location, set up an instance
+  there and save it again.
+- Uploading your own image file (`.qcow2`, `.iso`) is not offered yet. Images made with the
+  location's own tools appear in the list too.
+- Your images are kept, and their size counted in your usage, until you delete them. Delete old
+  ones you no longer launch.
+- Prefer building instances from a public image plus user data or a launch template; keep saved
+  images for setups that take long to rebuild.
 
+## Related
 
-## Good practice
-
-Keep saved images free of private credentials and machine-specific configuration. Use cloud-init for settings that vary between instances. A project image is a reusable system disk, while [volume snapshots](../storage/snapshots.md) protect separate data disks.
+- [Instances](instances.md) · [Launch templates](launch-templates.md)
+- [API reference: Images](../api/reference/images.md)
