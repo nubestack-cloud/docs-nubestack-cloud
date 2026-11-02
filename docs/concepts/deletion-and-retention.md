@@ -5,7 +5,7 @@ description: What happens when you delete a resource, a project or the organizat
 
 # Deletion and retention
 
-Deleting one resource is immediate and final. Deleting a whole project, or closing the
+Deleting one resource is final after its operation succeeds; acceptance is not immediate completion. Deleting a whole project, or closing the
 organization, has a **recovery window** during which you can change your mind.
 
 ## Deleting a resource
@@ -24,7 +24,7 @@ stays. The rules worth knowing:
 | An instance group | Nothing, by default: its instances become ordinary instances | You can choose to delete its instances with it |
 | A schedule | Nothing | The snapshots it made |
 | A launch template | Its versions and its kept user data | Instances launched from it |
-| A certificate | Its private key, from the location's key manager | Nothing |
+| A certificate | The uploaded certificate and key | Nothing |
 
 ### What blocks a delete
 

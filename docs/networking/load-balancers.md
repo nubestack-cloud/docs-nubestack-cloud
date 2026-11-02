@@ -1,4 +1,5 @@
 ---
+methods: true
 title: Load balancers
 ---
 
@@ -14,6 +15,13 @@ A load balancer distributes traffic across instances. Use it when an application
 | Health check | Tests whether a backend should receive traffic |
 
 ![Load balancers in the project](../assets/screens/networking/load-balancers.webp)
+
+<figure class="docs-diagram">
+<div>
+<!-- diagram: https-application -->
+</div>
+<figcaption>An HTTPS listener uses a certificate and forwards to healthy, reachable backends.</figcaption>
+</figure>
 
 ## Create a load balancer
 

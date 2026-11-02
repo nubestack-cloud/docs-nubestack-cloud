@@ -1,4 +1,5 @@
 ---
+methods: true
 title: Schedules
 ---
 
@@ -29,11 +30,13 @@ Open an [instance group](/compute/instance-groups.md) and its **Scheduled sizes*
 
 Use **Edit** on a schedule to change the supported target and timetable settings, retention or desired count. Review the next run after editing. **Pause** stops future runs; **Resume** enables them again. Runs act with the creator's current permissions; removing access can prevent a later run.
 
+![Edit the schedule timetable and retention](../assets/screens/storage/schedule-edit.webp)
+
 Deleting a backup schedule leaves its snapshots in place and stops pruning them. Delete unwanted snapshots separately. Deleting a power schedule does not start stopped instances. Deleting a size schedule does not undo the last desired count it set.
 
 !!! note "Understand backup consistency"
 
-    Scheduled snapshots of attached volumes do not pause applications. Database or multi-volume consistency needs application coordination and a tested restore procedure.
+    The console calls these backup schedules, but they create snapshots in the source storage, not independent backup copies. Scheduled snapshots of attached volumes do not pause applications. Database or multi-volume consistency needs application coordination and a tested restore procedure.
 
 ## With the API
 

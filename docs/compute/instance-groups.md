@@ -1,4 +1,5 @@
 ---
+methods: true
 title: Instance groups
 ---
 
@@ -30,6 +31,8 @@ Open the group to see members, recent activity, its template and scheduled sizes
 Use **Edit** to change the name, template version, bounds, surge and optional pool. The location remains fixed. A version change affects future creations and replacements; it does not roll out a rebuild of every existing member.
 
 The group replaces instances it identifies as failed. It does not prove application-level health or repair a broken application configuration. [Load balancer health checks](/networking/load-balancers.md) decide whether a backend receives traffic.
+
+![Edit a group's template version, bounds and creation concurrency](../assets/screens/compute/instance-group-edit.webp)
 
 ## Pause and scheduled sizes
 

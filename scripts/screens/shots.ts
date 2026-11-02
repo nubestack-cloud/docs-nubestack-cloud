@@ -2,7 +2,7 @@
 // docs/assets/screens/<name>.webp, which the pages import.
 import type { Page } from "playwright";
 import type { Shot } from "./take.ts";
-import { ID, INVITATION_ID, INVITEE, ORG, PROJECT, SERVICE_ACCOUNT, STATEMENT_OPEN, TEMPLATE } from "./world.ts";
+import { CERTIFICATES, ID, INVITATION_ID, INVITEE, ORG, PROJECT, SERVICE_ACCOUNT, STATEMENT_OPEN, TEMPLATE } from "./world.ts";
 
 const org = (section: string) => `/orgs/${ORG}/${section}`;
 const project = (section: string) => `/orgs/${ORG}/projects/${PROJECT}/${section}`;
@@ -30,12 +30,34 @@ const pick = (text: string | RegExp) => async (page: Page) => {
   if (await target.count()) { await target.click({ timeout: 5000 }).catch(() => undefined); await page.waitForTimeout(300); }
 };
 const fill = (label: string | RegExp, value: string) => async (page: Page) => {
-  const field = page.locator("main.content").getByLabel(label).first();
+  const content = page.locator("main.content");
+  const labelled = content.getByLabel(label);
+  const controls = labelled.and(content.locator("input, textarea"));
+  const field = (await controls.count()) ? controls.first() : labelled.locator("input, textarea").first();
   if (await field.count()) { await field.fill(value); await page.waitForTimeout(150); }
 };
 const chain = (...steps: ((page: Page) => Promise<void>)[]) => async (page: Page) => { for (const s of steps) await s(page); };
 
 export const SHOTS: Shot[] = [
+  // Customer-guide review: task details and dialogs missing from the original set.
+  { name: "compute/image-create", path: project("images"), wait: "main h1", act: click("Create image"), clip: "dialog" },
+  { name: "compute/image-detail", path: project(`images/${ID.image}`), wait: "main h1", clip: "main" },
+  { name: "compute/instance-tags", path: project(`instances/${ID.web1}`), wait: "main h1", act: click(/^Tags/, "tab"), clip: "main" },
+  { name: "compute/instance-group-edit", path: project(`instance-groups/${ID.group}/edit`), wait: "main h1", clip: "main", height: 1500 },
+  { name: "storage/snapshot-detail", path: project(`snapshots/${ID.snap}`), wait: "main h1", clip: "main" },
+  { name: "storage/snapshot-restore", path: project(`volumes/new?snapshot=${ID.snap}`), wait: "main h1", clip: "main", height: 1200,
+    act: fill(/^Name$/, "db-data-restored") },
+  { name: "storage/volume-snapshot", path: project("volumes"), wait: "scratch", act: chain(manage("scratch"), item(/Create snapshot/)), clip: "dialog" },
+  { name: "storage/schedule-edit", path: project(`schedules/${ID.schedBackup}/edit`), wait: "main h1", clip: "main", height: 1400 },
+  { name: "networking/public-ip-detail", path: project(`public-ips/${ID.fipWeb}`), wait: "main h1", clip: "main" },
+  { name: "networking/network-ranges", path: project(`networks/${ID.netApp}`), wait: "main h1", act: chain(click(/^Address range/, "tab"), click("Edit ranges")), clip: "dialog", height: 1100 },
+  { name: "networking/certificate-switch", path: project(`load-balancers/${ID.lb}`), wait: "main h1", clip: "dialog",
+    mock: { extra: { [`/v1/orgs/${ORG}/projects/${PROJECT}/certificates`]: { items: [...CERTIFICATES,
+      { ...CERTIFICATES[0], id: "crt_01jbrenewal000000000000001", display_name: "www-renewal", in_use_by: [], days_left: 365, not_after: "2027-10-21T07:30:00Z" }] } } },
+    act: chain(click(/^Listeners/, "tab"), click(/Switch certificate/), async page => { await page.locator("[role=dialog] select").selectOption("crt_01jbrenewal000000000000001"); }) },
+  { name: "organization/member-project-roles", path: org("members"), wait: "Bilal Ahmed", act: chain(manage("Bilal Ahmed"), item("Project roles")), clip: "dialog" },
+  { name: "organization/notifications", path: org("notifications"), wait: "main h1", clip: "main" },
+  { name: "organization/quota-request", path: org("quota-requests/new"), wait: "main h1", clip: "main", height: 1200 },
   // Get started
   { name: "get-started/org-overview", path: org("overview"), wait: "main h1" },
   { name: "get-started/projects", path: org("projects"), wait: "web-shop", clip: "main" },
@@ -58,7 +80,7 @@ export const SHOTS: Shot[] = [
   { name: "compute/ssh-key-add", path: project("key-pairs/new"), wait: "main h1", clip: "main" },
   { name: "compute/images", path: project("images"), wait: "web-golden", clip: "main" },
   { name: "compute/server-groups", path: project("server-groups"), wait: "web-spread", clip: "main" },
-  { name: "compute/server-group-create", path: project("server-groups/new"), wait: "main h1", clip: "main" },
+  { name: "compute/server-group-create", path: project("server-groups/new"), wait: "main h1", clip: "main", act: chain(pick("Karachi"), fill(/^Name$/, "web-spread")) },
   { name: "compute/launch-templates", path: project("launch-templates"), wait: "main h1", clip: "main" },
   { name: "compute/launch-template-detail", path: project(`launch-templates/${TEMPLATE.id}`), wait: "main h1", clip: "main", height: 1300 },
   { name: "compute/instance-groups", path: project("instance-groups"), wait: "batch-workers", clip: "main" },
@@ -68,7 +90,7 @@ export const SHOTS: Shot[] = [
   // Networking
   { name: "networking/topology", path: project("network-topology"), wait: "main h1", height: 1000 },
   { name: "networking/networks", path: project("networks"), wait: "main h1", clip: "main" },
-  { name: "networking/network-create", path: project("networks/new"), wait: "main h1", clip: "main", height: 1400 },
+  { name: "networking/network-create", path: project("networks/new"), wait: "main h1", clip: "main", height: 1400, act: chain(pick("Karachi"), fill(/^Name$/, "app-private"), fill(/^Range/, "10.20.0.0/24")) },
   { name: "networking/network-detail", path: project(`networks/${ID.netApp}`), wait: "main h1", clip: "main", height: 1000 },
   { name: "networking/routing", path: project("routing"), wait: "main h1", clip: "main" },
   { name: "networking/internet-gateways", path: project("internet-gateways"), wait: "main h1", clip: "main" },
@@ -88,7 +110,7 @@ export const SHOTS: Shot[] = [
 
   // Storage
   { name: "storage/volumes", path: project("volumes"), wait: "db-data", clip: "main" },
-  { name: "storage/volume-create", path: project("volumes/new"), wait: "main h1", clip: "main", height: 1200 },
+  { name: "storage/volume-create", path: project("volumes/new"), wait: "main h1", clip: "main", height: 1200, act: chain(pick("Karachi"), fill(/^Name$/, "app-data"), fill(/^Size/, "20")) },
   { name: "storage/volume-manage-menu", path: project("volumes"), wait: "scratch", act: manage("scratch"), clip: "main" },
   { name: "storage/volume-attach", path: project("volumes"), wait: "scratch", act: chain(manage("scratch"), item(/^Attach/)), clip: "dialog" },
   { name: "storage/volume-extend", path: project("volumes"), wait: "scratch", act: chain(manage("scratch"), item(/^Extend/)), clip: "dialog" },
@@ -104,7 +126,7 @@ export const SHOTS: Shot[] = [
 
   // Organization
   { name: "organization/members", path: org("members"), wait: "Bilal Ahmed", clip: "main" },
-  { name: "organization/invite", path: org("members/invite"), wait: "main h1", clip: "main", height: 1100 },
+  { name: "organization/invite", path: org("members/invite"), wait: "main h1", clip: "main", height: 1100, act: fill(/^E-mail$/, "zain@acme.example") },
   { name: "organization/roles", path: org("roles"), wait: "Deployer", clip: "main" },
   { name: "organization/role-create", path: org("roles/new"), wait: "main h1", clip: "main", height: 1200 },
   { name: "organization/service-accounts", path: org("service-accounts"), wait: "automation-prod", clip: "main" },

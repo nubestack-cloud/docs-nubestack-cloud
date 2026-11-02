@@ -15,6 +15,13 @@ quota preset, schedule or instance group's settings. Changes to roles and quota 
 operation when native access or a location must be updated. Follow the status and body returned
 for the particular change.
 
+<figure class="docs-diagram">
+<div>
+<!-- diagram: operation-lifecycle -->
+</div>
+<figcaption>Follow the accepted operation through to a final result before relying on the resource.</figcaption>
+</figure>
+
 ## Follow an operation
 
 After you make a change, the page says what was requested, for example **Instance requested**,

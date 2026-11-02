@@ -1,4 +1,5 @@
 ---
+methods: true
 title: Organization settings
 ---
 

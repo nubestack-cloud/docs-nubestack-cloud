@@ -1,4 +1,5 @@
 ---
+methods: true
 title: Images
 ---
 
@@ -10,7 +11,7 @@ An image is a template for an instance's system disk. Use the location's publish
 
 ## Use an image
 
-Open **Compute → Images** to inspect images in your project's locations. During [instance creation](/compute/instances.md), choose an image offered in the selected location. Project images appear under **Your images**. An image in Karachi cannot be used directly in Islamabad.
+Open **Compute → Images** to inspect saved project images in your project's locations. Published operating-system choices are shown on **Create instance**; the project image list does not replace that catalog. During [instance creation](/compute/instances.md), choose an image offered in the selected location. Project images appear under **Your images**. An image in Karachi cannot be used directly in Islamabad.
 
 An image does not carry a running instance's memory, network identity or attached data volumes. Set the network, SSH key, security groups and volumes for each new instance.
 
@@ -23,6 +24,8 @@ An image does not carry a running instance's memory, network identity or attache
 5. Launch a test instance from the saved image and verify it before relying on it.
 
 ![The instance menu includes Create image](../assets/screens/compute/instance-manage-menu.webp)
+
+![Choose an instance and image name in the Create image dialog](../assets/screens/compute/image-create.webp)
 
 ## Rename and delete
 
@@ -42,6 +45,8 @@ curl --fail-with-body -i -X POST \
 ```
 
 This returns `202 Accepted` and an operation. [Poll the operation](/api/operations.md) before using the image. List with `GET {P}/images`, rename with `PATCH {P}/images/{id}` and delete with `DELETE {P}/images/{id}`. Use `image_id` to launch an instance from a project image; use the catalog's `image` name for a published image.
+
+![Inspect a saved project image and its available actions](../assets/screens/compute/image-detail.webp)
 
 ## Good practice
 

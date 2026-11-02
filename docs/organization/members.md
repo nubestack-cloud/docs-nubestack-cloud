@@ -1,4 +1,5 @@
 ---
+methods: true
 title: Members and invitations
 ---
 
@@ -27,6 +28,12 @@ Use a member's menu to change their organization role, suspend them, resume them
 An organization admin can manage the organization, but needs a project grant to change project workloads or sign in to that location's native tools. A project reader can inspect resources without changing them. Read the complete [roles and permissions](/concepts/roles-and-permissions.md) table before assigning a broad role.
 
 Removing or suspending someone affects their access, rather than deleting the instances and data they created. The owner's role is protected; use the ownership-transfer flow before removing an owner where required. Native access changes can take up to 15 minutes to reach each location.
+
+## Ownership and leaving
+
+An owner can choose **Manage → Make owner** on an eligible member. Review the broad powers of ownership, then choose whether you will stay an owner or step down to another role. Complete any requested second-factor check and verify the resulting roles. The last owner cannot simply be removed or leave the organization without another owner.
+
+To leave yourself, use your own **Leave organization** action or the organization settings danger zone. Your access ends; an administrator must invite you again if you need to return. Workloads you created remain for the organization to manage. Suspension retains a member's roles for later resumption; removal is a different action and also affects personal keys and native access.
 
 ## With the API
 

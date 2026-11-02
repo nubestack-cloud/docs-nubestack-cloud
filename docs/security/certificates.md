@@ -1,4 +1,5 @@
 ---
+methods: true
 title: Certificates
 ---
 
@@ -26,7 +27,7 @@ Open the certificate to see its domains, expiry, fingerprint and linked listener
 
 ![A certificate's details and listeners using it](../assets/screens/security/certificate-detail.webp)
 
-To rotate, upload a new certificate, switch each listener to it and follow the operations. Verify the served certificate at your application domain before deleting the old resource. Uploading a replacement alone does not change listeners, and renewal is not automatic.
+To rotate, upload a new certificate, choose **Switch certificate** on each HTTPS listener, select the replacement and follow the operations. Verify the served certificate at your application domain before deleting the old resource. Uploading a replacement alone does not change listeners, and renewal is not automatic.
 
 !!! note "One certificate per listener"
 

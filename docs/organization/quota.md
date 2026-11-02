@@ -1,4 +1,5 @@
 ---
+methods: true
 title: Quota
 ---
 
@@ -22,7 +23,17 @@ Quota presets supply reusable allocations for new projects. Changing a preset do
 
 ## Request more
 
-Use **Quota requests** to request an organization-budget increase with a reason and the required amounts. Track the request status there. Approval changes the available budget; it does not create resources or reserve location capacity.
+Use **Quota requests → Request more quota** to request a larger organization budget.
+
+1. Choose the location; budgets are separate for each location.
+2. Enter the total budget you need for each changed resource, rather than just the amount to add. The form compares it with the current budget.
+3. Give a concrete reason, such as the application and number of additional instances, then submit.
+4. Track the pending decision in **Quota requests**. No allocation changes until approval. Cancel a request you no longer need using its available action.
+5. After approval, review project allocations and assign the new available budget where needed.
+
+Approval changes the organization's available budget; it does not create resources, automatically expand every project allocation or reserve location capacity.
+
+![Request a larger organization budget for a location](../assets/screens/organization/quota-request.webp)
 
 If the refusal is `capacity_unavailable`, a quota request alone may not solve it. Try another supported size or location if your application allows it, or give support the operation ID.
 

@@ -1,0 +1,59 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Instances
+SSH keys
+Images
+Server groups
+Launch templates
+Instance groups
+Networking
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Instances
+/
+web-1
+web-1
+Active
+
+Karachi
+compute zone nova
+Medium
+
+Refresh
+Open console
+Manage
+⌄
+Overview
+Networks
+1
+Tags
+2
+Metadata
+Console log
+Schedules
+Activity
+Tags
+2
+Key	Value
+Remove
+
+		×
+		×
+
+2 of 20 tags
+Written to the instance in its location as nx. tags; its other tags stay.
+Save tags

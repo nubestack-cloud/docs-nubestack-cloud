@@ -14,8 +14,7 @@ the **cost explorer**.
 
     Every usage figure, statement and cost in the console is marked **provisional**. Measurement is
     still being checked against each location's own records, and until that is done the figures can
-    change. A statement is not an invoice: invoices come separately from NubeStack, and while figures
-    are provisional the invoice is the one that counts.
+    change. A provisional statement is not a final invoice. Use the commercial information supplied with your account for billing questions; the console does not collect payments or calculate taxes.
 
 
 ## What is measured

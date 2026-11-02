@@ -1,0 +1,107 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Networking
+Network topology
+Networks
+Routing
+Internet gateways
+Security groups
+Public IPs
+Load balancers
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Load balancers
+/
+web-lb
+web-lb
+Active
+
+Load balancer
+Karachi
+
+Refresh
+Rename
+Delete
+Overview
+Listeners
+2
+Attachments
+5
+Activity
+Traffic
+Add listener
+Add pool
+Listener
+HTTP · 80
+http ·
+lst-http
+Edit listener
+Delete listener
+Pool
+web-pool
+Round robin · health check HTTP every 5 s
+Edit pool
+Delete pool
+Remove health check
+Members
+2 instances
+2 / 2 online
+Change members
+Instance	Address	Port	Recorded health
+web-1	192.0.2.11	8080	online
+web-2	192.0.2.12	8080	online
+Listener
+TERMINATED_HTTPS · 443
+https ·
+lst-https
+Certificate www-2026
+Edit listener
+Switch certificate
+Delete listener
+Switch certificate
+
+New connections get the chosen certificate; the load balancer keeps its address. This is how a certificate is rotated: upload the next one, switch to it, then delete the old one.
+
+Certificate
+www-2026 (www.acme.example)
+api-2025 (api.acme.example)
+www-renewal (www.acme.example)
+Cancel
+Switch certificate
+Pool
+web-pool
+Round robin · health check HTTP every 5 s
+Edit pool
+Delete pool
+Remove health check
+Members
+2 instances
+2 / 2 online
+Change members
+Instance	Address	Port	Recorded health
+web-1	192.0.2.11	8080	online
+web-2	192.0.2.12	8080	online
+Public exposure
+
+Reachable from the internet
+at 203.0.113.40 →
+, forwarded to
+ 192.0.2.50
+
+Detach public IP
+
+All project activity

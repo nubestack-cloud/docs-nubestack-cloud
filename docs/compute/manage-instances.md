@@ -1,4 +1,5 @@
 ---
+methods: true
 title: Manage instances
 description: Stop, start, reboot, resize, rebuild, rescue and lock instances; open their console and console log; attach networks and volumes; delete them.
 ---

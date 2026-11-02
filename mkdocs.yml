@@ -44,6 +44,8 @@ extra:
   generator: false
 extra_css:
   - assets/stylesheets/documentation.css
+extra_javascript:
+  - assets/javascripts/docs.js
 markdown_extensions:
   - admonition
   - attr_list
@@ -72,11 +74,24 @@ validation:
 nav:
   - Overview: index.md
   - Get started:
+      - Overview: get-started/index.md
       - Create your account: get-started/account.md
+      - Find your way around: get-started/console.md
       - Your organization: get-started/organizations.md
       - Create a project: get-started/create-a-project.md
       - Your first instance: get-started/first-instance.md
+  - Tutorials:
+      - Overview: tutorials/index.md
+      - Publish a web application: tutorials/publish-web-application.md
+      - Use persistent storage: tutorials/persistent-storage.md
+      - Recover a volume: tutorials/recover-a-volume.md
+      - Connect private services: tutorials/private-networking.md
+      - Serve an application over HTTPS: tutorials/https-load-balancer.md
+      - Scale application replicas: tutorials/scale-an-application.md
+      - Automate a cloud change: tutorials/automate-with-api.md
+      - Clean up a project safely: tutorials/clean-up-resources.md
   - Core concepts:
+      - Overview: concepts/index.md
       - Locations: concepts/locations.md
       - Projects and quotas: concepts/projects-and-quotas.md
       - Operations: concepts/operations.md
@@ -86,6 +101,7 @@ nav:
       - Deletion and retention: concepts/deletion-and-retention.md
       - Limits: concepts/limits.md
   - Compute:
+      - Overview: compute/index.md
       - Instances: compute/instances.md
       - Manage instances: compute/manage-instances.md
       - SSH keys: compute/ssh-keys.md
@@ -94,6 +110,7 @@ nav:
       - Launch templates: compute/launch-templates.md
       - Instance groups: compute/instance-groups.md
   - Networking:
+      - Overview: networking/index.md
       - Networks and subnets: networking/networks.md
       - Routing: networking/routing.md
       - Internet gateways: networking/internet-gateways.md
@@ -102,17 +119,22 @@ nav:
       - Load balancers: networking/load-balancers.md
       - Network map: networking/network-map.md
   - Storage:
+      - Overview: storage/index.md
       - Volumes: storage/volumes.md
       - Snapshots: storage/snapshots.md
       - Schedules: storage/schedules.md
   - Security:
+      - Overview: security/index.md
       - Certificates: security/certificates.md
   - Organization:
+      - Overview: organization/index.md
       - Members and invitations: organization/members.md
+      - Manage projects: organization/projects.md
       - Custom roles: organization/custom-roles.md
       - Service accounts and API keys: organization/service-accounts.md
       - Quota: organization/quota.md
       - Settings and second factor: organization/settings.md
+      - E-mail notices: organization/notifications.md
       - Activity and audit log: organization/activity.md
       - Usage: organization/usage.md
       - Statements and cost explorer: organization/statements-and-costs.md

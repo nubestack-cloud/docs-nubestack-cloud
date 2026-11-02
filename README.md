@@ -65,3 +65,30 @@ The product portal needs its own installed dependencies. See [the screenshot gui
 CI builds strictly and checks local links, anchors, search, screenshot text audits, unfinished stubs and forbidden sample values. The output is `site/`; publish that directory to a static host at the configured site URL. This repository has no automatic production deployment or live API connection.
 
 The real customer API endpoint and support contact details must be supplied by NubeStack before public launch. The dedicated CLI and Terraform provider remain coming later; usage and costs remain provisional. The [completion report](REPORT.md) records scope and verification.
+
+## Authoring method tabs and visual guides
+
+A customer procedure has shared prerequisites, a Console tab and an API tab. Add `methods: true` to its frontmatter and use this source structure:
+
+```markdown
+Shared description and prerequisites.
+
+<!-- methods -->
+## Create the resource
+
+Console instructions and screenshots.
+
+## With the API
+
+API instructions and examples.
+
+## Verify the result
+
+Checks and cleanup that apply to either method.
+```
+
+The hook renders native Material content tabs. Selection follows the reader between pages; direct links into an API section open that tab. When a CLI or Terraform workflow is actually released, add `## With the CLI` or `## With Terraform` before the shared verification section to create another tab. Do not add empty tabs for unavailable interfaces.
+
+Inline diagrams use `<!-- diagram: storage-recovery -->` with accessible SVGs in `docs/assets/diagrams/`. Diagram text explains resource relationships rather than platform internals. Screenshot Markdown is framed with its alt text as a caption and opens in a keyboard-accessible enlargement dialog; the underlying image link also works without JavaScript.
+
+Keep user content in the customer perspective. Deployment of the platform, underlying cloud administration and operator procedures belong in the product repository, not this site's navigation. The coverage review is recorded in [CONTENT_REVIEW.md](CONTENT_REVIEW.md).

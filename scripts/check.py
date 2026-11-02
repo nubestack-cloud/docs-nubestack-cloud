@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 import re
 import sys
+import xml.etree.ElementTree as ET
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urljoin, urlsplit
@@ -52,7 +53,7 @@ def check():
                 errors.append(f"Missing anchor: {source} -> {link}")
     for directory in ("docs", "data", "openapi", "site", "scripts/screens"):
         for path in (ROOT / directory).rglob("*"):
-            if path.suffix not in {".md", ".html", ".json", ".txt", ".ts"}:
+            if path.suffix not in {".md", ".html", ".json", ".txt", ".ts", ".svg"}:
                 continue
             if path.name == "take.ts":
                 continue  # The runner contains the deny pattern itself.
@@ -62,6 +63,20 @@ def check():
     for path in (ROOT / "docs").rglob("*.md"):
         if re.search(r"This page is being written|TODO|TBD", path.read_text()):
             errors.append(f"Unfinished page: {path.relative_to(ROOT)}")
+        if re.search(r"^methods: true$", path.read_text(), re.M):
+            relative = path.relative_to(ROOT / "docs").with_suffix("") / "index.html"
+            rendered = (SITE / relative).read_text()
+            labels = re.findall(r'<label for="__tabbed_[^"]+">([^<]+)</label>', rendered)
+            if labels[:2] != ["Console", "API"]:
+                errors.append(f"Missing Console/API tabs: {path.relative_to(ROOT)}")
+    for path in (ROOT / "docs/assets/diagrams").glob("*.svg"):
+        try:
+            root = ET.fromstring(path.read_text())
+            ns = {"svg": "http://www.w3.org/2000/svg"}
+            if root.find("svg:title", ns) is None or root.find("svg:desc", ns) is None:
+                errors.append(f"Diagram lacks an accessible description: {path.name}")
+        except ET.ParseError as error:
+            errors.append(f"Invalid SVG: {path.name}: {error}")
     shots = list((ROOT / "docs/assets/screens").rglob("*.webp"))
     for shot in shots:
         audit = ROOT / "data/screen-text" / shot.relative_to(ROOT / "docs/assets/screens").with_suffix(".txt")

@@ -1,4 +1,5 @@
 ---
+methods: true
 title: Launch templates
 ---
 

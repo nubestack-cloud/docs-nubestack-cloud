@@ -68,13 +68,25 @@ def reference_pages():
     for op_id, (method, path, op) in OPERATIONS.items():
         groups[op.get("tags", ["Other"])[0]].append((op_id, method, path, op))
     pages = {}
-    index = ["# API reference", "", "Every endpoint below is generated from the checked-in customer API contract. The reference builds locally and is included in site search; it needs no external documentation service.", "", "[Download the OpenAPI contract](../../assets/openapi.json). Start with [authentication](../authentication.md), [requests](../requests.md) and [operations](../operations.md).", "", "The placeholder host is `https://api.nubestack.cloud`. Every path below already includes `/v1`; do not add it twice.", "", "| Service | Operations |", "|---|---|"]
+    index = ["# API reference", "", "Find the parameters, request fields and response schemas for the NubeStack Cloud customer API. Service guides provide Console and API tabs for the same customer tasks.", "", "[Download the OpenAPI contract](../../assets/openapi.json). Start with [authentication](../authentication.md), [requests](../requests.md) and [operations](../operations.md).", "", "The placeholder host is `https://api.nubestack.cloud`. Every path below already includes `/v1`; do not add it twice.", "", "| Service | Operations |", "|---|---|"]
     for group, ops in groups.items():
         filename = slug(group) + ".md"
         index.append(f"| [{group}]({filename}) | {len(ops)} |")
-        lines = [f"# {group}", "", "[All services](index.md) · [Request conventions](../requests.md) · [Errors](../errors.md)", ""]
+        guides = {
+            "Instances": "compute/instances", "Launch templates": "compute/launch-templates", "Instance groups": "compute/instance-groups",
+            "Server groups": "compute/server-groups", "Images": "compute/images", "Volumes and snapshots": "storage/index",
+            "Schedules": "storage/schedules", "Load balancers": "networking/load-balancers", "Certificates": "security/certificates",
+            "Security groups": "networking/security-groups", "Public IPs": "networking/public-ips", "Networking": "networking/index",
+            "SSH keys": "compute/ssh-keys", "Service accounts and API keys": "organization/service-accounts", "Roles": "organization/custom-roles",
+            "Members and invitations": "organization/members", "Project access": "organization/projects", "Quota": "organization/quota",
+            "Usage and costs": "organization/statements-and-costs", "Audit log": "organization/activity", "Operations": "concepts/operations",
+            "Native access": "native-access/overview", "Projects": "organization/projects", "Organizations": "organization/index",
+            "Invitations": "get-started/account", "Resources (all types)": "get-started/console",
+        }
+        lines = [f"# {group}", "", "[All services](index.md) · [Request conventions](../requests.md) · [Errors](../errors.md)", "",
+                 f"[Read the customer guide](/{guides[group]}.md) for the workflow, prerequisites and verification steps.", ""]
         for op_id, method, path, op in ops:
-            lines += [f"## {op.get('summary', op_id)} {{#{slug(op_id)}}}", "", f"```http\n{method} {path}\n```", "", op.get("description", ""), ""]
+            lines += [f"## {op.get('summary', op_id)} {{#{slug(op_id)}}}", "", f'<div class="api-endpoint"><span class="api-method" data-method="{method}">{method}</span><code>{html.escape(path)}</code></div>', "", op.get("description", ""), ""]
             lines += ["**Authentication:** " + ("bearer token; access is checked for the requested organization and project." if op.get("security") else "see the endpoint's headers and description."), ""]
             if op.get("parameters"):
                 lines += ["### Parameters", "", "| Name | In | Required | Type | Description |", "|---|---|---|---|---|"]
@@ -148,4 +160,42 @@ def on_page_markdown(markdown, page, config, files):
         table = ["| Code | Meaning | Retryable |", "|---|---|---|"]
         table += [f"| `{p['code']}` | {cell(p['title'])} | {'Yes' if p['retryable'] else 'No'} |" for p in problems]
         markdown = markdown.replace("<!-- problem-table -->", "\n".join(table))
+    markdown = re.sub(r"<!-- diagram: ([a-z0-9-]+) -->", lambda m: (ROOT / "docs/assets/diagrams" / (m[1] + ".svg")).read_text(), markdown)
+    # Native Material tabs can grow from Console/API to other released interfaces.
+    if page.meta.get("methods"):
+        labels = {"With the API": "API", "The same with the API": "API", "With the CLI": "CLI", "With Terraform": "Terraform"}
+        headings = list(re.finditer(r"^## (With the API|The same with the API|With the CLI|With Terraform)\s*$", markdown, re.M))
+        if headings:
+            before = markdown[:headings[0].start()]
+            start = re.search(r"<!-- methods -->", before) or re.search(r"^## |^!\[", before, re.M)
+            if start:
+                intro = before[:start.start()]
+                console = before[start.start():].replace("<!-- methods -->", "", 1)
+                tabs, shared = [("Console", console)], []
+                for index, heading in enumerate(headings):
+                    stop = headings[index + 1].start() if index + 1 < len(headings) else len(markdown)
+                    section = markdown[heading.end():stop].lstrip()
+                    following = re.search(r"^## ", section, re.M)
+                    body = section[:following.start()] if following else section
+                    if following:
+                        shared.append(section[following.start():])
+                    label = labels[heading[1]]
+                    anchor = slug(heading[1])
+                    tabs.append((label, f'<span id="{anchor}" data-docs-method="{label}"></span>\n\n' + body))
+                indent = lambda text: "\n".join("    " + line if line else "" for line in text.strip().splitlines())
+                markdown = intro.rstrip() + "\n\n" + "\n\n".join(f'=== "{label}"\n\n' + indent(body) for label, body in tabs) + "\n\n" + "\n\n".join(shared)
     return markdown
+
+
+def on_page_content(html_content, page, config, files):
+    def screenshot(match):
+        attributes = match[1].strip().removesuffix("/").rstrip()
+        src = re.search(r'src="([^"]+)"', attributes)
+        alt = re.search(r'alt="([^"]*)"', attributes)
+        if not src or "assets/screens/" not in src[1]:
+            return match[0]
+        caption = alt[1] if alt else "Console example"
+        return (f'<figure class="docs-screen"><a href="{src[1]}" data-docs-zoom aria-label="Enlarge screenshot: {caption}">'
+                f'<img {attributes} decoding="async"><span class="docs-screen-expand" aria-hidden="true">Enlarge ↗</span></a>'
+                f'<figcaption>{caption}</figcaption></figure>')
+    return re.sub(r'<p>\s*<img\s+([^>]+)>\s*</p>', screenshot, html_content)

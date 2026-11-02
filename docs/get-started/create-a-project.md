@@ -1,4 +1,5 @@
 ---
+methods: true
 title: Create a project
 description: Create a project in Karachi or Islamabad, with its quota and a network ready for instances.
 ---

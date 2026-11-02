@@ -1,0 +1,45 @@
+ne
+us
+Organization
+Acme
+Workspace
+Organization
+⌄
+◐
+A
+Organization
+Overview
+Projects
+Quota
+Locations
+Members
+Roles
+Service accounts
+Usage
+Statements
+Cost explorer
+Audit log
+Settings
+Collapse
+E-mail notices
+
+What this organization e-mails you. Your choices are yours alone and apply to this organization only.
+
+Maintenance of your locations
+3 of 3 on
+Maintenance starts
+When maintenance starts in a location you use.
+Maintenance is extended
+When a maintenance window is extended.
+Maintenance ends
+When the location is available for new changes again.
+Always sent
+Invitations to you
+An invitation to join an organization.
+Always
+Closing an organization you own
+The closure of an organization you own.
+Always
+Your quota requests
+The answer to a quota request you made.
+Always

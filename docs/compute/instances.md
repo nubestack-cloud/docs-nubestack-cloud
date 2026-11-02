@@ -1,4 +1,5 @@
 ---
+methods: true
 title: Instances
 description: Create virtual machines in Karachi or Islamabad, with their network, public IP, SSH key, firewall, user data and volumes.
 ---

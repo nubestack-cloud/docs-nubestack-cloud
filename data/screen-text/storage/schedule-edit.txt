@@ -1,0 +1,73 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Networking
+Storage
+Volumes
+Snapshots
+Schedules
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Schedules
+/
+Edit
+Edit nightly
+
+Changes apply from its next run. Its runs then act as you, so you need the rights they use.
+
+Cancel
+Acts on
+To act on others, create another schedule
+db-data
+When
+Local times in the zone you choose
+How often
+Every hour
+At a minute past each hour
+Every day
+At one time each day
+Every week
+On chosen days
+Time
+HH:MM
+Time zone
+An IANA name
+?
+Retention
+How many of its snapshots to keep
+Snapshots to keep of each volume
+1 to 100
+?
+Name
+How it is listed
+Name
+Up to 64 characters; a backup's snapshots are named after it
+Summary
+not created yet
+nightly
+Backup schedule
+When
+Every day at 02:00
+Time zone
+Asia/Karachi
+Keeps
+7 a volume
+Runs as
+you, once saved
+To do:
+Change something to save
+Save changes
+Cancel
+View the API request

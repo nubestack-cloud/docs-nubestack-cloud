@@ -24,7 +24,7 @@ try {
     if (n === 99) throw new Error("Preview failed to start");
     await new Promise(resolve => setTimeout(resolve, 100));
   }
-  for (const width of [1440, 390]) {
+  for (const width of [1440, 768, 390]) {
     for (const colorScheme of ["light", "dark"] as const) {
       const context = await browser.newContext({ viewport: { width, height: 1000 }, colorScheme, deviceScaleFactor: 1 });
       const page = await context.newPage();
@@ -33,14 +33,14 @@ try {
       const errors: string[] = [];
       page.on("pageerror", error => errors.push(error.message));
       page.on("response", response => { if (response.status() >= 400 && response.url().startsWith(base)) errors.push(`${response.status()}: ${response.url()}`); });
-      for (const path of ["/", "/compute/instances/", "/networking/load-balancers/", "/api/reference/", "/api/reference/instances/"]) {
+      for (const path of ["/", "/compute/", "/storage/", "/tutorials/recover-a-volume/", "/compute/instances/", "/networking/load-balancers/", "/api/reference/"]) {
         console.log(`Checking ${width}px ${colorScheme} ${path}`);
         await page.goto(base + path, { waitUntil: "networkidle" });
         await page.locator("article h1, .docs-home h1").first().waitFor();
         assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1), `Horizontal overflow: ${width} ${path}`);
         if (width < 760 && path === "/") {
-          for (const paragraph of await page.locator(".docs-start > div > p:last-child").all()) {
-            assert((await paragraph.boundingBox())!.width > 200, "Quickstart text is too narrow on mobile");
+          for (const paragraph of await page.locator(".guide-feature > div:first-child > p").all()) {
+            assert((await paragraph.boundingBox())!.width > 200, "The quickstart feature text is too narrow on mobile");
           }
         }
         assert.equal(await page.locator("body").getAttribute("data-md-color-scheme"), colorScheme === "dark" ? "slate" : "default");
@@ -48,14 +48,32 @@ try {
           await page.screenshot({ path: `artifacts/${path === "/" ? "home" : "article"}-${width}-${colorScheme}.png`, fullPage: true });
         }
       }
+      await page.goto(base + "/compute/instances/", { waitUntil: "networkidle" });
+      const labels = page.locator(".tabbed-labels > label");
+      assert.deepEqual(await labels.allTextContents(), ["Console", "API"]);
+      await labels.filter({ hasText: /^API$/ }).click();
+      assert((await page.locator(".tabbed-block:visible").innerText()).includes("curl"), "API procedure did not become visible");
+      await page.goto(base + "/storage/volumes/", { waitUntil: "networkidle" });
+      assert(await page.locator('.tabbed-set > input').nth(1).isChecked(), "Method preference did not follow to the next service");
+      await page.locator(".tabbed-labels > label").filter({ hasText: /^Console$/ }).click();
+      const screenshot = page.locator("a[data-docs-zoom]").first();
+      await screenshot.click();
+      assert(await page.locator("dialog.docs-image-dialog").isVisible(), "Screenshot enlargement did not open");
+      await page.keyboard.press("Escape");
+      assert(!(await page.locator("dialog.docs-image-dialog").isVisible()), "Escape did not close the screenshot");
+      assert(await screenshot.evaluate(el => el === document.activeElement), "Screenshot focus was not restored");
+      await page.goto(base + "/compute/launch-templates/#with-the-api", { waitUntil: "networkidle" });
+      assert(await page.locator('.tabbed-set > input').nth(1).isChecked(), "A direct API-section link did not open its tab");
       await page.goto(base, { waitUntil: "networkidle" });
-      if (width < 760) {
+      if (width < 1220) {
         await page.locator('.md-header__button[for="__drawer"]').click();
         await page.locator('.md-sidebar--primary').getByText("Get started", { exact: true }).first().waitFor();
-        await page.locator('input#__drawer').evaluate((input: HTMLInputElement) => { input.checked = false; input.dispatchEvent(new Event("change", { bubbles: true })); });
+        await page.locator('label.md-overlay[for="__drawer"]').click({ position: { x: width - 20, y: 250 } });
+        assert(!(await page.locator('input#__drawer').isChecked()), "Mobile navigation did not close");
       }
       const input = page.getByRole("textbox", { name: "Search" });
-      if (width < 760) await page.locator('.md-header__button[for="__search"]').click();
+      const searchButton = page.locator('.md-header__button[for="__search"]');
+      if (await searchButton.isVisible()) await searchButton.click();
       else await input.click();
       await input.pressSequentially("certificates", { delay: 50 });
       const results = page.locator(".md-search-result__link").filter({ visible: true });

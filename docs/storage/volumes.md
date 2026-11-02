@@ -1,4 +1,5 @@
 ---
+methods: true
 title: Volumes
 ---
 
@@ -27,6 +28,8 @@ Inside the instance, identify the disk with `lsblk`. A new empty disk needs a fi
 
 Open the volume to see its attached instance, snapshots, schedules, tags and activity.
 
+If the volume and location support **multi-attach**, the menu can attach it to another instance. Only use that with a filesystem or application designed for shared disks. Mounting an ordinary filesystem for simultaneous writes on several instances can corrupt data; multi-attach does not coordinate those writes.
+
 ![The volume detail page](../assets/screens/storage/volume-detail.webp)
 
 ## Change a volume
@@ -38,13 +41,15 @@ The same **Manage** menu appears on the list and detail page.
 | Action | What to do |
 |---|---|
 | Detach | Stop writes and unmount inside the instance first; then detach in the console |
-| Extend | Choose a larger size; shrinking is not supported. Grow the partition and filesystem inside the guest afterward |
-| Change type | Choose a type offered in this location and follow the operation; state and location restrictions can refuse it |
+| Extend | Unmount and detach first. Choose a larger size; shrinking is not supported. Reattach after the operation, then grow the guest partition and filesystem |
+| Change type | Unmount and detach first. Choose an offered type and keep the volume detached until the operation makes it available again |
 | Bootable | Change the disk's bootable marker; this does not make volume-backed instance launch available in this console |
 | Move to project | Choose another project you can use in the same location. Detach first and resolve snapshots or other dependencies named by the refusal |
-| Create snapshot | Detach first for a manual snapshot; use a backup schedule for the supported attached-volume backup path |
+| Create snapshot | Detach first for a manual snapshot; use a backup schedule for the supported scheduled snapshot path |
 
 ![Extend a volume](../assets/screens/storage/volume-extend.webp)
+
+For a complete guest-side workflow, see [Use persistent storage](/tutorials/persistent-storage.md). To test recovery without overwriting the source, follow [Recover a volume](/tutorials/recover-a-volume.md).
 
 ## With the API
 

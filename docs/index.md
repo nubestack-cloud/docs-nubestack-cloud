@@ -6,155 +6,168 @@ hide:
   - footer
 ---
 
-<p class="docs-kicker">NUBESTACK CLOUD DOCUMENTATION</p>
+<section class="guide-hero" markdown>
+<div markdown>
 
-# Build on NubeStack Cloud
+<p class="docs-kicker">DOCUMENTATION · CLOUD USER GUIDE</p>
 
-<p class="docs-lead">Guides and API reference for running your applications with compute, networking and storage in Karachi and Islamabad.</p>
+# NubeStack Cloud<br>user guide
+
+<p class="docs-lead">From your first instance to a running application. Learn how to connect services, manage persistent data and give your team the access it needs.</p>
 
 <div class="docs-actions" markdown>
 
-[Deploy your first instance :material-arrow-right:](/get-started/first-instance.md){ .docs-primary }
-[Browse the API reference →](/api/reference/index.md)
+[Launch your first instance :material-arrow-right:](/get-started/first-instance.md){ .docs-primary }
+[Find a tutorial](/tutorials/index.md)
 
 </div>
 
-## Get started
+</div>
+<div class="guide-hero-visual">
+<!-- diagram: project-overview -->
+</div>
+</section>
 
-<div class="docs-start" markdown>
+<section class="guide-feature" markdown>
 <div markdown>
 
-<span class="docs-step">01</span>
+<span class="guide-label">NEW TO THE CLOUD?</span>
 
-### [Set up your account](/get-started/account.md)
+## From invitation to SSH
 
-Accept your invitation and sign in to your organization.
+Create your account, choose a project and launch an instance you can reach. The quickstart takes you through each console step and the resources to remove afterward.
 
-</div>
-<div markdown>
-
-<span class="docs-step">02</span>
-
-### [Create a project](/get-started/create-a-project.md)
-
-Choose a location, assign access and check your quota.
+[Follow the quickstart →](/get-started/index.md)
 
 </div>
-<div markdown>
+<div class="guide-feature-image" markdown>
 
-<span class="docs-step">03</span>
-
-### [Launch an instance](/get-started/first-instance.md)
-
-Create a network, add an SSH key and connect to your server.
+![The web-shop project’s instance list in the NubeStack console](assets/screens/compute/instances-list.webp)
 
 </div>
-</div>
+</section>
 
-## Explore the services
+## Explore your cloud
 
-<div class="docs-service-grid" markdown>
-<div class="docs-service" markdown>
+Choose a service to understand its building blocks, complete a task and find the corresponding API instructions.
+
+<div class="guide-families" markdown>
+<div class="guide-family" data-family="compute" markdown>
 
 :material-server-outline:
 
-<div markdown>
+### [Compute](/compute/index.md)
 
-### [Compute](/compute/instances.md)
+Instances, reusable images and groups of application replicas.
 
-Create and manage virtual machines for your applications.
-
-<p class="docs-links" markdown>[Instances](/compute/instances.md) · [Images](/compute/images.md) · [Instance groups](/compute/instance-groups.md)</p>
+<p class="guide-family-links" markdown>[Instances](/compute/instances.md) · [Launch templates](/compute/launch-templates.md)</p>
 
 </div>
-</div>
-<div class="docs-service" markdown>
+<div class="guide-family" data-family="networking" markdown>
 
 :material-lan:
 
-<div markdown>
+### [Networking](/networking/index.md)
 
-### [Networking](/networking/networks.md)
+Private connectivity, public endpoints and traffic distribution.
 
-Connect services privately and control Internet access.
-
-<p class="docs-links" markdown>[Networks](/networking/networks.md) · [Public IPs](/networking/public-ips.md) · [Load balancers](/networking/load-balancers.md)</p>
+<p class="guide-family-links" markdown>[Networks](/networking/networks.md) · [Load balancers](/networking/load-balancers.md)</p>
 
 </div>
-</div>
-<div class="docs-service" markdown>
+<div class="guide-family" data-family="storage" markdown>
 
 :material-database-outline:
 
-<div markdown>
+### [Storage](/storage/index.md)
 
-### [Storage](/storage/volumes.md)
+Persistent data disks, snapshots and recurring schedules.
 
-Add persistent disks and protect data with recovery points.
-
-<p class="docs-links" markdown>[Volumes](/storage/volumes.md) · [Snapshots](/storage/snapshots.md) · [Schedules](/storage/schedules.md)</p>
+<p class="guide-family-links" markdown>[Volumes](/storage/volumes.md) · [Recovery](/tutorials/recover-a-volume.md)</p>
 
 </div>
-</div>
-<div class="docs-service" markdown>
+<div class="guide-family" data-family="security" markdown>
 
 :material-shield-check-outline:
 
-<div markdown>
+### [Security](/security/index.md)
 
-### [Security](/security/certificates.md)
+HTTPS certificates, firewall rules and access controls.
 
-Secure application traffic and manage who can access it.
-
-<p class="docs-links" markdown>[Certificates](/security/certificates.md) · [Security groups](/networking/security-groups.md) · [Roles](/concepts/roles-and-permissions.md)</p>
+<p class="guide-family-links" markdown>[Certificates](/security/certificates.md) · [Firewall rules](/networking/security-groups.md)</p>
 
 </div>
-</div>
-<div class="docs-service" markdown>
+<div class="guide-family" data-family="organization" markdown>
 
 :material-account-group-outline:
 
-<div markdown>
+### [Organization](/organization/index.md)
 
-### [Organization](/organization/members.md)
+People, projects, automation identities and provisional usage.
 
-Manage your team, project access, quotas and usage.
-
-<p class="docs-links" markdown>[Members](/organization/members.md) · [Service accounts](/organization/service-accounts.md) · [Usage](/organization/usage.md)</p>
+<p class="guide-family-links" markdown>[Members](/organization/members.md) · [Projects](/organization/projects.md)</p>
 
 </div>
-</div>
-<div class="docs-service" markdown>
+<div class="guide-family" data-family="api" markdown>
 
 :material-code-braces:
 
+### [API & native tools](/api/overview.md)
+
+Automate through the API or use a location’s OpenStack tools.
+
+<p class="guide-family-links" markdown>[API guide](/api/overview.md) · [OpenStack CLI](/native-access/openstack-cli.md)</p>
+
+</div>
+</div>
+
+## Build something useful
+
+<div class="guide-cards" markdown>
+<div class="guide-card" markdown>
+
+### [Publish a web application](/tutorials/publish-web-application.md)
+
+Create a server with cloud-init, allow HTTP and verify the public endpoint.
+
+</div>
+<div class="guide-card" markdown>
+
+### [Serve an application over HTTPS](/tutorials/https-load-balancer.md)
+
+Add a certificate, healthy backends, a public IP and your domain.
+
+</div>
+<div class="guide-card" markdown>
+
+### [Use persistent storage](/tutorials/persistent-storage.md)
+
+Attach a data disk, identify it inside your instance and mount it safely.
+
+</div>
+<div class="guide-card" markdown>
+
+### [Scale application replicas](/tutorials/scale-an-application.md)
+
+Create a template, maintain a group and schedule its desired count.
+
+</div>
+</div>
+
+## Two locations. Your choice.
+
+NubeStack Cloud is a public cloud with independent locations in Pakistan. Each resource stays in the location you choose; cross-location replication and failover need to be designed into your application.
+
+<div class="guide-locations" markdown>
 <div markdown>
 
-### [API and native access](/api/overview.md)
+:material-map-marker-outline: **Karachi** `pak-khi-1`
 
-Automate your work or use familiar OpenStack tools.
+</div>
+<div markdown>
 
-<p class="docs-links" markdown>[API guide](/api/overview.md) · [Horizon](/native-access/horizon.md) · [OpenStack CLI](/native-access/openstack-cli.md)</p>
+:material-map-marker-outline: **Islamabad** `pak-isb-1`
 
 </div>
 </div>
-</div>
 
-## Common tasks
-
-<div class="docs-tasks" markdown>
-
-[Connect to an instance over SSH](/get-started/first-instance.md#4-log-in)
-[Back up a volume on a schedule](/storage/schedules.md)
-[Expose an application over HTTPS](/networking/load-balancers.md#https-and-certificate-rotation)
-[Create an API key for automation](/organization/service-accounts.md#issue-an-api-key)
-[Understand a failed operation](/concepts/operations.md)
-[Resolve a blocked resource deletion](/help/troubleshooting.md#a-delete-is-blocked)
-
-</div>
-
-<aside class="docs-location-note" markdown>
-
-**Two locations in Pakistan.** Karachi (`pak-khi-1`) and Islamabad (`pak-isb-1`) are independent clouds. Resources stay in the location you choose. [About locations →](/concepts/locations.md)
-
-</aside>
+[Understand locations →](/concepts/locations.md) · [Roles and permissions](/concepts/roles-and-permissions.md) · [Troubleshooting](/help/troubleshooting.md)

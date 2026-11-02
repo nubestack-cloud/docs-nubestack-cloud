@@ -1,0 +1,68 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Networking
+Storage
+Volumes
+Snapshots
+Schedules
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Snapshots
+/
+db-data-before-upgrade
+db-data-before-upgrade
+Active
+
+Volume snapshot
+Karachi
+
+Refresh
+Rename
+Edit description
+Create volume from it
+Delete
+Overview
+Attachments
+1
+Activity
+Size
+100 GiB
+Volume
+db-data
+Details
+Name
+db-data-before-upgrade
+Status
+Active
+Location
+Karachi
+Created
+2026-10-12 07:30:00 UTC (9 days ago)
+Created by
+Nexus
+ID
+vsn_01jbdbsnap0000000000000001
+Cloud ID
+snap-db
+Last read
+2026-10-21 07:28:00 UTC (2 min ago)
+Recent activity
+All activity
+When	Action	By	Status
+4 min ago	Create instance	usr_01jbsara…	Succeeded	Steps
+30 min ago	Volume: snapshot	you	Succeeded	Steps
+
+All project activity

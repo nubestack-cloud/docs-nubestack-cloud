@@ -31,7 +31,6 @@ Create a server group
 Where the location's cloud places the instances you create in this group: on different hosts, so one host failing takes only one of them, or together on one host.
 
 Cancel
-1
 Location
 Where the group exists; only instances there can join it
 Location
@@ -59,27 +58,23 @@ Instances a host may run
 
 A host is one machine. Hosts are not availability zones: two hosts can share a rack, power and zone. The location's admission check does not plan a group's spread, so a strict group can refuse an instance while the location still has room for others.
 
-3
 Name
 How the group is listed and chosen
 Name
 Up to 64 characters, for example web or database.
 Summary
 not created yet
-new server group
+web-spread
 Different hosts
 Location
-not set
+Karachi
 Policy
 Different hosts
 When it cannot
 the new instance fails to start
 Instances join
 only when they are created
-To do:
-Choose a location
-To do:
-Name the group
+Ready to create
 Create server group
 Cancel
 View the API request

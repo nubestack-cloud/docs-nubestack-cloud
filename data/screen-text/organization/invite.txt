@@ -29,7 +29,6 @@ Invite someone
 A one-time link that makes the person a member of this organization with the role you choose, and optionally gives them roles on projects.
 
 Cancel
-1
 Person
 Who the invitation is for
 E-mail
@@ -59,7 +58,7 @@ No project roles: they will see no projects until you give them a role on one.
 + Add a project
 Summary
 not created yet
-no e-mail yet
+zain@acme.example
 Member
 Role
 Member
@@ -67,7 +66,6 @@ Projects
 none
 Expires
 in 7 days
-To do:
-Enter their e-mail address
+Ready to create
 Invite
 Cancel

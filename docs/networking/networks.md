@@ -1,4 +1,5 @@
 ---
+methods: true
 title: Networks
 ---
 
@@ -23,11 +24,13 @@ Open **Networking → Networks** in your project. The list shows the location, r
 
 ## Edit an address range
 
-Open the network's detail page, then choose **Edit ranges**. You can change its name, gateway, DNS servers, DHCP and reserved static ranges. The CIDR itself cannot change; create a new network to use another CIDR. A normal network has one address range; networks discovered from native tools may have more.
+Open the network's detail page, select **Address range**, then choose **Edit ranges**. You can change its name, gateway, DNS servers, DHCP and reserved static ranges. The CIDR itself cannot change; create a new network to use another CIDR. A normal network has one address range; networks discovered from native tools may have more.
 
 ![A network's address range, routing and connected services](../assets/screens/networking/network-detail.webp)
 
 Instances receive changed DHCP settings at their next renewal. With DHCP off, they receive network configuration at their next boot. Check the guest configuration after a change.
+
+![Edit the network's address settings and reserved ranges](../assets/screens/networking/network-ranges.webp)
 
 ## Connect services
 

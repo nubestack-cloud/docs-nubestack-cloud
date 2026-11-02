@@ -1,4 +1,5 @@
 ---
+methods: true
 title: Tags
 description: Label instances, volumes, networks and public IPs with key-value tags, filter lists by them and see cost by tag.
 ---
@@ -17,6 +18,8 @@ A **tag** is a label `key: value` on an instance, a volume, a network or a publi
   public IP, have a **Tags** section. Leave a row empty to skip it.
 - **Later:** open the resource and choose its **Tags** tab. Change the rows and choose
   **Save tags**. The whole set is replaced: a row you remove is removed.
+
+![Inspect an instance's tags before changing or filtering them](../assets/screens/compute/instance-tags.webp)
 
 ## The rules
 

@@ -110,7 +110,11 @@ export async function installMock(page: Page, helpers: Helpers, options: MockOpt
     if (path === `${O}/quota-requests`) return json(W.QUOTA_REQUESTS);
     if (path === `${O}/settings`) return json(W.ORG_SETTINGS, 200, { ETag: `"${W.ORG_SETTINGS.version}"` });
     if (path === `${O}/notification-preferences`) {
-      return json({ email_enabled: true, items: [{ kind: "maintenance", enabled: true, optional: true }] });
+      return json({ email_enabled: true, items: [
+        { kind: "maintenance_started", description: "When maintenance starts in a location you use.", enabled: true },
+        { kind: "maintenance_extended", description: "When a maintenance window is extended.", enabled: true },
+        { kind: "maintenance_ended", description: "When the location is available for new changes again.", enabled: true },
+      ] });
     }
     if (path === `${O}/roles`) return json(W.ROLES);
     if (path === `${O}/role-actions`) return json(W.ROLE_ACTIONS);

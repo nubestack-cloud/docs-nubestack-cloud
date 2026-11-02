@@ -1,0 +1,98 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Networking
+Storage
+Volumes
+Snapshots
+Schedules
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Volumes
+/
+New
+Create a volume
+
+A volume with the data of the snapshot db-data-before-upgrade, in its location; the snapshot and its volume are not changed. Attach it to an instance in the same location once it is available.
+
+Cancel
+Location
+The snapshot's location
+Location
+Karachi
+pak-khi-1
+ready
+Islamabad
+pak-isb-1
+Not the snapshot's location
+
+A volume stays in its location: it can be attached only to instances there.
+
+Volume name
+How the volume is listed
+Name
+Up to 255 characters.
+3
+Type
+The kind of storage, from this location's catalog
+Type
+Standard
+standard
+Replicated SSD
+Fast
+fast
+Local NVMe
+Size
+Gigabytes; a volume can grow later, never shrink
+Size (GiB)
+10 GiB
+50 GiB
+100 GiB
+500 GiB
+
+Extend it from its Manage menu while it is detached.
+
+Tags
+Optional labels for the volume, such as env: prod
+Key	Value
+Remove
+
+
+0 of 20 tags
+
+Lists filter by them, and the cost explorer adds up cost by each key. They are written to the volume in its location as nx. tags.
+
+Summary
+not created yet
+db-data-restored
+100 GiB
+From snapshot
+db-data-before-upgrade
+Location
+Karachi
+Type
+not set
+Size
+100 GiB
+Project quota in pak-khi-1 after this volume
+Volumes
+2 + 1 / 10
+Storage
+120 + 100 / 500 GiB
+To do:
+Choose a volume type
+Create volume
+Cancel
+View the API request

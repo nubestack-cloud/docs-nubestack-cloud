@@ -1,4 +1,5 @@
 ---
+methods: true
 title: Service accounts and API keys
 ---
 

@@ -1,4 +1,5 @@
 ---
+methods: true
 title: SSH keys
 description: Add your public SSH key, share a key with a project, and use it to log in to new instances.
 ---

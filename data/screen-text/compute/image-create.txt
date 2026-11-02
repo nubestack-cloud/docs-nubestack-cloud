@@ -1,0 +1,69 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Instances
+SSH keys
+Images
+Server groups
+Launch templates
+Instance groups
+Networking
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Images
+
+Your own images: an instance saved as it is, private to this project, to start new instances from. Kept (and charged for their size) until you delete them.
+
+Create image
+All locations
+Karachi
+Islamabad
+1 image
+Refresh
+1 active
+Name
+⇅
+	Location
+⇅
+	Status
+⇅
+	Operating system
+⇅
+	Size
+⇅
+	Created
+⇅
+
+Actions
+
+
+web-golden
+	Karachi	Active
+qcow2
+	3.0 GiB	9 days ago	Manage
+⌄
+Create an image
+
+The instance is saved as it is now (its system disk), in the instance's location.
+
+Instance
+web-1 · Karachi
+web-2 · Karachi
+db-1 · Karachi
+batch-1 · Islamabad
+Image name
+Cancel
+Create image

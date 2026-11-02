@@ -1,4 +1,5 @@
 ---
+methods: true
 title: Public IPs
 ---
 
@@ -23,6 +24,8 @@ Choose **Manage → Attach**, then an instance or load balancer in the same loca
 ![Attach an address to an instance](../assets/screens/networking/public-ip-attach.webp)
 
 Follow the operation, then open the address's page to check its target. Instance and load balancer pages link back to the public IP. Allow the application's ports in its [security groups](/networking/security-groups.md); attachment alone does not allow traffic.
+
+![Inspect the public IP and the private address it forwards to](../assets/screens/networking/public-ip-detail.webp)
 
 **Detach** removes the association and interrupts connections using that address. It keeps the public IP available for another target in this project and location.
 

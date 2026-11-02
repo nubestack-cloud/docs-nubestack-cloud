@@ -18,6 +18,6 @@ It aborts browser requests to origins other than its local portal. API reads and
 
 ## Sample data and review
 
-The world uses Acme, web-shop and analytics; Karachi and Islamabad; invented people with `acme.example` addresses; and reserved documentation IP ranges. `0.0.0.0/0` represents an actual firewall wildcard, not a sample host. Prices are invented examples and remain provisional.
+The world uses Acme, web-shop and analytics; Karachi and Islamabad; invented people with `acme.example` addresses; and reserved documentation ranges for public IPs. Private network form examples use RFC 1918 ranges, never addresses of a real customer. `0.0.0.0/0` represents an actual firewall wildcard, not a sample host. Prices are invented examples and remain provisional.
 
 After regenerating, run `mkdocs build --strict` and `python scripts/check.py`. Review screenshots for readability and compare each guide's action names with the portal. Capture new screens by adding a route and optional interaction to `shots.ts`; keep all scenario overrides here instead of editing the product fixtures.

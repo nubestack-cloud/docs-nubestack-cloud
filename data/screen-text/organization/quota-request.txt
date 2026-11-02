@@ -1,0 +1,68 @@
+ne
+us
+Organization
+Acme
+Workspace
+Organization
+⌄
+◐
+A
+Organization
+Overview
+Projects
+Quota
+Locations
+Members
+Roles
+Service accounts
+Usage
+Statements
+Cost explorer
+Audit log
+Settings
+Collapse
+Quota requests
+/
+New
+Request more quota
+
+Ask your provider for a larger budget in one location. Nothing changes until they approve it.
+
+Cancel
+Location
+Each budget is set, and enforced, in its own location
+Location
+Karachi
+A request is already waiting here
+Islamabad
+2 projects here
+2
+Budgets
+The total you want in this location; leave a resource blank to keep its budget
+Resource	Allocated	Budget now	Asking for
+vCPUs	16	32
+33 or more
+
+RAM	32 GiB	128 GiB
+129 GiB or more
+
+Instances	8	12
+13 or more
+
+Volume storage	400 GiB	1000 GiB
+1,001 GiB or more
+3
+Why
+Your provider reads this to decide
+Reason
+0 of 500 characters
+Summary
+not created yet
+Islamabad
+nothing asked for yet
+To do:
+Ask for more of at least one resource
+To do:
+Say why
+Send request
+Cancel

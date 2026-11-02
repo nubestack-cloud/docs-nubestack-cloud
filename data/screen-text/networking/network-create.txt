@@ -32,17 +32,14 @@ Create a network
 A private network in the web-shop project, with its address range. Networks attached to the project's private routing reach each other. Internet access is added separately.
 
 Cancel
-1
 Location
-, to do
-2
+, done
 Name
-, to do
+, done
 Address range
 , done
 Private routing
 , done
-1
 Location
 Where the network exists
 Location
@@ -55,7 +52,6 @@ ready
 
 Each location is an independent cloud: a network and the instances on it stay in the location you create them in.
 
-2
 Network name
 How the network is listed
 Name
@@ -63,12 +59,12 @@ Up to 255 characters.
 Address range
 The private addresses instances on it get
 Range (CIDR)
-A private range, /16 to /28. A /24 suits most networks.
-10.0.0.0
-10.0.0.255
-DHCP: 10.0.0.2–10.0.0.254, 253 addresses (the DHCP service takes one or two)
+A private range, /16 to /28. In use here: 192.0.2.0/24, 198.51.100.0/24.
+10.20.0.0
+10.20.0.255
+DHCP: 10.20.0.2–10.20.0.254, 253 addresses (the DHCP service takes one or two)
 gateway
-10.0.0.1
+10.20.0.1
 256
 in the range
 Reserved for static addresses
@@ -83,7 +79,7 @@ Instances reach the project's other routed networks. An Internet gateway adds ou
 Isolated
 Only instances on this network reach each other. No Internet, no public IPs.
 
-Nexus creates private routing here without a public address.
+This network joins the project's private routing here.
 
 Tags
 Optional labels for the network, such as env: prod
@@ -97,12 +93,12 @@ Lists filter by them, and the cost explorer adds up cost by each key. They are w
 
 Summary
 not created yet
-new network
-range 10.0.0.0/24
+app-private
+range 10.20.0.0/24
 Location
-not set
+Karachi
 Range
-10.0.0.0/24
+10.20.0.0/24
 Static addresses
 none reserved
 DNS
@@ -110,11 +106,13 @@ location default
 DHCP
 on
 Private routing
-routed (+ private router)
-To do:
-Choose a location
-To do:
-Name the network
+routed
+Project quota in pak-khi-1 after this network
+Networks
+2 + 1 / 5
+Subnets
+2 + 1 / 10
+Ready to create
 Create network
 Cancel
 View the API request

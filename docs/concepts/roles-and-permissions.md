@@ -9,6 +9,13 @@ What someone may do in NubeStack Cloud comes from their roles. Everyone has an
 **organization role**; to use a project's resources they also need a **project role** on that
 project. A person may do something if any of their roles allows it.
 
+<figure class="docs-diagram">
+<div>
+<!-- diagram: access-model -->
+</div>
+<figcaption>Organization administration and project workload access are separate.</figcaption>
+</figure>
+
 ## Built-in roles
 
 | Organization role | In short |

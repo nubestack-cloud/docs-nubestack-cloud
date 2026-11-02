@@ -1,4 +1,5 @@
 ---
+methods: true
 title: Your first instance
 description: From an SSH key to logging in to an instance with a public IP, then cleaning up what you made.
 ---
