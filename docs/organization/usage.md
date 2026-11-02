@@ -1,54 +1,71 @@
 ---
-action_tabs: true
 title: Usage
+description: What NubeStack Cloud measures for your organization, where to see it, and why the figures are provisional.
 ---
 
 # Usage
 
-Usage measures allocated resources over time. Open the organization's **Usage** page, or a project's **Quota and usage** page for a narrower view. Usage quantities are different from money amounts in the cost explorer.
+NubeStack Cloud measures what your organization uses: how long each instance existed, how much
+storage you kept and for how long, how long you held public IPs. Every figure is marked
+**Provisional usage — not a bill**.
 
-<div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
-<span>Show instructions for</span>
-<div><button type="button" data-interface-choice="Console" aria-pressed="true">Console</button><button type="button" data-interface-choice="API" aria-pressed="false">API</button></div>
-</div>
+![Usage: each measure for the period, with its cost so far and a breakdown](../assets/screens/organization/usage.webp)
 
-<div class="docs-method-note" markdown>
+## Where to see it
 
-[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+- **Usage**, in the organization's side panel: owners, admins and the billing role. Pick a
+  **Period** (this month, last month, the last 7 or 30 days), then a measure to break down by
+  project, location or kind of resource. For this month and last month, each measure also shows
+  its cost so far at the published rates.
+- **Quota and usage**, at the bottom of a project's side panel: that project's usage this month,
+  for anyone with a role on the project.
 
-</div>
+Periods run in whole hours, in UTC.
 
-![Usage quantities and source freshness](../assets/screens/organization/usage.webp)
+## What is measured
 
+| Measure | Unit | Counted while |
+|---|---|---|
+| Instance hours | hours | the instance exists, in any state, including stopped and shelved |
+| vCPU hours | vCPU·hours | the instance is running or starting |
+| RAM | GiB·hours | the instance is running or starting |
+| Volumes | GiB·hours | the volume exists, attached or not |
+| Volume snapshots | GiB·hours | the snapshot exists |
+| Images | GiB·hours | one of your own images exists |
+| Public IP hours | hours | the public IP is allocated, attached or not |
+| Internet gateway hours | hours | the gateway exists |
+| Load balancer hours | hours | the load balancer exists, in any state |
 
-## Read the report
+Which measures are charged, and at what price, is NubeStack's rate card: see
+[Statements and cost explorer](statements-and-costs.md).
 
-=== "Console"
+## Why the figures are provisional
 
-    Choose the period and grouping offered on the page. Review the unit next to each quantity: instance hours, vCPU hours, memory GiB-hours, volume GiB-hours and public-IP hours describe different things and must not be added together as a total.
+- Usage is built from what each location reports every few minutes. When something starts or
+  stops between two reports, the moment is estimated; such hours are marked **partly estimated**.
+- Measurement is still being checked against each location's own records. Until then, your bill
+  can differ from this page, and the bill is the one that counts.
 
-    Check each source's freshness and partial-data notices. If a location has not supplied a recent observation, a number can be incomplete or bounded. A blank or unavailable value is not proof of zero usage.
+A location that has not reported recently shows the time of its last report under **Usage
+freshness**. Missing hours are never filled in as zero; they are added when it reports again.
 
-    !!! note "Provisional"
+## Through the API
 
-        Usage and cost reporting are provisional. Values can change when observations arrive or are corrected. This page is not a final invoice and does not initiate payment.
+```bash
+curl -sS "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/usage?from=2026-10-01T00:00:00Z&to=2026-11-01T00:00:00Z" \
+  -H "Authorization: Bearer $NUBESTACK_API_KEY"
+```
 
-=== "API"
+`GET /v1/orgs/{org_id}/usage` gives the whole organization, for callers who may see it. Quantities
+are decimal strings.
 
-    <span id="with-the-api" data-docs-method="API"></span>
+## Good to know
 
-    ```bash
-    curl --fail-with-body -i -X GET "$NUBESTACK_API/v1/orgs/$ORG/usage" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY"
-    ```
+- Usage covers everything in your projects, including what you make with a location's own tools.
+- A resource that failed to create may have been counted for the time it existed.
+- A volume moved to another project counts in the new project from the move.
+- After a project is deleted or the organization closed, its usage records are kept.
 
-    Returns `200` directly. Read the returned resource or current state to verify the change.
+## Related
 
-    [Request fields and responses](../api/reference/usage-and-costs.md).
-
-
-## What continues counting
-
-A stopped instance retains its allocated instance, disks and public addresses. Its vCPU and memory hours stop, but other allocated resources continue to count. A detached public IP remains allocated until released. Unattached volumes also remain allocated storage.
-
-Deleting a resource stops its future usage after the deletion completes; it does not erase past usage. Changes made through Horizon or native tools count in the same project and location.
+- [Usage and costs](../concepts/usage-and-costs.md) · [Statements and cost explorer](statements-and-costs.md)

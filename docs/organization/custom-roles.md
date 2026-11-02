@@ -1,107 +1,93 @@
 ---
-action_tabs: true
 title: Custom roles
+description: Make your own organization and project roles from the same actions the built-in roles are made of.
 ---
 
 # Custom roles
 
-Custom roles combine selected actions when the built-in roles are too broad. Use one for a deployment team that may create and update instances but must not manage access, or an auditor who only reads activity and usage.
+The built-in roles fit most organizations. When they do not, owners and admins can make **custom
+roles**: a name and a set of the same actions the built-in roles are made of. A project admin can
+make roles for their own project.
 
-<div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
-<span>Show instructions for</span>
-<div><button type="button" data-interface-choice="Console" aria-pressed="true">Console</button><button type="button" data-interface-choice="API" aria-pressed="false">API</button></div>
-</div>
+Find them under **Roles** in the organization's side panel.
 
-<div class="docs-method-note" markdown>
+![Roles: the built-in roles and Acme's custom roles](../assets/screens/organization/roles.webp)
 
-[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+## Kinds of custom role
 
-</div>
+| Kind | Who makes it | Given to | Holds |
+|---|---|---|---|
+| Organization role | Owners and admins | A member, beside their built-in role | Organization actions, such as reading the audit log or seeing usage |
+| Project role for every project | Owners and admins | A person or service account, on any project | Project actions, such as creating instances |
+| Project role for one project | That project's admins, owners and admins | A person or service account, on that project | Project actions |
 
-![Built-in and custom roles](../assets/screens/organization/roles.webp)
+Never in a custom role: what only an owner may do (closing the organization, making someone an
+owner, the security settings), and creating or changing resources as an **organization** role.
 
+## Make a role
 
-## Create a role
+1. Choose **Create role**.
+2. Name it, and choose whether it is given to members or on projects.
+3. Tick its actions. The ones you do not hold are shown but cannot be ticked.
+4. Save it.
 
-=== "Console"
+![Create role: name, kind and actions](../assets/screens/organization/role-create.webp)
 
-    1. Open the organization's **Roles** page, or the project's role settings for a project-local role.
-    2. Choose **Create role**, give it a name and explain its purpose.
-    3. Choose its scope: organization or project. Select actions from the offered list.
-    4. Check the summary and save. The picker only offers assignable actions you are permitted to delegate.
-    5. Assign the role to a member or service account using an organization role assignment or project grant, as appropriate.
+Give an organization role from **Members → Manage → Organization roles**. Give a project role
+from the project's **Settings → Access**, from **Members → Manage → Project roles**, or on an
+invitation. A project's own roles are under **Settings → Access → Project roles**.
 
-    ![Create a custom role from allowed actions](../assets/screens/organization/role-create.webp)
+## You can only give what you hold
 
-    Some security-sensitive actions are unavailable in custom roles. The action list is authoritative; a role cannot be used to give access you do not hold. See [Roles and permissions](../concepts/roles-and-permissions.md) for the organization/project distinction and native access behavior.
+You can put an action in a role, or give a role, only if you hold everything in it where it
+applies. Taking access away is bounded the same way: a custom role that manages members cannot
+demote or remove an admin. Two switches stay with owners and admins whatever a custom role holds:
+**Members may create projects** and **Viewers may read the audit log**.
 
-=== "API"
+A custom organization role that holds anything owners and admins do signs in with a second
+factor, as they do. A service account can hold a custom role only if everything in it is
+something a service account may do.
 
-    <span id="with-the-api" data-docs-method="API"></span>
+## In each location's own tools
 
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/roles" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "name": "Deployer",
-      "scope": "project",
-      "actions": [
-        "project.read",
-        "workload.read",
-        "workload.create",
-        "workload.update"
-      ]
-    }'
-    ```
+| The project role holds | Access in Horizon and the OpenStack CLI |
+|---|---|
+| Creating, changing or deleting resources | `member` |
+| Seeing resources only | `reader`, where the location enforces read-only; otherwise none |
+| Neither | None: the console and API only |
 
-    Returns `201` directly. Read the returned resource or current state to verify the change.
+The console and API always check the role's exact actions; a location's own tools are coarser.
 
-    [Request fields and responses](../api/reference/roles.md).
+## Change or delete a role
 
+- **Change** its name or actions. The change applies to everyone who holds it from their next
+  request. Taking away the last write action removes their `member` access in each location
+  within 15 minutes.
+- **Delete** a role nobody holds.
 
-## Edit a role safely
+**What blocks a delete**
 
-=== "Console"
+| Refusal | Why | Resolve |
+|---|---|---|
+| `role_in_use` | A member, a project grant or a pending invitation holds it | Give them another role first |
 
-    Open the role to see its actions and holders. Review every affected holder before adding or removing actions. If the role supplies native project access, changes can take time to reach each location. The console reports any operation required by an update.
+Other refusals when making or giving a role: `role_escalation` (it holds something you do not),
+`action_not_assignable`, `role_name_taken` and `role_limit`.
 
-    Updates use a version check. If someone else changed the role, refresh and review their version before saving your changes again.
+## Limits
 
-=== "API"
+- 50 organization-wide roles (organization roles and project roles for every project together),
+  and 20 roles of each project.
+- A member holds at most 10 custom organization roles, beside a built-in role.
+- Names are unique among roles of the same kind, ignoring case, and never a built-in name.
 
-    ```bash
-    curl --fail-with-body -i -X PATCH "$NUBESTACK_API/v1/orgs/$ORG/roles/$ROLE_ID" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "If-Match: $ETAG" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "description": "Application deployment access"
-    }'
-    ```
+## Through the API
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+Roles are made and given by people in the console; a service account's API key cannot make or
+give them. `GET /v1/orgs/{org_id}/role-actions` lists every action a role may hold, in words. The
+routes are in [API reference: Roles](../api/reference/roles.md).
 
-    [Request fields and responses](../api/reference/roles.md).
+## Related
 
-
-## Delete and limits
-
-=== "Console"
-
-    Built-in roles cannot be edited or deleted. Remove or replace assignments before deleting a custom role; a role still held by a member or service account is refused. Prefer a small set of clearly named roles over one per person, and review role holders regularly.
-
-=== "API"
-
-    ```bash
-    curl --fail-with-body -i -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/roles/$ROLE_ID" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "If-Match: $ETAG"
-    ```
-
-    Returns `200` directly. Read the returned resource or current state to verify the change.
-
-    [Request fields and responses](../api/reference/roles.md).
+- [Roles and permissions](../concepts/roles-and-permissions.md) · [Members](members.md)
+- [API reference: Roles](../api/reference/roles.md)

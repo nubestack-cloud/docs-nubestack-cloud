@@ -1,192 +1,104 @@
 ---
-action_tabs: true
 title: Service accounts and API keys
+description: Identities for automation. Create a service account, give it project access, issue, rotate and revoke API keys, and get cloud credentials.
 ---
 
 # Service accounts and API keys
 
-A service account is an identity for automation. Give it the roles and project grants a pipeline needs, then issue an API key. Use a separate account for each application or automation purpose so that access and activity remain understandable.
+A **service account** is an identity for automation: a CI pipeline, a deploy script, a backup
+job. It has an organization role and project access like a person, but never signs in to the
+console. It works with two kinds of credential:
 
-<div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
-<span>Show instructions for</span>
-<div><button type="button" data-interface-choice="Console" aria-pressed="true">Console</button><button type="button" data-interface-choice="API" aria-pressed="false">API</button></div>
-</div>
+- **API keys**, to call the [NubeStack Cloud API](../api/index.md);
+- **Cloud credentials**, for the OpenStack CLI, an SDK or Terraform's OpenStack provider in one
+  location of a project.
 
-<div class="docs-method-note" markdown>
+Owners and admins manage them under **Service accounts** in the organization's side panel.
 
-[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+![Service accounts: name, role, projects and active keys](../assets/screens/organization/service-accounts.webp)
 
-</div>
+## Create a service account
 
-![Service accounts for Acme](../assets/screens/organization/service-accounts.webp)
+1. Choose **Create service account**.
+2. **Name**: up to 64 characters, unique in the organization, for example `ci-deploy`.
+3. **Description** (optional): what it is for and who looks after it.
+4. **Organization role**: **Member** or **Viewer**.
+5. Choose **Create service account**.
 
+Then give it access to each project it works in: the project's **Settings → Access → Grant
+access**, with project member or project reader.
 
-## Create an account and grant project access
+Whatever its roles, a service account never manages people, access, roles, keys or settings, and
+never creates or deletes projects or their locations.
 
-=== "Console"
-
-    1. Open the organization's **Service accounts** page and choose **Create service account**.
-    2. Name it `ci-deploy` and describe its purpose. Choose the organization role you intend it to hold.
-    3. In the project's **Access** settings, add a grant for this service account. An organization role alone does not grant workload changes in a project.
-    4. Open the account to inspect its project access, API keys and native credentials.
-
-    ![A service account's access and keys](../assets/screens/organization/service-account.webp)
-
-=== "API"
-
-    <span id="with-the-api" data-docs-method="API"></span>
-
-    **Create a service account**
-
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/service-accounts" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "display_name": "ci-deploy",
-      "description": "Deploys web-shop",
-      "role": "member"
-    }'
-    ```
-
-    Returns `201` directly. Read the returned resource or current state to verify the change.
-
-    [Request fields and responses](../api/reference/service-accounts-and-api-keys.md).
-
-    **Give a project role**
-
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/grants" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "principal_id": "usr_example",
-      "role": "project_member"
-    }'
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/project-access.md).
-
+![A service account's page: its projects, API keys and cloud credentials](../assets/screens/organization/service-account.webp)
 
 ## Issue an API key
 
-=== "Console"
+1. Open the service account and choose **Issue an API key**.
+2. **Name**: what the key is for, for example `github-actions`.
+3. **Expires after (days)**: 1 to 365, 90 by default.
+4. **Extra permissions** (optional):
+    - **Open instance consoles**: the key may open an instance's console and read its console log.
+    - **Make cloud credentials**: the key may make cloud credentials for this service account.
+5. Choose **Issue key**.
 
-    Choose **New API key**, give it a name and set its expiry. Copy the secret from the result once and store it in your automation's secret store. You cannot retrieve it again. Send it as `Authorization: Bearer <key>` to the customer API.
+![The new key, shown once, with how to send it](../assets/screens/organization/api-key-new.webp)
 
-    ![Create a named API key with an expiry](../assets/screens/organization/api-key-new.webp)
+**Copy the key now** and store it where your automation reads secrets. It is shown once; only a
+hash is kept. Send it with every request:
 
-    Keys expire after 90 days by default; the supported range is 1–365 days. An account can have two active keys. Optional scopes only narrow what a key can do; they do not add permissions beyond its account's roles and grants. The `credentials:mint` scope permits the native-credential minting path described in the reference.
+```bash
+curl -sS "$NUBESTACK_API/v1/me" -H "Authorization: Bearer $NUBESTACK_API_KEY"
+```
 
-=== "API"
+Issuing, rotating and revoking keys may ask for your second factor.
 
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/service-accounts/$SERVICE_ACCOUNT_ID/api-keys" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "display_name": "ci-deploy",
-      "expires_in_days": 90
-    }'
-    ```
+## Rotate or revoke a key
 
-    Returns `201` directly. Read the returned resource or current state to verify the change.
+Under **API keys** on the service account:
 
-    [Request fields and responses](../api/reference/service-accounts-and-api-keys.md).
+- **Rotate**: a new key with the same name and permissions is shown once. Choose how long the old
+  key keeps working while you switch: **24 hours**, **1 hour**, or it stops now.
+- **Revoke**: anything using it is refused from the next request.
 
+A service account holds at most 2 active keys, so you can rotate without a gap. An unknown,
+revoked or expired key is refused with `401 api_key_invalid`.
 
-## Rotate or revoke
+## Get a cloud credential
 
-=== "Console"
+A cloud credential is an OpenStack application credential for one project in one location, for
+unattended tools that cannot use the [CLI's browser sign-in](../native-access/openstack-cli.md).
 
-    On a key, choose **Rotate** and an overlap period. Rotation issues a successor secret once. The default overlap is 24 hours; the supported range is zero to seven days. Install the successor in your automation and test it before the predecessor expires. Zero overlap revokes the predecessor immediately.
+1. Give the service account member access to the project first.
+2. Open the service account and choose **Get a credential**.
+3. Choose the project's location and when the cloud stops accepting it (at most a year, 90 days
+   by default).
+4. Choose **Get credential**.
 
-    Use **Revoke** when a key is no longer needed or may have been exposed. Deleting the service account revokes its credentials; it does not delete the workloads it created. Review project grants and activity before deletion.
+A `clouds.yaml` entry with the secret is shown once. Add it to `~/.config/openstack/clouds.yaml`:
 
-=== "API"
+```bash
+openstack --os-cloud acme-web-shop-pak-khi-1 server list
+```
 
-    **Rotate an API key**
+The credential has a project member's access in that location, under the project's quota. Each
+location holds two per service account, so you can make the next before revoking the old.
+**Revoke** deletes it; tools using it are refused within minutes. An expired one stays listed as
+**expired**.
 
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/service-accounts/$SERVICE_ACCOUNT_ID/api-keys/$KEY_ID:rotate" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "expires_in_days": 90,
-      "overlap_s": 86400
-    }'
-    ```
+## Delete a service account
 
-    Returns `201` directly. Read the returned resource or current state to verify the change.
+Choose **Delete service account** on its page. Its API keys stop at once, its project access
+ends, and its cloud credentials in every location are deleted.
 
-    [Request fields and responses](../api/reference/service-accounts-and-api-keys.md).
+## Limits and good practice
 
-    **Revoke an API key**
+- One service account per system or pipeline, with only the projects and role it needs.
+- Rotate keys before they expire; store them in your CI's secret store, never in a repository.
+- Up to 100 service accounts per organization unless NubeStack set another limit.
 
-    ```bash
-    curl --fail-with-body -i -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/service-accounts/$SERVICE_ACCOUNT_ID/api-keys/$KEY_ID" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY"
-    ```
+## Related
 
-    Returns `200` directly. Read the returned resource or current state to verify the change.
-
-    [Request fields and responses](../api/reference/service-accounts-and-api-keys.md).
-
-    **Delete a service account**
-
-    ```bash
-    curl --fail-with-body -i -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/service-accounts/$SERVICE_ACCOUNT_ID" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY"
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/service-accounts-and-api-keys.md).
-
-
-## Native credentials
-
-=== "Console"
-
-    For non-interactive OpenStack tools, use the account's **Native credentials** section to create a credential for a project location where it has the required project-member access. Copy the generated `clouds.yaml` entry once, protect it as a secret and record its expiry. This is different from the secret-free browser device sign-in used by [people](../native-access/openstack-cli.md).
-
-    Native credentials are local to a project location and can be revoked individually. Never put their secrets in source control.
-
-=== "API"
-
-    **Create a location credential**
-
-    ```http
-    POST /v1/orgs/{org_id}/service-accounts/$SERVICE_ACCOUNT_ID/native-credentials
-    ```
-
-    Generate an EC P-256 key pair locally and send its public JWK with the project location entry `placement_id`. Follow the operation, collect the encrypted one-time credential secret and decrypt it locally.
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/service-accounts-and-api-keys.md).
-
-    **Revoke a location credential**
-
-    ```bash
-    curl --fail-with-body -i -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/service-accounts/$SERVICE_ACCOUNT_ID/native-credentials/$CREDENTIAL_ID" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY"
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/service-accounts-and-api-keys.md).
-
-
-## Good practice
-
-Use short expiries and narrow grants. Name keys by the system using them, review last-use times and rotate before expiry. A replayed idempotent secret-issuing request does not replay the secret; create or rotate a credential if the one-time result was lost.
+- [API authentication](../api/authentication.md) · [Automate with the API](../tutorials/automate-with-api.md)
+- [API reference: Service accounts and API keys](../api/reference/service-accounts-and-api-keys.md)

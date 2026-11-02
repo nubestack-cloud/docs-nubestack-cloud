@@ -1,155 +1,86 @@
 ---
-action_tabs: true
 title: Quota
+description: How your organization's budget in each location is shared between projects, with quota presets and requests for more.
 ---
 
 # Quota
 
-Quota limits how much a project may allocate in each location. It is separate from current capacity: having quota does not guarantee a launch can find capacity at that moment.
+Quota is how much a project may hold in a location: instances, vCPUs, memory, volumes and the
+rest. It is set in two layers:
 
-<div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
-<span>Show instructions for</span>
-<div><button type="button" data-interface-choice="Console" aria-pressed="true">Console</button><button type="button" data-interface-choice="API" aria-pressed="false">API</button></div>
-</div>
+1. **NubeStack sets the organization's budget** in each location: how much the organization may
+   hand out there.
+2. **Your owners and admins share that budget between projects**: each project gets its own quota
+   in each of its locations. Only owners and admins set project quota.
 
-<div class="docs-method-note" markdown>
+![Quota: for each resource, the budget, how much is allocated to projects and how much is in use](../assets/screens/organization/quota.webp)
 
-[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+## See quota
 
-</div>
+- **Owners and admins**: **Quota** in the organization's side panel. **Show quotas for** picks
+  one location or all together. The page warns when a budget is nearly or fully allocated.
+- **Everyone with a project role**: **Quota and usage** at the bottom of the project's side
+  panel shows the project's quota and what it uses.
 
-![Organization quota and project allocations](../assets/screens/organization/quota.webp)
+## Set a project's quota
 
+1. On **Projects**, choose **Manage → Edit quotas** for the project.
+2. **Location**: quota is set per location.
+3. Change the figures under **Quota per resource**. **Budget left** beside each says how much
+   more the organization can give there.
+4. Choose **Save quota**. The location applies it within a few minutes.
 
-## Inspect usage and allocation
+Project quota is set by people in the console. A service account's API key can read a project's
+quota (`GET …/projects/{project_id}/quota`) but not change it.
 
-=== "Console"
+Lowering a figure below what the project uses needs **Lower anyway**. Nothing running is removed, but nothing new of that kind can be made until use falls
+below it. A figure marked **not enforced in this cloud** is one that location does not limit.
 
-    Open the organization's **Quota** page to see its budgets and how much has been allocated to projects. Open a project's **Quota and usage** page to see the limits and current usage for each location. A resource in Karachi consumes that project's Karachi allocation.
+**What blocks a change**
 
-    An instance create can consume several quotas at once: instance count, vCPU, memory, data volumes and public IPs. Check the full create summary, rather than only the instance count.
+| Refusal | Why | Resolve |
+|---|---|---|
+| `budget_exceeded` | More than the organization's budget has left in that location | Lower another project's quota, or request more |
+| Below what is in use | The project already uses more | Choose **Lower anyway**, or free resources first |
 
-=== "API"
+The resources: instances, vCPUs, RAM (GiB), volumes, volume storage (GiB), volume snapshots,
+networks, subnets, ports, routers, public IPs, security groups, security group rules, images and
+image storage (GiB), and load balancers where the location offers them.
 
-    <span id="with-the-api" data-docs-method="API"></span>
+## Quota presets
 
-    **Get every project's quota**
+A **quota preset** is the quota a new project starts with in each of its locations: the preset's
+figure, or what is left of the budget there, whichever is less. Owners and admins manage them
+from **Quota → Quota presets**.
 
-    ```bash
-    curl --fail-with-body -i -X GET "$NUBESTACK_API/v1/orgs/$ORG/quota-allocations" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY"
-    ```
+![Quota presets: NubeStack's starters and Acme's own, with the default for new projects](../assets/screens/organization/quota-presets.webp)
 
-    Returns `200` directly. Read the returned resource or current state to verify the change.
+- **Default for new projects**: pick one and **Save default**.
+- **New preset**: a name and a starting figure for each resource.
+- **Edit** reaches only projects created afterwards. **Remove** leaves projects made from it as
+  they are; the default cannot be removed.
 
-    [Request fields and responses](../api/reference/quota.md).
+## Request more quota
 
-    **Get a project's quota**
+When a budget runs short, owners and admins ask NubeStack for more, one location at a time.
 
-    ```bash
-    curl --fail-with-body -i -X GET "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/quota" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY"
-    ```
+1. From **Quota**, choose **Request more quota**.
+2. Choose the location, and for each resource the **total** you want there.
+3. Say what the capacity is for and from when.
+4. Choose **Send request**.
 
-    Returns `200` directly. Read the returned resource or current state to verify the change.
+![Request more quota: location, totals and reason](../assets/screens/organization/quota-request.webp)
 
-    [Request fields and responses](../api/reference/quota.md).
+The answer, and any note, appears under **Quota requests**; an approved request applies at once.
+One request per location can wait at a time; **Cancel request** withdraws it.
 
+## Quota is not capacity
 
-## Change a project's quota
+Quota says how much you may use. Whether a location has room right now is separate: a request
+within quota can still fail when a location has no room for that size. The operation says so;
+try another size, later, or the project's other location.
 
-=== "Console"
+## Related
 
-    An authorized organization admin or owner can choose a project and location and edit its allocation. The console distinguishes changes inside the organization budget from increases that need provider review. You cannot reduce a limit below current use or allocate more than the remaining organization budget.
-
-    Quota presets supply reusable allocations for new projects. Changing a preset does not silently resize existing resources.
-
-=== "API"
-
-    ```bash
-    curl --fail-with-body -i -X PATCH "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/placements/$PLACEMENT_ID/quota" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "If-Match: $ETAG" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "values": {
-        "instances": 10
-      }
-    }'
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/quota.md).
-
-## Request more
-
-=== "Console"
-
-    Use **Quota requests → Request more quota** to request a larger organization budget.
-
-    1. Choose the location; budgets are separate for each location.
-    2. Enter the total budget you need for each changed resource, rather than just the amount to add. The form compares it with the current budget.
-    3. Give a concrete reason, such as the application and number of additional instances, then submit.
-    4. Track the pending decision in **Quota requests**. No allocation changes until approval. Cancel a request you no longer need using its available action.
-    5. After approval, review project allocations and assign the new available budget where needed.
-
-    Approval changes the organization's available budget; it does not create resources, automatically expand every project allocation or reserve location capacity.
-
-    ![Request a larger organization budget for a location](../assets/screens/organization/quota-request.webp)
-
-    If the refusal is `capacity_unavailable`, a quota request alone may not solve it. Try another supported size or location if your application allows it, or give support the operation ID.
-
-=== "API"
-
-    **Ask for a larger budget**
-
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/quota-requests" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "location": "loc_example",
-      "values": {
-        "instances": 20
-      },
-      "reason": "Additional application replicas"
-    }'
-    ```
-
-    Returns `201` directly. Read the returned resource or current state to verify the change.
-
-    [Request fields and responses](../api/reference/quota.md).
-
-    **Cancel a budget request**
-
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/quota-requests/$REQUEST_ID:cancel" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY"
-    ```
-
-    Returns `200` directly. Read the returned resource or current state to verify the change.
-
-    [Request fields and responses](../api/reference/quota.md).
-
-
-## Release quota
-
-=== "Console"
-
-    Delete unused resources, release public IPs and wait for successful operations and refreshed usage. Stopping an instance does not free its allocated instance quota, disks or public addresses. Read [Projects and quotas](../concepts/projects-and-quotas.md) and [Limits](../concepts/limits.md) for related rules.
-
-=== "API"
-
-    Delete or release the unused resources through their own action tabs, follow their operations, then refresh the quota read.
-    ```bash
-    curl --fail-with-body -i -X GET "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/quota" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY"
-    ```
-
-    Returns `200` directly. Read the returned resource or current state to verify the change.
-
-    [Request fields and responses](../api/reference/quota.md).
+- [Projects and quotas](../concepts/projects-and-quotas.md) · [Limits](../concepts/limits.md)
+- [API reference: Quota](../api/reference/quota.md)

@@ -1,89 +1,94 @@
 ---
-title: Your organization
+title: Organization
+description: Manage your organization's people, projects, roles, automation, quota, settings, audit log, usage and statements.
 ---
 
-# Your organization
+# Organization
 
-Manage the people, projects and automation using your cloud account. Organization administration is separate from permission to change a project’s resources.
+The organization workspace is where owners and admins run the account: who is in it, which
+projects exist, how quota is shared, how people sign in, and what everything costs. Open it by
+choosing the organization itself in **Workspace** at the top of the console.
 
-<figure class="docs-diagram">
-<div>
-<!-- diagram: access-model -->
-</div>
-<figcaption>An organization role does not automatically grant permission to change project resources.</figcaption>
-</figure>
+<div class="grid cards" markdown>
 
-## Choose a guide
+-   :material-account-multiple-outline:{ .lg .middle } **[Members and invitations](members.md)**
 
-<div class="guide-cards" markdown>
-<div class="guide-card" markdown>
+    ---
 
-### [Members and invitations](members.md)
+    Invite people, change their roles, suspend or remove them.
 
-Invite colleagues, assign roles and remove access.
+-   :material-folder-outline:{ .lg .middle } **[Projects](projects.md)**
 
-</div>
-<div class="guide-card" markdown>
+    ---
 
-### [Manage projects](projects.md)
+    Project access, locations, and deleting a project safely.
 
-Change project access and locations, and understand deletion.
+-   :material-badge-account-horizontal-outline:{ .lg .middle } **[Custom roles](custom-roles.md)**
 
-</div>
-<div class="guide-card" markdown>
+    ---
 
-### [Custom roles](custom-roles.md)
+    Your own organization and project roles, from the same actions as the built-in ones.
 
-Delegate a selected set of actions.
+-   :material-robot-outline:{ .lg .middle } **[Service accounts and API keys](service-accounts.md)**
 
-</div>
-<div class="guide-card" markdown>
+    ---
 
-### [Service accounts](service-accounts.md)
+    Identities for automation, their API keys and cloud credentials.
 
-Give automation its own identity and credentials.
+-   :material-gauge:{ .lg .middle } **[Quota](quota.md)**
 
-</div>
-<div class="guide-card" markdown>
+    ---
 
-### [Quota](quota.md)
+    Share the organization's budget between projects; presets and requests for more.
 
-Inspect allocations, use presets and request more.
+-   :material-cog-outline:{ .lg .middle } **[Settings](settings.md)**
 
-</div>
-<div class="guide-card" markdown>
+    ---
 
-### [Sign-in and settings](settings.md)
+    Project creation, second factor, invitation domains, the audit log, and closing.
 
-Manage second-factor requirements and organization policy.
+-   :material-email-outline:{ .lg .middle } **[E-mail notices](notifications.md)**
 
-</div>
-<div class="guide-card" markdown>
+    ---
 
-### [E-mail notices](notifications.md)
+    Which e-mails you get, and which are always sent.
 
-Choose optional notices for this organization.
+-   :material-history:{ .lg .middle } **[Audit log and activity](activity.md)**
 
-</div>
-<div class="guide-card" markdown>
+    ---
 
-### [Activity](activity.md)
+    Every change, refusal and security event, and each project's operations.
 
-Find changes, refusals and their request or operation IDs.
+-   :material-chart-line:{ .lg .middle } **[Usage](usage.md)**
 
-</div>
-<div class="guide-card" markdown>
+    ---
 
-### [Usage](usage.md)
+    What has been measured, by project, location and resource. Provisional.
 
-Read quantities, units and data freshness.
+-   :material-receipt-text-outline:{ .lg .middle } **[Statements and cost explorer](statements-and-costs.md)**
+
+    ---
+
+    Each month's cost at the published rates, and where the money goes. Provisional.
 
 </div>
-<div class="guide-card" markdown>
 
-### [Statements and costs](statements-and-costs.md)
+## Who sees what
 
-Explore provisional costs, unrated usage and adjustments.
+| Page | Owner | Admin | Billing | Member | Viewer |
+|---|:-:|:-:|:-:|:-:|:-:|
+| Members | Manage | Manage, not owners | See | See | See |
+| Projects | Manage | Manage | See | Their own | See |
+| Roles, service accounts, quota | Manage | Manage | — | — | — |
+| Settings | Manage | Manage, not security | — | — | — |
+| Audit log | Read | Read | — | — | If allowed |
+| Usage, statements, costs | See | See | See | — | — |
 
-</div>
-</div>
+[Roles and permissions](../concepts/roles-and-permissions.md) has the full table.
+
+## Changes here take effect at once
+
+Inviting someone, changing a role, editing a quota preset or a setting changes NubeStack Cloud's
+own records, so it takes effect at once and has no [operation](../concepts/operations.md). Where
+a location must follow, such as a project's quota or someone's access in Horizon, it does so
+within minutes.

@@ -1,166 +1,92 @@
 ---
-title: Manage projects
-action_tabs: true
+title: Projects
+description: Give people access to a project, add or remove its locations, and delete a project safely.
 ---
 
-# Manage projects
+# Projects
 
-Use projects to separate applications or teams while keeping membership and budgets in one organization. Each project can use one or more locations, with separate quota allocations and resources in each.
+A project groups what you run and who may use it. It runs in one or more locations, with its own
+quota in each. Find them under **Projects** in the organization's side panel; each project's own
+**Settings** has tabs **General**, **Access**, **Locations** and **Danger zone**.
 
-<div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
-<span>Show instructions for</span>
-<div><button type="button" data-interface-choice="Console" aria-pressed="true">Console</button><button type="button" data-interface-choice="API" aria-pressed="false">API</button></div>
-</div>
+![Projects: name, locations, your role and state](../assets/screens/get-started/projects.webp)
 
-<div class="docs-method-note" markdown>
+To create one, see [Create a project](../get-started/create-a-project.md).
 
-[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+## Who can use a project
 
-</div>
+An organization role alone does not let anyone use a project's resources. People and service
+accounts use a project through a project role, which applies in every location of the project.
 
+| Project role | What it allows |
+|---|---|
+| Project admin | Everything a member can, plus giving and taking access, removing a location, deleting the project, sharing SSH keys and cancelling operations |
+| Project member | Create, change and delete instances, networks, volumes and the rest |
+| Project reader | See everything in the project, change nothing |
 
-## Before changing a project
+To give access:
 
-Confirm whether you are administering its access and locations or changing its workloads. An organization owner or admin can manage project settings; creating or deleting resources needs the corresponding project permission. A project reader cannot make these changes.
+1. Open the project's **Settings → Access**.
+2. Choose **Grant access**, pick a member or a service account, and a role.
 
+![Settings, Access: who holds which role on web-shop](../assets/screens/concepts/project-access.webp)
 
+**Revoke access** beside someone takes the role away in every location within minutes. What they
+made stays. A project's own [custom roles](custom-roles.md) are under **Settings → Access →
+Project roles**.
 
-## Manage access and locations
+## Add or remove a location
 
-=== "Console"
+On **Settings → Locations**:
 
-    1. Open **Projects** at the organization level, then the project's management page, or choose **Settings** from inside the project.
-    2. Use **General** to confirm its name, IDs and current lifecycle state before working on it.
-    3. Open **Access** to add a person or service account and select a role. Use project reader for inspection, member for permitted resource changes, or project admin for broader project control. A custom role can narrow the actions.
-    4. Open **Locations** to add an offered location. Review the quota allocation and follow its setup operation before creating resources there.
-    5. To remove a location, review the deletion report for that location. This is a resource-deletion workflow, not a way to move its instances or disks elsewhere.
+- **Add location**: owners and admins only, as it draws on the organization's budget there. You
+  can set up a network (`10.0.0.0/24`) and an Internet gateway at the same time. Nothing is
+  copied from the project's other locations.
+- **Remove location**: project admins, owners and admins. It works like deleting the project, for
+  that location only (below).
 
-    ![Project access and the roles assigned to members](../assets/screens/concepts/project-access.webp)
+![Settings, Locations: each location of the project and its state](../assets/screens/concepts/project-locations.webp)
 
-    You can also manage a person's grants from **Members → Manage → Project roles**. Review each selected project rather than treating organization membership as access to every workload.
+## Delete a project
 
-    ![Review a member's project roles](../assets/screens/organization/member-project-roles.webp)
+Project admins, owners and admins delete projects from **Settings → Danger zone**, or **Delete
+project** in the **Projects** list.
 
-=== "API"
+1. Choose **Delete project**. The dialog lists what the project holds in each location.
+2. **What to delete**:
+    - **Delete only if empty**: refused while anything is left.
+    - **Delete everything in it**: instances, load balancers, public IPs, routers, networks and
+      security groups go within minutes. Volumes, snapshots and images are kept for the
+      recovery period.
+3. Type the project's name and choose **Delete project**.
 
-    <span id="with-the-api" data-docs-method="API"></span>
+![Delete project: what it holds in each location, and the two ways to delete](../assets/screens/concepts/project-delete.webp)
 
-    **Give a project role**
+During the recovery period (7 days unless NubeStack agreed another with you):
 
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/grants" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "principal_id": "usr_example",
-      "role": "project_member"
-    }'
-    ```
+- the project is suspended: nothing new can be made in it;
+- **Cancel deletion** stops it. The project stays suspended until a project admin chooses
+  **Resume project**. After **Delete everything**, only volumes, snapshots and images come back;
+- **Delete now** ends the period early. You may be asked for your second factor.
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+When the period ends, everything left is deleted in every location. Once that has started, it
+cannot be cancelled. If something stops it, such as a resource made with a location's own tools
+that cannot be deleted for you, the page names it and why. See
+[Deletion and retention](../concepts/deletion-and-retention.md).
 
-    [Request fields and responses](../api/reference/project-access.md).
+**What blocks a delete**
 
-    **Add a location to a project**
+| Refusal | Why | Resolve |
+|---|---|---|
+| Delete only if empty, and something is left | The project still holds resources | Delete them, or choose **Delete everything in it** |
+| `second_factor_required` | Deleting everything, or deleting now, asks for your second factor | Confirm with your authenticator app |
 
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/placements" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "location": "loc_example"
-    }'
-    ```
+## Through the API
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+A service account's API key cannot create or delete projects or add and remove locations. With a
+role that allows it, it can read projects and manage what is inside them.
 
-    [Request fields and responses](../api/reference/projects.md).
+## Related
 
-    **Remove a location from a project**
-
-    ```bash
-    curl --fail-with-body -i -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/placements/$PLACEMENT_ID" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY"
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/projects.md).
-
-
-## Quota and resource boundaries
-
-Quota is allocated per project and location from organization budgets. Owners and admins can review allocations from the organization's quota controls. More quota does not guarantee that the location currently has capacity for a particular size.
-
-Adding Islamabad to a project that uses Karachi does not copy its instances, networks, images or data. Re-create the application and arrange data replication explicitly when you need both locations.
-
-## Delete, cancel or resume
-
-=== "Console"
-
-    Use **Danger zone → Delete project** only after checking retained data and automatic groups or schedules. Review **Delete only if empty** versus **Delete everything in it** and the displayed recovery window.
-
-    During that window, **Cancel deletion** stops further deletion but does not recreate resources already removed. The project remains suspended until an authorized person chooses **Resume project**. **Delete now** ends recovery early and can require a fresh second-factor check. Read [deletion and retention](../concepts/deletion-and-retention.md) before confirming.
-
-    For an application you are retiring without deleting the project, follow [resource cleanup](../concepts/deletion-and-retention.md).
-
-=== "API"
-
-    **Delete a project**
-
-    ```bash
-    curl --fail-with-body -i -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "cascade": false
-    }'
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/projects.md).
-
-    **Cancel a project's deletion**
-
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT:cancel-deletion" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY"
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/projects.md).
-
-    **Resume a project**
-
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT:resume" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY"
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/projects.md).
-
-    **End a deletion's retention early**
-
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT:delete-now" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "confirm": "web-shop"
-    }'
-    ```
-
-    Returns `200` directly. Read the returned resource or current state to verify the change.
-
-    [Request fields and responses](../api/reference/projects.md).
+- [Projects and quotas](../concepts/projects-and-quotas.md) · [Quota](quota.md)
+- [Deletion and retention](../concepts/deletion-and-retention.md)

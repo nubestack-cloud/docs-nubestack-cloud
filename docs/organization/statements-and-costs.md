@@ -1,88 +1,64 @@
 ---
-action_tabs: true
 title: Statements and cost explorer
+description: What each month's usage cost at NubeStack's published rates, and where the money goes, by project, service, location or tag.
 ---
 
 # Statements and cost explorer
 
-Statements summarize rated usage for a month. The cost explorer groups estimated costs to help you understand where resources are going. Both are **provisional**, as the console labels them. These features do not provide payment collection, taxes or a final invoice.
+A **statement** is what your organization's usage cost in one calendar month, at NubeStack's
+published rates. It is not an invoice: invoices come separately, and while statements are marked
+**Provisional — not an invoice**, the invoice is the one that counts.
 
-<div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
-<span>Show instructions for</span>
-<div><button type="button" data-interface-choice="Console" aria-pressed="true">Console</button><button type="button" data-interface-choice="API" aria-pressed="false">API</button></div>
-</div>
+Owners, admins and the billing role see them, and anyone with a custom role that includes seeing
+the monthly statements.
 
-<div class="docs-method-note" markdown>
+## Statements
 
-[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+Open **Statements** in the organization's side panel and pick the month at the top right. **All
+months** lists every statement with its state and total.
 
-</div>
+![A month's statement: total of rated usage, lines by measure and location, and the rates in force](../assets/screens/organization/statements.webp)
 
-![Monthly statements with state and provisional amounts](../assets/screens/organization/statements.webp)
+- **Total of rated usage**: every rated line, in NubeStack's currency, shown to the cent.
+- **Not rated**: usage no rate covers, shown with its quantity and no amount. It is never shown as
+  free and is not in the total.
+- **State**: **Open** while the month runs and for five days after; then **Closed**, and it never
+  changes.
+- One line per measure and location, and for instances, volumes and load balancers per size or
+  volume type: quantity, unit price, rates version, amount and days.
+- **Corrections** to an open month change its statement. A correction to a closed month appears
+  on the next open statement as an **adjustment**, which can be negative.
+- **Rates in force**, at the bottom: the prices your usage is rated at, and the next scheduled
+  change.
 
+Before NubeStack publishes a rate card, the page says **No statements yet**.
 
-## Read a statement
+## Cost explorer
 
-=== "Console"
+**Cost explorer**, under Statements, shows where the money goes: the month's cost so far by
+**Project**, **Service**, **Location** or **Tag**, as a bar for each day.
 
-    1. Open the organization's **Statements** page.
-    2. Select a month. Check whether the statement is open or closed, its currency and data-as-of time.
-    3. Inspect each line's metric, quantity, unit and price. Follow a line's usage detail when you need to understand the observations behind it.
-    4. Check for unrated lines and adjustments before comparing the total with another period.
+![The cost explorer: cost so far, projected for the month, last month, and daily cost by project](../assets/screens/organization/cost-explorer.webp)
 
-    ![An open statement with usage and adjustment lines](../assets/screens/organization/statement-open.webp)
+- At the top: the total so far, **Projected for the month** (the cost so far plus the average of
+  the last seven full days for each day left, from the third day) and last month's total.
+- **Tag** groups cost by one tag key's values, with resources without that key as **Untagged**.
+  See [Tags](../concepts/tags.md).
+- Usage no rate covers is listed above the chart, never counted as free.
+- A month's daily costs add up to its statement's total.
 
-    An open statement changes as usage arrives. A closed statement fixes that period's statement; late corrections can appear as adjustments in a later statement. Unrated usage has no applicable price and is not a zero-cost promise.
+## Through the API
 
-=== "API"
+| What | Route |
+|---|---|
+| Statements, newest first | `GET /v1/orgs/{org_id}/statements` |
+| One statement with its lines | `GET /v1/orgs/{org_id}/statements/{statement_id}` |
+| The usage behind a line | `GET /v1/orgs/{org_id}/statements/{statement_id}/lines/{line_id}/usage` |
+| The rates in force | `GET /v1/orgs/{org_id}/rate-card` |
+| A month's cost by day | `GET /v1/orgs/{org_id}/costs?period=2026-10&group_by=project` |
 
-    <span id="with-the-api" data-docs-method="API"></span>
+Amounts, prices and quantities are decimal strings.
 
-    **List the organization's statements**
+## Related
 
-    ```bash
-    curl --fail-with-body -i -X GET "$NUBESTACK_API/v1/orgs/$ORG/statements" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY"
-    ```
-
-    Returns `200` directly. Read the returned resource or current state to verify the change.
-
-    [Request fields and responses](../api/reference/usage-and-costs.md).
-
-    **Get a statement**
-
-    ```bash
-    curl --fail-with-body -i -X GET "$NUBESTACK_API/v1/orgs/$ORG/statements/$STATEMENT_ID" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY"
-    ```
-
-    Returns `200` directly. Read the returned resource or current state to verify the change.
-
-    [Request fields and responses](../api/reference/usage-and-costs.md).
-
-
-## The cost explorer
-
-=== "Console"
-
-    Open **Cost explorer**, choose a month and group by project, service, location or an available tag key. The page can show daily amounts, the prior period and a projection when enough information exists. Read unavailable and partial-data explanations before drawing a conclusion.
-
-    ![Cost explorer grouped by project](../assets/screens/organization/cost-explorer.webp)
-
-    Tag grouping uses the tags in effect when usage occurred. Adding a tag now does not rewrite the history of earlier untagged use. The **Untagged** group helps find resources that were not assigned a value.
-
-=== "API"
-
-    ```bash
-    curl --fail-with-body -i -X GET "$NUBESTACK_API/v1/orgs/$ORG/costs" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY"
-    ```
-
-    Returns `200` directly. Read the returned resource or current state to verify the change.
-
-    [Request fields and responses](../api/reference/usage-and-costs.md).
-
-
-## Rate card and projections
-
-The rate card describes prices currently in force and any published next version. Sample figures in these documentation screenshots are invented, not published NubeStack prices. A projected month total is an estimate based on observed use; it is not a budget limit or guaranteed charge.
+- [Usage](usage.md) · [Usage and costs](../concepts/usage-and-costs.md) · [Tags](../concepts/tags.md)
