@@ -1,0 +1,61 @@
+/* NubeStack colours: teal #3c7f7c and charcoal #474747. Starlight's dark theme is :root, its
+   light theme :root[data-theme="light"]. */
+:root {
+  --sl-color-accent-low: #10302e;
+  --sl-color-accent: #4f9e9a;
+  --sl-color-accent-high: #bfe3e0;
+  --nb-teal: #3c7f7c;
+  --nb-charcoal: #474747;
+  --nb-shot-border: #33403f;
+  --nb-shot-shadow: 0 1px 2px rgb(0 0 0 / 0.4);
+}
+
+:root[data-theme="light"] {
+  --sl-color-accent-low: #d8ecea;
+  --sl-color-accent: #2f6d6a;
+  --sl-color-accent-high: #1b4442;
+  --sl-color-white: #262626;
+  --nb-shot-border: #d6dedd;
+  --nb-shot-shadow: 0 1px 3px rgb(0 0 0 / 0.08);
+}
+
+/* The logo is wide (about 4.3:1); keep it legible in the header without crowding search. */
+.site-title img {
+  height: 1.75rem;
+  width: auto;
+}
+
+/* Screenshots: a thin frame so a white console page does not melt into the white docs page. */
+.sl-markdown-content img:not(.no-frame) {
+  border: 1px solid var(--nb-shot-border);
+  border-radius: 0.5rem;
+  box-shadow: var(--nb-shot-shadow);
+}
+
+.sl-markdown-content figure {
+  margin: 1.25rem 0;
+}
+
+.sl-markdown-content figcaption {
+  font-size: var(--sl-text-sm);
+  color: var(--sl-color-gray-3);
+  margin-top: 0.4rem;
+}
+
+/* Tables of codes and limits are wide; let them scroll inside the column on a phone. */
+.sl-markdown-content table {
+  display: block;
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.sl-markdown-content table code {
+  white-space: nowrap;
+}
+
+/* Home page hero: the mark beside the title. */
+.hero img {
+  max-width: 12rem;
+  border: 0;
+  box-shadow: none;
+}

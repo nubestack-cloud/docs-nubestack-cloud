@@ -1,0 +1,86 @@
+---
+title: NubeStack Cloud Docs
+description: Run virtual machines, networks and storage in NubeStack Cloud's locations in Pakistan, from the console or the API.
+template: splash
+hero:
+  tagline: Virtual machines, private networks and block storage in Karachi and Islamabad. One account, one console, one API, with each location run as an independent cloud.
+  image:
+    file: ../../assets/brand/mark.png
+    alt: The NubeStack mark
+  actions:
+    - text: Get started
+      link: /get-started/account/
+      icon: right-arrow
+    - text: Your first instance
+      link: /get-started/first-instance/
+      variant: minimal
+    - text: API guide
+      link: /api/overview/
+      variant: minimal
+---
+
+import { Card, CardGrid, LinkCard } from "@astrojs/starlight/components";
+
+## What NubeStack Cloud is
+
+NubeStack Cloud is a public cloud run by NubeStack. You sign in once, work in **projects**, and
+choose the **locations** each project runs in. Each location is a separate OpenStack cloud with its
+own capacity, networks and storage: what you make in Karachi stays in Karachi, and trouble in one
+location never stops the other.
+
+You use it three ways, all with the same account and the same permissions:
+
+- **The console**, in your browser, for everything on these pages.
+- **The API**, for your scripts and pipelines, with a service account's API key.
+- **Each location's own OpenStack tools**: its Horizon dashboard and the OpenStack CLI, signed in
+  with your NubeStack Cloud account.
+
+## Locations
+
+| Location | Code | Where |
+|---|---|---|
+| Karachi | `pak-khi-1` | Karachi, Pakistan |
+| Islamabad | `pak-isb-1` | Islamabad, Pakistan |
+
+[How locations work](/concepts/locations/), and what differs between them.
+
+## Start here
+
+<CardGrid>
+  <LinkCard title="Create your account" href="/get-started/account/" description="Accept your invitation, set a password and a second factor." />
+  <LinkCard title="Create a project" href="/get-started/create-a-project/" description="Choose its locations, its quota and a ready network." />
+  <LinkCard title="Your first instance" href="/get-started/first-instance/" description="From an SSH key to logging in, and cleaning up after." />
+  <LinkCard title="How changes happen" href="/concepts/operations/" description="Why a change is accepted first and carried out after." />
+</CardGrid>
+
+## Services
+
+<CardGrid>
+  <Card title="Compute" icon="laptop">
+    [Instances](/compute/instances/), [SSH keys](/compute/ssh-keys/), [images](/compute/images/),
+    [server groups](/compute/server-groups/), [launch templates](/compute/launch-templates/) and
+    [instance groups](/compute/instance-groups/).
+  </Card>
+  <Card title="Networking" icon="random">
+    [Networks](/networking/networks/), [routing](/networking/routing/),
+    [Internet gateways](/networking/internet-gateways/), [security groups](/networking/security-groups/),
+    [public IPs](/networking/public-ips/), [load balancers](/networking/load-balancers/) and the
+    [network map](/networking/network-map/).
+  </Card>
+  <Card title="Storage" icon="document">
+    [Volumes](/storage/volumes/), [snapshots](/storage/snapshots/) and
+    [schedules](/storage/schedules/) for backups and power.
+  </Card>
+  <Card title="Security" icon="approve-check">
+    [Certificates](/security/certificates/) for HTTPS load balancers.
+  </Card>
+</CardGrid>
+
+## Your organization
+
+<CardGrid>
+  <LinkCard title="Members and roles" href="/organization/members/" description="Invite people and choose what each may do." />
+  <LinkCard title="Service accounts and API keys" href="/organization/service-accounts/" description="Identities for automation." />
+  <LinkCard title="Usage and costs" href="/concepts/usage-and-costs/" description="What is measured, and why figures are provisional." />
+  <LinkCard title="API reference" href="/api/reference/" description="Every operation of the customer API." />
+</CardGrid>

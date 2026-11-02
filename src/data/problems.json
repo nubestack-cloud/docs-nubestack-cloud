@@ -1,0 +1,947 @@
+[
+  {
+    "code": "account_exists",
+    "title": "Account exists",
+    "retryable": false
+  },
+  {
+    "code": "action_not_assignable",
+    "title": "Action not allowed in a custom role",
+    "retryable": false
+  },
+  {
+    "code": "action_unknown",
+    "title": "Unknown action",
+    "retryable": false
+  },
+  {
+    "code": "address_in_use",
+    "title": "Address in use",
+    "retryable": false
+  },
+  {
+    "code": "allocation_busy",
+    "title": "Allocation busy",
+    "retryable": true
+  },
+  {
+    "code": "already_attached",
+    "title": "Already attached",
+    "retryable": false
+  },
+  {
+    "code": "already_connected",
+    "title": "Networks already connected",
+    "retryable": false
+  },
+  {
+    "code": "already_member",
+    "title": "Already a member",
+    "retryable": false
+  },
+  {
+    "code": "already_owner",
+    "title": "Already an owner",
+    "retryable": false
+  },
+  {
+    "code": "api_key_limit",
+    "title": "API key limit reached",
+    "retryable": false
+  },
+  {
+    "code": "api_keys_unavailable",
+    "title": "API keys unavailable",
+    "retryable": false
+  },
+  {
+    "code": "audit_export_disabled",
+    "title": "Audit export disabled",
+    "retryable": false
+  },
+  {
+    "code": "audit_lookback_exceeded",
+    "title": "Older than the audit log's look-back",
+    "retryable": false
+  },
+  {
+    "code": "audit_unavailable",
+    "title": "Audit trail unavailable",
+    "retryable": true
+  },
+  {
+    "code": "below_in_use",
+    "title": "Below what is in use",
+    "retryable": false
+  },
+  {
+    "code": "budget_exceeded",
+    "title": "Budget exceeded",
+    "retryable": false
+  },
+  {
+    "code": "capability_not_available",
+    "title": "Capability not available",
+    "retryable": false
+  },
+  {
+    "code": "capacity_unavailable",
+    "title": "Capacity unavailable",
+    "retryable": true
+  },
+  {
+    "code": "certificate_in_use",
+    "title": "Certificate in use",
+    "retryable": false
+  },
+  {
+    "code": "certificate_limit",
+    "title": "Too many certificates",
+    "retryable": false
+  },
+  {
+    "code": "certificate_not_ready",
+    "title": "Certificate not ready",
+    "retryable": false
+  },
+  {
+    "code": "cidr_overlap",
+    "title": "Address ranges overlap",
+    "retryable": false
+  },
+  {
+    "code": "closure_in_progress",
+    "title": "Closure in progress",
+    "retryable": false
+  },
+  {
+    "code": "conflict",
+    "title": "Conflict",
+    "retryable": false
+  },
+  {
+    "code": "connection_limit",
+    "title": "Connection limit reached",
+    "retryable": false
+  },
+  {
+    "code": "connections_retired",
+    "title": "Connections are retired",
+    "retryable": false
+  },
+  {
+    "code": "console_not_offered",
+    "title": "No console in this location",
+    "retryable": false
+  },
+  {
+    "code": "console_not_ready",
+    "title": "Console not ready",
+    "retryable": true
+  },
+  {
+    "code": "console_not_registered",
+    "title": "Console not registered",
+    "retryable": false
+  },
+  {
+    "code": "credential_limit",
+    "title": "Credential limit reached",
+    "retryable": false
+  },
+  {
+    "code": "csrf_failed",
+    "title": "Cross-site request refused",
+    "retryable": false
+  },
+  {
+    "code": "default_security_group",
+    "title": "Default security group",
+    "retryable": false
+  },
+  {
+    "code": "deletion_in_progress",
+    "title": "Deletion in progress",
+    "retryable": false
+  },
+  {
+    "code": "deletion_irreversible",
+    "title": "Deletion irreversible",
+    "retryable": false
+  },
+  {
+    "code": "export_in_progress",
+    "title": "Export being prepared",
+    "retryable": false
+  },
+  {
+    "code": "export_not_ready",
+    "title": "Export not ready",
+    "retryable": false
+  },
+  {
+    "code": "export_too_large",
+    "title": "Export too large",
+    "retryable": false
+  },
+  {
+    "code": "forbidden",
+    "title": "Forbidden",
+    "retryable": false
+  },
+  {
+    "code": "forwarding_limit",
+    "title": "Too many address pairs",
+    "retryable": false
+  },
+  {
+    "code": "forwarding_overlaps_network",
+    "title": "Range overlaps a network",
+    "retryable": false
+  },
+  {
+    "code": "gateway_in_use",
+    "title": "Internet gateway in use",
+    "retryable": false
+  },
+  {
+    "code": "gateway_region_mismatch",
+    "title": "Private router in another region",
+    "retryable": false
+  },
+  {
+    "code": "grant_required",
+    "title": "Project access required",
+    "retryable": false
+  },
+  {
+    "code": "has_own_gateway",
+    "title": "Network has its own gateway",
+    "retryable": false
+  },
+  {
+    "code": "idempotency_key_in_progress",
+    "title": "Request in progress",
+    "retryable": true
+  },
+  {
+    "code": "idempotency_key_required",
+    "title": "Idempotency key required",
+    "retryable": false
+  },
+  {
+    "code": "idempotency_key_reused",
+    "title": "Idempotency key reused",
+    "retryable": false
+  },
+  {
+    "code": "image_not_active",
+    "title": "Image not active",
+    "retryable": false
+  },
+  {
+    "code": "image_protected",
+    "title": "Image is protected",
+    "retryable": false
+  },
+  {
+    "code": "image_volume_backed",
+    "title": "Instance boots from a volume",
+    "retryable": false
+  },
+  {
+    "code": "instance_group_limit",
+    "title": "Too many instance groups",
+    "retryable": false
+  },
+  {
+    "code": "instance_group_name_taken",
+    "title": "Instance group name taken",
+    "retryable": false
+  },
+  {
+    "code": "integrity_unavailable",
+    "title": "Integrity check unavailable",
+    "retryable": true
+  },
+  {
+    "code": "internal_error",
+    "title": "Internal error",
+    "retryable": false
+  },
+  {
+    "code": "internet_access_off",
+    "title": "Internet access already off",
+    "retryable": false
+  },
+  {
+    "code": "internet_access_on",
+    "title": "Internet access already on",
+    "retryable": false
+  },
+  {
+    "code": "invalid_cidr",
+    "title": "Invalid CIDR",
+    "retryable": false
+  },
+  {
+    "code": "invalid_cursor",
+    "title": "Invalid cursor",
+    "retryable": false
+  },
+  {
+    "code": "invalid_ephemeral_key",
+    "title": "Invalid one-time key",
+    "retryable": false
+  },
+  {
+    "code": "invalid_id",
+    "title": "Invalid identifier",
+    "retryable": false
+  },
+  {
+    "code": "invalid_instant",
+    "title": "Invalid time",
+    "retryable": false
+  },
+  {
+    "code": "invalid_public_key",
+    "title": "Invalid public key",
+    "retryable": false
+  },
+  {
+    "code": "invalid_server",
+    "title": "Invalid instance",
+    "retryable": false
+  },
+  {
+    "code": "invalid_size",
+    "title": "Invalid size",
+    "retryable": false
+  },
+  {
+    "code": "invalid_time_zone",
+    "title": "Unknown time zone",
+    "retryable": false
+  },
+  {
+    "code": "invalid_window",
+    "title": "Invalid time window",
+    "retryable": false
+  },
+  {
+    "code": "invitation_domain",
+    "title": "Invitation domain not allowed",
+    "retryable": false
+  },
+  {
+    "code": "invitation_email_mismatch",
+    "title": "Invitation e-mail mismatch",
+    "retryable": false
+  },
+  {
+    "code": "invitation_not_pending",
+    "title": "Invitation not pending",
+    "retryable": false
+  },
+  {
+    "code": "invitation_pending",
+    "title": "Invitation pending",
+    "retryable": false
+  },
+  {
+    "code": "inviter_not_permitted",
+    "title": "Inviter may no longer give this role",
+    "retryable": false
+  },
+  {
+    "code": "key_already_rotated",
+    "title": "API key already rotated",
+    "retryable": false
+  },
+  {
+    "code": "last_location",
+    "title": "Last location",
+    "retryable": false
+  },
+  {
+    "code": "last_owner",
+    "title": "Last owner",
+    "retryable": false
+  },
+  {
+    "code": "launch_template_in_use",
+    "title": "Launch template in use",
+    "retryable": false
+  },
+  {
+    "code": "launch_template_invalid",
+    "title": "Launch template version unreadable",
+    "retryable": false
+  },
+  {
+    "code": "launch_template_limit",
+    "title": "Too many launch templates",
+    "retryable": false
+  },
+  {
+    "code": "launch_template_name_taken",
+    "title": "Launch template name taken",
+    "retryable": false
+  },
+  {
+    "code": "launch_template_version_limit",
+    "title": "Too many versions of this launch template",
+    "retryable": false
+  },
+  {
+    "code": "lb_child_in_use",
+    "title": "Listener or pool still has dependencies",
+    "retryable": false
+  },
+  {
+    "code": "lb_child_limit",
+    "title": "Listener or pool limit reached",
+    "retryable": false
+  },
+  {
+    "code": "lb_feature_unsupported",
+    "title": "Load balancer feature unsupported",
+    "retryable": false
+  },
+  {
+    "code": "lb_listener_conflict",
+    "title": "A listener already uses this port",
+    "retryable": false
+  },
+  {
+    "code": "lb_member_address_scope",
+    "title": "Member network is in another address scope",
+    "retryable": false
+  },
+  {
+    "code": "lb_member_address_unsafe",
+    "title": "Member address cannot be used",
+    "retryable": false
+  },
+  {
+    "code": "lb_member_ambiguous",
+    "title": "Member target is ambiguous",
+    "retryable": false
+  },
+  {
+    "code": "lb_member_family_mismatch",
+    "title": "Member address family not supported",
+    "retryable": false
+  },
+  {
+    "code": "lb_member_floating_ip",
+    "title": "Member address is a public IP",
+    "retryable": false
+  },
+  {
+    "code": "lb_member_outside_project",
+    "title": "Member address is not the project's",
+    "retryable": false
+  },
+  {
+    "code": "lb_member_unreachable",
+    "title": "Member network is not routed to the load balancer",
+    "retryable": false
+  },
+  {
+    "code": "lb_provider_unavailable",
+    "title": "Load balancer type not available here",
+    "retryable": false
+  },
+  {
+    "code": "legal_hold",
+    "title": "Under legal hold",
+    "retryable": false
+  },
+  {
+    "code": "location_maintenance",
+    "title": "Location in maintenance",
+    "retryable": true
+  },
+  {
+    "code": "location_mismatch",
+    "title": "Location mismatch",
+    "retryable": false
+  },
+  {
+    "code": "location_not_accepting",
+    "title": "Location not accepting new resources",
+    "retryable": false
+  },
+  {
+    "code": "location_not_placed",
+    "title": "Location not placed",
+    "retryable": false
+  },
+  {
+    "code": "location_unavailable",
+    "title": "Location temporarily unavailable",
+    "retryable": true
+  },
+  {
+    "code": "member_not_active",
+    "title": "Member not active",
+    "retryable": false
+  },
+  {
+    "code": "multi_region_networking_unsupported",
+    "title": "Networking in several regions not supported",
+    "retryable": false
+  },
+  {
+    "code": "network_attached",
+    "title": "Network is attached",
+    "retryable": false
+  },
+  {
+    "code": "network_has_no_subnet",
+    "title": "Network has no subnet",
+    "retryable": false
+  },
+  {
+    "code": "network_has_range",
+    "title": "Network already has its range",
+    "retryable": false
+  },
+  {
+    "code": "network_no_internet_access",
+    "title": "Network has no Internet access",
+    "retryable": false
+  },
+  {
+    "code": "network_topology_unsupported",
+    "title": "Network topology not supported",
+    "retryable": false
+  },
+  {
+    "code": "no_deletion",
+    "title": "No deletion",
+    "retryable": false
+  },
+  {
+    "code": "not_an_increase",
+    "title": "Not an increase",
+    "retryable": false
+  },
+  {
+    "code": "not_attached",
+    "title": "Not attached",
+    "retryable": false
+  },
+  {
+    "code": "not_blocked",
+    "title": "Not waiting for confirmation",
+    "retryable": false
+  },
+  {
+    "code": "not_cancellable",
+    "title": "Not cancellable",
+    "retryable": false
+  },
+  {
+    "code": "not_dismissible",
+    "title": "Not dismissible",
+    "retryable": false
+  },
+  {
+    "code": "not_found",
+    "title": "Not found",
+    "retryable": false
+  },
+  {
+    "code": "not_ready",
+    "title": "Not ready",
+    "retryable": true
+  },
+  {
+    "code": "not_resumable",
+    "title": "Not resumable",
+    "retryable": false
+  },
+  {
+    "code": "observation_required",
+    "title": "A fresh resource reading is required",
+    "retryable": false
+  },
+  {
+    "code": "offering_not_found",
+    "title": "Offering not found",
+    "retryable": false
+  },
+  {
+    "code": "org_cap_exceeded",
+    "title": "Organization ceiling reached",
+    "retryable": false
+  },
+  {
+    "code": "org_closing",
+    "title": "Organization being closed",
+    "retryable": false
+  },
+  {
+    "code": "org_not_closing",
+    "title": "Organization not closing",
+    "retryable": false
+  },
+  {
+    "code": "org_suspended",
+    "title": "Organization suspended",
+    "retryable": false
+  },
+  {
+    "code": "own_membership",
+    "title": "Not on your own membership",
+    "retryable": false
+  },
+  {
+    "code": "own_roles_raise",
+    "title": "You cannot raise your own roles",
+    "retryable": false
+  },
+  {
+    "code": "period_out_of_range",
+    "title": "No costs for that month",
+    "retryable": false
+  },
+  {
+    "code": "placement_deleting",
+    "title": "Location is being deleted",
+    "retryable": false
+  },
+  {
+    "code": "placement_not_active",
+    "title": "Placement not active",
+    "retryable": false
+  },
+  {
+    "code": "placement_not_ready",
+    "title": "Placement not ready",
+    "retryable": false
+  },
+  {
+    "code": "placement_suspended",
+    "title": "Placement suspended",
+    "retryable": false
+  },
+  {
+    "code": "platform_read_only",
+    "title": "Platform read-only",
+    "retryable": true
+  },
+  {
+    "code": "port_security_disabled",
+    "title": "Port security is off",
+    "retryable": false
+  },
+  {
+    "code": "precondition_failed",
+    "title": "Precondition failed",
+    "retryable": false
+  },
+  {
+    "code": "precondition_required",
+    "title": "Precondition required",
+    "retryable": false
+  },
+  {
+    "code": "preset_is_default",
+    "title": "Preset is the default",
+    "retryable": false
+  },
+  {
+    "code": "project_limit",
+    "title": "Project limit reached",
+    "retryable": false
+  },
+  {
+    "code": "public_ip_associated",
+    "title": "Public IP already associated",
+    "retryable": false
+  },
+  {
+    "code": "public_ips_in_use",
+    "title": "Public IPs in use",
+    "retryable": false
+  },
+  {
+    "code": "quota_exceeded",
+    "title": "Quota exceeded",
+    "retryable": false
+  },
+  {
+    "code": "quota_in_use",
+    "title": "Still in use",
+    "retryable": false
+  },
+  {
+    "code": "quota_request_open",
+    "title": "A request is already waiting",
+    "retryable": false
+  },
+  {
+    "code": "range_not_private",
+    "title": "Range is not private",
+    "retryable": false
+  },
+  {
+    "code": "range_overlap",
+    "title": "Range overlaps an attached network",
+    "retryable": false
+  },
+  {
+    "code": "range_required",
+    "title": "Range required",
+    "retryable": false
+  },
+  {
+    "code": "rate_limited",
+    "title": "Too many requests",
+    "retryable": false
+  },
+  {
+    "code": "reference_not_found",
+    "title": "Reference not found",
+    "retryable": false
+  },
+  {
+    "code": "refresh_limit",
+    "title": "Too many open refreshes",
+    "retryable": true
+  },
+  {
+    "code": "report_stale",
+    "title": "Report out of date",
+    "retryable": false
+  },
+  {
+    "code": "resource_busy",
+    "title": "Resource busy",
+    "retryable": true
+  },
+  {
+    "code": "resource_changed",
+    "title": "Resource changed; refresh before trying again",
+    "retryable": false
+  },
+  {
+    "code": "resource_class_managed",
+    "title": "Set by NubeStack Cloud",
+    "retryable": false
+  },
+  {
+    "code": "resource_class_reserved",
+    "title": "Resource class reserved",
+    "retryable": false
+  },
+  {
+    "code": "resource_deleting",
+    "title": "Resource being deleted",
+    "retryable": false
+  },
+  {
+    "code": "resource_exists",
+    "title": "Already there",
+    "retryable": false
+  },
+  {
+    "code": "resource_gone",
+    "title": "Not there",
+    "retryable": false
+  },
+  {
+    "code": "resource_in_use",
+    "title": "Resource in use",
+    "retryable": false
+  },
+  {
+    "code": "resources_present",
+    "title": "Resources present",
+    "retryable": false
+  },
+  {
+    "code": "role_escalation",
+    "title": "Not an action you hold",
+    "retryable": false
+  },
+  {
+    "code": "role_held_by_service_account",
+    "title": "Role held by a service account",
+    "retryable": false
+  },
+  {
+    "code": "role_in_use",
+    "title": "Role still held",
+    "retryable": false
+  },
+  {
+    "code": "role_limit",
+    "title": "Role limit reached",
+    "retryable": false
+  },
+  {
+    "code": "role_name_taken",
+    "title": "Role name taken",
+    "retryable": false
+  },
+  {
+    "code": "role_not_allowed",
+    "title": "Role not allowed for a service account",
+    "retryable": false
+  },
+  {
+    "code": "role_unavailable",
+    "title": "Role not usable here",
+    "retryable": false
+  },
+  {
+    "code": "route_uses_network",
+    "title": "A route uses this network",
+    "retryable": false
+  },
+  {
+    "code": "router_managed",
+    "title": "Router managed by NubeStack Cloud",
+    "retryable": false
+  },
+  {
+    "code": "schedule_limit",
+    "title": "Too many schedules",
+    "retryable": false
+  },
+  {
+    "code": "second_factor_required",
+    "title": "Second factor required",
+    "retryable": false
+  },
+  {
+    "code": "secret_not_ready",
+    "title": "Secret not ready",
+    "retryable": true
+  },
+  {
+    "code": "secret_store_unavailable",
+    "title": "Secret store unavailable",
+    "retryable": true
+  },
+  {
+    "code": "security_group_in_use",
+    "title": "Security group in use",
+    "retryable": false
+  },
+  {
+    "code": "security_group_name_taken",
+    "title": "Security group name taken",
+    "retryable": false
+  },
+  {
+    "code": "server_group_in_use",
+    "title": "Server group in use",
+    "retryable": false
+  },
+  {
+    "code": "server_state",
+    "title": "Instance not in a state for this action",
+    "retryable": false
+  },
+  {
+    "code": "service_account_exists",
+    "title": "Service account name taken",
+    "retryable": false
+  },
+  {
+    "code": "service_account_limit",
+    "title": "Service account limit reached",
+    "retryable": false
+  },
+  {
+    "code": "snapshot_restore_pending",
+    "title": "A volume is being made from this snapshot",
+    "retryable": false
+  },
+  {
+    "code": "ssh_key_exists",
+    "title": "SSH key exists",
+    "retryable": false
+  },
+  {
+    "code": "ssh_key_limit",
+    "title": "SSH key limit",
+    "retryable": false
+  },
+  {
+    "code": "step_up_required",
+    "title": "Step-up required",
+    "retryable": false
+  },
+  {
+    "code": "subnet_limit",
+    "title": "Subnet limit reached",
+    "retryable": false
+  },
+  {
+    "code": "tag_keys_limit",
+    "title": "Too many tag keys",
+    "retryable": false
+  },
+  {
+    "code": "topology_view_changed",
+    "title": "Topology changed; start again from the first page",
+    "retryable": false
+  },
+  {
+    "code": "unauthenticated",
+    "title": "Authentication required",
+    "retryable": false
+  },
+  {
+    "code": "unit_mismatch",
+    "title": "Unit mismatch",
+    "retryable": false
+  },
+  {
+    "code": "unknown_quota_profile",
+    "title": "Unknown quota profile",
+    "retryable": false
+  },
+  {
+    "code": "unknown_resource_class",
+    "title": "Unknown resource class",
+    "retryable": false
+  },
+  {
+    "code": "usage_range_too_large",
+    "title": "Usage range too large",
+    "retryable": false
+  },
+  {
+    "code": "validation_failed",
+    "title": "Validation failed",
+    "retryable": false
+  },
+  {
+    "code": "value_out_of_range",
+    "title": "Value out of range",
+    "retryable": false
+  },
+  {
+    "code": "volume_has_snapshots",
+    "title": "Volume has snapshots",
+    "retryable": false
+  },
+  {
+    "code": "volume_in_use",
+    "title": "Volume in use",
+    "retryable": false
+  },
+  {
+    "code": "volume_state",
+    "title": "Volume not in a state for this action",
+    "retryable": false
+  }
+]
