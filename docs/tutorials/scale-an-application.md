@@ -11,6 +11,11 @@ replaced, and the count goes up on weekday mornings and down at night.
 **You will use:** a launch template, an instance group, a load balancer pool and a size schedule,
 in Karachi.
 
+<figure class="ns-diagram">
+--8<-- "instance-group.svg"
+<figcaption>What you will build: the group keeps its instances in web-pool, and two schedules change the count each weekday.</figcaption>
+</figure>
+
 ## Before you start
 
 - A [load balancer](../networking/load-balancers.md) with a pool, here `web-pool`, and a health

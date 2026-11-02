@@ -21,7 +21,7 @@
   padding: .55rem .7rem; margin: .4rem 0 1rem;
   background: var(--ns-surface); border: 1px solid var(--ns-border); border-radius: var(--ns-radius);
 }
-.md-typeset .api-endpoint code { background: none; padding: 0; font-size: .74rem; word-break: break-all; }
+.md-typeset .api-endpoint code { background: none; padding: 0; font-size: .74rem; overflow-wrap: anywhere; }  /* breaks after "/" (the hook adds <wbr>) */
 .md-typeset span[class^="http-"] {
   display: inline-block; min-width: 3.6rem; text-align: center; border-radius: 4px; padding: .1rem .45rem;
   font: 700 .62rem/1.5 var(--md-code-font-family); letter-spacing: .03em; color: #fff;
@@ -42,11 +42,14 @@
 .md-typeset .message-separator { visibility: hidden; }
 .md-typeset .sub-section-title { font-style: italic; font-size: .7rem; }
 
-/* Generated tables are raw HTML, outside Material's scroll wrapper: compact, and they scroll on
-   narrow screens instead of widening the page. */
+/* The hook puts the reference's tables in Material's scroll wrapper (.ns-api-table); any other raw
+   HTML table is compact and scrolls on narrow screens instead of widening the page. */
+.md-typeset .ns-api-table > table { font-size: .7rem; }
 .md-typeset table:not(.md-typeset__table > table) {
   display: block; max-width: 100%; overflow-x: auto; font-size: .7rem;
   border: 1px solid var(--ns-border); border-radius: var(--ns-radius);
 }
 .md-typeset table th { background-color: var(--ns-surface); }
 .md-typeset td.parameter-name code { white-space: nowrap; }
+.md-typeset .ns-api-table td:first-child code { white-space: nowrap; }
+.md-typeset .ns-api-table td:last-child { min-width: 12rem; }

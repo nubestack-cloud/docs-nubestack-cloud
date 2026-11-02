@@ -31,7 +31,26 @@ Open <http://localhost:8000>. Pages reload as you edit. Restart `mkdocs serve` a
 ```
 
 The output is `site/`, a static site with no external requests (fonts, icons and the API
-reference are all local). Publish that directory to any static host at `site_url`.
+reference are all local).
+
+## Publish to GitHub Pages
+
+The [Documentation workflow](.github/workflows/docs.yml) builds and checks pull requests to
+`main`. Pushes to `main` also upload the checked site and deploy it to GitHub Pages at
+<https://docs.nubestack.com/>. To redeploy manually, run the workflow from the **Actions** tab
+with `main` selected. Only the deployment job receives Pages and identity-token write permissions.
+
+One-time setup for `nubestack-cloud/docs-nubestack-cloud`:
+
+1. In **Settings → Pages → Build and deployment**, select **GitHub Actions** as the source.
+2. Set **Custom domain** to `docs.nubestack.com` and save.
+3. At the DNS provider for `nubestack.com`, add a `CNAME` record named `docs` pointing to
+   `nubestack-cloud.github.io`.
+4. Once GitHub provisions the certificate, enable **Enforce HTTPS** in the Pages settings.
+
+With a custom Actions workflow, GitHub uses the domain in the repository's Pages settings;
+a `CNAME` file in the build output does not configure it. See
+[GitHub's custom-domain instructions](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site).
 
 ## Regenerate the screenshots
 

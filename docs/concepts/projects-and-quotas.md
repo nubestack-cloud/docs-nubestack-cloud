@@ -40,6 +40,11 @@ storage, networks, public IPs and the rest. It is set in two layers:
 2. **Owners and admins share that budget between projects**, per location. A new project starts
    from a **quota preset**.
 
+<figure class="ns-diagram">
+--8<-- "quota-layers.svg"
+<figcaption>Two layers, per location: the organization's budget from NubeStack, and each project's share of it.</figcaption>
+</figure>
+
 Each location enforces its own quota. A request over it is refused, even if the console's check
 let it through, for example because something was made at the same moment with the location's own
 tools.

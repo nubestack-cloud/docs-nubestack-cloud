@@ -74,6 +74,11 @@ cannot be cancelled. If something stops it, such as a resource made with a locat
 that cannot be deleted for you, the page names it and why. See
 [Deletion and retention](../concepts/deletion-and-retention.md).
 
+<figure class="ns-diagram">
+--8<-- "deletion-timeline.svg"
+<figcaption>A project's deletion beside the organization's closure, from the moment it is requested to afterwards.</figcaption>
+</figure>
+
 **What blocks a delete**
 
 | Refusal | Why | Resolve |

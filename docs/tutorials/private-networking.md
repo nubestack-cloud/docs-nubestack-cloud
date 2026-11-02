@@ -16,6 +16,11 @@ Karachi.
 | `web-1` | `app`, `10.0.0.0/24` | The Internet on 80 and 443, through its public IP |
 | `db-1` | `db`, `10.0.1.0/24` | Only `web-1`'s security group, on 5432 |
 
+<figure class="ns-diagram">
+--8<-- "two-tier-network.svg"
+<figcaption>What you will build: the Internet reaches only web-1, and the database accepts 5432 only from the web group.</figcaption>
+</figure>
+
 ## Before you start
 
 - A project in Karachi with an Internet gateway. The project's `default` network can serve as

@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 370" role="img" aria-labelledby="dq-title dq-desc">
+  <title id="dq-title">Quota in two layers</title>
+  <desc id="dq-desc">In each location, Karachi pak-khi-1 and Islamabad pak-isb-1, NubeStack sets the organization's budget: how much Acme may hand out there. Acme's owners and admins share that budget between projects, so each project has its own quota in each of its locations: web-shop in Karachi; web-shop and analytics in Islamabad. A new project starts from a quota preset: the preset's figure, or what is left of the budget there, whichever is less. When a budget runs short, owners and admins ask NubeStack for more, one location at a time. Each location enforces its own quota, and quota is not capacity: a location can still be out of room.</desc>
+  <defs>
+    <marker id="dq-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-arrow-teal" d="M0 0L8 4L0 8z"/></marker>
+    <marker id="dq-arrow-grey" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-arrow" d="M0 0L8 4L0 8z"/></marker>
+  </defs>
+
+  <rect class="d-box-teal" x="150" y="10" width="360" height="56" rx="8"/>
+  <rect class="d-chip-solid" x="162" y="23" width="30" height="30" rx="7"/>
+  <svg x="167" y="28" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph-inv" d="M6.5 20q-2.28 0-3.89-1.57Q1 16.85 1 14.58q0-1.95 1.17-3.48 1.18-1.53 3.08-1.95.63-2.3 2.5-3.72Q9.63 4 12 4q2.93 0 4.96 2.04Q19 8.07 19 11q1.73.2 2.86 1.5 1.14 1.28 1.14 3 0 1.88-1.31 3.19T18.5 20m-12-2h12q1.05 0 1.77-.73.73-.72.73-1.77t-.73-1.77Q19.55 13 18.5 13H17v-2q0-2.07-1.46-3.54Q14.08 6 12 6 9.93 6 8.46 7.46 7 8.93 7 11h-.5q-1.45 0-2.47 1.03Q3 13.05 3 14.5T4.03 17q1.02 1 2.47 1m5.5-6"/></svg>
+  <text class="d-title" x="202" y="34">NubeStack</text>
+  <text class="d-muted" x="202" y="53">Sets the organization's budget in each location</text>
+
+  <rect class="d-box" x="676" y="10" width="194" height="56" rx="8"/>
+  <rect class="d-chip" x="688" y="23" width="30" height="30" rx="7"/>
+  <svg x="693" y="28" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph" d="m4 6.03 7.5 3.22-7.5-1zm7.5 8.72L4 17.97v-2.22zM2 3v7l15 2-15 2v7l21-9z"/></svg>
+  <text class="d-title" x="728" y="34">Request more</text>
+  <text class="d-muted" x="728" y="53">one location at a time</text>
+
+  <path class="d-line d-dash" d="M676 38H510" marker-end="url(#dq-arrow)"/>
+  <text class="d-muted" x="593" y="30" text-anchor="middle">owners and admins ask</text>
+
+  <rect class="d-zone" x="10" y="96" width="300" height="240" rx="10"/>
+  <svg x="26" y="109" width="14" height="14" viewBox="0 0 24 24"><path class="d-glyph" d="M12 6.5A2.5 2.5 0 0 1 14.5 9a2.5 2.5 0 0 1-2.5 2.5A2.5 2.5 0 0 1 9.5 9 2.5 2.5 0 0 1 12 6.5M12 2a7 7 0 0 1 7 7c0 5.25-7 13-7 13S5 14.25 5 9a7 7 0 0 1 7-7m0 2a5 5 0 0 0-5 5c0 1 0 3 5 9.71C17 12 17 10 17 9a5 5 0 0 0-5-5"/></svg>
+  <text class="d-label" x="46" y="120">Karachi · pak-khi-1</text>
+
+  <rect class="d-box-teal" x="26" y="136" width="268" height="56" rx="8"/>
+  <rect class="d-chip-solid" x="38" y="149" width="30" height="30" rx="7"/>
+  <svg x="43" y="154" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph-inv" d="M5 3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2.28A2 2 0 0 0 22 15V9a2 2 0 0 0-1-1.72V5a2 2 0 0 0-2-2zm0 2h14v2h-6a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h6v2H5zm8 4h7v6h-7zm3 1.5a1.5 1.5 0 0 0-1.5 1.5 1.5 1.5 0 0 0 1.5 1.5 1.5 1.5 0 0 0 1.5-1.5 1.5 1.5 0 0 0-1.5-1.5"/></svg>
+  <text class="d-title" x="78" y="160">Acme's budget</text>
+  <text class="d-muted" x="78" y="179">What Acme may hand out here</text>
+
+  <path class="d-tree" d="M160 192V262"/>
+  <text class="d-muted" x="170" y="224">Shared by owners</text>
+  <text class="d-muted" x="170" y="240">and admins</text>
+
+  <rect class="d-box" x="26" y="262" width="268" height="56" rx="8"/>
+  <rect class="d-chip" x="38" y="275" width="30" height="30" rx="7"/>
+  <svg x="43" y="280" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph" d="M20 18H4V8h16m0-2h-8l-2-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2"/></svg>
+  <text class="d-title" x="78" y="286">web-shop</text>
+  <text class="d-muted" x="78" y="305">Project quota</text>
+
+  <rect class="d-zone" x="326" y="96" width="330" height="240" rx="10"/>
+  <svg x="342" y="109" width="14" height="14" viewBox="0 0 24 24"><path class="d-glyph" d="M12 6.5A2.5 2.5 0 0 1 14.5 9a2.5 2.5 0 0 1-2.5 2.5A2.5 2.5 0 0 1 9.5 9 2.5 2.5 0 0 1 12 6.5M12 2a7 7 0 0 1 7 7c0 5.25-7 13-7 13S5 14.25 5 9a7 7 0 0 1 7-7m0 2a5 5 0 0 0-5 5c0 1 0 3 5 9.71C17 12 17 10 17 9a5 5 0 0 0-5-5"/></svg>
+  <text class="d-label" x="362" y="120">Islamabad · pak-isb-1</text>
+
+  <rect class="d-box-teal" x="342" y="136" width="298" height="56" rx="8"/>
+  <rect class="d-chip-solid" x="354" y="149" width="30" height="30" rx="7"/>
+  <svg x="359" y="154" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph-inv" d="M5 3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2.28A2 2 0 0 0 22 15V9a2 2 0 0 0-1-1.72V5a2 2 0 0 0-2-2zm0 2h14v2h-6a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h6v2H5zm8 4h7v6h-7zm3 1.5a1.5 1.5 0 0 0-1.5 1.5 1.5 1.5 0 0 0 1.5 1.5 1.5 1.5 0 0 0 1.5-1.5 1.5 1.5 0 0 0-1.5-1.5"/></svg>
+  <text class="d-title" x="394" y="160">Acme's budget</text>
+  <text class="d-muted" x="394" y="179">What Acme may hand out here</text>
+
+  <path class="d-tree" d="M491 192V230H412V262M491 230H570V262"/>
+  <text class="d-muted" x="500" y="206">Shared by owners</text>
+  <text class="d-muted" x="500" y="220">and admins</text>
+
+  <rect class="d-box" x="342" y="262" width="141" height="56" rx="8"/>
+  <rect class="d-chip" x="354" y="275" width="30" height="30" rx="7"/>
+  <svg x="359" y="280" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph" d="M20 18H4V8h16m0-2h-8l-2-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2"/></svg>
+  <text class="d-title" x="394" y="286">web-shop</text>
+  <text class="d-muted" x="394" y="305">Project quota</text>
+
+  <rect class="d-box" x="499" y="262" width="141" height="56" rx="8"/>
+  <rect class="d-chip" x="511" y="275" width="30" height="30" rx="7"/>
+  <svg x="516" y="280" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph" d="M20 18H4V8h16m0-2h-8l-2-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2"/></svg>
+  <text class="d-title" x="551" y="286">analytics</text>
+  <text class="d-muted" x="551" y="305">Project quota</text>
+
+  <rect class="d-box" x="676" y="182" width="194" height="136" rx="8"/>
+  <rect class="d-chip" x="688" y="194" width="30" height="30" rx="7"/>
+  <svg x="693" y="199" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph" d="M8 13c-1.86 0-3.41 1.28-3.86 3H2v2h2.14c.45 1.72 2 3 3.86 3s3.41-1.28 3.86-3H22v-2H11.86c-.45-1.72-2-3-3.86-3m0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2M19.86 6c-.45-1.72-2-3-3.86-3s-3.41 1.28-3.86 3H2v2h10.14c.45 1.72 2 3 3.86 3s3.41-1.28 3.86-3H22V6zM16 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2"/></svg>
+  <text class="d-title" x="728" y="214">Quota preset</text>
+  <text class="d-muted" x="690" y="246">A new project starts with</text>
+  <text class="d-muted" x="690" y="263">the preset's figure, or what</text>
+  <text class="d-muted" x="690" y="280">is left of the budget there,</text>
+  <text class="d-muted" x="690" y="297">whichever is less.</text>
+  <path class="d-line d-dash" d="M676 290H640" marker-end="url(#dq-arrow-grey)"/>
+
+  <path class="d-flow" d="M240 66V136" marker-end="url(#dq-arrow)"/>
+  <path class="d-flow" d="M420 66V136" marker-end="url(#dq-arrow)"/>
+  <text class="d-muted" x="10" y="360">Each location enforces its own quota. Quota is not capacity: a location can still be out of room.</text>
+</svg>

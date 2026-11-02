@@ -32,6 +32,11 @@ sign-in. That has consequences you should design for:
 - **Quota is per location.** A project's quota in Karachi is separate from its quota in
   Islamabad.
 
+<figure class="ns-diagram">
+--8<-- "resources.svg"
+<figcaption>The project web-shop in both locations. Karachi has its own networks, instances and volumes; Islamabad has its own. Nothing is shared between them.</figcaption>
+</figure>
+
 To be in both locations, a project is [placed in both](projects-and-quotas.md#a-project-in-several-locations).
 To survive a location's failure, run copies of your service in each, with their own data, and
 send traffic to both: NubeStack Cloud does not fail over for you.

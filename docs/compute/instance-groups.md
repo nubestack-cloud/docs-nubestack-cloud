@@ -98,6 +98,11 @@ Find them under **Compute → Instance groups**.
   step. The load balancer's health checks decide which instances get traffic; the group replaces
   only instances that failed to run.
 
+<figure class="ns-diagram">
+--8<-- "instance-group.svg"
+<figcaption>The group web from the tutorial: instances from the template join the pool, and size schedules change the count.</figcaption>
+</figure>
+
 ## Delete a group
 
 === "Console"

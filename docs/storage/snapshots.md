@@ -44,6 +44,11 @@ takes crash-consistent snapshots.
 
 ## Restore a snapshot to a new volume
 
+<figure class="ns-diagram">
+--8<-- "storage-recovery.svg"
+<figcaption>Restoring makes a new volume from the snapshot. The original volume and the snapshot are not changed.</figcaption>
+</figure>
+
 === "Console"
 
     Choose **Manage → Create volume from it** on the snapshot, name the volume and choose its

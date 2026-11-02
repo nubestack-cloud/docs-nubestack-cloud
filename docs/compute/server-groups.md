@@ -19,6 +19,11 @@ Find them under **Compute → Server groups**.
 
 Decide the policy before you create instances: membership is fixed when an instance is created.
 
+<figure class="ns-diagram">
+--8<-- "server-group-policies.svg"
+<figcaption>The four policies: strict ones refuse an instance that would break the rule; "when possible" ones bend it instead.</figcaption>
+</figure>
+
 ## Create a server group
 
 === "Console"

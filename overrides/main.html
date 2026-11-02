@@ -5,4 +5,6 @@
   <link rel="apple-touch-icon" href="{{ 'assets/brand/apple-touch-icon.png' | url }}">
   <meta name="theme-color" media="(prefers-color-scheme: light)" content="#ffffff">
   <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#171b1b">
+  {#- Hide the navigation before the first paint if the reader hid it last time (nav-toggle.js). #}
+  <script>try{if(localStorage.getItem("ns.nav")==="hidden")document.documentElement.dataset.nsNav="hidden"}catch(e){}</script>
 {% endblock %}

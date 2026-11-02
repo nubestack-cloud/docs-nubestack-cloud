@@ -1,39 +1,56 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 290" role="img" aria-labelledby="dn-title dn-desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 290" role="img" aria-labelledby="dn-title dn-desc">
   <title id="dn-title">How traffic reaches your instances and the Internet</title>
   <desc id="dn-desc">In one location, the project's private routing joins its networks. An Internet gateway lets instances reach the Internet through a shared outbound address. A public IP brings traffic from the Internet to one instance, here web-1 on the network app. web-2 has no public IP: it can reach out through the gateway but cannot be reached from the Internet.</desc>
   <defs>
     <marker id="dn-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-arrow" d="M0 0L8 4L0 8z"/></marker>
     <marker id="dn-arrow-teal" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-arrow-teal" d="M0 0L8 4L0 8z"/></marker>
   </defs>
-  <rect class="d-box" x="10" y="122" width="116" height="44" rx="22"/>
-  <text class="d-title" x="68" y="149" text-anchor="middle">Internet</text>
 
-  <rect class="d-box" x="180" y="40" width="186" height="56" rx="8"/>
-  <text class="d-title" x="196" y="64">Internet gateway</text>
-  <text class="d-muted" x="196" y="83">outbound via 198.51.100.2</text>
-  <rect class="d-box-teal" x="180" y="196" width="186" height="56" rx="8"/>
-  <text class="d-title" x="196" y="220">Public IP</text>
-  <text class="d-muted" x="196" y="239">203.0.113.21 → web-1</text>
+  <rect class="d-box" x="10" y="116" width="130" height="56" rx="8"/>
+  <rect class="d-chip" x="22" y="129" width="30" height="30" rx="7"/>
+  <svg x="27" y="134" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph" d="M17.9 17.39c-.26-.8-1.01-1.39-1.9-1.39h-1v-3a1 1 0 0 0-1-1H8v-2h2a1 1 0 0 0 1-1V7h2a2 2 0 0 0 2-2v-.41a7.984 7.984 0 0 1 2.9 12.8M11 19.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.22.21-1.79L9 15v1a2 2 0 0 0 2 2m1-16A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"/></svg>
+  <text class="d-title" x="62" y="149">Internet</text>
 
-  <rect class="d-box" x="412" y="40" width="164" height="56" rx="8"/>
-  <text class="d-title" x="428" y="64">Private routing</text>
-  <text class="d-muted" x="428" y="83">joins your networks</text>
+  <rect class="d-box" x="190" y="40" width="226" height="56" rx="8"/>
+  <rect class="d-chip" x="202" y="53" width="30" height="30" rx="7"/>
+  <svg x="207" y="58" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph" d="M5 9c-1.1 0-2 .9-2 2v4a2 2 0 0 0 2 2h6v2h-1c-.55 0-1 .45-1 1H2v2h7c0 .55.45 1 1 1h4c.55 0 1-.45 1-1h7v-2h-7c0-.55-.45-1-1-1h-1v-2h6c1.11 0 2-.89 2-2v-4a2 2 0 0 0-2-2zm1 3h2v2H6zm3.5 0h2v2h-2zm3.5 0h2v2h-2z"/></svg>
+  <text class="d-title" x="242" y="64">Internet gateway</text>
+  <text class="d-muted" x="242" y="83">outbound via 198.51.100.2</text>
 
-  <rect class="d-zone-teal" x="618" y="16" width="172" height="262" rx="10"/>
-  <text class="d-label" x="634" y="40">Network · app</text>
-  <text class="d-muted d-mono" x="634" y="58">10.0.0.0/24</text>
-  <rect class="d-box" x="634" y="96" width="140" height="56" rx="8"/>
-  <text class="d-title" x="650" y="120">web-1</text>
-  <text class="d-muted d-mono" x="650" y="139">10.0.0.11</text>
-  <rect class="d-box" x="634" y="196" width="140" height="56" rx="8"/>
-  <text class="d-title" x="650" y="220">web-2</text>
-  <text class="d-muted d-mono" x="650" y="239">10.0.0.12</text>
+  <rect class="d-box-teal" x="190" y="196" width="226" height="56" rx="8"/>
+  <rect class="d-chip-solid" x="202" y="209" width="30" height="30" rx="7"/>
+  <svg x="207" y="214" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph-inv" d="M15 20a1 1 0 0 0-1-1h-1v-2h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4v2h-1a1 1 0 0 0-1 1H2v2h7a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1h7v-2zm-8-5V5h10v10zm3-9H8v8h2zm4 0h-3v8h2v-2h1a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2m0 4h-1V8h1z"/></svg>
+  <text class="d-title" x="242" y="220">Public IP</text>
+  <text class="d-muted" x="242" y="239">203.0.113.21 → web-1</text>
 
-  <path class="d-line" d="M180 68C150 68 150 132 126 138" marker-end="url(#dn-arrow)"/>
-  <text class="d-muted" x="132" y="92">out</text>
-  <path class="d-flow" d="M126 150C150 156 150 224 180 224" marker-end="url(#dn-arrow-teal)"/>
-  <text class="d-muted" x="132" y="206">in</text>
-  <path class="d-line" d="M412 68H366" marker-end="url(#dn-arrow)"/>
-  <path class="d-line" d="M618 68H576" marker-end="url(#dn-arrow)"/>
-  <path class="d-flow" d="M366 224H596V124H634" marker-end="url(#dn-arrow-teal)"/>
+  <rect class="d-box" x="456" y="40" width="190" height="56" rx="8"/>
+  <rect class="d-chip" x="468" y="53" width="30" height="30" rx="7"/>
+  <svg x="473" y="58" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph" d="M11 10H5L3 8l2-2h6V3l1-1 1 1v1h6l2 2-2 2h-6v2h6l2 2-2 2h-6v6a2 2 0 0 1 2 2H9a2 2 0 0 1 2-2z"/></svg>
+  <text class="d-title" x="508" y="64">Private routing</text>
+  <text class="d-muted" x="508" y="83">joins your networks</text>
+
+  <rect class="d-zone-teal" x="680" y="16" width="170" height="262" rx="10"/>
+  <svg x="696" y="29" width="14" height="14" viewBox="0 0 24 24"><path class="d-glyph" d="M10 2c-1.11 0-2 .89-2 2v3c0 1.11.89 2 2 2h1v2H2v2h4v2H5c-1.11 0-2 .89-2 2v3c0 1.11.89 2 2 2h4c1.11 0 2-.89 2-2v-3c0-1.11-.89-2-2-2H8v-2h8v2h-1c-1.11 0-2 .89-2 2v3c0 1.11.89 2 2 2h4c1.11 0 2-.89 2-2v-3c0-1.11-.89-2-2-2h-1v-2h4v-2h-9V9h1c1.11 0 2-.89 2-2V4c0-1.11-.89-2-2-2zm0 2h4v3h-4zM5 17h4v3H5zm10 0h4v3h-4z"/></svg>
+  <text class="d-label" x="716" y="40">Network · app</text>
+  <text class="d-muted d-mono" x="696" y="58">10.0.0.0/24</text>
+
+  <rect class="d-box" x="696" y="96" width="138" height="56" rx="8"/>
+  <rect class="d-chip" x="708" y="109" width="30" height="30" rx="7"/>
+  <svg x="713" y="114" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph" d="M2 4.6v4.8c0 .9.5 1.6 1.2 1.6h17.7c.6 0 1.2-.7 1.2-1.6V4.6C22 3.7 21.5 3 20.8 3H3.2C2.5 3 2 3.7 2 4.6M10 8V6H9v2zM5 8h2V6H5zm15 1H4V5h16zM2 14.6v4.8c0 .9.5 1.6 1.2 1.6h17.7c.6 0 1.2-.7 1.2-1.6v-4.8c0-.9-.5-1.6-1.2-1.6H3.2c-.7 0-1.2.7-1.2 1.6m8 3.4v-2H9v2zm-5 0h2v-2H5zm15 1H4v-4h16z"/></svg>
+  <text class="d-title" x="748" y="120">web-1</text>
+  <text class="d-muted d-mono" x="748" y="139">10.0.0.11</text>
+
+  <rect class="d-box" x="696" y="196" width="138" height="56" rx="8"/>
+  <rect class="d-chip" x="708" y="209" width="30" height="30" rx="7"/>
+  <svg x="713" y="214" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph" d="M2 4.6v4.8c0 .9.5 1.6 1.2 1.6h17.7c.6 0 1.2-.7 1.2-1.6V4.6C22 3.7 21.5 3 20.8 3H3.2C2.5 3 2 3.7 2 4.6M10 8V6H9v2zM5 8h2V6H5zm15 1H4V5h16zM2 14.6v4.8c0 .9.5 1.6 1.2 1.6h17.7c.6 0 1.2-.7 1.2-1.6v-4.8c0-.9-.5-1.6-1.2-1.6H3.2c-.7 0-1.2.7-1.2 1.6m8 3.4v-2H9v2zm-5 0h2v-2H5zm15 1H4v-4h16z"/></svg>
+  <text class="d-title" x="748" y="220">web-2</text>
+  <text class="d-muted d-mono" x="748" y="239">10.0.0.12</text>
+
+  <path class="d-line" d="M190 68C162 68 162 136 140 138" marker-end="url(#dn-arrow)"/>
+  <text class="d-muted" x="150" y="92">out</text>
+  <path class="d-flow" d="M140 150C162 152 162 224 190 224" marker-end="url(#dn-arrow-teal)"/>
+  <text class="d-muted" x="152" y="206">in</text>
+  <path class="d-line" d="M456 68H416" marker-end="url(#dn-arrow)"/>
+  <path class="d-line" d="M680 68H646" marker-end="url(#dn-arrow)"/>
+  <path class="d-flow" d="M416 224H660V124H696" marker-end="url(#dn-arrow-teal)"/>
 </svg>

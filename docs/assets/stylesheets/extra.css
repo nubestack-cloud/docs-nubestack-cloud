@@ -58,6 +58,10 @@
   --ns-tint: #e9f2f1;
   --ns-shadow: 0 1px 2px rgb(20 40 40 / 6%), 0 4px 16px rgb(20 40 40 / 5%);
   --ns-mark-n: #3c7f7c;
+  --ns-guide: #d3dad9;
+  --ns-ok: #2f7d4f;
+  --ns-warn: #b7791f;
+  --ns-bad: #c0392b;
 }
 
 /* ---- Dark -------------------------------------------------------------------------------- */
@@ -90,10 +94,13 @@
   --ns-tint: #1d2c2b;
   --ns-shadow: 0 1px 2px rgb(0 0 0 / 30%);
   --ns-mark-n: #5fa8a4;
+  --ns-guide: #344040;
+  --ns-ok: #5cbf86;
+  --ns-warn: #e0a84a;
+  --ns-bad: #ec7468;
 }
 
 /* ---- Frame ------------------------------------------------------------------------------- */
-.md-header,
 .md-header__button.md-logo { padding: .3rem .2rem; }
 .md-header__button.md-logo .ns-mark { height: 1.7rem; width: auto; fill: none; }
 .ns-mark__n { fill: var(--ns-mark-n); stroke: var(--ns-mark-n); }
@@ -105,11 +112,69 @@
 .md-search__form:hover { background-color: var(--ns-tint); }
 .md-search__input, .md-search__input::placeholder, .md-search__icon { color: var(--md-default-fg-color--light); }
 .md-nav__link--active, .md-nav__link:is(:hover, :focus) { color: var(--md-primary-fg-color); }
-.md-nav--primary .md-nav__item--section > .md-nav__link { color: var(--ns-heading); font-weight: 650; }
 .md-path { font-size: .64rem; }
-/* With tabs, sections and index pages, Material makes the active section's index link sticky,
-   which lays it over the section's first page on desktop. Keep it in the flow. */
-.md-nav--lifted > .md-nav__list > .md-nav__item--active > .md-nav__container { position: static; }
+
+/* ---- Navigation (desktop) ----------------------------------------------------------------
+   The left list as rows: each link is a rounded target with a tint on hover and a filled pill
+   for the page you are on. Sections read as headings, the top level largest; the pages under
+   them hang off a guide line, on which the current page is marked in teal, as in the table of
+   contents. The phone drawer keeps Material's rows. */
+@media screen and (min-width: 76.25em) {
+  .md-sidebar--primary .md-sidebar__scrollwrap { border-right: 1px solid var(--ns-border); }
+  [dir] .md-sidebar--primary .md-sidebar__inner { padding-right: 0; }  /* Material pins the list at 11.5rem */
+  .md-nav--primary > .md-nav__title { display: none; }
+  [dir] .md-nav--primary .md-nav__list { padding: 0; }
+  [dir] .md-nav--primary > .md-nav__list { padding: 0 .7rem .8rem .5rem; }
+  [dir] .md-nav--primary .md-nav__item { padding: 0; }
+
+  .md-nav--primary .md-nav__link {
+    margin-top: 1px; padding: .32rem .55rem; border-radius: 6px; align-items: center;
+    color: var(--md-default-fg-color--light); transition: background-color .12s, color .12s;
+  }
+  .md-nav--primary .md-nav__link:hover { background-color: var(--ns-surface); color: var(--md-default-fg-color); }
+  .md-nav--primary .md-nav__link.md-nav__link--active,
+  .md-nav--primary .md-nav__container > .md-nav__link--active:first-child {
+    background-color: var(--ns-tint); color: var(--md-primary-fg-color); font-weight: 600;
+  }
+
+  /* A section with an index page is one row holding two targets: the page and the toggle. */
+  .md-nav--primary .md-nav__container { padding: 0; gap: 0; }
+  .md-nav--primary .md-nav__container:hover { background-color: var(--ns-surface); }
+  .md-nav--primary .md-nav__container > .md-nav__link { margin: 0; }
+  .md-nav--primary .md-nav__container > .md-nav__link:hover { background: none; }
+  .md-nav--primary .md-nav__container > label.md-nav__link { padding: .32rem .4rem; }
+  .md-nav--primary .md-nav__container > label.md-nav__link.md-nav__link--active { background: none; }
+  .md-nav--primary .md-nav__link .md-nav__icon { height: .8rem; width: .8rem; font-size: .8rem; color: var(--md-default-fg-color--lighter); }
+
+  /* Headings: the top level larger and heavier, with room between sections; a section inside
+     one (Compute, Tutorials) in heading colour and weight. Pages stay lighter. */
+  .md-nav--primary > .md-nav__list > .md-nav__item { margin-top: .2rem; }
+  .md-nav--primary > .md-nav__list > .md-nav__item > .md-nav__link,
+  .md-nav--primary > .md-nav__list > .md-nav__item > .md-nav__container > .md-nav__link:first-child {
+    color: var(--ns-heading); font-size: .74rem; font-weight: 650; letter-spacing: -.005em;
+  }
+  .md-nav--primary .md-nav .md-nav__item--nested > .md-nav__container > .md-nav__link:first-child,
+  .md-nav--primary .md-nav .md-nav__item--nested > label.md-nav__link {
+    color: var(--ns-heading); font-weight: 600;
+  }
+  /* The sections you are in, on the way to the current page. */
+  .md-nav--primary .md-nav__list > .md-nav__item--active.md-nav__item--nested > .md-nav__container > .md-nav__link:first-child,
+  .md-nav--primary .md-nav__list > .md-nav__item--active.md-nav__item--nested > label.md-nav__link { color: var(--md-primary-fg-color); }
+
+  /* Below the top level: a guide line, with the current page marked on it. Material clips each
+     list (overflow: hidden, for the open/close animation), so the mark sits just inside the line. */
+  [dir] .md-nav--primary .md-nav .md-nav__list {
+    margin: .15rem 0 .45rem .95rem; padding-left: .45rem; border-left: 1px solid var(--ns-guide);
+  }
+  .md-nav--primary .md-nav .md-nav__link { position: relative; font-size: .68rem; }
+  .md-nav--primary .md-nav .md-nav__link--active::before,
+  .md-nav--primary .md-nav .md-nav__container:has(> .md-nav__link--active)::before {
+    content: ""; position: absolute; left: -.45rem; top: .3rem; bottom: .3rem; width: 2px;
+    border-radius: 2px; background: var(--md-primary-fg-color);
+  }
+  .md-nav--primary .md-nav .md-nav__container { position: relative; }
+  .md-nav--primary .md-nav .md-nav__container > .md-nav__link--active::before { content: none; }
+}
 
 /* ---- Type -------------------------------------------------------------------------------- */
 .md-typeset { font-feature-settings: "cv11", "ss01"; line-height: 1.65; }
@@ -124,6 +189,12 @@
 .md-typeset kbd { font-size: .8em; }
 .md-typeset table:not([class]) { font-size: .74rem; border: 1px solid var(--ns-border); border-radius: var(--ns-radius); box-shadow: none; }
 .md-typeset table:not([class]) th { background-color: var(--ns-surface); font-weight: 600; }
+/* Tables fill the column, so consecutive tables line up; they still scroll sideways when wide. */
+.md-typeset .md-typeset__table { display: block; }
+.md-typeset .md-typeset__table > table { display: table; width: 100%; }
+.md-typeset td > code:only-child { white-space: nowrap; }  /* an identifier alone in its cell never breaks */
+.md-typeset .ns-compact :is(td, th) { padding-top: .4em; padding-bottom: .4em; }
+.md-typeset .md-code__button { color: var(--md-default-fg-color--light); }
 .md-typeset .admonition, .md-typeset details { border-radius: var(--ns-radius); font-size: .74rem; box-shadow: none; }
 .md-typeset .md-button { border-radius: var(--ns-radius); font-weight: 600; padding: .5em 1.2em; }
 .md-typeset .tabbed-set { border: 1px solid var(--ns-border); border-radius: var(--ns-radius); padding: 0 1em; margin: 1.2em 0; }
@@ -131,6 +202,11 @@
 /* The tab set has its own border and padding, so its labels keep inside it on phones too
    (Material pulls them to the screen edge with a negative margin). */
 .md-typeset .tabbed-set > .tabbed-labels { margin: 0; padding: 0; max-width: 100%; }
+
+/* Notes and info boxes in the brand teal rather than Material's blue. */
+.md-typeset :is(.admonition, details):is(.note, .info) { border-color: var(--md-primary-fg-color); }
+.md-typeset :is(.note, .info) > :is(.admonition-title, summary) { background-color: var(--ns-tint); }
+.md-typeset :is(.note, .info) > :is(.admonition-title, summary)::before { background-color: var(--md-primary-fg-color); }
 
 /* ---- Figures: screenshots and diagrams ----------------------------------------------------- */
 .md-typeset figure.ns-shot { margin: 1.4em 0; display: block; }
@@ -140,9 +216,9 @@
   box-shadow: var(--ns-shadow); background: #fff;
 }
 .md-typeset figure figcaption { font-size: .68rem; color: var(--md-default-fg-color--light); margin-top: .7em; max-width: 42rem; }
-.md-typeset figure.ns-diagram { margin: 1.6em 0; max-width: 100%; }
+.md-typeset figure.ns-diagram { margin: 1.6em 0; width: 100%; max-width: 100%; }
 .md-typeset figure.ns-diagram { overflow-x: auto; }
-.md-typeset figure.ns-diagram svg { width: 100%; min-width: 600px; height: auto; }
+.md-typeset figure.ns-diagram > svg { width: 100%; min-width: 600px; height: auto; }
 
 /* Diagram classes, shared by every inline SVG in docs/assets/diagrams. */
 .ns-diagram { --d-line: var(--md-default-fg-color--lighter); }
@@ -163,24 +239,177 @@
 .ns-diagram .d-arrow { fill: var(--d-line); }
 .ns-diagram .d-arrow-teal { fill: var(--md-primary-fg-color); }
 .ns-diagram .d-icon { fill: none; stroke: var(--md-primary-fg-color); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.ns-diagram .d-box, .ns-diagram .d-box-teal { filter: drop-shadow(0 1px 1.5px rgb(20 40 40 / 10%)); }
+.ns-diagram .d-chip-solid { fill: var(--md-primary-fg-color); }
+.ns-diagram .d-tree { fill: none; stroke: var(--md-primary-fg-color); stroke-width: 1.5; stroke-opacity: .55; }
+.ns-diagram .d-tag { font-size: 11px; font-weight: 600; fill: var(--md-primary-fg-color--dark); }
+[data-md-color-scheme="slate"] .ns-diagram .d-tag { fill: var(--md-primary-fg-color--light); }
+.ns-diagram .d-tag.d-tag-inv { fill: var(--md-default-bg-color); }
+.ns-diagram .d-glyph { fill: var(--md-primary-fg-color); }
+.ns-diagram .d-glyph-inv { fill: var(--md-default-bg-color); }
+.ns-diagram .d-glyph.d-ok { fill: var(--ns-ok); }
+.ns-diagram .d-glyph.d-warn { fill: var(--ns-warn); }
+.ns-diagram .d-glyph.d-bad { fill: var(--ns-bad); }
+/* Teal lines are traffic or work moving along: they march slowly, unless the reader asks for
+   less motion. */
+.ns-diagram .d-flow { stroke-dasharray: 7 5; animation: ns-flow 1.2s linear infinite; }
+@keyframes ns-flow { to { stroke-dashoffset: -12; } }
+@media (prefers-reduced-motion: reduce) {
+  .ns-diagram .d-flow { stroke-dasharray: none; animation: none; }
+}
 
 /* ---- Cards ------------------------------------------------------------------------------- */
 .md-typeset .grid.cards > ul > li, .md-typeset .grid > .card {
   border: 1px solid var(--ns-border); border-radius: var(--ns-radius); box-shadow: none; padding: 1rem 1.1rem;
+  position: relative; transition: border-color .15s, box-shadow .15s, transform .15s;
 }
 .md-typeset .grid.cards > ul > li:hover, .md-typeset .grid > .card:hover {
-  border-color: var(--md-primary-fg-color); box-shadow: var(--ns-shadow);
+  border-color: var(--md-primary-fg-color); box-shadow: var(--ns-shadow); transform: translateY(-2px);
+}
+/* Each card holds one link, its title; it covers the whole card so the card is the target. */
+.md-typeset .grid.cards > ul > li a::after { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.md-typeset .grid.cards > ul > li:has(a:focus-visible) { outline: 2px solid var(--md-accent-fg-color); outline-offset: 2px; }
+.md-typeset .grid.cards > ul > li:hover a { color: var(--md-accent-fg-color); }
+/* Large card icons sit on a tinted tile. */
+.md-typeset .grid.cards .twemoji.lg {
+  box-sizing: content-box; padding: .35rem; margin-right: .3rem; border-radius: 8px; background: var(--ns-tint);
+}
+@media (prefers-reduced-motion: reduce) {
+  .md-typeset .grid.cards > ul > li:hover, .md-typeset .grid > .card:hover { transform: none; }
 }
 .md-typeset .grid.cards > ul > li > hr, .md-typeset .grid > .card > hr { margin: .6em 0; border-color: var(--ns-border); }
 .md-typeset .grid.cards .twemoji, .md-typeset .grid.cards .lg { color: var(--md-primary-fg-color); }
 .md-typeset .grid.cards p { margin: .4em 0; }
 
 /* ---- Home -------------------------------------------------------------------------------- */
-.md-typeset .ns-hero { padding: 1.5rem 0 1rem; max-width: 46rem; }
-.md-typeset .ns-hero h1 { font-size: 2.4em; line-height: 1.12; margin: 0 0 .5em; }
-.md-typeset .ns-hero p { font-size: 1.08em; color: var(--md-default-fg-color--light); }
-.md-typeset .ns-hero .md-button { margin: .4em .5em .4em 0; }
-.md-typeset .ns-eyebrow { font-size: .66rem; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; color: var(--md-primary-fg-color); margin: 0; }
+/* Hero: two jobs side by side. On the left, find something: the title, one line on what the
+   docs cover, a search box that opens the site search, and popular pages. On the right, start
+   from zero: the five Get started steps and one button. */
+.md-typeset .ns-hero {
+  display: grid; gap: 1.8rem 2.6rem; align-items: center; margin: .4rem 0 .6rem; padding: 2.4rem 2.4rem;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--ns-tint) 0%, var(--ns-surface) 55%, var(--md-default-bg-color) 100%);
+}
+@media screen and (min-width: 60em) {
+  .md-typeset .ns-hero { grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); }
+}
+.md-typeset .ns-hero h1 { font-size: 2.15em; line-height: 1.12; margin: 0 0 .45em; text-wrap: balance; }
+.md-typeset .ns-hero__main > p { font-size: 1.02em; color: var(--md-default-fg-color--light); margin: 0; max-width: 34rem; }
+
+.md-typeset .ns-search {
+  display: flex; align-items: center; gap: .7rem; margin: 1.5rem 0 .9rem; padding: 0 .6rem 0 .95rem;
+  height: 2.5rem; cursor: text; border: 1px solid var(--ns-border); border-radius: 12px;
+  background: var(--md-default-bg-color); box-shadow: 0 1px 2px rgb(20 40 40 / 5%), 0 6px 18px rgb(20 40 40 / 6%);
+  transition: border-color .15s, box-shadow .15s;
+}
+.md-typeset .ns-search:hover, .md-typeset .ns-search:focus-visible {
+  border-color: var(--md-primary-fg-color); outline: none;
+  box-shadow: 0 0 0 3px var(--md-accent-fg-color--transparent), 0 6px 18px rgb(20 40 40 / 8%);
+}
+.md-typeset .ns-search__icon { flex: none; width: 1.1rem; height: 1.1rem; fill: var(--md-default-fg-color--lighter); }
+.md-typeset .ns-search__text { flex: 1; font-size: .78rem; color: var(--md-default-fg-color--light); }
+.md-typeset .ns-search kbd { font-size: .62rem; padding: .1rem .45rem; }
+
+.md-typeset .ns-popular p { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem; margin: 0; }
+.md-typeset .ns-popular span { font-size: .64rem; font-weight: 600; color: var(--md-default-fg-color--lighter); margin-right: .2rem; }
+.md-typeset .ns-popular a {
+  font-size: .64rem; font-weight: 550; padding: .18rem .6rem; border-radius: 999px;
+  border: 1px solid var(--ns-border); background: var(--md-default-bg-color); color: var(--md-default-fg-color--light);
+  transition: border-color .15s, color .15s;
+}
+.md-typeset .ns-popular a:hover { border-color: var(--md-primary-fg-color); color: var(--md-primary-fg-color); }
+
+/* The start card: the five steps as a numbered list on a rail. */
+.md-typeset .ns-start {
+  padding: 1.2rem 1.3rem 1.3rem; border: 1px solid var(--ns-border); border-radius: 14px;
+  background: var(--md-default-bg-color); box-shadow: var(--ns-shadow);
+}
+.md-typeset .ns-start > p:not(.ns-eyebrow) { margin: .35rem 0 .7rem; font-size: .68rem; color: var(--md-default-fg-color--light); }
+.md-typeset .ns-start ol { margin: 0 0 1rem; padding: 0; list-style: none; counter-reset: ns-step; }
+[dir] .md-typeset .ns-start ol li {
+  counter-increment: ns-step; position: relative; display: flex; align-items: center; gap: .65rem;
+  margin: 0; padding: .38rem .5rem; border-radius: 8px; font-size: .72rem; transition: background-color .15s;
+}
+.md-typeset .ns-start ol li::before {
+  content: counter(ns-step); position: relative; z-index: 1; flex: none; display: grid; place-items: center;
+  width: 1.25rem; height: 1.25rem; border-radius: 50%; font-size: .6rem; font-weight: 700;
+  background: var(--md-default-bg-color); color: var(--md-primary-fg-color); border: 1.5px solid var(--md-primary-fg-color);
+}
+.md-typeset .ns-start ol li:first-child::before { background: var(--md-primary-fg-color); color: var(--md-primary-bg-color); }
+.md-typeset .ns-start ol li:not(:last-child)::after {
+  content: ""; position: absolute; left: calc(.5rem + .625rem - .75px); top: 1.4rem; bottom: -.6rem; width: 1.5px; background: var(--ns-guide);
+}
+.md-typeset .ns-start ol li:hover { background: var(--ns-surface); }
+.md-typeset .ns-start ol a { color: var(--md-default-fg-color); font-weight: 550; }
+.md-typeset .ns-start ol li:hover a { color: var(--md-primary-fg-color); }
+.md-typeset .ns-start ol a::before { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.md-typeset .ns-start .md-button { display: block; margin: 0; padding: .55em 1em; text-align: center; font-size: .7rem; }
+.md-typeset .ns-start .md-button::after { content: " →"; }
+
+.md-typeset .ns-eyebrow { font-size: .62rem; font-weight: 650; letter-spacing: .1em; text-transform: uppercase; color: var(--md-primary-fg-color); margin: 0; }
+
+/* Section heads: the heading with a "more" link on the right, and a short lead under it. */
+.md-typeset .ns-section-head {
+  display: flex; align-items: baseline; justify-content: space-between; gap: 1rem;
+  margin-top: 2.4rem; padding-top: 1.6rem; border-top: 1px solid var(--ns-border);
+}
+.md-typeset .ns-section-head h2 { margin: 0; padding: 0; border: 0; }
+.md-typeset .ns-section-head p { margin: 0; }
+.md-typeset .ns-more { font-size: .72rem; font-weight: 600; white-space: nowrap; }
+.md-typeset .ns-more::after { content: " →"; }
+.md-typeset .ns-section-head + p { color: var(--md-default-fg-color--light); margin: .5rem 0 1rem; }
+
+/* Ways to work: two by two, icon on the left. */
+@media screen and (min-width: 45em) {
+  .md-typeset .grid.cards.ns-ways { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+[dir] .md-typeset .grid.cards.ns-ways > ul > li { padding-left: 4.1rem; }
+.md-typeset .grid.cards.ns-ways .twemoji.lg { position: absolute; left: 1.1rem; top: 1rem; }
+
+/* Common tasks: light rows, three across, each a whole target with an arrow. */
+.md-typeset .ns-tasks > ul { display: grid; gap: .5rem; margin: 1rem 0 0; padding: 0; list-style: none; }
+@media screen and (min-width: 45em) { .md-typeset .ns-tasks > ul { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media screen and (min-width: 110em) { .md-typeset .ns-tasks > ul { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+[dir] .md-typeset .ns-tasks > ul > li {
+  position: relative; display: flex; align-items: center; gap: .6rem; margin: 0; padding: .6rem .8rem;
+  font-size: .72rem; border: 1px solid var(--ns-border); border-radius: var(--ns-radius);
+  transition: border-color .15s, background-color .15s;
+}
+.md-typeset .ns-tasks > ul > li::after { content: "→"; margin-left: auto; color: var(--md-default-fg-color--lighter); transition: transform .15s, color .15s; }
+.md-typeset .ns-tasks > ul > li:hover { border-color: var(--md-primary-fg-color); background: var(--ns-tint); }
+.md-typeset .ns-tasks > ul > li:hover::after { color: var(--md-primary-fg-color); transform: translateX(3px); }
+.md-typeset .ns-tasks .twemoji {
+  display: grid; place-items: center; flex: none; width: 1.6rem; height: 1.6rem; border-radius: 6px;
+  background: var(--ns-tint); color: var(--md-primary-fg-color);
+}
+.md-typeset .ns-tasks .twemoji svg { width: .95rem; height: .95rem; }
+.md-typeset .ns-tasks a { color: var(--md-default-fg-color); font-weight: 550; }
+.md-typeset .ns-tasks a::before { content: ""; position: absolute; inset: 0; border-radius: inherit; }
+.md-typeset .ns-tasks > ul > li:has(a:focus-visible) { outline: 2px solid var(--md-accent-fg-color); outline-offset: 2px; }
+
+/* Help band. */
+.md-typeset .ns-help {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 2rem;
+  margin: 2.6rem 0 1.4rem; padding: 1.3rem 1.5rem; border: 1px solid var(--ns-border); border-radius: 14px;
+  background: linear-gradient(110deg, var(--ns-tint), var(--md-default-bg-color) 75%);
+}
+.md-typeset .ns-help p { margin: .2rem 0 0; }
+.md-typeset .ns-help > div:first-child { flex: 1 1 18rem; }
+.md-typeset .ns-help__links p { display: flex; flex-wrap: wrap; gap: .5rem; margin: 0; }
+.md-typeset .ns-help__links a {
+  display: inline-flex; align-items: center; gap: .35rem; padding: .4rem .85rem; font-size: .7rem; font-weight: 600;
+  border: 1px solid var(--ns-border); border-radius: 999px; background: var(--md-default-bg-color);
+  transition: border-color .15s;
+}
+.md-typeset .ns-help__links a:hover { border-color: var(--md-primary-fg-color); }
+
+/* Phones: a tighter hero. */
+@media screen and (max-width: 59.984375em) {
+  .md-typeset .ns-hero { padding: 1.6rem 1.1rem 1.2rem; }
+  .md-typeset .ns-hero h1 { font-size: 1.85em; }
+  .md-typeset .ns-search kbd { display: none; }
+}
+
 .md-typeset .ns-locations p { display: flex; flex-wrap: wrap; gap: .5rem; margin: .8rem 0 0; }
 .md-typeset .ns-locations span:not(.twemoji) {
   display: inline-flex; align-items: center; gap: .3rem; padding: .2rem .7rem; font-size: .7rem;
@@ -191,8 +420,45 @@
 /* ---- 404 --------------------------------------------------------------------------------- */
 .md-typeset .ns-404__code { font-size: 3.5rem; font-weight: 800; color: var(--md-primary-fg-color); margin: 0; line-height: 1; }
 
-/* No table of contents on any page (owner, 2026-11-02, as on the ARGUS and OpsPilot docs): the
-   right-hand sidebar is hidden and the article takes its width. Material shows it with
-   `.md-sidebar--secondary:not([hidden])`, so the rule matches that specificity. */
-.md-sidebar--secondary,
-.md-sidebar--secondary:not([hidden]) { display: none; }
+/* ---- Layout: navigation at the left edge, contents at the right, the article between ---------
+   The grid takes the whole window instead of Material's 61rem column, so the header's logo sits
+   over the navigation and its search over the table of contents. The article is centred in the
+   space between them, up to a readable measure, and widens when the navigation is hidden. */
+.md-grid { max-width: none; }
+.md-content { max-width: 52rem; margin-inline: auto; }
+.md-content:has(.ns-hero) { max-width: 62rem; }  /* the home page has no table of contents */
+
+@media screen and (min-width: 76.25em) {
+  .md-sidebar--primary { width: 13.2rem; }
+}
+@media screen and (min-width: 100em) {
+  .md-sidebar { width: 13.5rem; }
+  .md-sidebar--primary { width: 14.2rem; }
+}
+
+/* The header button that hides the navigation (nav-toggle.js); desktop only, since below 76.25em
+   the navigation is the drawer behind the menu button. */
+.md-header__button.ns-nav-toggle { display: none; }
+@media screen and (min-width: 76.25em) {
+  .md-header__button.ns-nav-toggle { display: inline-block; margin-left: 0; }
+  :root[data-ns-nav="hidden"] .md-sidebar--primary ~ .md-content > .md-content__inner { margin-left: 2rem; }
+  [data-ns-nav="hidden"] .ns-nav-toggle { color: var(--md-accent-fg-color); }
+  [data-ns-nav="hidden"] .md-sidebar--primary { display: none; }
+  [data-ns-nav="hidden"] .md-content { max-width: 64rem; }
+}
+
+/* Table of contents: the same type as the navigation, under a small label, with a rule on the
+   left that the current section's link marks in teal. */
+.md-nav--secondary > .md-nav__title {
+  font-size: .62rem; font-weight: 650; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--md-default-fg-color--light);
+  background: var(--md-default-bg-color); box-shadow: 0 0 .4rem .4rem var(--md-default-bg-color);  /* sticky: hide what scrolls under it */
+}
+@media screen and (min-width: 60em) {
+  .md-nav--secondary > .md-nav__list { border-left: 1px solid var(--ns-border); margin-left: .6rem; }
+  [dir] .md-nav--secondary .md-nav__list { padding-left: 0; }
+  .md-nav--secondary .md-nav__item { padding-left: 0; }
+  .md-nav--secondary .md-nav__link { margin-left: -1px; padding-left: .8rem; border-left: 2px solid transparent; }
+  .md-nav--secondary .md-nav__link--active { border-left-color: var(--md-primary-fg-color); font-weight: 600; }
+  .md-nav--secondary .md-nav .md-nav__link { padding-left: 1.6rem; }
+}

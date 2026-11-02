@@ -99,8 +99,15 @@ curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/volumes" \
 
 ```json
 {
-  "operation": {"id": "op_01jbvol1", "state": "queued", "href": "/v1/orgs/org_01jbacme/operations/op_01jbvol1"},
-  "volume": {"id": "vol_01jbdata1", "href": "/v1/orgs/org_01jbacme/projects/prj_01jbwebshop/volumes/vol_01jbdata1"}
+  "operation": {
+    "id": "op_01jbvol1",
+    "state": "queued",
+    "href": "/v1/orgs/org_01jbacme/operations/op_01jbvol1"
+  },
+  "volume": {
+    "id": "vol_01jbdata1",
+    "href": "/v1/orgs/org_01jbacme/projects/prj_01jbwebshop/volumes/vol_01jbdata1"
+  }
 }
 ```
 

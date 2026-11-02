@@ -9,7 +9,7 @@ Every error is a JSON problem (RFC 9457), with `Content-Type: application/proble
 
 ```json
 {
-  "type": "https://docs.nubestack.cloud/problems/volume_in_use",
+  "type": "https://docs.nubestack.com/problems/volume_in_use",
   "title": "Volume in use",
   "status": 409,
   "detail": "Detach the volume from db-1 before deleting it.",

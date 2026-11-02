@@ -58,6 +58,11 @@ export**, then **Download** when ready. It is one JSON lines file with the organ
 members, usage, statements and audit log. It holds nothing from inside your instances and volumes:
 copy those yourself before the window ends.
 
+<figure class="ns-diagram">
+--8<-- "deletion-timeline.svg"
+<figcaption>Closing the organization beside deleting one project: what happens at once, during the recovery window, when it ends and afterwards.</figcaption>
+</figure>
+
 ### Leave the organization
 
 **Leave organization** ends your own membership and your personal SSH keys here. The only owner

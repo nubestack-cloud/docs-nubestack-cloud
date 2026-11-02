@@ -11,8 +11,15 @@ its address. The new resource's ID is fixed from the start.
 
 ```json
 {
-  "operation": {"id": "op_01jbweb3", "state": "queued", "href": "/v1/orgs/org_01jbacme/operations/op_01jbweb3"},
-  "server": {"id": "srv_01jbweb3", "href": "/v1/orgs/org_01jbacme/projects/prj_01jbwebshop/servers/srv_01jbweb3"}
+  "operation": {
+    "id": "op_01jbweb3",
+    "state": "queued",
+    "href": "/v1/orgs/org_01jbacme/operations/op_01jbweb3"
+  },
+  "server": {
+    "id": "srv_01jbweb3",
+    "href": "/v1/orgs/org_01jbacme/projects/prj_01jbwebshop/servers/srv_01jbweb3"
+  }
 }
 ```
 

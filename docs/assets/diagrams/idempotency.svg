@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 334" role="img" aria-labelledby="di-title di-desc">
+  <title id="di-title">Sending a change again with the same idempotency key</title>
+  <desc id="di-desc">Your script sends a POST with the Idempotency-Key K to the NubeStack Cloud API. The connection drops and the answer is lost, so the script cannot tell whether the request arrived. It sends the request again with the same key K and the same body. The API answers with the first answer, marked Idempotency-Replayed: true, and nothing is made twice. Beside it, the cases that go wrong: the same key with a different body is refused with 409; a request without the Idempotency-Key header is refused with 428; and a new key for each retry could create two volumes. Use a new key for each new change, including a new attempt after a failed operation.</desc>
+  <defs>
+    <marker id="di-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-arrow-teal" d="M0 0L8 4L0 8z"/></marker>
+  </defs>
+
+  <rect class="d-box" x="30" y="10" width="180" height="48" rx="8"/>
+  <rect class="d-chip" x="42" y="19" width="30" height="30" rx="7"/>
+  <svg x="47" y="24" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph" d="M20 19V7H4v12zm0-16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm-7 14v-2h5v2zm-3.42-4L5.57 9H8.4l3.3 3.3c.39.39.39 1.03 0 1.42L8.42 17H5.59z"/></svg>
+  <text class="d-title" x="82" y="39">Your script</text>
+
+  <rect class="d-box" x="360" y="10" width="222" height="48" rx="8"/>
+  <rect class="d-chip" x="372" y="19" width="30" height="30" rx="7"/>
+  <svg x="377" y="24" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph" d="M7 7H5a2 2 0 0 0-2 2v8h2v-4h2v4h2V9a2 2 0 0 0-2-2m0 4H5V9h2m7-2h-4v10h2v-4h2a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2m0 4h-2V9h2m6 0v6h1v2h-4v-2h1V9h-1V7h4v2Z"/></svg>
+  <text class="d-title" x="412" y="39">NubeStack Cloud API</text>
+
+  <path class="d-line d-dash" d="M120 58V318"/>
+  <path class="d-line d-dash" d="M470 58V318"/>
+
+  <path class="d-flow" d="M120 98H470" marker-end="url(#di-arrow)"/>
+  <text class="d-muted d-mono" x="295" y="89" text-anchor="middle">POST · Idempotency-Key: K</text>
+
+  <path class="d-line" d="M470 138H300"/>
+  <svg x="281" y="128" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph d-bad" d="M12 20c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m0-18C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m2.59 6L12 10.59 9.41 8 8 9.41 10.59 12 8 14.59 9.41 16 12 13.41 14.59 16 16 14.59 13.41 12 16 9.41z"/></svg>
+  <text class="d-muted" x="385" y="129" text-anchor="middle">the answer is lost</text>
+  <text class="d-muted" x="132" y="160">Connection drops: did it arrive?</text>
+
+  <path class="d-flow" d="M120 208H470" marker-end="url(#di-arrow)"/>
+  <text class="d-muted d-mono" x="295" y="199" text-anchor="middle">Same key K, same body</text>
+
+  <path class="d-flow" d="M470 258H120" marker-end="url(#di-arrow)"/>
+  <text class="d-muted d-mono" x="295" y="249" text-anchor="middle">First answer · Idempotency-Replayed: true</text>
+
+  <svg x="132" y="280" width="18" height="18" viewBox="0 0 24 24"><path class="d-glyph d-ok" d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m4.59-12.42L10 14.17l-2.59-2.58L6 13l4 4 8-8z"/></svg>
+  <text class="d-title" x="156" y="294">Nothing is made twice</text>
+
+  <text class="d-label" x="640" y="78">Refused or risky</text>
+
+  <rect class="d-box" x="640" y="88" width="220" height="56" rx="8"/>
+  <svg x="654" y="99" width="18" height="18" viewBox="0 0 24 24"><path class="d-glyph d-bad" d="M12 20c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m0-18C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m2.59 6L12 10.59 9.41 8 8 9.41 10.59 12 8 14.59 9.41 16 12 13.41 14.59 16 16 14.59 13.41 12 16 9.41z"/></svg>
+  <text class="d-title" x="680" y="113">Same key, new body</text>
+  <text class="d-muted" x="680" y="131">Refused with 409</text>
+
+  <rect class="d-box" x="640" y="156" width="220" height="56" rx="8"/>
+  <svg x="654" y="167" width="18" height="18" viewBox="0 0 24 24"><path class="d-glyph d-bad" d="M12 20c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m0-18C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m2.59 6L12 10.59 9.41 8 8 9.41 10.59 12 8 14.59 9.41 16 12 13.41 14.59 16 16 14.59 13.41 12 16 9.41z"/></svg>
+  <text class="d-title" x="680" y="181">No key header</text>
+  <text class="d-muted" x="680" y="199">Refused with 428</text>
+
+  <rect class="d-box" x="640" y="224" width="220" height="56" rx="8"/>
+  <svg x="654" y="235" width="18" height="18" viewBox="0 0 24 24"><path class="d-glyph d-warn" d="M11 15h2v2h-2zm0-8h2v6h-2zm1-5C6.47 2 2 6.5 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2m0 18a8 8 0 0 1-8-8 8 8 0 0 1 8-8 8 8 0 0 1 8 8 8 8 0 0 1-8 8"/></svg>
+  <text class="d-title" x="680" y="249">A new key per retry</text>
+  <text class="d-muted" x="680" y="267">Could create two volumes</text>
+
+  <text class="d-muted" x="640" y="304">Use a new key for each new change,</text>
+  <text class="d-muted" x="640" y="320">including after a failed operation.</text>
+</svg>

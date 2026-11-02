@@ -22,7 +22,7 @@ from urllib.parse import unquote, urljoin, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"
-HOST = "docs.nubestack.cloud"
+HOST = "docs.nubestack.com"
 FORBIDDEN = re.compile(r"hinxton|sanger|\bhgi\b|\blab\b|\blabs\b|10\.11\.|172\.27\.|nip\.io", re.I)
 SCANNED = ("docs", "data", "openapi", "scripts", "overrides", "site")
 SUFFIXES = {".md", ".html", ".json", ".txt", ".ts", ".mjs", ".py", ".svg", ".css", ".yml", ".js"}

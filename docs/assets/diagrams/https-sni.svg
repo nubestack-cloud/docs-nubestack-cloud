@@ -1,48 +1,74 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 300" role="img" aria-labelledby="ds-title ds-desc">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 300" role="img" aria-labelledby="ds-title ds-desc">
   <title id="ds-title">One HTTPS listener serving two certificates by host name</title>
   <desc id="ds-desc">Browsers connect to the public IP 203.0.113.40. The load balancer's HTTPS listener on port 443 ends TLS. A browser asking for shop.acme.example is served the certificate shop-2026; one asking for www.acme.example, or any other name, is served the listener's default certificate, www-2026. The listener sends plain HTTP to the pool web-pool, which holds the instances web-1 and web-2 on port 8080.</desc>
   <defs>
     <marker id="ds-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-arrow-teal" d="M0 0L8 4L0 8z"/></marker>
   </defs>
-  <rect class="d-box" x="10" y="30" width="196" height="56" rx="8"/>
-  <text class="d-title d-mono" x="26" y="54">shop.acme.example</text>
-  <text class="d-muted" x="26" y="73">is served shop-2026</text>
-  <rect class="d-box" x="10" y="122" width="196" height="56" rx="8"/>
-  <text class="d-title d-mono" x="26" y="146">www.acme.example</text>
-  <text class="d-muted" x="26" y="165">is served www-2026</text>
-  <rect class="d-box" x="10" y="214" width="196" height="56" rx="8"/>
-  <text class="d-title" x="26" y="238">Any other name</text>
-  <text class="d-muted" x="26" y="257">is served the default</text>
 
-  <rect class="d-box-teal" x="246" y="122" width="132" height="56" rx="8"/>
-  <text class="d-title" x="262" y="146">Public IP</text>
-  <text class="d-muted d-mono" x="262" y="165">203.0.113.40</text>
+  <rect class="d-box" x="10" y="30" width="220" height="56" rx="8"/>
+  <rect class="d-chip" x="22" y="43" width="30" height="30" rx="7"/>
+  <svg x="27" y="48" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph" d="M4 6h16v10H4m16 2a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H4c-1.11 0-2 .89-2 2v10a2 2 0 0 0 2 2H0v2h24v-2z"/></svg>
+  <text class="d-title d-mono" x="62" y="54">shop.acme.example</text>
+  <text class="d-muted" x="62" y="73">is served shop-2026</text>
 
-  <rect class="d-zone-teal" x="416" y="20" width="214" height="260" rx="10"/>
-  <text class="d-label" x="432" y="44">HTTPS listener · 443</text>
-  <text class="d-muted" x="432" y="64">Ends TLS with your certificates</text>
-  <rect class="d-box" x="432" y="80" width="182" height="56" rx="8"/>
-  <text class="d-title" x="448" y="104">www-2026</text>
-  <text class="d-muted" x="448" y="123">Default certificate</text>
-  <rect class="d-box" x="432" y="150" width="182" height="56" rx="8"/>
-  <text class="d-title" x="448" y="174">shop-2026</text>
-  <text class="d-muted" x="448" y="193">By host name (SNI)</text>
-  <text class="d-muted" x="432" y="236">Up to 10 more certificates</text>
-  <text class="d-muted" x="432" y="253">by host name, one default.</text>
+  <rect class="d-box" x="10" y="122" width="220" height="56" rx="8"/>
+  <rect class="d-chip" x="22" y="135" width="30" height="30" rx="7"/>
+  <svg x="27" y="140" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph" d="M4 6h16v10H4m16 2a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H4c-1.11 0-2 .89-2 2v10a2 2 0 0 0 2 2H0v2h24v-2z"/></svg>
+  <text class="d-title d-mono" x="62" y="146">www.acme.example</text>
+  <text class="d-muted" x="62" y="165">is served www-2026</text>
 
-  <rect class="d-zone" x="666" y="20" width="124" height="260" rx="10"/>
-  <text class="d-label" x="680" y="44">web-pool</text>
-  <text class="d-muted" x="680" y="64">plain HTTP</text>
-  <rect class="d-box" x="680" y="80" width="96" height="56" rx="8"/>
-  <text class="d-title" x="694" y="104">web-1</text>
-  <text class="d-muted d-mono" x="694" y="123">:8080</text>
-  <rect class="d-box" x="680" y="150" width="96" height="56" rx="8"/>
-  <text class="d-title" x="694" y="174">web-2</text>
-  <text class="d-muted d-mono" x="694" y="193">:8080</text>
+  <rect class="d-box" x="10" y="214" width="220" height="56" rx="8"/>
+  <rect class="d-chip" x="22" y="227" width="30" height="30" rx="7"/>
+  <svg x="27" y="232" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph" d="M4 6h16v10H4m16 2a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H4c-1.11 0-2 .89-2 2v10a2 2 0 0 0 2 2H0v2h24v-2z"/></svg>
+  <text class="d-title" x="62" y="238">Any other name</text>
+  <text class="d-muted" x="62" y="257">is served the default</text>
 
-  <path class="d-flow" d="M206 58C230 58 226 140 246 146" marker-end="url(#ds-arrow)"/>
-  <path class="d-flow" d="M206 150H246" marker-end="url(#ds-arrow)"/>
-  <path class="d-flow" d="M206 242C230 242 226 160 246 154" marker-end="url(#ds-arrow)"/>
-  <path class="d-flow" d="M378 150H416" marker-end="url(#ds-arrow)"/>
-  <path class="d-flow" d="M630 150H666" marker-end="url(#ds-arrow)"/>
+  <rect class="d-box-teal" x="270" y="122" width="160" height="56" rx="8"/>
+  <rect class="d-chip-solid" x="282" y="135" width="30" height="30" rx="7"/>
+  <svg x="287" y="140" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph-inv" d="M15 20a1 1 0 0 0-1-1h-1v-2h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4v2h-1a1 1 0 0 0-1 1H2v2h7a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1h7v-2zm-8-5V5h10v10zm3-9H8v8h2zm4 0h-3v8h2v-2h1a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2m0 4h-1V8h1z"/></svg>
+  <text class="d-title" x="322" y="146">Public IP</text>
+  <text class="d-muted d-mono" x="322" y="165">203.0.113.40</text>
+
+  <rect class="d-zone-teal" x="466" y="20" width="230" height="260" rx="10"/>
+  <svg x="482" y="33" width="14" height="14" viewBox="0 0 24 24"><path class="d-glyph" d="M12 17a2 2 0 0 1-2-2c0-1.11.89-2 2-2a2 2 0 0 1 2 2 2 2 0 0 1-2 2m6 3V10H6v10zm0-12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V10c0-1.11.89-2 2-2h1V6a5 5 0 0 1 5-5 5 5 0 0 1 5 5v2zm-6-5a3 3 0 0 0-3 3v2h6V6a3 3 0 0 0-3-3"/></svg>
+  <text class="d-label" x="502" y="44">HTTPS listener · 443</text>
+  <text class="d-muted" x="482" y="64">Ends TLS with your certificates</text>
+
+  <rect class="d-box" x="482" y="80" width="198" height="56" rx="8"/>
+  <rect class="d-chip" x="494" y="93" width="30" height="30" rx="7"/>
+  <svg x="499" y="98" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph" d="m13 21 2-1 2 1v-7h-4m4-5V7l-2 1-2-1v2l-2 1 2 1v2l2-1 2 1v-2l2-1m1-7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7v-2H4V5h16v10h-1v2h1a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m-9 5H5V6h6m-2 5H5V9h4m2 5H5v-2h6Z"/></svg>
+  <text class="d-title" x="534" y="104">www-2026</text>
+  <text class="d-muted" x="534" y="123">Default certificate</text>
+
+  <rect class="d-box" x="482" y="150" width="198" height="56" rx="8"/>
+  <rect class="d-chip" x="494" y="163" width="30" height="30" rx="7"/>
+  <svg x="499" y="168" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph" d="m13 21 2-1 2 1v-7h-4m4-5V7l-2 1-2-1v2l-2 1 2 1v2l2-1 2 1v-2l2-1m1-7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h7v-2H4V5h16v10h-1v2h1a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2m-9 5H5V6h6m-2 5H5V9h4m2 5H5v-2h6Z"/></svg>
+  <text class="d-title" x="534" y="174">shop-2026</text>
+  <text class="d-muted" x="534" y="193">By host name (SNI)</text>
+
+  <text class="d-muted" x="482" y="236">Up to 10 more certificates</text>
+  <text class="d-muted" x="482" y="253">by host name, one default.</text>
+
+  <rect class="d-zone" x="726" y="20" width="144" height="260" rx="10"/>
+  <svg x="740" y="33" width="14" height="14" viewBox="0 0 24 24"><path class="d-glyph" d="M13 19h1a1 1 0 0 1 1 1h7v2h-7a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1H2v-2h7a1 1 0 0 1 1-1h1v-2H4a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1h-7zM4 3h16a1 1 0 0 1 1 1v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1m5 4h1V5H9zm0 8h1v-2H9zM5 5v2h2V5zm0 8v2h2v-2z"/></svg>
+  <text class="d-label" x="760" y="44">web-pool</text>
+  <text class="d-muted" x="740" y="64">plain HTTP</text>
+
+  <rect class="d-box" x="740" y="80" width="116" height="56" rx="8"/>
+  <rect class="d-chip" x="752" y="93" width="30" height="30" rx="7"/>
+  <svg x="757" y="98" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph" d="M2 4.6v4.8c0 .9.5 1.6 1.2 1.6h17.7c.6 0 1.2-.7 1.2-1.6V4.6C22 3.7 21.5 3 20.8 3H3.2C2.5 3 2 3.7 2 4.6M10 8V6H9v2zM5 8h2V6H5zm15 1H4V5h16zM2 14.6v4.8c0 .9.5 1.6 1.2 1.6h17.7c.6 0 1.2-.7 1.2-1.6v-4.8c0-.9-.5-1.6-1.2-1.6H3.2c-.7 0-1.2.7-1.2 1.6m8 3.4v-2H9v2zm-5 0h2v-2H5zm15 1H4v-4h16z"/></svg>
+  <text class="d-title" x="792" y="104">web-1</text>
+  <text class="d-muted d-mono" x="792" y="123">:8080</text>
+
+  <rect class="d-box" x="740" y="150" width="116" height="56" rx="8"/>
+  <rect class="d-chip" x="752" y="163" width="30" height="30" rx="7"/>
+  <svg x="757" y="168" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph" d="M2 4.6v4.8c0 .9.5 1.6 1.2 1.6h17.7c.6 0 1.2-.7 1.2-1.6V4.6C22 3.7 21.5 3 20.8 3H3.2C2.5 3 2 3.7 2 4.6M10 8V6H9v2zM5 8h2V6H5zm15 1H4V5h16zM2 14.6v4.8c0 .9.5 1.6 1.2 1.6h17.7c.6 0 1.2-.7 1.2-1.6v-4.8c0-.9-.5-1.6-1.2-1.6H3.2c-.7 0-1.2.7-1.2 1.6m8 3.4v-2H9v2zm-5 0h2v-2H5zm15 1H4v-4h16z"/></svg>
+  <text class="d-title" x="792" y="174">web-2</text>
+  <text class="d-muted d-mono" x="792" y="193">:8080</text>
+
+  <path class="d-flow" d="M230 58C254 58 250 140 270 146" marker-end="url(#ds-arrow)"/>
+  <path class="d-flow" d="M230 150H270" marker-end="url(#ds-arrow)"/>
+  <path class="d-flow" d="M230 242C254 242 250 160 270 154" marker-end="url(#ds-arrow)"/>
+  <path class="d-flow" d="M430 150H466" marker-end="url(#ds-arrow)"/>
+  <path class="d-flow" d="M696 150H726" marker-end="url(#ds-arrow)"/>
 </svg>

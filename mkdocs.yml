@@ -1,5 +1,5 @@
 site_name: NubeStack Cloud Docs
-site_url: https://docs.nubestack.cloud/
+site_url: https://docs.nubestack.com/
 site_description: >-
   Guides and reference for NubeStack Cloud: instances, networks, storage, load balancers and
   certificates in Karachi and Islamabad, from the console or the API.
@@ -43,6 +43,7 @@ theme:
     - navigation.path
     - navigation.top
     - navigation.footer
+    - toc.follow
     - search.suggest
     - search.highlight
     - search.share
@@ -54,6 +55,9 @@ theme:
 extra_css:
   - assets/stylesheets/extra.css
   - assets/stylesheets/api-reference.css
+
+extra_javascript:
+  - assets/javascripts/nav-toggle.js
 
 extra:
   generator: false

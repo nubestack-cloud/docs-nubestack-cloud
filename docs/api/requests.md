@@ -46,6 +46,11 @@ curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/volumes" \
 - Use a new key for each new change, including a new attempt after a failed operation.
 - One-time secrets, such as a new API key, are never replayed.
 
+<figure class="ns-diagram">
+--8<-- "idempotency.svg"
+<figcaption>Resend with the same key and body when you are not sure a change arrived: you get the first answer, and nothing is made twice.</figcaption>
+</figure>
+
 ## Versions and If-Match
 
 Some resources carry a version so that two people's changes do not overwrite each other: launch

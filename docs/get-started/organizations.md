@@ -9,15 +9,10 @@ Everything in NubeStack Cloud belongs to an **organization**: your company, team
 An organization has **members** (people), **service accounts** (for automation) and
 **projects**, which hold the resources.
 
-``` { .text .no-copy }
-Acme                               organization
-├── Members                        Ayesha (owner), Bilal (admin), Sara (member), Hina (billing)
-├── Service accounts               automation-prod
-└── Projects
-    ├── web-shop                   in Karachi and Islamabad
-    │   └── instances, networks, volumes, load balancers, certificates …
-    └── analytics                  in Islamabad
-```
+<figure class="ns-diagram">
+--8<-- "organization.svg"
+<figcaption>The organization Acme: four members with their organization roles, a service account for automation, and two projects in their locations.</figcaption>
+</figure>
 
 ## Two kinds of role
 

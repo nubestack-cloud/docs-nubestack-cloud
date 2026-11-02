@@ -39,6 +39,11 @@ Read sizes, images and volume types from the catalog rather than hard-coding the
 Choose the idempotency key **once** per change, and reuse it if you have to send the same request
 again after a network error. A new key per retry could create two volumes.
 
+<figure class="ns-diagram">
+--8<-- "idempotency.svg"
+<figcaption>One key per change, reused for every retry of that change.</figcaption>
+</figure>
+
 ```bash
 KEY=$(uuidgen)
 BODY=$(jq -n --arg loc "$KHI" '{location: $loc, display_name: "ci-scratch", size_gb: 10}')

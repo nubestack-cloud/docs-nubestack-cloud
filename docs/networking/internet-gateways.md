@@ -13,6 +13,11 @@ a [public IP](public-ips.md), which also needs the gateway.
 A project has at most one Internet gateway per location. It serves every network attached to
 [private routing](routing.md) there; isolated networks never use it.
 
+<figure class="ns-diagram">
+--8<-- "network-path.svg"
+<figcaption>The gateway takes traffic out for every instance on a routed network; only an instance with a public IP, here web-1, can be reached from the Internet.</figcaption>
+</figure>
+
 Find it under **Networking → Internet gateways**.
 
 ![Internet gateways: Karachi's gateway with its outbound address and the networks behind it](../assets/screens/networking/internet-gateways.webp)

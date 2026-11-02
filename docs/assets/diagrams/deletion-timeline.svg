@@ -1,0 +1,117 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 890 446" role="img" aria-labelledby="dt-title dt-desc">
+  <title id="dt-title">What happens when a project is deleted or the organization closed</title>
+  <desc id="dt-desc">Two timelines. Deleting a project, which project admins, owners and admins can do: at once the project is suspended and nothing new can be made in it. During the recovery window, 7 days unless agreed otherwise, Cancel deletion and then Resume project bring it back. When the window ends, or at once with Delete now, everything left is deleted in every location, and this cannot be cancelled once started. Afterwards, activity and usage records are kept. With Delete everything in it, instances, load balancers, public IPs, routers, networks and security groups go within minutes, while volumes, snapshots and images are kept for the window and are the only things that come back after Cancel deletion. With Delete only if empty, the deletion is refused while anything is left. Closing the organization, owners only: at once every instance stops, pending invitations are revoked and nothing can be changed, though owners can still read everything. During the recovery window, 30 days unless agreed otherwise, everything is kept, Cancel closure brings it back and an owner can request a data export of its records. When the window ends, every project is deleted in every location and every member removed; this cannot be undone. Afterwards the audit log and usage records are kept.</desc>
+  <defs>
+    <marker id="dt-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-arrow-teal" d="M0 0L8 4L0 8z"/></marker>
+    <marker id="dt-arrow-grey" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-arrow" d="M0 0L8 4L0 8z"/></marker>
+  </defs>
+
+  <path class="d-flow" d="M156 46H882" marker-end="url(#dt-arrow)"/>
+  <circle class="d-chip-solid" cx="156" cy="46" r="5"/>
+  <circle class="d-chip-solid" cx="342" cy="46" r="5"/>
+  <circle class="d-chip-solid" cx="594" cy="46" r="5"/>
+  <circle class="d-chip-solid" cx="770" cy="46" r="5"/>
+  <text class="d-label" x="156" y="26">At once</text>
+  <text class="d-label" x="342" y="26">Recovery window</text>
+  <text class="d-label" x="594" y="26">Window ends</text>
+  <text class="d-muted" x="594" y="68">or <tspan class="d-title">Delete now</tspan></text>
+  <text class="d-label" x="770" y="26">Afterwards</text>
+
+  <rect class="d-zone" x="0" y="80" width="890" height="214" rx="12"/>
+
+  <rect class="d-box-teal" x="10" y="90" width="140" height="194" rx="8"/>
+  <rect class="d-chip-solid" x="22" y="102" width="30" height="30" rx="7"/>
+  <svg x="27" y="107" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph-inv" d="M20 18H4V8h16m0-2h-8l-2-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2"/></svg>
+  <text class="d-title" x="22" y="154">Project</text>
+  <text class="d-muted" x="22" y="174">Window: 7 days</text>
+  <text class="d-muted" x="22" y="190">Project admins,</text>
+  <text class="d-muted" x="22" y="206">owners and admins</text>
+
+  <rect class="d-box" x="156" y="90" width="170" height="76" rx="8"/>
+  <svg x="168" y="100" width="16" height="16" viewBox="0 0 24 24"><path class="d-glyph" d="M13 16V8h2v8zm-4 0V8h2v8zm3-14a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2m0 2a8 8 0 0 0-8 8 8 8 0 0 0 8 8 8 8 0 0 0 8-8 8 8 0 0 0-8-8"/></svg>
+  <text class="d-title" x="190" y="113">Suspended</text>
+  <text class="d-muted" x="170" y="133">Nothing new can be</text>
+  <text class="d-muted" x="170" y="149">made in it</text>
+
+  <rect class="d-box-teal" x="342" y="90" width="236" height="76" rx="8"/>
+  <svg x="354" y="100" width="16" height="16" viewBox="0 0 24 24"><path class="d-glyph" d="M12 3a9 9 0 0 0-9 9H0l4 4 4-4H5a7 7 0 0 1 7-7 7 7 0 0 1 7 7 7 7 0 0 1-7 7c-1.5 0-2.91-.5-4.06-1.3L6.5 19.14A9.1 9.1 0 0 0 12 21a9 9 0 0 0 9-9 9 9 0 0 0-9-9m2 9a2 2 0 0 0-2-2 2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2"/></svg>
+  <text class="d-title" x="376" y="113">Cancel deletion</text>
+  <text class="d-muted" x="356" y="133">then Resume project brings</text>
+  <text class="d-muted" x="356" y="149">it back</text>
+
+  <rect class="d-box" x="594" y="90" width="160" height="76" rx="8"/>
+  <svg x="606" y="100" width="16" height="16" viewBox="0 0 24 24"><path class="d-glyph d-bad" d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6zM8 9h8v10H8zm7.5-5-1-1h-5l-1 1H5v2h14V4z"/></svg>
+  <text class="d-title" x="628" y="113">Deleted</text>
+  <text class="d-muted" x="608" y="133">in every location; cannot</text>
+  <text class="d-muted" x="608" y="149">be cancelled once started</text>
+
+  <rect class="d-box" x="770" y="90" width="110" height="76" rx="8"/>
+  <svg x="782" y="100" width="16" height="16" viewBox="0 0 24 24"><path class="d-glyph" d="M13.5 8H12v5l4.28 2.54.72-1.21-3.5-2.08zM13 3a9 9 0 0 0-9 9H1l3.96 4.03L9 12H6a7 7 0 0 1 7-7 7 7 0 0 1 7 7 7 7 0 0 1-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.9 8.9 0 0 0 13 21a9 9 0 0 0 9-9 9 9 0 0 0-9-9"/></svg>
+  <text class="d-title" x="804" y="113">Kept</text>
+  <text class="d-muted" x="784" y="133">activity and</text>
+  <text class="d-muted" x="784" y="149">usage records</text>
+
+  <text class="d-label" x="156" y="190">With Delete everything in it</text>
+
+  <rect class="d-box" x="156" y="198" width="170" height="86" rx="8"/>
+  <svg x="168" y="208" width="16" height="16" viewBox="0 0 24 24"><path class="d-glyph" d="M6 2h12v6l-4 4 4 4v6H6v-6l4-4-4-4zm10 14.5-4-4-4 4V20h8zm-4-5 4-4V4H8v3.5zM10 6h4v.75l-2 2-2-2z"/></svg>
+  <text class="d-title" x="190" y="221">Within minutes</text>
+  <text class="d-muted" x="170" y="241">instances, load balancers,</text>
+  <text class="d-muted" x="170" y="257">public IPs, routers,</text>
+  <text class="d-muted" x="170" y="273">networks, security groups</text>
+
+  <rect class="d-box" x="342" y="198" width="236" height="86" rx="8"/>
+  <svg x="354" y="208" width="16" height="16" viewBox="0 0 24 24"><path class="d-glyph" d="M6 2h12a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2m6 2a6 6 0 0 0-6 6c0 3.31 2.69 6 6.1 6l-.88-2.23a1.01 1.01 0 0 1 .37-1.37l.86-.5a1.01 1.01 0 0 1 1.37.37l1.92 2.42A5.98 5.98 0 0 0 18 10a6 6 0 0 0-6-6m0 5a1 1 0 0 1 1 1 1 1 0 0 1-1 1 1 1 0 0 1-1-1 1 1 0 0 1 1-1m-5 9a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m5.09-4.73 2.49 6.31 2.59-1.5-4.22-5.31z"/></svg>
+  <text class="d-title" x="376" y="221">Kept for the window</text>
+  <text class="d-muted" x="356" y="241">volumes, snapshots and images:</text>
+  <text class="d-muted" x="356" y="257">only these come back after</text>
+  <text class="d-muted" x="356" y="273">Cancel deletion</text>
+
+  <text class="d-label" x="594" y="190">With Delete only if empty</text>
+
+  <rect class="d-box" x="594" y="198" width="286" height="50" rx="8"/>
+  <svg x="606" y="208" width="16" height="16" viewBox="0 0 24 24"><path class="d-glyph d-warn" d="M12 20c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8m0-18C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2m2.59 6L12 10.59 9.41 8 8 9.41 10.59 12 8 14.59 9.41 16 12 13.41 14.59 16 16 14.59 13.41 12 16 9.41z"/></svg>
+  <text class="d-title" x="628" y="221">Refused while anything is left</text>
+
+  <path class="d-line" d="M326 236H342" marker-end="url(#dt-arrow-grey)"/>
+
+  <rect class="d-zone" x="0" y="310" width="890" height="128" rx="12"/>
+
+  <rect class="d-box-teal" x="10" y="320" width="140" height="108" rx="8"/>
+  <rect class="d-chip-solid" x="22" y="332" width="30" height="30" rx="7"/>
+  <svg x="27" y="337" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph-inv" d="M19 3v18h-6v-3.5h-2V21H5V3zm-4 4h2V5h-2zm-4 0h2V5h-2zM7 7h2V5H7zm8 4h2V9h-2zm-4 0h2V9h-2zm-4 0h2V9H7zm8 4h2v-2h-2zm-4 0h2v-2h-2zm-4 0h2v-2H7zm8 4h2v-2h-2zm-8 0h2v-2H7zM21 1H3v22h18z"/></svg>
+  <text class="d-title" x="22" y="384">Organization</text>
+  <text class="d-muted" x="22" y="404">Window: 30 days</text>
+  <text class="d-muted" x="22" y="420">Owners only</text>
+
+  <rect class="d-box" x="156" y="320" width="170" height="108" rx="8"/>
+  <svg x="168" y="330" width="16" height="16" viewBox="0 0 24 24"><path class="d-glyph" d="M12 2A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2m0 2c4.41 0 8 3.59 8 8s-3.59 8-8 8-8-3.59-8-8 3.59-8 8-8M9 9v6h6V9"/></svg>
+  <text class="d-title" x="190" y="343">Read only</text>
+  <text class="d-muted" x="170" y="363">Every instance stops;</text>
+  <text class="d-muted" x="170" y="379">pending invitations are</text>
+  <text class="d-muted" x="170" y="395">revoked. Owners can still</text>
+  <text class="d-muted" x="170" y="411">read everything</text>
+
+  <rect class="d-box-teal" x="342" y="320" width="236" height="108" rx="8"/>
+  <svg x="354" y="330" width="16" height="16" viewBox="0 0 24 24"><path class="d-glyph" d="M12 3a9 9 0 0 0-9 9H0l4 4 4-4H5a7 7 0 0 1 7-7 7 7 0 0 1 7 7 7 7 0 0 1-7 7c-1.5 0-2.91-.5-4.06-1.3L6.5 19.14A9.1 9.1 0 0 0 12 21a9 9 0 0 0 9-9 9 9 0 0 0-9-9m2 9a2 2 0 0 0-2-2 2 2 0 0 0-2 2 2 2 0 0 0 2 2 2 2 0 0 0 2-2"/></svg>
+  <text class="d-title" x="376" y="343">Cancel closure</text>
+  <text class="d-muted" x="356" y="363">brings it back: everything is</text>
+  <text class="d-muted" x="356" y="379">kept until the window ends.</text>
+  <text class="d-muted" x="356" y="395">An owner can request a data</text>
+  <text class="d-muted" x="356" y="411">export of its records</text>
+
+  <rect class="d-box" x="594" y="320" width="160" height="108" rx="8"/>
+  <svg x="606" y="330" width="16" height="16" viewBox="0 0 24 24"><path class="d-glyph d-bad" d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6zM8 9h8v10H8zm7.5-5-1-1h-5l-1 1H5v2h14V4z"/></svg>
+  <text class="d-title" x="628" y="343">Closed</text>
+  <text class="d-muted" x="608" y="363">Every project deleted in</text>
+  <text class="d-muted" x="608" y="379">every location, every</text>
+  <text class="d-muted" x="608" y="395">member removed. Cannot</text>
+  <text class="d-muted" x="608" y="411">be undone</text>
+
+  <rect class="d-box" x="770" y="320" width="110" height="108" rx="8"/>
+  <svg x="782" y="330" width="16" height="16" viewBox="0 0 24 24"><path class="d-glyph" d="M13.5 8H12v5l4.28 2.54.72-1.21-3.5-2.08zM13 3a9 9 0 0 0-9 9H1l3.96 4.03L9 12H6a7 7 0 0 1 7-7 7 7 0 0 1 7 7 7 7 0 0 1-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.9 8.9 0 0 0 13 21a9 9 0 0 0 9-9 9 9 0 0 0-9-9"/></svg>
+  <text class="d-title" x="804" y="343">Kept</text>
+  <text class="d-muted" x="784" y="363">the audit log</text>
+  <text class="d-muted" x="784" y="379">and usage</text>
+  <text class="d-muted" x="784" y="395">records</text>
+</svg>

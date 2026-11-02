@@ -12,6 +12,11 @@ stops traffic to an instance that stops answering.
 **Use it for** a site or service run on more than one instance, for replacing instances without
 changing the address, and for serving HTTPS with your certificates.
 
+<figure class="ns-diagram">
+--8<-- "https-sni.svg"
+<figcaption>A load balancer on a public IP: its HTTPS listener ends TLS with your certificates and spreads the traffic over the instances in its pool.</figcaption>
+</figure>
+
 Find them under **Networking → Load balancers**.
 
 ![Load balancers: name, location, address, listeners and health](../assets/screens/networking/load-balancers.webp)

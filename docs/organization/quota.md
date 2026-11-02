@@ -13,6 +13,11 @@ rest. It is set in two layers:
 2. **Your owners and admins share that budget between projects**: each project gets its own quota
    in each of its locations. Only owners and admins set project quota.
 
+<figure class="ns-diagram">
+--8<-- "quota-layers.svg"
+<figcaption>NubeStack sets Acme's budget in each location; owners and admins share it out as each project's quota there. New projects start from a preset.</figcaption>
+</figure>
+
 ![Quota: for each resource, the budget, how much is allocated to projects and how much is in use](../assets/screens/organization/quota.webp)
 
 ## See quota

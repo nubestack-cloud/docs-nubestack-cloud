@@ -81,6 +81,11 @@ After a run's snapshot of a volume succeeds, the schedule deletes that volume's 
 **it made** beyond **Keeps**. It never deletes a snapshot you made by hand or one another schedule
 made, and deletes nothing when a run failed.
 
+<figure class="ns-diagram">
+--8<-- "backup-retention.svg"
+<figcaption>A nightly schedule keeping 7: after each successful run the oldest snapshot it made goes; a failed run, and snapshots it did not make, change nothing.</figcaption>
+</figure>
+
 A volume in use is snapshotted as it is, as if the power had been cut (crash-consistent). For a
 database, use its own backup tool, or stop it first. An instance's system disk that is not a
 volume is not snapshotted; save the instance as an [image](../compute/images.md) for that.

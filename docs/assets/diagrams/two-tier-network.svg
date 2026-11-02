@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 450" role="img" aria-labelledby="dw-title dw-desc">
+  <title id="dw-title">A web tier and a database on two private networks</title>
+  <desc id="dw-desc">In Karachi, the project has two routed networks joined by its private router. On the network app, 10.0.0.0/24, the instance web-1 is in the security group web, which allows TCP 80 and 443 from anywhere and SSH from the office range 203.0.113.0/24; web-1 has a new public IP, so the Internet reaches it on 80 and 443 and the office reaches it by SSH. On the network db, 10.0.1.0/24, the instance db-1 at 10.0.1.10 is in the security group db, which allows TCP 5432 only from instances in the group web, so web-1 reaches the database through the router. db-1 has no public IP: it reaches the Internet for updates through the project's Internet gateway, and nothing on the Internet can reach it.</desc>
+  <defs>
+    <marker id="dw-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-arrow" d="M0 0L8 4L0 8z"/></marker>
+    <marker id="dw-arrow-teal" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-arrow-teal" d="M0 0L8 4L0 8z"/></marker>
+  </defs>
+
+  <rect class="d-zone" x="10" y="10" width="640" height="430" rx="14"/>
+  <svg x="26" y="23" width="14" height="14" viewBox="0 0 24 24"><path class="d-glyph" d="M12 6.5A2.5 2.5 0 0 1 14.5 9a2.5 2.5 0 0 1-2.5 2.5A2.5 2.5 0 0 1 9.5 9 2.5 2.5 0 0 1 12 6.5M12 2a7 7 0 0 1 7 7c0 5.25-7 13-7 13S5 14.25 5 9a7 7 0 0 1 7-7m0 2a5 5 0 0 0-5 5c0 1 0 3 5 9.71C17 12 17 10 17 9a5 5 0 0 0-5-5"/></svg>
+  <text class="d-label" x="46" y="34">Karachi</text>
+
+  <rect class="d-zone-teal" x="26" y="50" width="260" height="144" rx="10"/>
+  <svg x="42" y="63" width="14" height="14" viewBox="0 0 24 24"><path class="d-glyph" d="M10 2c-1.11 0-2 .89-2 2v3c0 1.11.89 2 2 2h1v2H2v2h4v2H5c-1.11 0-2 .89-2 2v3c0 1.11.89 2 2 2h4c1.11 0 2-.89 2-2v-3c0-1.11-.89-2-2-2H8v-2h8v2h-1c-1.11 0-2 .89-2 2v3c0 1.11.89 2 2 2h4c1.11 0 2-.89 2-2v-3c0-1.11-.89-2-2-2h-1v-2h4v-2h-9V9h1c1.11 0 2-.89 2-2V4c0-1.11-.89-2-2-2zm0 2h4v3h-4zM5 17h4v3H5zm10 0h4v3h-4z"/></svg>
+  <text class="d-label" x="62" y="74">Network · app</text>
+  <text class="d-muted d-mono" x="42" y="92">10.0.0.0/24</text>
+
+  <rect class="d-box" x="42" y="106" width="228" height="74" rx="8"/>
+  <svg x="56" y="117" width="16" height="16" viewBox="0 0 24 24"><path class="d-glyph" d="M2 4.6v4.8c0 .9.5 1.6 1.2 1.6h17.7c.6 0 1.2-.7 1.2-1.6V4.6C22 3.7 21.5 3 20.8 3H3.2C2.5 3 2 3.7 2 4.6M10 8V6H9v2zM5 8h2V6H5zm15 1H4V5h16zM2 14.6v4.8c0 .9.5 1.6 1.2 1.6h17.7c.6 0 1.2-.7 1.2-1.6v-4.8c0-.9-.5-1.6-1.2-1.6H3.2c-.7 0-1.2.7-1.2 1.6m8 3.4v-2H9v2zm-5 0h2v-2H5zm15 1H4v-4h16z"/></svg>
+  <text class="d-title" x="78" y="130">web-1</text>
+  <rect class="d-chip" x="206.2" y="114" width="54" height="22" rx="11"/>
+  <svg x="214.2" y="118" width="14" height="14" viewBox="0 0 24 24"><path class="d-glyph" d="M21 11c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V5l9-4 9 4zm-9 10c3.75-1 7-5.46 7-9.78V6.3l-7-3.12L5 6.3v4.92C5 15.54 8.25 20 12 21"/></svg>
+  <text class="d-tag" x="232.2" y="129">web</text>
+  <text class="d-muted" x="58" y="152">TCP 80, 443 from anywhere</text>
+  <text class="d-muted" x="58" y="169">SSH from 203.0.113.0/24</text>
+
+  <rect class="d-box" x="56" y="214" width="200" height="48" rx="8"/>
+  <rect class="d-chip" x="68" y="223" width="30" height="30" rx="7"/>
+  <svg x="73" y="228" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph" d="M11 10H5L3 8l2-2h6V3l1-1 1 1v1h6l2 2-2 2h-6v2h6l2 2-2 2h-6v6a2 2 0 0 1 2 2H9a2 2 0 0 1 2-2z"/></svg>
+  <text class="d-title" x="108" y="243">Private router</text>
+
+  <rect class="d-zone-teal" x="26" y="282" width="260" height="144" rx="10"/>
+  <svg x="42" y="295" width="14" height="14" viewBox="0 0 24 24"><path class="d-glyph" d="M10 2c-1.11 0-2 .89-2 2v3c0 1.11.89 2 2 2h1v2H2v2h4v2H5c-1.11 0-2 .89-2 2v3c0 1.11.89 2 2 2h4c1.11 0 2-.89 2-2v-3c0-1.11-.89-2-2-2H8v-2h8v2h-1c-1.11 0-2 .89-2 2v3c0 1.11.89 2 2 2h4c1.11 0 2-.89 2-2v-3c0-1.11-.89-2-2-2h-1v-2h4v-2h-9V9h1c1.11 0 2-.89 2-2V4c0-1.11-.89-2-2-2zm0 2h4v3h-4zM5 17h4v3H5zm10 0h4v3h-4z"/></svg>
+  <text class="d-label" x="62" y="306">Network · db</text>
+  <text class="d-muted d-mono" x="42" y="324">10.0.1.0/24</text>
+
+  <rect class="d-box" x="42" y="338" width="228" height="74" rx="8"/>
+  <svg x="56" y="349" width="16" height="16" viewBox="0 0 24 24"><path class="d-glyph" d="M2 4.6v4.8c0 .9.5 1.6 1.2 1.6h17.7c.6 0 1.2-.7 1.2-1.6V4.6C22 3.7 21.5 3 20.8 3H3.2C2.5 3 2 3.7 2 4.6M10 8V6H9v2zM5 8h2V6H5zm15 1H4V5h16zM2 14.6v4.8c0 .9.5 1.6 1.2 1.6h17.7c.6 0 1.2-.7 1.2-1.6v-4.8c0-.9-.5-1.6-1.2-1.6H3.2c-.7 0-1.2.7-1.2 1.6m8 3.4v-2H9v2zm-5 0h2v-2H5zm15 1H4v-4h16z"/></svg>
+  <text class="d-title" x="78" y="362">db-1</text>
+  <text class="d-muted d-mono" x="118" y="362">10.0.1.10</text>
+  <rect class="d-chip" x="212.8" y="346" width="47" height="22" rx="11"/>
+  <svg x="220.8" y="350" width="14" height="14" viewBox="0 0 24 24"><path class="d-glyph" d="M21 11c0 5.55-3.84 10.74-9 12-5.16-1.26-9-6.45-9-12V5l9-4 9 4zm-9 10c3.75-1 7-5.46 7-9.78V6.3l-7-3.12L5 6.3v4.92C5 15.54 8.25 20 12 21"/></svg>
+  <text class="d-tag" x="238.8" y="361">db</text>
+  <text class="d-muted" x="58" y="384">TCP 5432 from group web only</text>
+  <text class="d-muted" x="58" y="401">No public IP</text>
+
+  <rect class="d-box-teal" x="330" y="115" width="160" height="56" rx="8"/>
+  <rect class="d-chip-solid" x="342" y="128" width="30" height="30" rx="7"/>
+  <svg x="347" y="133" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph-inv" d="M15 20a1 1 0 0 0-1-1h-1v-2h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4v2h-1a1 1 0 0 0-1 1H2v2h7a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1h7v-2zm-8-5V5h10v10zm3-9H8v8h2zm4 0h-3v8h2v-2h1a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2m0 4h-1V8h1z"/></svg>
+  <text class="d-title" x="382" y="139">Public IP</text>
+  <text class="d-muted" x="382" y="158">on web-1</text>
+
+  <rect class="d-box" x="330" y="300" width="230" height="56" rx="8"/>
+  <rect class="d-chip" x="342" y="313" width="30" height="30" rx="7"/>
+  <svg x="347" y="318" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph" d="M5 9c-1.1 0-2 .9-2 2v4a2 2 0 0 0 2 2h6v2h-1c-.55 0-1 .45-1 1H2v2h7c0 .55.45 1 1 1h4c.55 0 1-.45 1-1h7v-2h-7c0-.55-.45-1-1-1h-1v-2h6c1.11 0 2-.89 2-2v-4a2 2 0 0 0-2-2zm1 3h2v2H6zm3.5 0h2v2h-2zm3.5 0h2v2h-2z"/></svg>
+  <text class="d-title" x="382" y="324">Internet gateway</text>
+  <text class="d-muted" x="382" y="343">db-1 reaches out through it</text>
+
+  <rect class="d-box" x="690" y="180" width="170" height="56" rx="8"/>
+  <rect class="d-chip" x="702" y="193" width="30" height="30" rx="7"/>
+  <svg x="707" y="198" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph" d="M17.9 17.39c-.26-.8-1.01-1.39-1.9-1.39h-1v-3a1 1 0 0 0-1-1H8v-2h2a1 1 0 0 0 1-1V7h2a2 2 0 0 0 2-2v-.41a7.984 7.984 0 0 1 2.9 12.8M11 19.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.22.21-1.79L9 15v1a2 2 0 0 0 2 2m1-16A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"/></svg>
+  <text class="d-title" x="742" y="213">Internet</text>
+
+  <rect class="d-box" x="690" y="60" width="170" height="56" rx="8"/>
+  <rect class="d-chip" x="702" y="73" width="30" height="30" rx="7"/>
+  <svg x="707" y="78" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph" d="M4 6h16v10H4m16 2a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H4c-1.11 0-2 .89-2 2v10a2 2 0 0 0 2 2H0v2h24v-2z"/></svg>
+  <text class="d-title" x="742" y="84">Your office</text>
+  <text class="d-muted d-mono" x="742" y="103">203.0.113.0/24</text>
+
+  <text class="d-muted" x="690" y="300">db-1 has no public IP:</text>
+  <text class="d-muted" x="690" y="317">nothing on the Internet</text>
+  <text class="d-muted" x="690" y="334">can reach it.</text>
+
+  <path class="d-flow" d="M156 180V214" marker-end="url(#dw-arrow-teal)"/>
+  <path class="d-flow" d="M156 262V338" marker-end="url(#dw-arrow-teal)"/>
+  <text class="d-muted" x="166" y="208">TCP 5432</text>
+  <path class="d-flow" d="M330 143H270" marker-end="url(#dw-arrow-teal)"/>
+  <path class="d-flow" d="M690 208C610 208 560 152 490 152" marker-end="url(#dw-arrow-teal)"/>
+  <text class="d-muted" x="548" y="206">80, 443</text>
+  <path class="d-flow" d="M690 88C610 88 560 134 490 134" marker-end="url(#dw-arrow-teal)"/>
+  <text class="d-muted" x="600" y="94">SSH</text>
+  <path class="d-line" d="M256 238H300V328H330" marker-end="url(#dw-arrow)"/>
+  <path class="d-line" d="M560 328C640 328 650 236 690 228" marker-end="url(#dw-arrow)"/>
+  <text class="d-muted" x="628" y="300">out</text>
+</svg>

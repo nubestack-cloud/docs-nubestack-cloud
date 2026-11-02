@@ -61,6 +61,11 @@ kept for the recovery window. Step by step: [Projects](../organization/projects.
 | **Delete now**, or the window ends | Everything left is deleted in every location; this cannot be cancelled once started |
 | Afterwards | Activity and usage records are kept |
 
+<figure class="ns-diagram">
+--8<-- "deletion-timeline.svg"
+<figcaption>Deleting a project and closing the organization: what happens at once, during the recovery window, when it ends and afterwards. Each window is as shown unless agreed otherwise.</figcaption>
+</figure>
+
 The project's schedules pause when its deletion is requested; its launch templates, schedules,
 instance groups and certificates go with it. Stacks and clusters made with a location's own tools
 must be deleted with those tools; the page names anything that stops the deletion, and the

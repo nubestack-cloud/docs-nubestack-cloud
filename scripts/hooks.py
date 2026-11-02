@@ -38,7 +38,43 @@ def _refs(node, found: set[str]) -> None:
             _refs(value, found)
 
 
-def _slices() -> tuple[dict, list[tuple[str, str, int]]]:
+def _plain(node):
+    """`anyOf: [X, null]` as X marked nullable, so the reference shows a type instead of a blank."""
+    if isinstance(node, list):
+        return [_plain(v) for v in node]
+    if not isinstance(node, dict):
+        return node
+    any_of = node.get("anyOf")
+    if isinstance(any_of, list) and len(any_of) == 2 and {"type": "null"} in any_of:
+        other = next(v for v in any_of if v != {"type": "null"})
+        node = {**{k: v for k, v in node.items() if k != "anyOf"}, **other, "nullable": True}
+    return {k: _plain(v) for k, v in node.items()}
+
+
+def _public_names(part: dict) -> dict:
+    """Schema names such as `nexus__api__routes__ssh_keys__KeyBody` come from the server's module
+    paths. Show the last part, or the module and the name where two would clash."""
+    schemas = part["components"]["schemas"]
+    short = [k.rsplit("__", 1)[-1] for k in schemas]
+    rename = {}
+    for key in schemas:
+        if "__" not in key:
+            continue
+        name = key.rsplit("__", 1)[-1]
+        if short.count(name) > 1 or name in schemas:
+            name = "".join(w.capitalize() for w in key.split("__")[-2].split("_")) + name
+        rename[key] = name
+    if not rename:
+        return part
+    text = json.dumps(part)
+    for old, new in rename.items():
+        text = text.replace(f'"#/components/schemas/{old}"', f'"#/components/schemas/{new}"')
+    part = json.loads(text)
+    part["components"]["schemas"] = {rename.get(k, k): v for k, v in part["components"]["schemas"].items()}
+    return part
+
+
+def _slices() -> tuple[dict, list[tuple[str, str, int, bool]]]:
     spec = json.loads((ROOT / "openapi" / "v1.json").read_text())
     schemas = spec["components"]["schemas"]
     groups: dict[str, dict] = defaultdict(dict)
@@ -73,9 +109,10 @@ def _slices() -> tuple[dict, list[tuple[str, str, int]]]:
                 "securitySchemes": spec["components"].get("securitySchemes", {}),
             },
         }
-        (CACHE / f"{slug(name)}.json").write_text(json.dumps(part))
+        (CACHE / f"{slug(name)}.json").write_text(json.dumps(_public_names(_plain(part))))
         count = sum(len(v) for v in paths.values())
-        listing.append((name, tag.get("description", ""), count))
+        changes = any(m != "get" for v in paths.values() for m in v)
+        listing.append((name, tag.get("description", ""), count, changes))
     return spec, listing
 
 
@@ -88,13 +125,13 @@ def on_config(config):
     for item in config.nav:
         if isinstance(item, dict) and "API" in item:
             api = item["API"]
-            api[-1] = {"API reference": ["api/reference/index.md", *[{n: f"api/reference/{slug(n)}.md"} for n, _, _ in listing]]}
+            api[-1] = {"API reference": ["api/reference/index.md", *[{n: f"api/reference/{slug(n)}.md"} for n, *_ in listing]]}
     return config
 
 
 def on_files(files, config):
     spec, listing = _STATE["spec"], _STATE["listing"]
-    total = sum(c for _, _, c in listing)
+    total = sum(c for _, _, c, _ in listing)
     index = [
         "---", "title: API reference", "description: Every operation of the NubeStack Cloud API, by service.", "---", "",
         "# API reference", "",
@@ -105,13 +142,16 @@ def on_files(files, config):
         "[:material-download: Download the OpenAPI contract](../../assets/openapi/v1.json){ .md-button }", "",
         "| Service | Operations | What it covers |", "|---|--:|---|",
     ]
-    for name, desc, count in listing:
+    for name, desc, count, changes in listing:
         index.append(f"| [{name}]({slug(name)}.md) | {count} | {html.escape(desc)} |")
         page = [
             "---", f"title: {name} API", f"description: {desc}", "---", "",
             f"# {name}", "", desc, "",
-            "Paths are relative to your API address. See [Authentication](../authentication.md) and "
-            "[Operations](../operations.md). Changes that answer `202 Accepted` return an operation to follow.", "",
+            "Paths are relative to your API address. See [Authentication](../authentication.md)"
+            + (" and [Operations](../operations.md). Changes that answer `202 Accepted` return an operation "
+               "to follow." if changes else "."),
+            "", "Request and response examples are generated from the schema; the tables under "
+            "**Schemas** are the reference.", "",
             f"[OAD(.cache/api/{slug(name)}.json)]", "",
         ]
         files.append(File.generated(config, f"api/reference/{slug(name)}.md", content="\n".join(page)))
@@ -139,9 +179,21 @@ def _render_openapi(match: re.Match) -> str:
     text = OpenAPIV3DocumentationHandler(json.loads(source.read_text()), style="MKDOCS", source=str(source)).write()
     text = text[text.index('<hr class="operation-separator" />'):]
     text = text[: text.index("## Security schemes")]
-    text = _OP.sub(lambda m: f'## {m[3].strip()}\n\n<p class="api-endpoint">{m[1]} <code>{m[2]}</code></p>\n', text)
+    text = _OP.sub(lambda m: f'## {m[3].strip()}\n\n<p class="api-endpoint">{m[1]} <code>{re.sub(r"(?<!<)/", "/<wbr>", m[2])}</code></p>\n', text)
     text = re.sub(r'\?\?\? note "Description"\n((?:    .*\n|\n)+?)(?=\S)',
                   lambda m: re.sub(r"^    ", "", m[1], flags=re.M), text)
+    # Said once in the page intro instead of under every example.
+    text = re.sub(r'<span class="small-note">⚠️</span>&nbsp;<em class="small-note warning">.*?</em>', "", text)
+    # The raw JSON Schema under each example repeats the tables under Schemas.
+    text = re.sub(r'\?\?\? hint "Schema of the [^"]*"\n(?:    .*\n|\n)+?(?=\S)', "", text)
+    # The site's h2 already draws a rule above Schemas.
+    text = re.sub(r'(?:<hr\s*/?>|^---$)\s*(?=## Schemas)', "", text, flags=re.M)
+    # Descriptions go into raw HTML cells, where Markdown is not applied: render `code` there.
+    text = re.sub(r"<td>(.*?)</td>", lambda m: "<td>" + re.sub(r"`([^`<]+)`", r"<code>\1</code>", m[1]) + "</td>",
+                  text, flags=re.S)
+    # Material's scroll wrapper, as for Markdown tables, so these are full width and scroll on phones.
+    text = text.replace("<table>", '<div class="md-typeset__scrollwrap"><div class="md-typeset__table ns-api-table"><table>')
+    text = text.replace("</table>", "</table></div></div>")
     return text.replace('<hr class="operation-separator" />', "")
 
 
@@ -149,8 +201,9 @@ def on_page_markdown(markdown, page, config, files):
     markdown = _OAD.sub(_render_openapi, markdown)
     if "<!-- problem-table -->" in markdown:
         problems = json.loads((ROOT / "data" / "problems.json").read_text())
-        rows = ["| Code | Meaning | Retry? |", "|---|---|:-:|"]
+        rows = ['<div class="ns-compact" markdown>', "", "| Code | Meaning | Retry? |", "|---|---|:-:|"]
         rows += [f"| `{p['code']}` | {_cell(p['title'])} | {'Yes' if p['retryable'] else '—'} |" for p in problems]
+        rows += ["", "</div>"]
         markdown = markdown.replace("<!-- problem-table -->", "\n".join(rows))
     return markdown
 
