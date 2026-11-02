@@ -1,301 +1,129 @@
 ---
-action_tabs: true
 title: Volumes
+description: Block storage that keeps its data apart from any one instance. Create, attach, detach, extend, retype, move and delete volumes.
 ---
 
 # Volumes
 
-A volume is a persistent disk in one location. Use it for application data that should survive replacing an instance. A separate data volume is retained after instance deletion.
+A **volume** is block storage that keeps its data apart from any one instance. Attach it to an
+instance and it appears there as a new disk; detach it and attach it to another, and the data
+goes with it. A volume stays in its location and attaches only to instances there.
 
-<div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
-<span>Show instructions for</span>
-<div><button type="button" data-interface-choice="Console" aria-pressed="true">Console</button><button type="button" data-interface-choice="API" aria-pressed="false">API</button></div>
-</div>
+**Use it for** databases, uploads and anything that must outlive an instance.
 
-<div class="docs-method-note" markdown>
+Find them under **Storage → Volumes**.
 
-[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+![Volumes: name, location, size, type, status and what each is attached to](../assets/screens/storage/volumes.webp)
 
-</div>
+## Before you start
 
-![Volumes, locations and attachments](../assets/screens/storage/volumes.webp)
-
+A role of project admin or project member, and room in the project's volume quota in the location.
 
 ## Create a volume
 
 === "Console"
 
-    1. Open **Storage → Volumes → Create volume**.
-    2. Choose the location, name, size and offered type.
-    3. Start empty, from an image or from a snapshot in this location. Make the volume large enough for its source.
-    4. Add tags, review quota, then create and follow the operation.
+    1. Choose **Create volume**.
+    2. **Location** and **Volume name** (up to 255 characters).
+    3. **Contents**: **Empty**, or **An image** (the volume is marked bootable). To make one from
+       a snapshot, use the snapshot's **Create volume from it** instead.
+    4. **Type**: the kind of storage, from the location's catalog. The list marks a volume
+       **encrypted** when the location reports it.
+    5. **Size**: whole GiB from 1 to 4096. A volume can grow later, never shrink.
+    6. Choose **Create volume**. The summary shows the project's quota afterwards.
 
-    ![Prepare a new persistent data disk](../assets/screens/storage/volume-create.webp)
+    ![Create volume: location, name, contents, type and size](../assets/screens/storage/volume-create.webp)
 
 === "API"
 
-    <span id="with-the-api" data-docs-method="API"></span>
-
     ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/volumes" \
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/volumes" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Idempotency-Key: $(uuidgen)" \
       -H "Content-Type: application/json" \
-      --data '{
-      "location": "loc_example",
-      "display_name": "web-data",
-      "size_gb": 20,
-      "volume_type": "standard",
-      "tags": {
-        "env": "prod"
-      }
-    }'
+      -d '{"location": "loc_01jbkhi", "display_name": "app-data", "size_gb": 20, "volume_type": "standard"}'
     ```
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+    `image`/`image_id` makes it from an image; `snapshot_id` from a snapshot.
 
-    [Request fields and responses](../api/reference/volumes-and-snapshots.md).
+You can also create empty volumes with a new instance, in its **Volumes** section.
 
-
-## Attach and use it
+## Attach and detach
 
 === "Console"
 
-    Choose **Manage → Attach** and an instance in the same project and location. The disk becomes available to the guest; mounting and filesystem preparation happen inside the guest. Identify it with `lsblk`. Format only a new empty disk, never a disk containing restored or existing data.
+    - **Manage → Attach to instance**, or **Manage → Attach volume** on the instance: a running
+      or stopped instance in the same location.
+    - **Manage → Detach**: unmount the disk inside the instance first, or data still being
+      written can be lost. Stopping an instance does not detach its volumes.
 
-    ![Choose the instance to attach to](../assets/screens/storage/volume-attach.webp)
-
-    The volume's detail page links its instance, snapshots, schedules and activity. Multi-attach, where offered, requires an application or filesystem designed for shared disks; ordinary simultaneous filesystem writes can corrupt data.
-
-    ![Inspect a volume and its dependencies](../assets/screens/storage/volume-detail.webp)
-
-=== "API"
-
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$SERVER_ID:attach-volume" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "volume_id": "vol_example"
-    }'
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/instances.md).
-
-
-## Detach a volume
-
-=== "Console"
-
-    Stop application writes and unmount the filesystem inside the guest, then choose **Manage → Detach**. For a multi-attach disk, choose which instance loses access. Wait for the detach operation before moving, resizing or deleting the disk.
+    ![Attach a volume: pick an instance in the same location](../assets/screens/storage/volume-attach.webp)
 
 === "API"
 
     ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$SERVER_ID:detach-volume" \
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/srv_01jbdb1:attach-volume" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Idempotency-Key: $(uuidgen)" \
       -H "Content-Type: application/json" \
-      --data '{
-      "volume_id": "vol_example"
-    }'
+      -d '{"volume_id": "vol_01jbappdata"}'
     ```
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+    `:detach-volume` takes the same body.
 
-    [Request fields and responses](../api/reference/instances.md).
+Inside the instance, find the disk by its label or UUID, not by a name such as `/dev/vdb`, which
+can change between attachments. The [tutorial](../tutorials/persistent-storage.md) shows how to
+format and mount it.
 
+A volume attaches to one instance at a time. A **multi-attach** volume, marked in the list, can
+attach to several; use a cluster file system on it, or the data is corrupted.
 
-## Extend a volume
+## Change a volume
 
-=== "Console"
+These need the volume **detached**; the menu says so when it is not.
 
-    Unmount and detach first. Choose **Manage → Extend**, enter a larger size and confirm. Keep it detached until available, then reattach and grow its guest partition and filesystem. Shrinking is not supported.
+| Action | What it does | API |
+|---|---|---|
+| **Extend** | A larger size. Grow the partition and file system inside the instance afterwards, for example with `growpart` and `resize2fs`. | `:extend` `{"size_gb": 50}` |
+| **Change type** | Moves it to another volume type of the location. | `:retype` `{"volume_type": "fast"}` |
+| **Create snapshot** | A point-in-time copy; see [Snapshots](snapshots.md). | `:snapshot` `{"display_name": "…"}` |
+| **Move to project** | Moves it, with its data, to another project in the same location. Only a volume with no snapshots can move. | `:transfer` `{"target_project_id": "prj_…"}` |
 
-    ![Extend an available volume](../assets/screens/storage/volume-extend.webp)
+Any time: **Mark bootable** / **Mark not bootable** (`:set-bootable`), **Rename** (`PATCH`), and
+**Tags**.
 
-=== "API"
-
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/volumes/$VOLUME_ID:extend" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "size_gb": 40
-    }'
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/volumes-and-snapshots.md).
-
-
-## Change the volume type
-
-=== "Console"
-
-    Unmount and detach first. Choose **Manage → Change type**, select a type offered in this location and confirm. Keep the volume detached until the operation makes it available again.
-
-=== "API"
-
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/volumes/$VOLUME_ID:retype" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "volume_type": "standard"
-    }'
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/volumes-and-snapshots.md).
-
-
-## Change the bootable marker
-
-=== "Console"
-
-    Choose **Manage → Mark bootable** or **Mark not bootable**. The marker changes; it does not move data or enable volume-backed instance creation in this console.
-
-=== "API"
-
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/volumes/$VOLUME_ID:set-bootable" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "bootable": true
-    }'
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/volumes-and-snapshots.md).
-
-
-## Move a volume to another project
-
-=== "Console"
-
-    Unmount and detach the disk, then choose **Manage → Move to project**. Select another project you can use in the same location. Resolve snapshots or other dependencies named by the refusal. A move changes the project holding the disk; it does not copy it to another location.
-
-=== "API"
-
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/volumes/$VOLUME_ID:transfer" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "target_project_id": "prj_example"
-    }'
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/volumes-and-snapshots.md).
-
-
-## Create a snapshot
-
-=== "Console"
-
-    Detach the volume, then choose **Manage → Create snapshot** and name the recovery point. Manual snapshots require detachment. A backup-kind schedule can snapshot an attached volume without pausing the application, but still stores the snapshot with its source storage.
-
-    ![Name the volume's snapshot](../assets/screens/storage/volume-snapshot.webp)
-
-    For a tested restore, follow [Recover a volume](../tutorials/persistent-storage.md).
-
-=== "API"
-
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/volumes/$VOLUME_ID:snapshot" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "display_name": "before-upgrade"
-    }'
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/volumes-and-snapshots.md).
-
-
-## Change tags
-
-=== "Console"
-
-    Open the volume's **Tags** tab and save the complete desired set. Tags organize resources and later cost grouping; they do not change earlier usage history.
-
-=== "API"
-
-    ```bash
-    curl --fail-with-body -i -X PUT "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/volumes/$RESOURCE_ID/tags" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "If-Match: $ETAG" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "tags": {
-        "env": "prod"
-      }
-    }'
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/volumes-and-snapshots.md).
-
-
-## Rename a volume
-
-=== "Console"
-
-    Choose **Rename** on the volume's detail page, enter a clear display name and save. Its ID and data remain the same.
-
-=== "API"
-
-    ```bash
-    curl --fail-with-body -i -X PATCH "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/volumes/$RESOURCE_ID" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{"display_name": "application-data"}'
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/volumes-and-snapshots.md).
-
+![Extend a volume: the new size in GiB](../assets/screens/storage/volume-extend.webp)
 
 ## Delete a volume
 
 === "Console"
 
-    Unmount and detach it first, then choose **Delete** and confirm permanent data removal. Remaining snapshots can also block deletion; the refusal names attached instances or snapshots. Keep a separate copy of data you still need.
+    Choose **Manage → Delete** and confirm. The volume and its data are deleted for good.
 
 === "API"
 
     ```bash
-    curl --fail-with-body -i -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/volumes/$VOLUME_ID" \
+    curl -sS -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/volumes/vol_01jbappdata" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY"
+      -H "Idempotency-Key: $(uuidgen)"
     ```
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+**What blocks a delete**
 
-    [Request fields and responses](../api/reference/volumes-and-snapshots.md).
-
+| Refusal | Why | Resolve |
+|---|---|---|
+| `volume_in_use` | It is attached to an instance | Unmount it inside the instance, then **Detach** |
+| `volume_has_snapshots` | It has snapshots; the message lists them | Delete its snapshots, or the backup schedule that keeps making them |
 
 ## Limits and good practice
 
-The API accepts 1–4,096 GiB; quota and volume types can impose lower limits. Attached and unattached disks both count as allocated storage. Guest filesystem growth is separate from cloud extension. [Use persistent storage](../tutorials/persistent-storage.md) walks through guest preparation and mounting.
+- 1 to 4096 GiB per volume, within the project's quota. Up to 8 attached at instance creation.
+- Not offered: growing or retyping a volume while attached, copying a volume to another location,
+  making a volume straight from another volume, and choosing encryption yourself.
+- Snapshot before an upgrade; a [backup schedule](schedules.md) snapshots on a timetable.
+- Volumes and their snapshots count in your usage until deleted.
+
+## Related
+
+- [Snapshots](snapshots.md) · [Schedules](schedules.md) · [Keep data on a volume](../tutorials/persistent-storage.md)
+- [API reference: Volumes and snapshots](../api/reference/volumes-and-snapshots.md)

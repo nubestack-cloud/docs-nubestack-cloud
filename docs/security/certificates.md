@@ -1,103 +1,131 @@
 ---
-action_tabs: true
 title: Certificates
+description: Upload a TLS certificate, its chain and its private key once, serve it from HTTPS load balancer listeners, rotate and delete it.
 ---
 
 # Certificates
 
-A certificate lets an Application load balancer terminate HTTPS for your domain. Certificates belong to a project and location; select one on an HTTPS listener in that same project and location.
+A **certificate** lets a load balancer serve HTTPS itself: it ends TLS with your certificate and
+sends plain HTTP to the instances behind it. You upload the certificate, its chain and its private
+key once; HTTPS listeners then choose it by name.
 
-<div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
-<span>Show instructions for</span>
-<div><button type="button" data-interface-choice="Console" aria-pressed="true">Console</button><button type="button" data-interface-choice="API" aria-pressed="false">API</button></div>
-</div>
+Find them in a project under **Security → Certificates**.
 
-<div class="docs-method-note" markdown>
+![Certificates: name, location, the names each covers, days left and how many listeners serve it](../assets/screens/security/certificates.webp)
 
-[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+## Before you start
 
-</div>
-
-![Certificates, domains and expiry dates](../assets/screens/security/certificates.webp)
-
+- A certificate for your domain from a certificate authority, its intermediate chain, and its
+  private key, all in PEM. NubeStack Cloud does not issue certificates.
+- A location whose load balancer types offer **HTTPS with your certificate**. See
+  [Load balancers](../networking/load-balancers.md#where-they-are-offered).
+- A role of project admin or project member.
 
 ## Upload a certificate
 
 === "Console"
 
-    1. Obtain a certificate for your domain and its matching private key. NubeStack Cloud does not issue a certificate for you through this page.
-    2. Open **Security → Certificates → Upload certificate**.
-    3. Select the location and a name that identifies the domain and renewal, such as `shop-2026-11`.
-    4. Paste the PEM leaf certificate, unencrypted PEM private key and intermediate chain if required. Order intermediates from the leaf's issuer outward; omit the leaf from the chain.
-    5. Upload and follow the operation. The private key is accepted once and is never shown back.
+    1. Choose **Upload certificate**.
+    2. **Location**: where the load balancers that serve it run. A listener can only use a
+       certificate of its own location; upload it again for the other location.
+    3. **Certificate**: the server's own certificate (`-----BEGIN CERTIFICATE-----`). It must be
+       valid now and for at least another day.
+    4. **Chain** (optional): the intermediate certificates, the one that issued yours first, at
+       most five. Leave the root out.
+    5. **Private key**: without a passphrase; RSA of at least 2048 bits, or EC on P-256 or P-384.
+       To remove a passphrase: `openssl pkey -in key.pem -out plain-key.pem`.
+    6. **Name**: how listeners choose it, for example `www-2026`.
+    7. Choose **Upload certificate**.
 
-    ![Upload a certificate, private key and optional chain](../assets/screens/security/certificate-upload.webp)
-
-    Supported keys are RSA of at least 2,048 bits or EC on P-256 or P-384. Each PEM field accepts at most 32,768 characters; the chain allows up to five intermediate certificates. The certificate and key must match, and the certificate must be valid for its intended use.
-
-=== "API"
-
-    <span id="with-the-api" data-docs-method="API"></span>
-
-    ```http
-    POST /v1/orgs/{org_id}/projects/{project_id}/certificates
-    ```
-
-    Prepare a local JSON file containing `location`, `display_name`, the PEM `certificate`, matching `private_key` and optional `chain`. Keep it private and send it with `--data-binary @certificate.json`.
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/certificates.md).
-
-
-## Use and rotate
-
-=== "Console"
-
-    Open the certificate to see its domains, expiry, fingerprint and linked listeners. Add or edit an HTTPS listener under [Load balancers](../networking/load-balancers.md) and select this certificate. The API protocol is `TERMINATED_HTTPS`.
-
-    ![A certificate's details and listeners using it](../assets/screens/security/certificate-detail.webp)
-
-    To rotate, upload a new certificate, choose **Switch certificate** on each HTTPS listener, select the replacement and follow the operations. Verify the served certificate at your application domain before deleting the old resource. Uploading a replacement alone does not change listeners, and renewal is not automatic.
-
-    !!! note "One certificate per listener"
-
-        Multiple certificates on one listener using SNI are coming later. Each HTTPS listener currently selects one certificate; a wildcard or multi-domain certificate can cover names included in that certificate.
+    ![Upload certificate: location, certificate, chain, private key and name](../assets/screens/security/certificate-upload.webp)
 
 === "API"
+
+    Build the body from files so the key never appears in your shell history:
 
     ```bash
-    curl --fail-with-body -i -X PATCH "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/load-balancers/$LB_ID/listeners/$CHILD_ID" \
+    jq -n --rawfile crt www.crt --rawfile chain chain.pem --rawfile key www.key \
+      '{location: "loc_01jbkhi", display_name: "www-2026", certificate: $crt, chain: $chain, private_key: $key}' \
+      > www-2026.json
+
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/certificates" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Idempotency-Key: $(uuidgen)" \
       -H "Content-Type: application/json" \
-      --data '{
-      "expected": "0000000000000000000000000000000000000000000000000000000000000000",
-      "certificate_id": "crt_replacement"
-    }'
+      --data-binary @www-2026.json
+
+    rm www-2026.json
     ```
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+    The answer is `202 Accepted` with the certificate's `id` (`crt_…`).
 
-    [Request fields and responses](../api/reference/load-balancers.md).
+The upload is checked at once: that the key belongs to the certificate, that the certificate is
+valid, and that the chain is in order. A problem is shown under the field it is in, and nothing is
+stored.
 
-    Where the body has `expected`, the all-zero hash is an example: replace it with the current `lb_configuration.version` you read. Protocol and port are fixed after listener creation.
+### What happens to the key
 
+The key is encrypted the moment it arrives, stored once in the location's key manager in your
+project, and the encrypted copy is then deleted. It is never shown again. Project members can read
+it with the location's own tools, as with any secret in their project; project readers cannot.
 
-## Delete and good practice
+## Serve it from a listener
+
+When you [create a load balancer](../networking/load-balancers.md), or add a listener, choose the
+protocol **HTTPS, TLS ends here**, the port (usually 443) and the certificate. To serve more than
+one domain on the same listener, add more certificates by host name: see
+[Several certificates on one listener](sni.md).
+
+![A certificate's page: the names it covers, its expiry, and the listeners that serve it, as default or by host name](../assets/screens/security/certificate-detail.webp)
+
+A certificate's page lists the listeners that serve it, each marked **default** or **by host
+name**.
+
+## Rotate a certificate
+
+1. Upload the new certificate.
+2. Open the load balancer's **Listeners** tab and choose **Change certificates** on each listener
+   that serves the old one. Pick the new one in its place, then **Save certificates**. New
+   connections get the new certificate; the address stays.
+3. Delete the old certificate.
+
+Renewal is not automatic. The list shows days left for each, in amber when fewer than 30.
+
+## Delete a certificate
 
 === "Console"
 
-    A certificate used by a listener cannot be deleted. Switch or remove every named listener first. Keep a secure original copy of the key and certificate; the console cannot recover the private key. Monitor expiry and allow enough time to upload, switch and verify a renewal. Do not paste private keys into support requests or screenshots.
+    Choose **Delete** on its page or in its **Manage** menu, and confirm.
 
 === "API"
 
     ```bash
-    curl --fail-with-body -i -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/certificates/$CERTIFICATE_ID" \
+    curl -sS -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/certificates/crt_01jbapi" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY"
+      -H "Idempotency-Key: $(uuidgen)"
     ```
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+The key is deleted from the key manager.
 
-    [Request fields and responses](../api/reference/certificates.md).
+**What blocks a delete**
+
+| Refusal | Why | Resolve |
+|---|---|---|
+| `certificate_in_use` | A listener serves it, as its default or by host name; the message names the listeners | **Change certificates** on those listeners first |
+
+Deleting a project, or one of its locations, deletes every certificate and every other secret of
+the project in that location's key manager, after its load balancers.
+
+## Limits and good practice
+
+- Up to 50 certificates per project in each location (`certificate_limit`).
+- Each PEM field up to 32,768 characters; the whole upload up to 64 KiB.
+- A certificate expiring within 24 hours cannot be put on a listener (`certificate_expired`).
+- Keep your own copy of each key; the console cannot give it back.
+- Never paste a private key into a support request or a screenshot.
+
+## Related
+
+- [Several certificates on one listener](sni.md) · [Load balancers](../networking/load-balancers.md)
+- [Serve an application over HTTPS](../tutorials/https-load-balancer.md)
+- [API reference: Certificates](../api/reference/certificates.md)

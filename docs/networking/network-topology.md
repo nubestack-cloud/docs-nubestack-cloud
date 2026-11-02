@@ -1,53 +1,53 @@
 ---
-action_tabs: true
-title: Network map
+title: Network topology
+description: A drawing of a project's networks, routers, instances, load balancers and public IPs, and how they connect.
 ---
 
-# Network map
+# Network topology
 
-The network map shows how your project's networks, routers, instances, load balancers and public IPs connect. Use it to find a missing path or understand which resources a network change affects.
+**Network topology** draws a project's networks, routers, instances, load balancers and public
+IPs, and the lines between them. Use it to check how a service is wired, or to see what a
+network change would affect.
 
-<div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
-<span>Show instructions for</span>
-<div><button type="button" data-interface-choice="Console" aria-pressed="true">Console</button><button type="button" data-interface-choice="API" aria-pressed="false">API</button></div>
-</div>
+Find it at the top of **Networking**, or with **View topology** on the project's overview. The
+organization has a topology page too, across the projects you can see.
 
-<div class="docs-method-note" markdown>
+![The network topology of web-shop in Karachi: networks, the router, instances, a load balancer and public IPs](../assets/screens/networking/topology.webp)
 
-[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
-
-</div>
-
-![The network topology of web-shop](../assets/screens/networking/topology.webp)
-
-
-## Read the map
+## Read the drawing
 
 === "Console"
 
-    1. Open **Networking → Network topology** in a project, or choose **View topology** on its overview.
-    2. Select a location to focus on one cloud.
-    3. Follow connections from an instance to its network and router. For an Internet-facing service, check its public IP and gateway as well.
-    4. Select a node to open its resource page and inspect the configuration there.
-
-    The organization also has a topology view for resources you are allowed to see. A visible line describes known configuration; it does not test connectivity or show whether a guest firewall accepts traffic.
+    1. Pick a location to see one at a time.
+    2. Follow an instance to its network and the router; for a service on the Internet, to its
+       public IP and the Internet gateway.
+    3. Choose any node to open its own page.
 
 === "API"
 
-    <span id="with-the-api" data-docs-method="API"></span>
-
     ```bash
-    curl --fail-with-body -i -X GET "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/network-topology" \
+    curl -sS "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/network-topology?location=pak-khi-1" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY"
     ```
 
-    Returns `200` directly. Read the returned resource or current state to verify the change.
+    The answer is `200 OK` with nodes and the edges between them.
 
-    [Request fields and responses](../api/reference/networking.md).
+A line shows how things are configured. It does not test that traffic flows: security groups and
+the firewall inside an instance still decide that.
 
+## Missing or old data
 
-## Missing or stale data
+The drawing says when each location was last read. If a location has not answered, its part is
+marked stale and shows what was last known; the other location still shows. An empty drawing can
+mean an empty project, a filter, or resources not read yet: choose **Refresh** on a list before
+you assume something is gone.
 
-Read the freshness and partial-data notices. If one location is unavailable, the view can show what was last known and data from the other locations. An empty map can mean an empty project, a filter, missing access or resources not yet read. Use a resource list's **Refresh** before assuming a resource is gone.
+## Limits
 
-The map is most useful for smaller projects. Large-project grouping and operation links are still being improved. Use lists and resource detail pages when the map becomes crowded.
+The drawing suits small and medium projects. Instances are not yet grouped for large projects,
+and nodes do not yet link to their operations. In a crowded project, use the lists and each
+resource's page.
+
+## Related
+
+- [Networks](networks.md) · [Routing](routing.md) · [Load balancers](load-balancers.md)

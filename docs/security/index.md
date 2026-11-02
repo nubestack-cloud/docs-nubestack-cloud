@@ -1,47 +1,41 @@
 ---
-title: Secure your cloud
+title: Security
+description: TLS certificates for HTTPS load balancers, several certificates on one listener, and your second factor.
 ---
 
-# Secure your cloud
+# Security
 
-Control who can change your resources and which traffic can reach them. Keep credentials private and rotate certificates before they expire.
+The **Security** section of a project holds the TLS certificates your HTTPS load balancers serve.
+This part of the docs also covers how you and your colleagues sign in safely.
 
-## Choose a guide
+<div class="grid cards" markdown>
 
-<div class="guide-cards" markdown>
-<div class="guide-card" markdown>
+-   :material-certificate-outline:{ .lg .middle } **[Certificates](certificates.md)**
 
-### [HTTPS certificates](certificates.md)
+    ---
 
-Upload a certificate, switch listeners and rotate safely.
+    Upload a certificate, its chain and its key once; HTTPS listeners then serve it.
 
-</div>
-<div class="guide-card" markdown>
+-   :material-web-check:{ .lg .middle } **[Several certificates on one listener](sni.md)**
 
-### [Firewall rules](../networking/security-groups.md)
+    ---
 
-Allow application ports and narrow administrative access.
+    Serve a different certificate for each of your domains on one address and port (SNI).
 
-</div>
-<div class="guide-card" markdown>
+-   :material-cellphone-key:{ .lg .middle } **[Second factor](second-factor.md)**
 
-### [People and roles](../concepts/roles-and-permissions.md)
+    ---
 
-Separate organization administration from workload access.
+    When you are asked for it, and how an owner requires it for everyone.
 
 </div>
-<div class="guide-card" markdown>
 
-### [Automation credentials](../organization/service-accounts.md)
+## Elsewhere in the docs
 
-Issue, rotate and revoke API keys and native credentials.
-
-</div>
-<div class="guide-card" markdown>
-
-### [Publish HTTPS](../tutorials/https-load-balancer.md)
-
-Connect a domain, public IP, listener and healthy backends.
-
-</div>
-</div>
+| Topic | Page |
+|---|---|
+| Firewall rules for instances | [Security groups](../networking/security-groups.md) |
+| Who may do what | [Roles and permissions](../concepts/roles-and-permissions.md) |
+| API keys for automation | [Service accounts and API keys](../organization/service-accounts.md) |
+| Every change, refusal and security event | [Audit log and activity](../organization/activity.md) |
+| Invitations only to your e-mail domains | [Settings](../organization/settings.md) |

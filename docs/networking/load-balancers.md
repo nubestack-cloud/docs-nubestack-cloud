@@ -1,355 +1,171 @@
 ---
-action_tabs: true
 title: Load balancers
+description: Give several instances one address, with listeners, pools of instances, health checks and HTTPS with your certificates.
 ---
 
 # Load balancers
 
-A load balancer distributes traffic across instances. Use it when an application has several backends or needs one stable frontend while you replace instances. It lives on a subnet in one location.
+A **load balancer** gives several instances one address. It answers on the ports you choose
+(**listeners**) and spreads each port's traffic over a **pool** of instances. A **health check**
+stops traffic to an instance that stops answering.
 
-<div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
-<span>Show instructions for</span>
-<div><button type="button" data-interface-choice="Console" aria-pressed="true">Console</button><button type="button" data-interface-choice="API" aria-pressed="false">API</button></div>
-</div>
+**Use it for** a site or service run on more than one instance, for replacing instances without
+changing the address, and for serving HTTPS with your certificates.
 
-<div class="docs-method-note" markdown>
+Find them under **Networking → Load balancers**.
 
-[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+![Load balancers: name, location, address, listeners and health](../assets/screens/networking/load-balancers.webp)
 
-</div>
+## Where they are offered
 
-| Part | Purpose |
-|---|---|
-| Listener | Accepts a protocol and port, such as TCP 80 or HTTPS 443 |
-| Pool | Chooses how traffic is distributed |
-| Member | A backend private address and port |
-| Health check | Tests whether a backend should receive traffic |
+Load balancers exist only in locations that offer them. The create page lists only those
+locations, and each **Type** says which protocols, balancing methods and health checks it
+supports. Type names come from the location's catalog. Ending HTTPS on the load balancer with
+your certificate is offered only by types that say **HTTPS with your certificate**.
 
-![Load balancers in the project](../assets/screens/networking/load-balancers.webp)
+## Before you start
 
-<figure class="docs-diagram">
-<div>
-<!-- diagram: https-application -->
-</div>
-<figcaption>An HTTPS listener uses a certificate and forwards to healthy, reachable backends.</figcaption>
-</figure>
-
+- Instances in the same location, on a network the load balancer can use, serving on a known
+  port.
+- A [security group](security-groups.md) rule that lets the load balancer reach that port, for
+  example TCP 8080 from the network's range.
+- For HTTPS that ends on the load balancer, your [certificates](../security/certificates.md),
+  uploaded in the same location.
 
 ## Create a load balancer
 
 === "Console"
 
-    1. Open **Networking → Load balancers → Create load balancer**.
-    2. Select the location, name and subnet containing the backends.
-    3. Choose **Standard** for TCP or UDP. Choose **Application** for HTTP or HTTPS where that type is offered.
-    4. Add a listener and its port. For HTTPS, choose a [certificate](../security/certificates.md) in this project and location.
-    5. Add a pool, its balancing algorithm, and backend addresses and ports.
-    6. Add a health check that matches what the application serves. Review and create.
-    7. Follow the operation. Attach a [public IP](public-ips.md) if the service should be reachable from the Internet.
+    1. Choose **Create load balancer**.
+    2. **Location**, **Name** and **Type**.
+    3. **Subnet**: the network its private address is on. Choose a routed network if you will
+       give it a public IP.
+    4. **Listeners**, for each port it answers on:
+        - **Protocol** and **port**, for example HTTP on 80. Up to 10 listeners, no two on the
+          same protocol and port.
+        - For **HTTPS, TLS ends here**, the **Certificate**, and optionally **Also serve these
+          certificates (by host name)**. Its pool receives plain HTTP. See
+          [several certificates on one listener](../security/sni.md).
+        - **Add a pool of instances**: the instances and the port each listens on, and the
+          **Balancing** method, such as round robin.
+        - **Health check**: how often to test each instance (**Every (s)**) and how long to wait
+          (**Timeout (s)**). Without one, traffic goes to every instance, answering or not.
+    5. Choose **Create load balancer**.
 
-    ![Create a load balancer and its initial listener](../assets/screens/networking/load-balancer-create.webp)
-
-    The API and catalog determine the protocols each type accepts. HTTPS termination is `TERMINATED_HTTPS` in the API. A Standard TCP listener can pass encrypted bytes to a backend, but does not terminate HTTPS itself.
+    ![Create load balancer: location, type, subnet and a listener with its pool](../assets/screens/networking/load-balancer-create.webp)
 
 === "API"
 
-    <span id="with-the-api" data-docs-method="API"></span>
-
     ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/load-balancers" \
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/load-balancers" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Idempotency-Key: $(uuidgen)" \
       -H "Content-Type: application/json" \
-      --data '{
-      "location": "loc_example",
-      "display_name": "web-lb",
-      "subnet_id": "snet_example",
-      "offering": "default",
-      "listeners": [
-        {
-          "protocol": "TCP",
-          "port": 80,
+      -d '{
+        "location": "loc_01jbkhi",
+        "display_name": "web-lb",
+        "subnet_id": "sbn_01jbapp",
+        "listeners": [{
+          "protocol": "HTTP", "port": 80,
           "pool": {
             "algorithm": "ROUND_ROBIN",
-            "members": [
-              {
-                "address": "192.0.2.20",
-                "port": 8080
-              }
-            ]
+            "members": [{"server_id": "srv_01jbweb1", "port": 8080}, {"server_id": "srv_01jbweb2", "port": 8080}],
+            "health_monitor": {"type": "HTTP", "delay": 5, "timeout": 3, "max_retries": 3}
           }
-        }
-      ]
-    }'
+        }]
+      }'
     ```
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+    `offering` picks the type (default `default`). An HTTPS listener uses `"protocol":
+    "TERMINATED_HTTPS"`, `certificate_id` and optional `sni_certificate_ids`; see
+    [Serve an application over HTTPS](../tutorials/https-load-balancer.md).
 
-    [Request fields and responses](../api/reference/load-balancers.md).
+## Change a load balancer
 
+Open it. The **Listeners** tab shows each port, its pool, the instances behind it and their
+recorded health.
 
-## Add a listener
+![The Listeners tab: each listener, its pool, members and health](../assets/screens/security/listener-sni.webp)
 
 === "Console"
 
-    Open the load balancer's **Listeners** tab and choose **Add listener**. Set its name, protocol and port, then choose the pool. HTTPS termination requires an Application offering and a certificate in this project and location. A listener without a pool accepts no application traffic.
+    - **Add listener**: another port on the same address. A listener's protocol and port cannot
+      change; add a new listener instead.
+    - **Add pool**: a pool of instances, which you then connect to a listener.
+    - **Edit listener** / **Edit pool**: its pool or balancing method, and its name.
+    - **Change certificates**, on an HTTPS listener that ends TLS: its default certificate and
+      the ones it serves by host name.
+    - **Change members**: add or take out instances. One taken out stops getting new traffic; it
+      is not changed or deleted.
+    - **Add health check** and **Remove health check**.
+    - **Attach a public IP**, under **Public exposure** on the **Overview** tab.
+    - **Rename**: only the name changes.
 
-    ![Add a listener to the load balancer](../assets/screens/networking/load-balancer-add-listener.webp)
+=== "API"
+
+    Listener and pool changes carry the version you read, in `expected`: the
+    `lb_configuration.version` of the listener or pool. A stale version is refused; read again.
+
+    ```bash
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/load-balancers/lbs_01jbweblb/pools/lbp_01jbwebpool/members:replace" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $(uuidgen)" \
+      -H "Content-Type: application/json" \
+      -d '{"members": [{"server_id": "srv_01jbweb1", "port": 8080}, {"server_id": "srv_01jbweb3", "port": 8080}]}'
+    ```
+
+    Other changes: `POST …/listeners`, `PATCH`/`DELETE …/listeners/{id}`, `POST …/pools`,
+    `PATCH`/`DELETE …/pools/{id}`, and `POST`/`DELETE …/pools/{id}/health-monitor`.
+
+The page warns when some instances fail their health checks, and when none pass, so traffic has
+nowhere to go.
+
+## How load balancers connect
+
+| Connected to | How |
+|---|---|
+| [Instances](../compute/instances.md) | Members of a pool, by instance and port. An instance can join a pool when it is created. |
+| [Instance groups](../compute/instance-groups.md) | A group keeps its instances in a pool. |
+| [Public IPs](public-ips.md) | One public IP reaches the load balancer's private address. |
+| [Certificates](../security/certificates.md) | HTTPS listeners that end TLS serve them. |
+| [Networks](networks.md) | The load balancer's address comes from a network's range. |
+
+## Delete a load balancer
+
+=== "Console"
+
+    Choose **Delete** and confirm. The dialog lists what goes and what stays.
 
 === "API"
 
     ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/load-balancers/$LB_ID/listeners" \
+    curl -sS -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/load-balancers/lbs_01jbweblb" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "display_name": "https",
-      "protocol": "TERMINATED_HTTPS",
-      "port": 443,
-      "certificate_id": "crt_example",
-      "pool_id": "lbp_example"
-    }'
+      -H "Idempotency-Key: $(uuidgen)"
     ```
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+Its listeners, pools and health checks go with it. The instances behind it and its certificates
+are not touched. A public IP on it is detached and stays allocated until you release it.
 
-    [Request fields and responses](../api/reference/load-balancers.md).
+**What blocks a delete**
 
-    Where the body has `expected`, the all-zero hash is an example: replace it with the current `lb_configuration.version` you read. Protocol and port are fixed after listener creation.
+| Refusal | Why | Resolve |
+|---|---|---|
+| `lb_child_in_use` | Deleting a pool that a listener uses, or that still has members or a health check | Point the listener elsewhere, change its members to none, remove the health check |
 
+Nothing blocks deleting the whole load balancer.
 
-## Edit or delete a listener
+## Limits and good practice
 
-=== "Console"
+- Up to 10 listeners per load balancer and 100 members per pool.
+- Counted as **Load balancer hours** for as long as it exists, whatever its state.
+- Always add a health check that tests the application, not just the port.
+- Not offered: client certificates, choosing TLS versions and ciphers, and routing by path or
+  header (L7 policies). Where a location's types cannot end TLS, use TCP on 443 and end TLS on
+  the instances.
 
-    Use **Edit listener** to rename it or change its default pool. Protocol and port are fixed; add another listener for a new protocol or port. **Delete listener** removes the incoming endpoint, retaining the pool and backend instances.
+## Related
 
-=== "API"
-
-    **Change a listener**
-
-    ```bash
-    curl --fail-with-body -i -X PATCH "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/load-balancers/$LB_ID/listeners/$CHILD_ID" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "expected": "0000000000000000000000000000000000000000000000000000000000000000",
-      "certificate_id": "crt_replacement"
-    }'
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/load-balancers.md).
-
-    **Delete a listener**
-
-    ```bash
-    curl --fail-with-body -i -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/load-balancers/$LB_ID/listeners/$CHILD_ID" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "expected": "0000000000000000000000000000000000000000000000000000000000000000"
-    }'
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/load-balancers.md).
-
-    Where the body has `expected`, the all-zero hash is an example: replace it with the current `lb_configuration.version` you read. Protocol and port are fixed after listener creation.
-
-
-## Create or change a pool
-
-=== "Console"
-
-    On **Listeners**, choose **Add pool** and select its protocol and balancing algorithm. **Edit pool** changes its name or algorithm. Keep its protocol compatible with the listener. Inspect all listeners using a shared pool before changing it.
-
-    ![The listener, pool and member relationships](../assets/screens/networking/load-balancer-listeners.webp)
-
-=== "API"
-
-    **Add a pool**
-
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/load-balancers/$LB_ID/pools" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "display_name": "web-pool",
-      "protocol": "HTTP",
-      "algorithm": "ROUND_ROBIN"
-    }'
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/load-balancers.md).
-
-    **Change a pool**
-
-    ```bash
-    curl --fail-with-body -i -X PATCH "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/load-balancers/$LB_ID/pools/$CHILD_ID" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "expected": "0000000000000000000000000000000000000000000000000000000000000000",
-      "algorithm": "ROUND_ROBIN"
-    }'
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/load-balancers.md).
-
-    Where the body has `expected`, the all-zero hash is an example: replace it with the current `lb_configuration.version` you read. Protocol and port are fixed after listener creation.
-
-
-## Change pool members
-
-=== "Console"
-
-    Use **Change members** to save the complete intended backend list, including private address and application port. Members must be reachable from the load balancer's subnet. An instance group can manage its own pool membership; manual changes to those members can be reversed by the group.
-
-=== "API"
-
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/load-balancers/$LB_ID/pools/$POOL_ID/members:replace" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "members": [
-        {
-          "address": "192.0.2.20",
-          "port": 8080
-        }
-      ]
-    }'
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/load-balancers.md).
-
-    Where the body has `expected`, the all-zero hash is an example: replace it with the current `lb_configuration.version` you read. Protocol and port are fixed after listener creation.
-
-
-## Configure a health check
-
-=== "Console"
-
-    Set the pool's health check type, interval, timeout and retry count. Match HTTP checks to an application-readiness path and success codes where offered. An active instance is not proof that its application is ready. **Remove health check** stops checking that pool.
-
-=== "API"
-
-    **Set a pool's health check**
-
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/load-balancers/$LB_ID/pools/$POOL_ID/health-monitor" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "type": "HTTP",
-      "delay": 10,
-      "timeout": 5,
-      "max_retries": 3
-    }'
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/load-balancers.md).
-
-    **Remove a pool's health check**
-
-    ```bash
-    curl --fail-with-body -i -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/load-balancers/$LB_ID/pools/$POOL_ID/health-monitor" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY"
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/load-balancers.md).
-
-
-## HTTPS and certificate rotation
-
-=== "Console"
-
-    Upload the replacement certificate first. Edit the HTTPS listener, choose the new certificate and follow the operation. Verify the certificate served at your domain before deleting the old one. Each HTTPS listener currently uses one certificate; multiple certificates on one listener through SNI are coming later.
-
-    ![Select the replacement certificate](../assets/screens/networking/certificate-switch.webp)
-
-=== "API"
-
-    ```bash
-    curl --fail-with-body -i -X PATCH "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/load-balancers/$LB_ID/listeners/$CHILD_ID" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "expected": "0000000000000000000000000000000000000000000000000000000000000000",
-      "certificate_id": "crt_replacement"
-    }'
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/load-balancers.md).
-
-    Where the body has `expected`, the all-zero hash is an example: replace it with the current `lb_configuration.version` you read. Protocol and port are fixed after listener creation.
-
-
-## Delete a pool
-
-=== "Console"
-
-    Move or remove listeners that reference it, remove its members and health check, then choose **Delete pool**. The refusal names remaining dependencies. Backend instances and the load balancer remain.
-
-=== "API"
-
-    ```bash
-    curl --fail-with-body -i -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/load-balancers/$LB_ID/pools/$CHILD_ID" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "expected": "0000000000000000000000000000000000000000000000000000000000000000"
-    }'
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/load-balancers.md).
-
-    Where the body has `expected`, the all-zero hash is an example: replace it with the current `lb_configuration.version` you read. Protocol and port are fixed after listener creation.
-
-
-## Delete the load balancer
-
-=== "Console"
-
-    Delete the balancer from **Manage → Delete** and review the confirmation. Its listeners, pools, members and health checks are removed; backend instances and uploaded certificates remain. Detach and release public IPs separately as required by the refusal or confirmation.
-
-    The create body allows at most 10 listeners, and a pool body at most 100 members. The location's offering and project quota may impose lower limits. Changes can briefly affect connections; wait for each operation before submitting a dependent change.
-
-=== "API"
-
-    ```bash
-    curl --fail-with-body -i -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/load-balancers/$LB_ID" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY"
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/load-balancers.md).
+- [Serve an application over HTTPS](../tutorials/https-load-balancer.md)
+- [Certificates](../security/certificates.md) · [Several certificates on one listener](../security/sni.md)
+- [API reference: Load balancers](../api/reference/load-balancers.md)

@@ -1,147 +1,109 @@
 ---
-action_tabs: true
 title: Public IPs
+description: Addresses that make one instance or load balancer reachable from the Internet. Allocate, attach, detach and release them.
 ---
 
 # Public IPs
 
-A public IP is an Internet-facing address allocated to your project in one location. Attach it to an instance or load balancer that needs inbound Internet access. It stays allocated after detaching or deleting the instance, until you release it.
+A **public IP** makes one instance, or one load balancer, reachable from the Internet. It is an
+address from the location's public network, allocated to your project. It stays yours, and
+counted in your usage, until you release it, even after the instance it was on is deleted.
 
-<div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
-<span>Show instructions for</span>
-<div><button type="button" data-interface-choice="Console" aria-pressed="true">Console</button><button type="button" data-interface-choice="API" aria-pressed="false">API</button></div>
-</div>
+Find them under **Networking → Public IPs**.
 
-<div class="docs-method-note" markdown>
+![Public IPs: each address, its location and what it is attached to](../assets/screens/networking/public-ips.webp)
 
-[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+## Before you start
 
-</div>
+- The instance must be on a routed [network](networks.md), and the location needs an
+  [Internet gateway](internet-gateways.md).
+- A public IP lets traffic reach the instance; its [security groups](security-groups.md) still
+  decide which. Allow only the ports you serve.
 
-![Allocated public IPs, their attachments and tags](../assets/screens/networking/public-ips.webp)
+## Get one with a new instance
 
+On the instance create page, under **Network → Public IP**, choose **A new public IP**. It is
+allocated with the instance and attached to it. In the API, `"public_ip": true`.
 
-## Allocate an address
+## Allocate one on its own
 
-=== "Console"
-
-    1. Open **Networking → Public IPs**, then **Allocate public IP**.
-    2. Choose the location. Add tags such as `env: prod` and `team: web`.
-    3. Allocate it and follow the operation. The location chooses the address; the example `203.0.113.21` is not an address you can reserve.
-
-    ![Allocate a public IP with tags](../assets/screens/networking/public-ip-allocate.webp)
-
-=== "API"
-
-    <span id="with-the-api" data-docs-method="API"></span>
-
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/floating-ips" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "location": "loc_example",
-      "tags": {
-        "env": "prod",
-        "team": "web"
-      }
-    }'
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/public-ips.md).
-
-
-## Attach or detach
+Keeping an address apart from any instance lets you move it between instances without telling
+anyone a new address.
 
 === "Console"
 
-    Choose **Manage → Attach**, then an instance or load balancer in the same location. For an instance with several interfaces, choose the intended private address when offered. The target network must be routed through an [Internet gateway](internet-gateways.md).
+    1. Choose **Allocate a public IP**.
+    2. Choose the location, add tags if you like, and confirm.
 
-    ![Attach an address to an instance](../assets/screens/networking/public-ip-attach.webp)
-
-    Follow the operation, then open the address's page to check its target. Instance and load balancer pages link back to the public IP. Allow the application's ports in its [security groups](security-groups.md); attachment alone does not allow traffic.
-
-    ![Inspect the public IP and the private address it forwards to](../assets/screens/networking/public-ip-detail.webp)
-
-    **Detach** removes the association and interrupts connections using that address. It keeps the public IP available for another target in this project and location.
-
-=== "API"
-
-    **Attach a public IP**
-
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/floating-ips/$ADDRESS_ID:associate" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "server_id": "srv_example"
-    }'
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/public-ips.md).
-
-    **Detach a public IP**
-
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/floating-ips/$ADDRESS_ID:disassociate" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{}'
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/public-ips.md).
-
-
-## Release and limits
-
-=== "Console"
-
-    Detach an attached address, then choose **Manage → Release**. Release returns it to the location's pool and stops its allocated-IP usage. You cannot rely on getting the same address again. Update DNS and external allowlists before releasing an address in use.
-
-    Public IP quota is per project and location. Unattached addresses still count toward quota and measured usage. Use [tags](../concepts/tags.md) to find unused allocations.
+    ![Allocate a public IP: location and tags](../assets/screens/networking/public-ip-allocate.webp)
 
 === "API"
 
     ```bash
-    curl --fail-with-body -i -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/floating-ips/$ADDRESS_ID" \
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/floating-ips" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY"
+      -H "Idempotency-Key: $(uuidgen)" \
+      -H "Content-Type: application/json" \
+      -d '{"location": "loc_01jbkhi", "tags": {"env": "prod"}}'
     ```
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+    Pass `server_id` to attach it to an instance at once.
 
-    [Request fields and responses](../api/reference/public-ips.md).
-
-## Change public IP tags
+## Attach and detach
 
 === "Console"
 
-    Open the allocated address, choose **Tags** and save the complete intended set. Tags do not retroactively change earlier cost attribution.
+    - **Manage → Attach** on the address: choose an instance or load balancer in the same
+      location. An instance on several routed networks asks which one the address reaches.
+    - **Manage → Add public IP** on an instance does the same from the other side; on a load
+      balancer, **Attach a public IP** under **Public exposure**.
+    - **Detach**: the instance stops being reachable at this address at once. The address stays
+      allocated.
+
+    ![Attach a public IP to an instance](../assets/screens/networking/public-ip-attach.webp)
 
 === "API"
 
     ```bash
-    curl --fail-with-body -i -X PUT "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/floating-ips/$RESOURCE_ID/tags" \
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/floating-ips/fip_01jbspare:associate" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "If-Match: $ETAG" \
+      -H "Idempotency-Key: $(uuidgen)" \
       -H "Content-Type: application/json" \
-      --data '{
-      "tags": {
-        "env": "prod"
-      }
-    }'
+      -d '{"server_id": "srv_01jbweb2"}'
     ```
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+    Use `load_balancer_id` for a load balancer, and `network_id` to pick the network. `:disassociate`
+    with `{}` detaches it.
 
-    [Request fields and responses](../api/reference/public-ips.md).
+An address is attached to one instance or load balancer at a time.
+
+## Release a public IP
+
+=== "Console"
+
+    Choose **Manage → Release** and confirm. If it is still attached, the dialog names what holds
+    it; it is detached first.
+
+=== "API"
+
+    ```bash
+    curl -sS -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/floating-ips/fip_01jbspare" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $(uuidgen)"
+    ```
+
+The address returns to the location and you may not get it again. To keep it, detach it instead.
+Nothing blocks a release.
+
+## Limits and good practice
+
+- IPv4 only. An address belongs to one location and cannot move to another.
+- Your [quota](../organization/quota.md) limits how many a project holds in each location.
+- Release addresses you no longer need: they count in your usage while allocated.
+- Put a load balancer, not several public IPs, in front of a set of instances serving the same
+  site.
+
+## Related
+
+- [Internet gateways](internet-gateways.md) · [Load balancers](load-balancers.md)
+- [API reference: Public IPs](../api/reference/public-ips.md)

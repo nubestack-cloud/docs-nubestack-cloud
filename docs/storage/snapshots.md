@@ -1,130 +1,99 @@
 ---
-action_tabs: true
 title: Snapshots
+description: Point-in-time copies of a volume. Take one before a risky change, and restore it to a new volume.
 ---
 
 # Snapshots
 
-A snapshot is a point-in-time copy of a volume in the same location. Use one before a change, or use a [schedule](schedules.md) to keep regular recovery points. Restoring creates a new volume; it does not overwrite the original.
+A **snapshot** is a point-in-time copy of one [volume](volumes.md). Take one before a risky
+change, then make a new volume from it if you need to go back.
 
-<div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
-<span>Show instructions for</span>
-<div><button type="button" data-interface-choice="Console" aria-pressed="true">Console</button><button type="button" data-interface-choice="API" aria-pressed="false">API</button></div>
-</div>
+A snapshot sits on the same storage as its volume. It protects you against a change you want to
+undo, not against losing that storage: it is not a backup.
 
-<div class="docs-method-note" markdown>
+Find them under **Storage → Snapshots**.
 
-[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+![Snapshots: name, the volume it came from, size and when it was taken](../assets/screens/storage/snapshots.webp)
 
-</div>
-
-![Snapshots and their source volumes](../assets/screens/storage/snapshots.webp)
-
-!!! warning "Snapshots share the source storage"
-
-    A snapshot is stored with its source volume. It does not protect against losing that storage. NubeStack Cloud does not currently offer backup copies to separate storage; keep an independent application backup if your recovery plan requires one.
-
-
-## Create a snapshot
+## Take a snapshot
 
 === "Console"
 
-    1. Stop application writes and unmount the source volume inside its instance.
-    2. Detach the volume. Manual snapshots are refused while it is attached.
-    3. In **Storage → Volumes**, choose **Manage → Create snapshot**.
-    4. Name the snapshot, create it and follow the operation.
-    5. Find it under **Storage → Snapshots** or on the source volume's page. Reattach the source volume if required.
+    1. Inside the instance, stop whatever writes to the volume and unmount it.
+    2. Detach the volume. A stopped instance keeps its volumes attached, and an attached volume
+       cannot be snapshotted by hand.
+    3. Choose **Manage → Create snapshot** on the volume and name it, or **Create snapshot** on
+       the **Snapshots** page and pick the volume.
+    4. Choose **Create snapshot**.
 
-    A backup schedule can snapshot attached volumes. Such a snapshot is a disk-level recovery point; it does not coordinate transactions in your database or capture memory. Use application-aware backup or quiesce the application when consistency across writes matters.
-
-    ![Name a snapshot of a detached volume](../assets/screens/storage/volume-snapshot.webp)
-
-=== "API"
-
-    <span id="with-the-api" data-docs-method="API"></span>
-
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/volumes/$VOLUME_ID:snapshot" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "display_name": "before-upgrade"
-    }'
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/volumes-and-snapshots.md).
-
-
-## Restore to a new volume
-
-=== "Console"
-
-    From the snapshot's menu choose the restore/create-volume action. Give the new volume a name, type and size at least as large as the source. Follow the operation, then attach the restored volume to an instance in this location. Check its data before switching the application to it.
-
-    You can also start on **Create volume** and select the snapshot as the source. A snapshot is not a cross-location backup; keep an independent copy if you need recovery from a location outage.
-
-    ![Create a new volume from a selected snapshot](../assets/screens/storage/snapshot-restore.webp)
+    ![Create snapshot from a volume's menu](../assets/screens/storage/volume-snapshot.webp)
 
 === "API"
 
     ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/volumes" \
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/volumes/vol_01jbdbdata:snapshot" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Idempotency-Key: $(uuidgen)" \
       -H "Content-Type: application/json" \
-      --data '{
-      "location": "loc_example",
-      "display_name": "restored-data",
-      "size_gb": 100,
-      "volume_type": "standard",
-      "snapshot_id": "vsn_example"
-    }'
+      -d '{"display_name": "db-data-before-upgrade"}'
     ```
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+A snapshot holds that one volume only: not the instance's other volumes, its memory, or other
+instances. To snapshot volumes in use on a timetable, use a [backup schedule](schedules.md); it
+takes crash-consistent snapshots.
 
-    [Request fields and responses](../api/reference/volumes-and-snapshots.md).
-
-## Rename or delete
+## Restore a snapshot to a new volume
 
 === "Console"
 
-    Use **Rename** on the snapshot to change its display name. Delete only after confirming it is no longer a required recovery point. A snapshot can block deletion of its source volume. Deleting a backup schedule keeps the snapshots already created, and they stop being pruned by that schedule.
+    Choose **Manage → Create volume from it** on the snapshot, name the volume and choose its
+    size (at least the snapshot's). Then attach it in place of the old volume, or beside it to
+    copy files across.
+
+    ![A new volume from a snapshot: name and size](../assets/screens/storage/snapshot-restore.webp)
 
 === "API"
 
-    **Rename a snapshot**
-
     ```bash
-    curl --fail-with-body -i -X PATCH "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/volume-snapshots/$RESOURCE_ID" \
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/volumes" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Idempotency-Key: $(uuidgen)" \
       -H "Content-Type: application/json" \
-      --data '{
-      "display_name": "before-upgrade"
-    }'
+      -d '{"location": "loc_01jbkhi", "display_name": "db-data-restored", "size_gb": 100, "snapshot_id": "vsn_01jbdbsnap"}'
     ```
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+The original volume and the snapshot are not changed; a snapshot cannot be written back over its
+volume. The new volume is independent: you can delete the snapshot or the old volume and keep it.
+If you made it larger, grow its file system inside the instance.
 
-    [Request fields and responses](../api/reference/volumes-and-snapshots.md).
+## Delete a snapshot
 
-    **Delete a snapshot**
+=== "Console"
+
+    Choose **Manage → Delete** and confirm. Volumes already made from it stay.
+
+=== "API"
 
     ```bash
-    curl --fail-with-body -i -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/volume-snapshots/$SNAPSHOT_ID" \
+    curl -sS -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/volume-snapshots/vsn_01jbdbsnap" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY"
+      -H "Idempotency-Key: $(uuidgen)"
     ```
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+**What blocks a delete**
 
-    [Request fields and responses](../api/reference/volumes-and-snapshots.md).
-
+| Refusal | Why | Resolve |
+|---|---|---|
+| `snapshot_restore_pending` | A volume is still being made from it | Wait until that volume is available |
 
 ## Limits and good practice
 
-Snapshot counts and storage are limited by project quota in the location. Wait for a successful operation before relying on a new snapshot. Test restoration regularly; a successful snapshot operation alone is not a recovery test.
+- Snapshots are kept, and their size counted in your usage, until you delete them.
+- A volume cannot be deleted while it has snapshots.
+- Test a restore now and then: a snapshot you have never restored is a guess.
+- For a database, prefer its own dump or backup tool, and copy the dump off the location.
+
+## Related
+
+- [Volumes](volumes.md) · [Schedules](schedules.md)
+- [API reference: Volumes and snapshots](../api/reference/volumes-and-snapshots.md)

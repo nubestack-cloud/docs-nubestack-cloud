@@ -1,167 +1,141 @@
 ---
-action_tabs: true
 title: Networks
+description: Private IPv4 networks for your instances in one location, with DHCP, DNS servers, static ranges and private routing.
 ---
 
 # Networks
 
-A network gives instances a private address range in one location. Use separate networks when services need separate address ranges or different routing. Networks belong to a project; they cannot stretch from Karachi to Islamabad.
+A **network** gives the instances on it private addresses from one range, in one location.
+**Routed** networks join the project's [private routing](routing.md) there and reach each other.
+Reaching the Internet is a separate step: an [Internet gateway](internet-gateways.md).
 
-<div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
-<span>Show instructions for</span>
-<div><button type="button" data-interface-choice="Console" aria-pressed="true">Console</button><button type="button" data-interface-choice="API" aria-pressed="false">API</button></div>
-</div>
+Find them under **Networking → Networks**.
 
-<div class="docs-method-note" markdown>
+![Networks: name, location, range, routing and Internet access](../assets/screens/networking/networks.webp)
 
-[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+## The network a project starts with
 
-</div>
+A project created with **Set up a network** gets one routed network, `default`, in each of its
+locations, with the range `10.0.0.0/24` unless the creator chose another. It is yours to change
+or delete. A location with no network shows a notice on the **Networks** page; **Set up
+network** there makes the same network.
 
-Open **Networking → Networks** in your project. The list shows the location, range, routing, attached instances and tags.
+## Before you start
 
-![The project's networks and address ranges](../assets/screens/networking/networks.webp)
-
+- Plan the range. It cannot change later, and two routed networks in the same location must not
+  overlap. A `/24` (256 addresses) suits most networks.
+- A role of project admin or project member.
 
 ## Create a network
 
 === "Console"
 
-    1. Choose **Create network** and a location.
-    2. Name it `app` and enter a CIDR address range. Use a private range that does not overlap the other networks you plan to connect. Example ranges in these docs use reserved documentation addresses.
-    3. Choose **Routed** to connect it to the project's other routed networks in this location, or **Isolated** to keep traffic within the network.
-    4. Keep DHCP on unless you will assign a fixed address to every instance. Set DNS servers if your application needs specific resolvers.
-    5. Optionally reserve a static address range. DHCP will not hand out these addresses; choose one as a fixed private address when launching an instance.
-    6. Add tags, review the summary and choose **Create network**. Follow the operation until it succeeds.
+    1. Choose **Create network**.
+    2. **Location** and **Network name**.
+    3. **Address range**:
+        - **Range (CIDR)**: a private IPv4 range from `/16` to `/28`, inside `10.0.0.0/8`,
+          `172.16.0.0/12` or `192.168.0.0/16`. The form warns when it would overlap another
+          routed network.
+        - **Gateway address** (optional): empty means the range's first address.
+        - **DNS servers** (optional): up to four, comma-separated; empty uses the location's.
+        - **Static addresses**: ranges DHCP never hands out, for addresses you set yourself.
+    4. **Private routing**: **Routed** (recommended), or **Isolated**: only instances on this
+       network reach each other, with no Internet and no public IPs.
+    5. Choose **Create network**.
 
-    ![Create a network with a range and routing choice](../assets/screens/networking/network-create.webp)
+    ![Create network: location, name, range and private routing](../assets/screens/networking/network-create.webp)
 
 === "API"
 
-    <span id="with-the-api" data-docs-method="API"></span>
-
     ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/networks" \
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/networks" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Idempotency-Key: $(uuidgen)" \
       -H "Content-Type: application/json" \
-      --data '{
-      "location": "loc_example",
-      "display_name": "app",
-      "routed": true,
-      "subnet": {
-        "cidr": "<private-ipv4-cidr>",
-        "enable_dhcp": true
-      },
-      "tags": {
-        "env": "prod"
-      }
-    }'
+      -d '{
+        "location": "loc_01jbkhi",
+        "display_name": "db",
+        "routed": true,
+        "subnet": {"cidr": "10.0.1.0/24", "dns_nameservers": ["10.0.1.2"], "enable_dhcp": true},
+        "tags": {"env": "prod"}
+      }'
     ```
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+    `subnet` also takes `gateway_ip`, `no_gateway` and up to 4 `allocation_pools`
+    (`{start, end}`). The answer is `202 Accepted`.
 
-    [Request fields and responses](../api/reference/networking.md).
-
-
-## Edit an address range
+## Change a network
 
 === "Console"
 
-    Open the network's detail page, select **Address range**, then choose **Edit ranges**. You can change its name, gateway, DNS servers, DHCP and reserved static ranges. The CIDR itself cannot change; create a new network to use another CIDR. A normal network has one address range; networks discovered from native tools may have more.
+    Open the network. The **Address range** tab shows how the range is used. **Edit ranges**
+    changes:
 
-    ![A network's address range, routing and connected services](../assets/screens/networking/network-detail.webp)
+    - the gateway address and DNS servers; instances pick them up at their next address renewal;
+    - **DHCP**: with it off, give each instance a fixed address when you create it;
+    - the ranges kept for static addresses.
 
-    Instances receive changed DHCP settings at their next renewal. With DHCP off, they receive network configuration at their next boot. Check the guest configuration after a change.
+    ![Edit ranges: gateway, DNS servers, DHCP and static ranges](../assets/screens/networking/network-ranges.webp)
 
-    ![Edit the network's address settings and reserved ranges](../assets/screens/networking/network-ranges.webp)
+    From **Manage**: **Detach from private routing** and **Attach to private routing**.
+    **Rename** is on the network's own page.
 
 === "API"
 
     ```bash
-    curl --fail-with-body -i -X PATCH "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/subnets/$RESOURCE_ID" \
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/networks/net_01jbdb:set-routing" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Idempotency-Key: $(uuidgen)" \
       -H "Content-Type: application/json" \
-      --data '{
-      "enable_dhcp": true,
-      "dns_nameservers": []
-    }'
+      -d '{"enabled": false}'
     ```
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+    `:set-internet-access` with `{"enabled": …}` attaches the network to the location's
+    Internet gateway or detaches it. `PATCH …/networks/{id}` renames it.
 
-    [Request fields and responses](../api/reference/networking.md).
+The range itself cannot change; to use another, create a new network.
 
+## How networks connect
 
-## Connect services
+- **Instances** get an address on a network when they are created, or with **Attach network**.
+- **Routed** networks of the project in one location reach each other through
+  [private routing](routing.md). Isolated networks do not.
+- A routed network reaches the Internet through the location's
+  [Internet gateway](internet-gateways.md), and is needed for [public IPs](public-ips.md).
+- A [load balancer](load-balancers.md) takes its private address from a network's range.
+
+## Delete a network
 
 === "Console"
 
-    - Choose this network when creating an [instance](../compute/instances.md), or attach it from an instance's **Networks** tab.
-    - A [load balancer](load-balancers.md) uses a subnet in this location.
-    - **Attach to private routing** connects an isolated network to the project's router. An [Internet gateway](internet-gateways.md) adds Internet access to routed networks.
-    - [Security groups](security-groups.md) control allowed traffic even when routing exists.
-
-=== "API"
-
-    Use `enabled: true` to join private routing and `false` to isolate. Choose this network on instance and load balancer create requests.
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/networks/$NETWORK_ID:set-routing" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "enabled": true
-    }'
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/networking.md).
-
-
-## Delete and limits
-
-=== "Console"
-
-    From **Manage → Delete**, review the resources holding ports on the network. Delete or disconnect the named instances and load balancers first. Detach public IPs before removing routing. A refused delete names what is still using the network; do not repeatedly submit it unchanged.
-
-    Quota is per project and location. Connected ranges must not overlap. Keep application networks private unless they need Internet access, and use [tags](../concepts/tags.md) to identify their purpose.
+    Choose **Manage → Delete** and confirm. Its range and routing attachment go; other networks
+    and private routing stay.
 
 === "API"
 
     ```bash
-    curl --fail-with-body -i -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/networks/$RESOURCE_ID" \
+    curl -sS -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/networks/net_01jbdb" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY"
+      -H "Idempotency-Key: $(uuidgen)"
     ```
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+**What blocks a delete or a detach**
 
-    [Request fields and responses](../api/reference/networking.md).
+| Refusal | Why | Resolve |
+|---|---|---|
+| `resource_in_use` | Instances, load balancers or others still have addresses on it; the message names them | Detach or delete them first |
+| `public_ips_in_use` | A public IP reaches an instance through it (detaching routing or Internet access) | Detach or release the public IPs |
+| `route_uses_network` | A route's next hop is on this network | Remove the route on the **Routing** page |
 
-## Change network tags
+## Limits and good practice
 
-=== "Console"
+- IPv4 only, one range per network.
+- Leave room to grow: the range never changes.
+- Use separate networks for tiers (web, database) and let security groups decide what crosses.
+- A network made with a location's own tools that has several ranges or another router is shown
+  as found, marked **outside Nexus**, and is not attached to private routing.
 
-    Open **Tags** on the network and save the intended key/value set. Review the current tag version before updating through the API.
+## Related
 
-=== "API"
-
-    ```bash
-    curl --fail-with-body -i -X PUT "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/networks/$RESOURCE_ID/tags" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "If-Match: $ETAG" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "tags": {
-        "env": "prod"
-      }
-    }'
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/networking.md).
+- [Routing](routing.md) · [Internet gateways](internet-gateways.md) · [Network topology](network-topology.md)
+- [API reference: Networking](../api/reference/networking.md)

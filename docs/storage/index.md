@@ -1,54 +1,50 @@
 ---
-title: Storage and recovery
+title: Storage
+description: Volumes that keep data apart from any one instance, snapshots of them, and schedules that take snapshots for you.
 ---
 
-# Storage and recovery
+# Storage
 
-Keep application data on persistent volumes and use snapshots as recovery points before changes. A snapshot shares the source volume’s storage; it is not an independent backup.
+An instance's system disk goes when the instance goes. Keep data you care about on a
+**volume**: a disk that lives on its own, which you attach to an instance and can move to
+another. Take **snapshots** before risky changes, and let a **schedule** take them for you.
 
-<figure class="docs-diagram">
-<div>
-<!-- diagram: storage-recovery -->
+<div class="grid cards" markdown>
+
+-   :material-harddisk:{ .lg .middle } **[Volumes](volumes.md)**
+
+    ---
+
+    Block storage you attach to an instance, extend, retype or move to another project.
+
+-   :material-camera-outline:{ .lg .middle } **[Snapshots](snapshots.md)**
+
+    ---
+
+    Point-in-time copies of a volume, restored to a new volume.
+
+-   :material-calendar-clock:{ .lg .middle } **[Schedules](schedules.md)**
+
+    ---
+
+    Snapshots on a timetable, instances stopped and started each week, group sizes by time.
+
 </div>
-<figcaption>Restoration makes a new volume; keep an independent backup outside this storage for storage-loss protection.</figcaption>
+
+## How recovery works
+
+<figure class="ns-diagram">
+--8<-- "storage-recovery.svg"
+<figcaption>A snapshot records a volume at one moment. Restoring makes a new volume from it; the original volume and the snapshot stay as they were.</figcaption>
 </figure>
 
-## Choose a guide
+!!! warning "Snapshots are not backups"
 
-<div class="guide-cards" markdown>
-<div class="guide-card" markdown>
+    A snapshot sits on the same storage as its volume. It protects you against a change you want to
+    undo, not against losing that storage. Backups to separate storage are not offered yet: keep
+    copies of critical data elsewhere too.
 
-### [Volumes](volumes.md)
+## Where to start
 
-Create, attach, extend and manage persistent disks.
-
-</div>
-<div class="guide-card" markdown>
-
-### [Snapshots](snapshots.md)
-
-Create a point-in-time copy and restore into a new volume.
-
-</div>
-<div class="guide-card" markdown>
-
-### [Schedules](schedules.md)
-
-Schedule snapshots, instance power changes and group sizes.
-
-</div>
-<div class="guide-card" markdown>
-
-### [Use a data disk](../tutorials/persistent-storage.md)
-
-Identify a new disk, mount it and keep it through an instance replacement.
-
-</div>
-<div class="guide-card" markdown>
-
-### [Test a recovery](../tutorials/persistent-storage.md)
-
-Restore a snapshot without overwriting the original data.
-
-</div>
-</div>
+[Keep data on a volume](../tutorials/persistent-storage.md) walks through creating, formatting,
+mounting, snapshotting and restoring a volume.

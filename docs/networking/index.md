@@ -1,68 +1,73 @@
 ---
 title: Networking
+description: Private networks, routing, Internet gateways, security groups, public IPs and load balancers.
 ---
 
 # Networking
 
-Connect your services inside a location and decide which can be reached from the Internet. Routes provide paths; security groups control the traffic using those paths.
+Networking decides who can reach your instances and what they can reach. Everything here lives
+in one location: a network in Karachi never reaches one in Islamabad by itself.
 
-<figure class="docs-diagram">
-<div>
-<!-- diagram: network-path -->
-</div>
-<figcaption>An Internet path and a firewall rule are both needed for an inbound connection.</figcaption>
+<figure class="ns-diagram">
+--8<-- "network-path.svg"
+<figcaption>In one location: private routing joins the project's networks, the Internet gateway takes traffic out, and a public IP brings traffic in to one instance.</figcaption>
 </figure>
 
-## Choose a guide
+<div class="grid cards" markdown>
 
-<div class="guide-cards" markdown>
-<div class="guide-card" markdown>
+-   :material-lan:{ .lg .middle } **[Networks](networks.md)**
 
-### [Networks and subnets](networks.md)
+    ---
 
-Create address ranges and control DHCP, DNS and private routing.
+    Private address ranges for your instances, with DHCP, DNS and static ranges.
 
-</div>
-<div class="guide-card" markdown>
+-   :material-router-network:{ .lg .middle } **[Routing](routing.md)**
 
-### [Routing](routing.md)
+    ---
 
-Connect networks and manage routes and forwarding.
+    The project's private router in each location, routes through an instance, and forwarding.
 
-</div>
-<div class="guide-card" markdown>
+-   :material-web:{ .lg .middle } **[Internet gateways](internet-gateways.md)**
 
-### [Internet gateways](internet-gateways.md)
+    ---
 
-Give routed networks an Internet path.
+    Outbound Internet access for routed networks, through one shared address.
 
-</div>
-<div class="guide-card" markdown>
+-   :material-shield-half-full:{ .lg .middle } **[Security groups](security-groups.md)**
 
-### [Security groups](security-groups.md)
+    ---
 
-Allow only the required protocols, ports and sources.
+    Firewall rules: which traffic may reach an instance, and what it may send.
 
-</div>
-<div class="guide-card" markdown>
+-   :material-ip-network-outline:{ .lg .middle } **[Public IPs](public-ips.md)**
 
-### [Public IPs](public-ips.md)
+    ---
 
-Allocate, attach, detach and release Internet-facing addresses.
+    Addresses that make one instance or load balancer reachable from the Internet.
 
-</div>
-<div class="guide-card" markdown>
+-   :material-scale-balance:{ .lg .middle } **[Load balancers](load-balancers.md)**
 
-### [Load balancers](load-balancers.md)
+    ---
 
-Distribute traffic and terminate HTTPS where offered.
+    One address for several instances, with health checks and HTTPS.
 
-</div>
-<div class="guide-card" markdown>
+-   :material-graph-outline:{ .lg .middle } **[Network topology](network-topology.md)**
 
-### [Network map](network-topology.md)
+    ---
 
-Inspect the relationships between project resources.
+    A drawing of a project's networks and what is connected to each.
 
 </div>
-</div>
+
+## The path of a packet
+
+| You want | You need |
+|---|---|
+| Instances to talk to each other | The same network, or two **routed** networks in the same location, and security group rules that allow it |
+| Instances to reach the Internet | A routed network and an **Internet gateway** in the location |
+| The Internet to reach an instance | All of the above, a **public IP** on the instance, and a rule that allows the port |
+| One address for several instances | A **load balancer** with a public IP, and rules that let it reach the instances |
+| Traffic to an office or VPN range | A **route** through an instance that forwards for that range |
+
+A new project made with **Set up a network** and **Create an Internet gateway** has a routed
+network, `default` (`10.0.0.0/24`), and a gateway in each location from the start.

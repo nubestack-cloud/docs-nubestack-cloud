@@ -1,161 +1,129 @@
 ---
-action_tabs: true
 title: Security groups
+description: Firewall rules for instances and load balancers. Which traffic may reach them, on which ports and from where.
 ---
 
 # Security groups
 
-A security group is a set of firewall rules for an instance's network interfaces. Use groups to allow only the traffic an application needs. Rules are additive: traffic permitted by any attached group is permitted. An Internet gateway or public IP provides a path; the group decides which traffic may use it.
+A **security group** is a set of firewall rules: which traffic may reach an instance, on which
+ports and from where, and what it may send. Traffic is refused unless a rule of one of the
+instance's groups allows it. Rules allow; nothing denies.
 
-<div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
-<span>Show instructions for</span>
-<div><button type="button" data-interface-choice="Console" aria-pressed="true">Console</button><button type="button" data-interface-choice="API" aria-pressed="false">API</button></div>
-</div>
+Each group belongs to one location. Find them under **Networking → Security groups**.
 
-<div class="docs-method-note" markdown>
+![Security groups: name, location, rules and what uses each group](../assets/screens/networking/security-groups.webp)
 
-[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+## The default group
 
-</div>
-
-Open **Networking → Security groups** in a project.
-
-![Security groups in the project](../assets/screens/networking/security-groups.webp)
-
+Every project has a group named `default` in each location, marked **cloud default**. The
+location makes it; it cannot be renamed or deleted. The instance create page chooses it to start
+with, and an instance given no other group gets it. Its rules apply to every instance of the
+project in that location that uses `default`, so add rules to it with care.
 
 ## Create a group
 
 === "Console"
 
     1. Choose **Create security group**.
-    2. Select its location and give it a name such as `web-access`.
-    3. Choose a starting template if appropriate: SSH, web or private traffic.
-    4. Review the rules and create it. Follow the operation.
+    2. **Location**: it applies only to instances there.
+    3. **Name**: unique in your organization, ignoring case, and never `default`. For example
+       `ssh-office` or `web`.
+    4. **Starting rules**:
+        - **SSH**: TCP 22 from anywhere.
+        - **Web**: TCP 80 and 443 from anywhere.
+        - **Private only**: everything in and out, but only to and from private ranges. No
+          Internet, as long as the instance is in no other group that allows outbound traffic.
+        - **Empty**: no inbound rules.
+    5. Choose **Create security group**.
 
-    ![Create a security group from a starting template](../assets/screens/networking/security-group-create.webp)
+    ![Create security group: location, name and starting rules](../assets/screens/networking/security-group-create.webp)
 
 === "API"
 
-    <span id="with-the-api" data-docs-method="API"></span>
-
     ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/security-groups" \
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/security-groups" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Idempotency-Key: $(uuidgen)" \
       -H "Content-Type: application/json" \
-      --data '{
-      "location": "loc_example",
-      "display_name": "web-access",
-      "template": "web"
-    }'
+      -d '{"location": "loc_01jbkhi", "display_name": "web", "template": "web"}'
     ```
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/security-groups.md).
-
+    `template` is `ssh`, `web`, `private`, or left out for an empty group.
 
 ## Add and remove rules
 
 === "Console"
 
-    1. Open a group and choose **Add rule**.
-    2. Select ingress for traffic entering an instance, or egress for traffic leaving it.
-    3. Choose the IP version and protocol. For TCP or UDP, set the port or port range.
-    4. Set the remote CIDR or remote security group. Use your own office CIDR for SSH rather than `0.0.0.0/0`.
-    5. Save and follow the operation. Remove an obsolete rule from its row's menu.
+    Open the group's **Rules** tab.
 
-    ![Rules on a security group's page](../assets/screens/networking/security-group-rules.webp)
+    1. Under **Add a rule**, pick a preset (SSH, HTTP, HTTPS, RDP, ICMP) or **Custom rule**.
+    2. **Direction**: inbound or outbound. **IP version**: IPv4 or IPv6.
+    3. **Protocol**: TCP, UDP, ICMP or Any. **Ports**: one port or a range; empty means all.
+    4. **Remote**: **Addresses (CIDR)**, such as `203.0.113.0/24` for your office or
+       `0.0.0.0/0` for anywhere, or **Security group**: every instance in that group.
+    5. Choose **Add rule**.
 
-    To attach the group, choose it during [instance creation](../compute/instances.md) or use **Manage → Security groups** on an existing instance. A group must belong to the same project and location.
+    To remove a rule, choose **Remove** beside it. Traffic it allowed is refused at once.
 
-    !!! warning "Shared groups affect every attached instance"
-
-        Changing the `default` group changes access for every instance using it. The create-instance shortcuts show which group receives the SSH and web rules. Check that summary before confirming.
+    ![A group's rules: inbound HTTP and HTTPS from anywhere, SSH from the office range](../assets/screens/networking/security-group-rules.webp)
 
 === "API"
 
-    **Add a security group rule**
-
     ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/security-groups/$GROUP_ID:add-rule" \
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/security-groups/sgr_01jbweb:add-rule" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Idempotency-Key: $(uuidgen)" \
       -H "Content-Type: application/json" \
-      --data '{
-      "direction": "ingress",
-      "ethertype": "IPv4",
-      "protocol": "tcp",
-      "port_min": 443,
-      "port_max": 443,
-      "remote_ip_prefix": "0.0.0.0/0"
-    }'
+      -d '{"direction": "ingress", "protocol": "tcp", "port_min": 22, "port_max": 22, "remote_ip_prefix": "203.0.113.0/24"}'
     ```
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+    `:remove-rule` takes the same fields. Use `remote_group_id` instead of
+    `remote_ip_prefix` to allow a group's instances.
 
-    [Request fields and responses](../api/reference/security-groups.md).
+A rule cannot be edited: add the new one, then remove the old. Once an instance is up, add an SSH
+rule for your own addresses and remove the one open to `0.0.0.0/0`.
 
-    **Remove a security group rule**
+## Apply groups to an instance
 
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/security-groups/$GROUP_ID:remove-rule" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "direction": "ingress",
-      "ethertype": "IPv4",
-      "protocol": "tcp",
-      "port_min": 443,
-      "port_max": 443,
-      "remote_ip_prefix": "0.0.0.0/0"
-    }'
-    ```
+Choose groups when you [create an instance](../compute/instances.md), or later with
+**Manage → Security groups** on the instance. Its groups apply on every network it is on. With
+no groups at all, the instance accepts and sends nothing.
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+## How security groups connect
 
-    [Request fields and responses](../api/reference/security-groups.md).
+- A load balancer's instances need a rule that lets the load balancer reach the pool's port, for
+  example TCP 8080 from the network's range.
+- A rule whose remote is a security group matches its instances' own addresses, not traffic they
+  forward for other ranges.
 
-
-## Delete and good practice
+## Delete a group
 
 === "Console"
 
-    Detach the group from all instances before choosing **Delete**. A refusal names its users; the default group has additional restrictions. Keep separate groups for SSH administration, public application ports and private database traffic. Review egress rules as well as ingress rules, and check project and location quota before adding many groups or rules.
+    Open the group and choose **Delete**.
 
 === "API"
 
     ```bash
-    curl --fail-with-body -i -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/security-groups/$GROUP_ID" \
+    curl -sS -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/security-groups/sgr_01jbweb" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY"
+      -H "Idempotency-Key: $(uuidgen)"
     ```
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+**What blocks a delete**
 
-    [Request fields and responses](../api/reference/security-groups.md).
+| Refusal | Why | Resolve |
+|---|---|---|
+| `security_group_in_use` | An instance or load balancer uses it; the message names each | Take the group off them first |
+| `default_security_group` | It is the location's `default` group | It cannot be deleted |
 
-## Attach a group to an instance
+## Good practice
 
-=== "Console"
+- Open only the ports you serve, to the narrowest range that works.
+- Allow database ports from the web tier's group, not from address ranges.
+- IPv6 rules can be written, but networks are IPv4, so they rarely matter.
 
-    Select the groups during instance creation or use **Manage → Security groups** on an existing instance. Save the complete intended set; their allow rules are additive.
+## Related
 
-=== "API"
-
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$SERVER_ID:set-security-groups" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "security_group_ids": [
-        "sgr_example"
-      ]
-    }'
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/instances.md).
+- [Connect to an instance](../compute/connect-to-instances.md) · [Connect private services](../tutorials/private-networking.md)
+- [API reference: Security groups](../api/reference/security-groups.md)

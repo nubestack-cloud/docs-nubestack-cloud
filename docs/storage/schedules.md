@@ -1,218 +1,132 @@
 ---
-action_tabs: true
 title: Schedules
+description: Snapshot volumes on a timetable and keep the newest few, stop and start instances each week, and set an instance group's size by time.
 ---
 
 # Schedules
 
-Schedules run recurring work for a project. Use backup schedules for volume snapshots, power schedules to stop and start instances, and size schedules to change an instance group's desired count.
+A **schedule** does something on its own, on a timetable you set:
 
-<div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
-<span>Show instructions for</span>
-<div><button type="button" data-interface-choice="Console" aria-pressed="true">Console</button><button type="button" data-interface-choice="API" aria-pressed="false">API</button></div>
-</div>
+- A **backup schedule** snapshots volumes hourly, daily or weekly and keeps the newest few of its
+  own snapshots of each volume.
+- A **power schedule** stops instances and starts them again on a weekly timetable, for example
+  stopped every weekday at 20:00 and started at 08:00.
+- A **size schedule** sets an [instance group](../compute/instance-groups.md)'s count at set
+  times.
 
-<div class="docs-method-note" markdown>
+Find them under **Storage → Schedules**, or on a volume's or an instance's **Schedules** tab.
 
-[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+![Schedules: a nightly backup and an office-hours power schedule, with their next runs](../assets/screens/storage/schedules.webp)
 
-</div>
+## Before you start
 
-![Backup and power schedules with their next run](../assets/screens/storage/schedules.webp)
+Each run is an ordinary operation, made as the person who created the schedule or last changed or
+resumed it. You need the rights the runs use: snapshotting and deleting snapshots for a backup,
+stopping and starting instances for a power schedule. A project reader cannot make one.
 
-
-## Create a backup schedule
-
-=== "Console"
-
-    1. Open **Storage → Schedules → Create schedule**. You can also start from an instance's or volume's **Schedules** tab.
-    2. Choose **Back up volumes** or **Back up instances**.
-    3. Select targets in one location. An instance backup snapshots its attached volumes; it does not save its image-backed system disk. Use [Create image](../compute/images.md) when you need that disk.
-    4. Choose a time zone and timetable. Backups can be hourly, daily or weekly.
-    5. For backups, choose how many snapshots of each volume to keep. The schedule prunes only snapshots it created.
-    6. Name the schedule, review the next run and save.
-
-    ![Create a schedule and choose its targets and timetable](../assets/screens/storage/schedule-create.webp)
-
-    The saved schedule takes effect for future runs. It is not a request to run the action immediately. Check its **Next run**, time zone, last result and linked operation.
-
-=== "API"
-
-    <span id="with-the-api" data-docs-method="API"></span>
-
-    This example creates a nightly volume snapshot schedule.
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/schedules" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "kind": "backup",
-      "name": "nightly",
-      "target_type": "volume",
-      "target_ids": [
-        "vol_example"
-      ],
-      "time_zone": "Asia/Karachi",
-      "recurrence": {
-        "frequency": "daily",
-        "time": "02:00"
-      },
-      "keep": 7
-    }'
-    ```
-
-    Returns `201` directly. Read the returned resource or current state to verify the change.
-
-    [Request fields and responses](../api/reference/schedules.md).
-
-
-## Create a power schedule
+## Add a schedule
 
 === "Console"
 
-    Choose **Create schedule → Stop and start instances**. Select instances in one location, their weekly stop and start times, days, time zone and a name. Review the next-run time before saving. A stopped instance retains its allocation, disks and public IPs.
+    1. Choose **Create schedule**, or **Add schedule** on a volume's or instance's **Schedules**
+       tab.
+    2. What it does: **Back up volumes**, **Back up instances** (every volume attached to each
+       instance) or **Stop and start instances**.
+    3. The location and up to 10 volumes or instances there.
+    4. When, and the time zone, such as `Asia/Karachi`.
+    5. For a backup, how many snapshots to keep of each volume (1 to 100).
+    6. Name it and choose **Create schedule**.
+
+    ![Create schedule: what, which volumes, when, time zone and how many to keep](../assets/screens/storage/schedule-create.webp)
 
 === "API"
 
     ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/schedules" \
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/schedules" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Idempotency-Key: $(uuidgen)" \
       -H "Content-Type: application/json" \
-      --data '{
-      "kind": "power",
-      "name": "office-hours",
-      "target_type": "server",
-      "target_ids": [
-        "srv_example"
-      ],
-      "time_zone": "Asia/Karachi",
-      "power": {
-        "days": [
-          "mon",
-          "tue",
-          "wed",
-          "thu",
-          "fri"
-        ],
-        "stop_at": "20:00",
-        "start_at": "08:00"
-      }
-    }'
+      -d '{
+        "kind": "backup", "name": "nightly",
+        "target_type": "volume", "target_ids": ["vol_01jbdbdata"],
+        "time_zone": "Asia/Karachi",
+        "recurrence": {"frequency": "daily", "time": "02:00"},
+        "keep": 7
+      }'
     ```
 
-    Returns `201` directly. Read the returned resource or current state to verify the change.
+    A power schedule: `"kind": "power"`, `"target_type": "server"` and
+    `"power": {"days": ["mon","tue","wed","thu","fri"], "stop_at": "20:00", "start_at": "08:00"}`.
+    A size schedule: `"kind": "resize"`, `"target_type": "instance_group"` and `"desired"`. The
+    answer is `201 Created`.
 
-    [Request fields and responses](../api/reference/schedules.md).
+## When it runs
 
-## Schedule group sizes
+- Times are local to the schedule's time zone. A run starts within about a minute of its time.
+- When daylight saving skips an hour, a run in it happens once, just after; when an hour repeats,
+  it runs the first time.
+- If a run was missed, only the latest missed run happens, once; there is no backlog. If the
+  previous run is still going, the next is skipped, and the skip is shown.
+- While the organization or project is suspended, nothing runs; a project's schedules pause when
+  its deletion is requested.
+
+**Runs** on a schedule lists its latest runs, with links to their operations.
+
+## Backups and how many are kept
+
+Backup snapshots are named after the schedule and the time, for example `nightly-20261029-0200`.
+They are ordinary [snapshots](snapshots.md): restore one to a new volume as usual.
+
+After a run's snapshot of a volume succeeds, the schedule deletes that volume's oldest snapshots
+**it made** beyond **Keeps**. It never deletes a snapshot you made by hand or one another schedule
+made, and deletes nothing when a run failed.
+
+A volume in use is snapshotted as it is, as if the power had been cut (crash-consistent). For a
+database, use its own backup tool, or stop it first. An instance's system disk that is not a
+volume is not snapshotted; save the instance as an [image](../compute/images.md) for that.
+
+## Power schedules
+
+At a stop time each running instance is stopped; at a start time each stopped one is started. An
+instance already in that state is left alone. The instance's page shows its next stop and start.
+A stopped instance is not counted for vCPU and RAM hours, but its disks and public IPs still are.
+
+## Pause, resume, change or delete
 
 === "Console"
 
-    Open an [instance group](../compute/instance-groups.md) and its **Scheduled sizes** section. Choose the desired size, local time, days and time zone. The size must remain within the group's minimum and maximum. After the scheduled run, the group creates or removes instances until it reaches that desired count.
+    **Manage → Pause…** stops it running; runs missed while paused are not made up. **Resume**
+    starts it again from its next time. **Edit** changes it. **Delete…** removes it.
 
 === "API"
 
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/schedules" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "kind": "resize",
-      "name": "morning-size",
-      "target_type": "instance_group",
-      "target_ids": [
-        "igr_example"
-      ],
-      "time_zone": "Asia/Karachi",
-      "desired": 3,
-      "recurrence": {
-        "frequency": "daily",
-        "time": "08:00"
-      }
-    }'
-    ```
-
-    Returns `201` directly. Read the returned resource or current state to verify the change.
-
-    [Request fields and responses](../api/reference/schedules.md).
-
-## Edit, pause and delete
-
-=== "Console"
-
-    Use **Edit** on a schedule to change the supported target and timetable settings, retention or desired count. Review the next run after editing. **Pause** stops future runs; **Resume** enables them again. Runs act with the creator's current permissions; removing access can prevent a later run.
-
-    ![Edit the schedule timetable and retention](../assets/screens/storage/schedule-edit.webp)
-
-    Deleting a backup schedule leaves its snapshots in place and stops pruning them. Delete unwanted snapshots separately. Deleting a power schedule does not start stopped instances. Deleting a size schedule does not undo the last desired count it set.
-
-    !!! note "Understand backup consistency"
-
-        The console calls these backup schedules, but they create snapshots in the source storage, not independent backup copies. Scheduled snapshots of attached volumes do not pause applications. Database or multi-volume consistency needs application coordination and a tested restore procedure.
-
-=== "API"
-
-    **Change a schedule**
+    Changes need the schedule's version in `If-Match`:
 
     ```bash
-    curl --fail-with-body -i -X PATCH "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/schedules/$SCHEDULE_ID" \
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/schedules/sch_01jbnightly:pause" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "If-Match: $ETAG" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "name": "nightly",
-      "keep": 7
-    }'
+      -H "Idempotency-Key: $(uuidgen)" \
+      -H 'If-Match: "3"'
     ```
 
-    Returns `200` directly. Read the returned resource or current state to verify the change.
+    `:resume`, `PATCH` and `DELETE` work the same way and answer `200 OK`.
 
-    [Request fields and responses](../api/reference/schedules.md).
+Deleting a backup schedule keeps the snapshots it made, and they are no longer pruned. Nothing
+blocks deleting a schedule.
 
-    **Pause a schedule**
+## When a run fails
 
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/schedules/$SCHEDULE_ID:pause" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "If-Match: $ETAG"
-    ```
-
-    Returns `200` directly. Read the returned resource or current state to verify the change.
-
-    [Request fields and responses](../api/reference/schedules.md).
-
-    **Resume a schedule**
-
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/schedules/$SCHEDULE_ID:resume" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "If-Match: $ETAG"
-    ```
-
-    Returns `200` directly. Read the returned resource or current state to verify the change.
-
-    [Request fields and responses](../api/reference/schedules.md).
-
-    **Delete a schedule**
-
-    ```bash
-    curl --fail-with-body -i -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/schedules/$SCHEDULE_ID" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "If-Match: $ETAG"
-    ```
-
-    Returns `200` directly. Read the returned resource or current state to verify the change.
-
-    [Request fields and responses](../api/reference/schedules.md).
-
+The person the schedule runs as gets an e-mail when a run fails, and when the schedule pauses
+itself because they lost the rights or everything it acts on is gone. A run of failures sends one
+e-mail. If they have left the organization, its owners and admins get it. Anyone who may manage
+the schedule can **Resume** it; it then runs as them.
 
 ## Limits
 
-At most 20 schedules per project and 10 targets per schedule are supported. Backup retention is 1–100 snapshots per volume. Choose an IANA time zone such as `Asia/Karachi`, and inspect the next-run display rather than assuming the browser's zone applies. Missed work and failures need attention in the schedule's last result and [activity](../organization/activity.md).
+- Up to 20 schedules per project and 10 targets per schedule, in one location.
+- Nothing runs more often than once an hour.
+
+## Related
+
+- [Snapshots](snapshots.md) · [Instance groups](../compute/instance-groups.md)
+- [API reference: Schedules](../api/reference/schedules.md)
