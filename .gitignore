@@ -1,8 +1,13 @@
-.venv/
+# Build output and caches
 site/
-node_modules/
+.cache/
+artifacts/
 __pycache__/
 *.pyc
-artifacts/
+
+# Local tooling
+.venv/
+node_modules/
+mkdocs.dev.yml
 scripts/screens/failed/
 .DS_Store
