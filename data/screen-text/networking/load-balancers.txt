@@ -1,5 +1,4 @@
-ne
-us
+NubeStack Cloud
 Organization
 Acme
 Workspace
@@ -40,7 +39,7 @@ Actions
 
 
 web-lb
-	Karachi	192.0.2.50
+	Karachi	10.0.0.50
 HTTP 80
 TERMINATED_HTTPS 443
 	Activeonline	9 days ago	Manage

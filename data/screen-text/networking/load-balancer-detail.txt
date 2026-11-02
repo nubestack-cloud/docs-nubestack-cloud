@@ -1,5 +1,4 @@
-ne
-us
+NubeStack Cloud
 Organization
 Acme
 Workspace
@@ -43,7 +42,7 @@ Attachments
 5
 Activity
 Private VIP
-192.0.2.50
+10.0.0.50
 inside your networks
 Public IP
 203.0.113.40
@@ -78,7 +77,6 @@ Last read
 Recent activity
 All activity
 When	Action	By	Status
-4 min ago	Create instance	usr_01jbsara…	Succeeded	Steps
-30 min ago	Volume: snapshot	you	Succeeded	Steps
+10 h ago	Change load balancer	sa_01jbterra…	Succeeded	Steps
 
 All project activity

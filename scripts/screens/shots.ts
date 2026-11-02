@@ -2,7 +2,7 @@
 // docs/assets/screens/<name>.webp, which the pages import.
 import type { Page } from "playwright";
 import type { Shot } from "./take.ts";
-import { ID, INVITATION_ID, INVITEE, ORG, PROJECT, SERVICE_ACCOUNT, STATEMENT_OPEN, TEMPLATE } from "./world.ts";
+import { ID, INVITATION_ID, INVITEE, ORG, PROJECT, SERVICE_ACCOUNT, TEMPLATE } from "./world.ts";
 
 const org = (section: string) => `/orgs/${ORG}/${section}`;
 const project = (section: string) => `/orgs/${ORG}/projects/${PROJECT}/${section}`;
@@ -41,15 +41,10 @@ const chain = (...steps: ((page: Page) => Promise<void>)[]) => async (page: Page
 export const SHOTS: Shot[] = [
   // Customer-guide review: task details and dialogs missing from the original set.
   { name: "compute/image-create", path: project("images"), wait: "main h1", act: click("Create image"), clip: "dialog" },
-  { name: "compute/image-detail", path: project(`images/${ID.image}`), wait: "main h1", clip: "main" },
   { name: "compute/instance-tags", path: project(`instances/${ID.web1}`), wait: "main h1", act: click(/^Tags/, "tab"), clip: "main" },
-  { name: "compute/instance-group-edit", path: project(`instance-groups/${ID.group}/edit`), wait: "main h1", clip: "main", height: 1500 },
-  { name: "storage/snapshot-detail", path: project(`snapshots/${ID.snap}`), wait: "main h1", clip: "main" },
   { name: "storage/snapshot-restore", path: project(`volumes/new?snapshot=${ID.snap}`), wait: "main h1", clip: "main", height: 1200,
     act: fill(/^Name$/, "db-data-restored") },
   { name: "storage/volume-snapshot", path: project("volumes"), wait: "scratch", act: chain(manage("scratch"), item(/Create snapshot/)), clip: "dialog" },
-  { name: "storage/schedule-edit", path: project(`schedules/${ID.schedBackup}/edit`), wait: "main h1", clip: "main", height: 1400 },
-  { name: "networking/public-ip-detail", path: project(`public-ips/${ID.fipWeb}`), wait: "main h1", clip: "main" },
   { name: "networking/network-ranges", path: project(`networks/${ID.netApp}`), wait: "main h1", act: chain(click(/^Address range/, "tab"), click("Edit ranges")), clip: "dialog", height: 1100 },
   // Spec 070 §12: an HTTPS listener's certificates, the default and the ones served by host name.
   { name: "security/listener-certificates", path: project(`load-balancers/${ID.lb}`), wait: "main h1", clip: "dialog", height: 1100,
@@ -96,7 +91,6 @@ export const SHOTS: Shot[] = [
   { name: "networking/topology", path: project("network-topology"), wait: "main h1", height: 1000 },
   { name: "networking/networks", path: project("networks"), wait: "main h1", clip: "main" },
   { name: "networking/network-create", path: project("networks/new"), wait: "main h1", clip: "main", height: 1400, act: chain(pick("Karachi"), fill(/^Name$/, "app-private"), fill(/^Range/, "10.20.0.0/24")) },
-  { name: "networking/network-detail", path: project(`networks/${ID.netApp}`), wait: "main h1", clip: "main", height: 1000 },
   { name: "networking/routing", path: project("routing"), wait: "main h1", clip: "main" },
   { name: "networking/internet-gateways", path: project("internet-gateways"), wait: "main h1", clip: "main" },
   { name: "networking/security-groups", path: project("security-groups"), wait: "ssh-office", clip: "main" },
@@ -106,9 +100,6 @@ export const SHOTS: Shot[] = [
   { name: "networking/public-ip-attach", path: project("public-ips"), wait: "198.51.100.7", act: chain(manage("198.51.100.7"), item(/^Attach/)), clip: "dialog" },
   { name: "networking/public-ip-allocate", path: project("public-ips/new"), wait: "main h1", clip: "main" },
   { name: "networking/security-group-create", path: project("security-groups/new"), wait: "main h1", clip: "main", height: 1200 },
-  { name: "networking/load-balancer-listeners", path: project(`load-balancers/${ID.lb}`), wait: "main h1", clip: "main", height: 1400,
-    act: click(/^Listeners/, "tab") },
-  { name: "networking/load-balancer-add-listener", path: project(`load-balancers/${ID.lb}/listeners/new`), wait: "main h1", clip: "main", height: 1400 },
   { name: "networking/load-balancers", path: project("load-balancers"), wait: "web-lb", clip: "main" },
   { name: "networking/load-balancer-create", path: project("load-balancers/new"), wait: "main h1", clip: "main", height: 1700 },
   { name: "networking/load-balancer-detail", path: project(`load-balancers/${ID.lb}`), wait: "main h1", clip: "main", height: 1300 },
@@ -116,7 +107,6 @@ export const SHOTS: Shot[] = [
   // Storage
   { name: "storage/volumes", path: project("volumes"), wait: "db-data", clip: "main" },
   { name: "storage/volume-create", path: project("volumes/new"), wait: "main h1", clip: "main", height: 1200, act: chain(pick("Karachi"), fill(/^Name$/, "app-data"), fill(/^Size/, "20")) },
-  { name: "storage/volume-manage-menu", path: project("volumes"), wait: "scratch", act: manage("scratch"), clip: "main" },
   { name: "storage/volume-attach", path: project("volumes"), wait: "scratch", act: chain(manage("scratch"), item(/^Attach/)), clip: "dialog" },
   { name: "storage/volume-extend", path: project("volumes"), wait: "scratch", act: chain(manage("scratch"), item(/^Extend/)), clip: "dialog" },
   { name: "storage/volume-detail", path: project(`volumes/${ID.volDb}`), wait: "main h1", clip: "main", height: 1100 },
@@ -145,7 +135,6 @@ export const SHOTS: Shot[] = [
 
   // Project
   { name: "concepts/project-quota", path: project("quota"), wait: "main h1", clip: "main", height: 1100 },
-  { name: "concepts/project-settings", path: project("settings"), wait: "main h1", clip: "main" },
   { name: "concepts/project-access", path: project("settings?tab=access"), wait: "main h1", clip: "main" },
   { name: "concepts/project-locations", path: project("settings?tab=locations"), wait: "main h1", clip: "main" },
   { name: "concepts/project-delete", path: project("settings?tab=danger"), wait: "main h1",
@@ -164,6 +153,4 @@ export const SHOTS: Shot[] = [
   // Native access
   { name: "native-access/consoles-and-cli", path: project("cloud-access"), wait: "main h1", clip: "main", height: 1000 },
 
-  // Statement detail kept for reference to the open statement id.
-  { name: "organization/statement-open", path: org(`statements?statement=${STATEMENT_OPEN.id}`), wait: "main h1", clip: "main", height: 1200 },
 ];

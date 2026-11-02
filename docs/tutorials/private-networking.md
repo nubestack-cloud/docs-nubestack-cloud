@@ -1,68 +1,98 @@
 ---
 title: Connect private services
-action_tabs: true
+description: A web tier and a database on separate private networks in one location, with only the web tier reachable from the Internet.
 ---
 
 # Connect private services
 
-Connect a web tier to a database tier in one location without giving the database a public IP. This combines private routing with narrowly scoped security-group rules.
+Run a web tier and a database on two private networks in one location. Only the web tier is
+reachable from the Internet; the database accepts its port only from the web tier.
 
-<div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
-<span>Show instructions for</span>
-<div><button type="button" data-interface-choice="Console" aria-pressed="true">Console</button><button type="button" data-interface-choice="API" aria-pressed="false">API</button></div>
-</div>
+**You will use:** two networks, private routing, two security groups and two instances, in
+Karachi.
 
-<div class="docs-method-note" markdown>
+| Part | Network | Reachable from |
+|---|---|---|
+| `web-1` | `app`, `10.0.0.0/24` | The Internet on 80 and 443, through its public IP |
+| `db-1` | `db`, `10.0.1.0/24` | Only `web-1`'s security group, on 5432 |
 
-[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. `{P}` below means `/v1/orgs/{org_id}/projects/{project_id}`. Reuse an idempotency key for retries of one request; use a new key for each new action.
+## Before you start
 
-</div>
+- A project in Karachi with an Internet gateway. The project's `default` network can serve as
+  `app`.
+- Ranges that do not overlap other routed networks in the location.
 
-
-## Plan the connection
-
-Use one project and one location. For a private example, use `10.20.0.0/24` for `app` and `10.20.1.0/24` for `data`, after checking these ranges do not overlap your existing networks. Choose two private, non-overlapping CIDRs within the supported range sizes. Keep the database's address stable using the network's reserved static range if your application configuration needs it. Do not copy the reserved documentation addresses from screenshots into a real network configuration.
-
-| Resource | Intended access |
-|---|---|
-| Application network | Routed; Internet access only where needed |
-| Data network | Routed privately to the application network |
-| Web instance | Public frontend or a load balancer; restricted administrative access |
-| Database instance | No public IP; accept the database port only from the application tier |
-
-
-
-## Build the private path
+## 1. Create the database network
 
 === "Console"
 
-    1. Create `app` and `data` networks in the same location. Choose **Routed** for both to join the project's private routing.
-    2. Create the web instance on `app` and the database instance on `data`.
-    3. Create a database security group. Allow ingress on the database's actual TCP port from the application CIDR, or use a supported remote security-group rule where appropriate. Do not open the database port to `0.0.0.0/0`.
-    4. Attach the groups to the intended instances. Inspect existing groups too: rules are additive, so an overly broad rule in another attached group can still permit traffic.
-    5. Use **Network topology** to inspect the instances, network ranges and router connections.
-
-    ![Use the network map to inspect the private path](../assets/screens/networking/topology.webp)
+    Under **Networking → Networks**, choose **Create network**: Karachi, name `db`, range
+    `10.0.1.0/24`, **Routed**. Routed networks of the project reach each other through its private
+    router; nothing else is needed for the path.
 
 === "API"
 
-    <span id="with-the-api" data-docs-method="API"></span>
+    ```bash
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/networks" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" -H "Idempotency-Key: $(uuidgen)" \
+      -H "Content-Type: application/json" \
+      -d '{"location": "loc_01jbkhi", "display_name": "db", "routed": true, "subnet": {"cidr": "10.0.1.0/24"}}'
+    ```
 
-    Create each network with `POST {P}/networks`, a valid private `subnet.cidr` and `routed: true`. Follow each operation. The `:set-routing` network action connects an existing isolated network to private routing.
+## 2. Create the two security groups
 
-    Create or update [security groups](../networking/security-groups.md) and their rules, then use `POST {P}/servers/{id}:set-security-groups` for the intended instance selection. Inspect the [Networking reference](../api/reference/networking.md) and [Security groups reference](../api/reference/security-groups.md) for exact fields. A firewall change returns an operation too.
+1. `web`: from the **Web** template (TCP 80 and 443 from anywhere). Add SSH from your office
+   range, such as `203.0.113.0/24`.
+2. `db`: from the **Empty** template. Add an inbound rule: TCP `5432`, **Remote: Security group**
+   `web`.
 
+![The db group's rules: PostgreSQL only from instances in the web group](../assets/screens/networking/security-group-rules.webp)
 
-## Verify from both sides
+=== "API"
 
-From the web instance, connect to the database's private address using the application's database client. Check the database is bound to the intended guest interface and its guest firewall allows the connection.
+    ```bash
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/security-groups/sgr_01jbdb:add-rule" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" -H "Idempotency-Key: $(uuidgen)" \
+      -H "Content-Type: application/json" \
+      -d '{"direction": "ingress", "protocol": "tcp", "port_min": 5432, "port_max": 5432, "remote_group_id": "sgr_01jbweb"}'
+    ```
 
-Verify that an unintended source cannot connect. Routing alone is not an access policy. If the path fails, check ranges do not overlap, both networks are routed, security groups allow the protocol and port, and the guest service is listening.
+A rule whose remote is a group matches its instances' own addresses, so the database follows the
+web tier as it grows, without address lists.
 
-## Internet access and cleanup
+## 3. Create the instances
 
-An isolated network cannot reach other networks through the project's router. Detaching from private routing also removes its path through the Internet gateway; attached public IPs can block that detach.
+- `web-1` on `app`, in the `web` group, with **A new public IP**.
+- `db-1` on `db`, in the `db` group, with **No public IP**. It can still reach the Internet for
+  updates through the gateway; nothing on the Internet can reach it.
 
-The project Internet gateway can provide outbound access to routed networks. **No public IP** on the database prevents that direct inbound endpoint, but is not a substitute for firewall rules. There is no private network spanning Karachi and Islamabad.
+## 4. Check the path
 
-Remove instances or their interfaces before deleting networks. Detach public IPs before removing routing that they depend on. Review [the delete dependencies](../concepts/deletion-and-retention.md) when cleaning up.
+From `web-1`, connect to the database's private address:
+
+```bash
+psql -h 10.0.1.10 -U app -d shop -c 'select 1'
+```
+
+Then check what should fail does fail: from your computer, the database's address is not
+reachable at all. The database itself must listen on its private address (`listen_addresses` in
+PostgreSQL) and allow the web tier's range in its own access rules.
+
+Open **Network topology** to see both networks on the router, and each instance on its network.
+
+![Network topology: both networks on the project's router](../assets/screens/networking/topology.webp)
+
+## If it does not connect
+
+- Both networks are **Routed**, and their ranges do not overlap.
+- `db-1` is in the `db` group, and `web-1` in the `web` group.
+- The database listens on its private address and its port is right.
+
+## Clean up
+
+Delete the instances, release `web-1`'s public IP, delete the `db` group, then the `db` network.
+A network cannot be deleted while instances have addresses on it.
+
+## Related
+
+- [Networks](../networking/networks.md) · [Routing](../networking/routing.md) · [Security groups](../networking/security-groups.md)

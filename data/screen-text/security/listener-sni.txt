@@ -1,5 +1,4 @@
-ne
-us
+NubeStack Cloud
 Organization
 Acme
 Workspace
@@ -62,15 +61,16 @@ Members
 2 / 2 online
 Change members
 Instance	Address	Port	Recorded health
-web-1	192.0.2.11	8080	online
-web-2	192.0.2.12	8080	online
+web-1	10.0.0.11	8080	online
+web-2	10.0.0.12	8080	online
 Listener
 TERMINATED_HTTPS · 443
 https ·
 lst-https
 Certificate www-2026
+By host name shop-2026
 Edit listener
-Switch certificate
+Change certificates
 Delete listener
 Pool
 web-pool
@@ -83,14 +83,14 @@ Members
 2 / 2 online
 Change members
 Instance	Address	Port	Recorded health
-web-1	192.0.2.11	8080	online
-web-2	192.0.2.12	8080	online
+web-1	10.0.0.11	8080	online
+web-2	10.0.0.12	8080	online
 Public exposure
 
 Reachable from the internet
 at 203.0.113.40 →
 , forwarded to
- 192.0.2.50
+ 10.0.0.50
 
 Detach public IP
 

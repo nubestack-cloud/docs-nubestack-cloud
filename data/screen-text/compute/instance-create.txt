@@ -1,5 +1,4 @@
-ne
-us
+NubeStack Cloud
 Organization
 Acme
 Workspace
@@ -137,11 +136,11 @@ No network
 isolated
 Without a network the instance has no network access.
 app
-192.0.2.0/24
+10.0.0.0/24
 db
-198.51.100.0/24
+10.0.1.0/24
 Private address (optional)
-Static ranges: 192.0.2.2–192.0.2.9 (8 addresses), 192.0.2.200–192.0.2.254 (55 addresses). DHCP never hands these out. Empty lets the cloud pick one.
+Static ranges: 10.0.0.2–10.0.0.9 (8 addresses), 10.0.0.200–10.0.0.254 (55 addresses). DHCP never hands these out. Empty lets the cloud pick one.
 Public IP
 No public IP
 Reachable only from its private network.
@@ -236,7 +235,7 @@ Medium
 Image
 Ubuntu 24.04
 Network
-app · 192.0.2.0/24
+app · 10.0.0.0/24
 Private address
 picked by the cloud
 Public IP

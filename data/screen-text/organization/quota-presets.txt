@@ -1,0 +1,67 @@
+NubeStack Cloud
+Organization
+Acme
+Workspace
+Organization
+⌄
+◐
+A
+Organization
+Overview
+Projects
+Quota
+Locations
+Members
+Roles
+Service accounts
+Usage
+Statements
+Cost explorer
+Audit log
+Settings
+Collapse
+Quota presets
+
+What a new project starts with. Each project takes what its location's budget has left, and its quota can be changed afterwards.
+
+updated 0s ago
+New preset
+Default for new projects
+
+New projects get Standard unless they ask for another.
+
+Preset
+Your provider’s default
+Small
+Standard
+Web team (yours)
+Save default
+Preset	vCPUs	RAM (GiB)	Instances	Volume storage (GiB)
+
+Small
+4
+
+8
+
+2
+	—
+
+Standard
+default
+
+20
+
+40
+
+10
+	—
+
+Web team
+yours
+
+8
+
+16
+
+4
+	—	EditRemove

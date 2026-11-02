@@ -1,5 +1,4 @@
-ne
-us
+NubeStack Cloud
 Organization
 Acme
 Workspace
@@ -62,26 +61,33 @@ Members
 2 / 2 online
 Change members
 Instance	Address	Port	Recorded health
-web-1	192.0.2.11	8080	online
-web-2	192.0.2.12	8080	online
+web-1	10.0.0.11	8080	online
+web-2	10.0.0.12	8080	online
 Listener
 TERMINATED_HTTPS · 443
 https ·
 lst-https
 Certificate www-2026
+By host name shop-2026
 Edit listener
-Switch certificate
+Change certificates
 Delete listener
-Switch certificate
+Change certificates
 
-New connections get the chosen certificate; the load balancer keeps its address. This is how a certificate is rotated: upload the next one, switch to it, then delete the old one.
+New connections get the new certificates; the load balancer keeps its address. To rotate one: upload the next, choose it here, then delete the old one.
 
 Certificate
-www-2026 (www.acme.example)
-api-2025 (api.acme.example)
-www-renewal (www.acme.example)
+Choose a certificate
+www-2026 — www.acme.example, 214 days left
+shop-2026 — shop.acme.example, 180 days left
+api-2025 — api.acme.example, 12 days left
+Its pool receives plain HTTP. Upload another
+Also serve these certificates (by host name)
+shop-2026
+⌄
+A client asking for one of a certificate's names gets that certificate; any other gets the default.
 Cancel
-Switch certificate
+Save certificates
 Pool
 web-pool
 Round robin · health check HTTP every 5 s
@@ -93,14 +99,14 @@ Members
 2 / 2 online
 Change members
 Instance	Address	Port	Recorded health
-web-1	192.0.2.11	8080	online
-web-2	192.0.2.12	8080	online
+web-1	10.0.0.11	8080	online
+web-2	10.0.0.12	8080	online
 Public exposure
 
 Reachable from the internet
 at 203.0.113.40 →
 , forwarded to
- 192.0.2.50
+ 10.0.0.50
 
 Detach public IP
 

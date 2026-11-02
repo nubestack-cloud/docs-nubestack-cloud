@@ -1,5 +1,4 @@
-ne
-us
+NubeStack Cloud
 Organization
 Acme
 Workspace
@@ -48,8 +47,8 @@ Chain
 Fingerprint (SHA-256)
 3f9a1c0e7b2d4a6f8c1e3b5d7f9a2c4e6b8d0f1a3c5e7b9d2f4a6c8e0b1d3f5a
 Served by
-https
+https default
 Uploaded
 Mon, 21 Sep 2026 07:30:00 GMT
 
-To rotate it: upload the next certificate, switch each listener to it, then delete this one.
+To rotate it: upload the next certificate, choose it in each listener's Change certificates, then delete this one.

@@ -1,5 +1,4 @@
-ne
-us
+NubeStack Cloud
 Organization
 Acme
 Workspace
@@ -59,7 +58,7 @@ Up to 255 characters.
 Address range
 The private addresses instances on it get
 Range (CIDR)
-A private range, /16 to /28. In use here: 192.0.2.0/24, 198.51.100.0/24.
+A private range, /16 to /28. In use here: 10.0.0.0/24, 10.0.1.0/24.
 10.20.0.0
 10.20.0.255
 DHCP: 10.20.0.2–10.20.0.254, 253 addresses (the DHCP service takes one or two)

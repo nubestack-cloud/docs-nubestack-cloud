@@ -1,64 +1,92 @@
 ---
-title: Scale application replicas
-action_tabs: true
+title: Run a group of instances
+description: Turn a working instance into a launch template, keep three of them running behind a load balancer, and change the count on a schedule.
 ---
 
-# Scale application replicas
+# Run a group of instances
 
-Keep a desired number of replaceable application instances running from a launch template, optionally registering them in a load balancer pool. Manual and scheduled desired counts are supported; metric-triggered autoscaling is not offered here.
+Keep a number of identical web instances running behind a load balancer: failed ones are
+replaced, and the count goes up on weekday mornings and down at night.
 
-<div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
-<span>Show instructions for</span>
-<div><button type="button" data-interface-choice="Console" aria-pressed="true">Console</button><button type="button" data-interface-choice="API" aria-pressed="false">API</button></div>
-</div>
+**You will use:** a launch template, an instance group, a load balancer pool and a size schedule,
+in Karachi.
 
-<div class="docs-method-note" markdown>
+## Before you start
 
-[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. `{P}` below means `/v1/orgs/{org_id}/projects/{project_id}`. Reuse an idempotency key for retries of one request; use a new key for each new action.
+- A [load balancer](../networking/load-balancers.md) with a pool, here `web-pool`, and a health
+  check.
+- An instance setup that works on its own from user data, with no data on its system disk:
+  instances are created and deleted as the count changes.
 
-</div>
+## 1. Save a launch template
 
+On a working instance's create page, choose **Save as launch template**, or create one under
+**Compute → Launch templates**: name `web`, size, image, network, the `web` security group, your
+SSH key and the user data that installs your application. Under **Load balancer**, leave the pool
+empty: the group will add its instances.
 
-## Prepare a repeatable instance
+Launch one instance from it and check the application answers before you go on.
 
-Test the image, cloud-init configuration and guest service on one instance first. Store durable application state outside replaceable system disks. The template's network and any load balancer pool must be in the group's location.
-
-A server group controls sharing or spreading hosts; an instance group controls the count. These solve different problems. To spread replicas, include the chosen server group when preparing the template.
-
-
-
-## Create and scale the group
+## 2. Create the group
 
 === "Console"
 
-    1. Save the working configuration as a [launch template](../compute/launch-templates.md). Pin its version when you want predictable replacements.
-    2. Open **Compute → Instance groups → Create instance group**. Choose the template, a desired count, minimum and maximum, and how many creates may run at once.
-    3. Optionally select a load balancer pool and the backend port. Group-created members join the pool once running and leave before deletion.
-    4. Create the group, then inspect member state and linked operations until the desired count is reached.
-    5. Change **Size** to add or remove replicas within the bounds. Scaling down deletes instances; plan for interrupted requests and local data loss.
-    6. Add **Scheduled sizes** for recurring busy or quiet periods. Review the local time zone and next run.
+    1. Under **Compute → Instance groups**, choose **Create instance group**.
+    2. Name `web`, template `web`, latest version.
+    3. **Desired** 3, **Minimum** 2, **Maximum** 6, **Surge** 1.
+    4. Pool `web-pool`, port `8080`.
+    5. Create it. The group creates `web-1` to `web-3`, one at a time, and adds each to the pool once
+       it runs.
 
-    ![A group's desired size, members and scheduled sizes](../assets/screens/compute/instance-group-detail.webp)
-
-    ![Edit group bounds, version and creation concurrency](../assets/screens/compute/instance-group-edit.webp)
+    ![An instance group: its members, size and scheduled sizes](../assets/screens/compute/instance-group-detail.webp)
 
 === "API"
 
-    <span id="with-the-api" data-docs-method="API"></span>
+    ```bash
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/instance-groups" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" -H "Idempotency-Key: $(uuidgen)" \
+      -H "Content-Type: application/json" \
+      -d '{"name": "web", "template_id": "ltp_01jbweb", "desired": 3, "min": 2, "max": 6, "max_surge": 1, "pool_id": "lbp_01jbwebpool", "member_port": 8080}'
+    ```
 
-    Create a template with `POST {P}/launch-templates`, then a group with `POST {P}/instance-groups`. Both return the saved definition with `201` rather than a single provisioning operation. Inspect the group's members and the operations creating them.
+## 3. Change the count on a schedule
 
-    Update desired size with `PATCH {P}/instance-groups/{id}` and the current ETag in `If-Match`. A size schedule uses the schedule kind `resize`, an `instance_group` target and the desired count. Use the [group](../api/reference/instance-groups.md) and [schedule](../api/reference/schedules.md) reference for exact request fields.
+Add two size schedules: 4 instances on weekdays at 08:00, and 2 every day at 22:00.
 
+=== "Console"
 
-## Verify and maintain
+    On the group's page, under **Scheduled sizes**, add each time and count, with the time zone
+    `Asia/Karachi`.
 
-Check both the group's count and application readiness behind its load balancer. Replacement detects failed instances, not every application defect. Bad configuration can repeatedly fail creates and cause the group to pause; inspect the reason instead of repeatedly resuming unchanged.
+=== "API"
 
-A new template version affects future creates and replacements. It does not roll every existing member automatically. Plan your application rollout explicitly.
+    ```bash
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/schedules" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" -H "Idempotency-Key: $(uuidgen)" \
+      -H "Content-Type: application/json" \
+      -d '{"kind": "resize", "name": "web-morning", "target_type": "instance_group", "target_ids": ["igr_01jbweb"],
+           "time_zone": "Asia/Karachi", "recurrence": {"frequency": "weekly", "days": ["mon","tue","wed","thu","fri"], "time": "08:00"},
+           "desired": 4}'
+    ```
 
-## Pause or stop using the group
+## 4. Watch it work
 
-**Pause** keeps existing instances running and stops reconciliation. It is useful before investigating or intentionally changing a member; manually deleting an active group's member can otherwise trigger replacement.
+- Delete one of the group's instances: the group creates a replacement.
+- Check the load balancer's **Listeners** tab: each instance joins `web-pool` and passes its
+  health check.
+- **Pause** the group before you investigate an instance by hand, so it is not replaced under you.
 
-On deletion choose whether to keep the instances as ordinary instances or delete them too. Keeping them retains their usage. Review size schedules, public IP allocations, attached data volumes and the load balancer separately during cleanup.
+## 5. Roll out a new version
+
+Save a new version of the template, then **Edit** the group to use it. New and replacement
+instances use it; existing ones are not rebuilt. To move them over, delete them one at a time,
+waiting each time for the group's replacement to pass its health check.
+
+## Clean up
+
+Delete the size schedules, then the group, choosing to delete its instances with it. The load
+balancer and template stay.
+
+## Related
+
+- [Instance groups](../compute/instance-groups.md) · [Launch templates](../compute/launch-templates.md) · [Schedules](../storage/schedules.md)

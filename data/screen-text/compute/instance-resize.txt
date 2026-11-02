@@ -1,5 +1,4 @@
-ne
-us
+NubeStack Cloud
 Organization
 Acme
 Workspace
@@ -81,7 +80,7 @@ Resize
 
 web-2
 	Karachi	Active
-192.0.2.12
+10.0.0.12
 private
 	Medium
 env: prod
@@ -92,7 +91,7 @@ team: web
 
 db-1
 	Karachi	Active
-198.51.100.10
+10.0.1.10
 private
 	Large
 env: prod
@@ -103,7 +102,7 @@ team: data
 
 batch-1
 	Islamabad	Stopped
-192.0.2.20
+10.0.0.20
 private
 	Small
 env: dev

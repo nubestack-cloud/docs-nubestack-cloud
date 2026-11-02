@@ -1,5 +1,4 @@
-ne
-us
+NubeStack Cloud
 Organization
 Acme
 Workspace
@@ -26,12 +25,17 @@ Upload certificate
 All locations
 Karachi
 Islamabad
-2 certificates
-2 active
+3 certificates
+3 active
 Name	Location	Status	Covers	Expires	Served by	Uploaded
 
 www-2026
 	Karachi	Active	www.acme.example, acme.example	214 days left	1	30 days ago	Manage
+⌄
+
+
+shop-2026
+	Karachi	Active	shop.acme.example	180 days left	1	30 days ago	Manage
 ⌄
 
 

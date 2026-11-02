@@ -1,5 +1,4 @@
-ne
-us
+NubeStack Cloud
 Organization
 Acme
 Workspace
@@ -44,7 +43,7 @@ Actions
 203.0.113.21
 	Karachi	Active
 →
-192.0.2.11
+10.0.0.11
 web-1
 
 env: prod
@@ -55,7 +54,7 @@ env: prod
 203.0.113.40
 	Karachi	Active
 →
-192.0.2.50
+10.0.0.50
 web-lb
 
 env: prod

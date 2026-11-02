@@ -1,42 +1,72 @@
 ---
 title: Authentication
+description: Authenticate to the NubeStack Cloud API with a service account's API key. What a key may do, how long it lasts, and how to rotate it.
 ---
 
 # Authentication
 
-Authenticate automation with an API key issued to a [service account](../organization/service-accounts.md). The key acts with that account's current organization roles and project grants.
+Scripts and pipelines authenticate with an **API key** of a
+[service account](../organization/service-accounts.md), sent as a bearer token on every request:
 
 ```http
-Authorization: Bearer nxk_example
+Authorization: Bearer nxk_…
 ```
 
-`nxk_example` is a placeholder. Copy the actual one-time secret when you issue a key; the console cannot display it again. Use an environment variable or your automation's secret store, not a query string or source-code literal.
+```bash
+curl -sS "$NUBESTACK_API/v1/me" -H "Authorization: Bearer $NUBESTACK_API_KEY"
+```
 
-## Get the right access
+## Get a key
 
-1. Create a service account for the automation.
-2. Give it the organization role and specific project grants it needs.
-3. Issue an API key with an appropriate expiry.
-4. Make a read request first, then a small intended change to verify the required action is allowed.
+Owners and admins create the service account, give it a role on each project it works in, and
+choose **Issue an API key**. The key is shown once; store it in your secret store. See
+[Service accounts and API keys](../organization/service-accounts.md).
 
-An organization role alone does not grant workload changes on every project. A key's scopes restrict access further; they never add actions beyond the account's roles. Read-only project access cannot create, resize or delete an instance.
+## What a key may do
 
-## Expiry, rotation and revocation
+A key can do what its service account's roles allow, and no more:
 
-The default key lifetime is 90 days; the supported range is 1–365 days. Each account supports two active keys. Rotate before expiry, install and test the successor, then revoke the predecessor or let the overlap end. Rotation supports zero to seven days of overlap and defaults to 24 hours.
+- its organization role, **Member** or **Viewer**;
+- its project roles, **Project member** or **Project reader** (or a custom role within those
+  bounds), on the projects it was given.
 
-Revoke a suspected exposed key immediately. Removing a grant changes what its keys can do. Deleting the account revokes its keys and native credentials but leaves its workloads for explicit cleanup.
+Whatever its roles, a service account never manages people, project access, roles, API keys,
+settings or service accounts, and never creates or deletes projects or their locations.
 
-## Refused authentication
+Two opt-in permissions, chosen when the key is issued, add to what the roles allow:
 
-| Response | Check |
-|---|---|
-| `401` | Key is present, complete, unexpired and not revoked |
-| `403` | Account has the action and project grant, and any scope allows it |
-| Second-factor or fresh-authentication refusal | Complete the requested security check in the console; an API key cannot grant itself an elevated human session |
+| Permission | Scope | Lets the key |
+|---|---|---|
+| **Open instance consoles** | `consoles` | Open an instance's console and read its console log, where the account is a project member |
+| **Make cloud credentials** | `credentials:mint` | Make cloud credentials for its own service account |
 
-The browser console manages its own sign-in session. Do not copy browser cookies into scripts. Invitation-link secrets and one-time console links are not API keys.
+Keys work only on organization routes, `/v1/orgs/{org_id}/…`, plus `GET /v1/me`.
 
-## Customer API and native tools
+## Answers you may get
 
-A customer API key authenticates this API. OpenStack tools use either a person's [device sign-in](../native-access/openstack-cli.md) or a service account's native credential for one project location. These credential types are not interchangeable. Use the [reference](reference/index.md) for creating and collecting native credentials programmatically.
+| Status | Code | Meaning |
+|---|---|---|
+| `401` | `api_key_invalid` | The key is unknown, revoked or expired |
+| `403` | — | The key's roles do not allow this action |
+| `404` | — | Not found, or in a project the key has no role on: the API does not say which |
+
+## Lifetime and rotation
+
+- A key lasts 1 to 365 days, 90 by default.
+- A service account holds at most two active keys (`409 api_key_limit`), so you can rotate without
+  a gap: **Rotate** shows a new key and keeps the old one working for 24 hours, 1 hour, or not at
+  all. Through the API, `:rotate` takes `overlap_s` up to seven days.
+- **Revoke** stops a key from the next request.
+
+## Keep keys safe
+
+- One service account per system, with only the projects and roles it needs.
+- Store keys in your CI's secret store or a vault, never in a repository, an image or a log.
+- Rotate before expiry, and at once if a key may have leaked; the audit log shows where each key
+  was used.
+- Never put a key in a support request.
+
+## Related
+
+- [Requests](requests.md) · [Errors](errors.md)
+- [API reference: Service accounts and API keys](reference/service-accounts-and-api-keys.md)

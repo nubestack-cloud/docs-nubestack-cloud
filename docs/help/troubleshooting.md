@@ -1,61 +1,105 @@
 ---
 title: Troubleshooting
+description: Fixes for the problems customers meet most - cannot connect, a create refused or failed, a delete blocked, sign-in, lists and costs.
 ---
 
 # Troubleshooting
 
-Start with the exact refusal or failed operation. Check the project and location, then read the resource's current state. Repeating the same request unchanged rarely fixes a dependency or permission problem.
+Start from the exact message: the refusal's code, or the failed step of the operation. Sending the
+same request again unchanged rarely fixes a permission, dependency or quota problem.
 
 ## Cannot connect to an instance
 
-1. Check that the instance is **Active** and its create operation succeeded.
-2. Check the username for the chosen image, such as `ubuntu` for Ubuntu, and the matching private SSH key on your computer.
-3. Confirm the public IP is attached to the intended interface.
-4. Confirm the network is routed and the location has an Internet gateway.
-5. Check a security group permits TCP 22 from your current address, and check the guest firewall.
-6. Read **Console log** or open the [instance console](../compute/manage-instances.md#open-the-instances-console) to investigate boot or guest network problems.
+??? question "SSH times out or is refused"
 
-The IPs shown in these docs are reserved examples and are not reachable service addresses.
+    Check, in this order:
 
-## A create or resize is refused
+    1. The instance is **Active**, and its **Console log** shows it finished starting.
+    2. You use the image's user (`ubuntu` on Ubuntu) and the private key matching the instance's SSH key.
+    3. It has a public IP, attached to the network you expect.
+    4. The network is routed and the location has an Internet gateway.
+    5. A security group allows TCP 22 from your current address.
+    6. The firewall inside the instance allows it.
 
-| Refusal | What to do |
+    Still stuck? Open the [browser console](../compute/connect-to-instances.md#open-the-browser-console)
+    to look from inside.
+
+??? question "My web service does not answer on its public IP"
+
+    The security group must allow the port (80, 443 or your own), and the service must listen on the
+    instance's private address or on all addresses, not only on `127.0.0.1`. Right after creation,
+    cloud-init may still be installing: run `cloud-init status --wait` inside.
+
+??? question "An instance behind a load balancer gets no traffic"
+
+    On the load balancer's **Listeners** tab, check the member's recorded health. An instance that
+    fails its health check gets no traffic. Allow the pool's port from the network's range in the
+    instance's security group, and check the health check's path answers `200`.
+
+## A create or change is refused
+
+| Message or code | What to do |
 |---|---|
-| Quota exceeded | Inspect that project's quota in the chosen location. Release unused allocations or request more |
-| Capacity unavailable | Check another offered size or permitted location, or ask support with the operation ID |
-| Resource changing | Wait for its current operation, then read the latest state |
-| Wrong location | Choose an image, network, volume, key or certificate available in the target location |
-| Forbidden | Check the action and project grant. An organization role alone may only allow reading |
+| `quota_exceeded` | The project's quota in that location is used up. Free something, or ask an owner or admin to [raise it](../organization/quota.md) |
+| No room for that size | The location is full for that size right now. Try another size, later, or the project's other location |
+| `403` / you lack the right | Your role does not allow it. Ask a project admin for a project role |
+| A change is still running | Wait for the resource's current operation to finish |
+| Not in this location | Images, networks, volumes, keys and certificates must be in the same location |
+| `location_maintenance` | The location is in maintenance; retry later |
+| `412` / the version changed | Someone changed it after you loaded it. Reload, check, and apply your change again |
 
-An accepted create can fail later. Open the operation, inspect successful steps and retained resources, then fix the cause before submitting a new request.
+An accepted change can still fail in the location. Open its operation, read the failed step, fix
+the cause, then make the change again. See [Operations](../concepts/operations.md).
 
-## A delete is blocked
+## A delete is refused
 
-- **Volume attached:** unmount it in the guest, then detach it.
-- **Volume has snapshots:** decide which snapshots to keep or remove before deleting the source.
-- **Network in use:** follow the named instances or load balancers and remove their dependent interfaces.
-- **Public IPs in use:** detach them before removing routing or the gateway, then release unused allocations.
-- **Certificate in use:** switch or remove every listener named by the refusal.
-- **Role in use:** replace its assignments before deleting the role.
-- **Server group has members:** remove its member instances first.
-- **Template referenced by a group:** remove or update the group before deleting the template.
+The refusal names what is in the way. The common ones:
 
-Deleting an instance does not release its allocated public IP or delete separate data volumes. Review them explicitly after cleanup.
+| Code | Do this first |
+|---|---|
+| `volume_in_use` | Unmount it inside the instance, then **Detach** |
+| `volume_has_snapshots` | Delete its snapshots, or the schedule that makes them |
+| `resource_in_use` | Delete or detach the instances and load balancers it names |
+| `public_ips_in_use` | Detach the public IPs it names |
+| `security_group_in_use` | Take the group off the instances and load balancers it names |
+| `certificate_in_use` | **Change certificates** on the listeners it names |
+| `server_group_in_use` | Delete the group's instances |
+| `launch_template_in_use` | Delete the instance group that uses it, or wait for a launch |
+| `role_in_use` | Give its holders another role |
 
-## A list or network map looks wrong
+The full table is in [Deletion and retention](../concepts/deletion-and-retention.md#what-blocks-a-delete).
+Deleting an instance does not release its public IP or delete its data volumes: release and delete
+them yourself.
 
-Check **Last read**, location filters and any partial-data notice. Choose **Refresh** and follow its operation. Resources created in native tools may not appear until the next read. An unavailable location can leave old data visible; old data does not prove a delete or update failed.
+## Sign-in and invitations
 
-## An update says the version changed
+??? question "The invitation says Invitation not valid"
 
-Another change happened after you loaded the resource. Refresh, compare the current values and reapply only your intended change. API clients should read the current ETag before sending a new `If-Match`; do not remove concurrency protection.
+    It was used, replaced or expired after seven days. Ask for a **New link**. If you are signed in
+    with another address, sign out and sign in with the invited one.
 
-## Sign-in and invitation issues
+??? question "I lost my phone or my password"
 
-Use the invited email address and check the link's expiry. Ask an administrator to resend an expired or revoked invitation. For native access, check the selected organization, hold a project role, and allow time for grant changes to reach the location. Use a private window if Horizon keeps the wrong organization session.
+    There is no self-service reset yet. [Contact support](support.md) for a one-time reset link.
 
-## Costs seem incomplete
+??? question "Horizon or the CLI opens the wrong organization"
 
-Check the provisional label, data-as-of time, source status and unrated lines. Unrated or unavailable amounts are not zero-cost resources. [Cost reporting](../organization/statements-and-costs.md) explains later adjustments and projections.
+    You sign in for one organization at a time. Sign out, wait three minutes, and sign in choosing
+    the right one, or use a private browser window.
 
-If you still need help, prepare the details listed on [Support](support.md). The [API error catalog](../api/errors.md) lists machine-readable codes.
+## A list looks wrong
+
+Check **Last read** and any stale or partial notice, and the location and tag filters. Choose
+**Refresh**: something made with a location's own tools appears after the next read. One location's
+trouble never empties the whole page, so a missing row is rarely a deleted resource.
+
+## Costs look incomplete
+
+Usage and costs are provisional. Check the time of the last report under **Usage freshness**, and
+the **Not rated** lines: usage without a rate is never counted as free. See
+[Usage and costs](../concepts/usage-and-costs.md).
+
+## Still stuck
+
+Gather the details on [Support](support.md) and get in touch. The [error codes](../api/errors.md)
+list every code with its meaning.

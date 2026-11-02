@@ -1,5 +1,4 @@
-ne
-us
+NubeStack Cloud
 Organization
 Acme
 Workspace
@@ -53,7 +52,7 @@ Network	Addresses	Routing
 
 app
 
-192.0.2.11
+10.0.0.11
 private
 203.0.113.21
 public

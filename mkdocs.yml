@@ -202,6 +202,3 @@ nav:
       - Glossary: help/glossary.md
       - Support: help/support.md
 
-not_in_nav: |
-  /tutorials/recover-a-volume.md
-  /tutorials/clean-up-resources.md

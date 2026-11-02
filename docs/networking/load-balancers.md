@@ -117,6 +117,8 @@ recorded health.
     Other changes: `POST …/listeners`, `PATCH`/`DELETE …/listeners/{id}`, `POST …/pools`,
     `PATCH`/`DELETE …/pools/{id}`, and `POST`/`DELETE …/pools/{id}/health-monitor`.
 
+![A load balancer's overview: its private and public addresses, listeners and member health](../assets/screens/networking/load-balancer-detail.webp)
+
 The page warns when some instances fail their health checks, and when none pass, so traffic has
 nowhere to go.
 

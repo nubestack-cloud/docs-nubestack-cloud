@@ -1,81 +1,111 @@
 ---
-title: Use persistent storage
-action_tabs: true
+title: Keep data on a volume
+description: Create a volume, attach, format and mount it in an instance, take a snapshot, and prove you can restore it.
 ---
 
-# Use persistent storage
+# Keep data on a volume
 
-Attach a new data volume to an instance and make it usable inside the guest. Keep application data on this volume when you want to replace the instance independently of its system disk.
+Put an application's data on a volume, so you can replace the instance without losing it, then
+take a snapshot and prove that you can restore it.
 
-<div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
-<span>Show instructions for</span>
-<div><button type="button" data-interface-choice="Console" aria-pressed="true">Console</button><button type="button" data-interface-choice="API" aria-pressed="false">API</button></div>
-</div>
+**You will use:** an instance, a volume and a snapshot, in Karachi.
 
-<div class="docs-method-note" markdown>
+## Before you start
 
-[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. `{P}` below means `/v1/orgs/{org_id}/projects/{project_id}`. Reuse an idempotency key for retries of one request; use a new key for each new action.
+- A running Linux instance, here `db-1`, that you can log in to with `sudo`.
+- A role of project admin or project member, and room in the project's volume quota.
 
-</div>
-
-
-## Before you begin
-
-You need a running Linux instance and access to administer its operating system. Choose the same project and location for the volume. A cloud attachment makes a disk available to the guest; it does not format or mount it.
-
-
-
-## Create and attach the disk
+## 1. Create and attach a volume
 
 === "Console"
 
-    1. Open **Storage → Volumes → Create volume**. Name it `app-data`, choose **Empty**, select an offered type and set the size.
-    2. Wait for the create operation to succeed.
-    3. Choose **Manage → Attach**, select the intended instance and follow the attach operation.
-    4. Open the volume to confirm the named attachment. Keep its ID so that you can identify it later.
+    1. Under **Storage → Volumes**, choose **Create volume**: **Location** Karachi, name
+       `db-data`, **Empty**, a **Type**, and **Size** `20`. Create it.
+    2. When it is available, choose **Manage → Attach to instance** and pick `db-1`.
 
-    ![Attach an available volume to an instance in the same location](../assets/screens/storage/volume-attach.webp)
+    ![Attach a volume to an instance in the same location](../assets/screens/storage/volume-attach.webp)
 
 === "API"
 
-    <span id="with-the-api" data-docs-method="API"></span>
+    ```bash
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/volumes" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" -H "Idempotency-Key: $(uuidgen)" \
+      -H "Content-Type: application/json" \
+      -d '{"location": "loc_01jbkhi", "display_name": "db-data", "size_gb": 20}'
 
-    [Create a volume](../storage/volumes.md) using `POST {P}/volumes`. After the create operation succeeds, attach it with `POST {P}/servers/{server_id}:attach-volume` and this body:
-
-    ```json
-    {"volume_id": "vol_example"}
+    # once its operation has succeeded:
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/srv_01jbdb1:attach-volume" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" -H "Idempotency-Key: $(uuidgen)" \
+      -H "Content-Type: application/json" \
+      -d '{"volume_id": "vol_01jbdbdata"}'
     ```
 
-    Use the [API example variables](../api/index.md#before-you-start), replace the IDs, and follow both `202` operation results before relying on the disk. Read the volume's related resources to verify the attachment.
+## 2. Format and mount it
 
-
-## Identify, format and mount
-
-SSH into the instance and inspect its disks:
+Log in to the instance and find the new disk by its size. Its device name can differ between
+images and attachments; do not assume `/dev/vdb`.
 
 ```bash
-lsblk -o NAME,SIZE,FSTYPE,MOUNTPOINTS,SERIAL
+lsblk -o NAME,SIZE,FSTYPE,MOUNTPOINTS
 ```
 
-Match the newly attached disk by its size and identity. The device name can differ between images and attachments; do not assume it is always `/dev/vdb`.
+!!! danger "Format only a new, empty volume"
 
-**Format only the new empty volume.** A restored disk or an existing data disk already has a filesystem; formatting it would destroy its contents. Replace `/dev/NEW_EMPTY_DISK` below after checking it:
+    Formatting erases the disk. A volume restored from a snapshot, or moved from another instance,
+    already has a file system: mount it, do not format it.
 
 ```bash
-sudo mkfs.ext4 /dev/NEW_EMPTY_DISK
-sudo mkdir -p /srv/app-data
-sudo mount /dev/NEW_EMPTY_DISK /srv/app-data
-findmnt /srv/app-data
+sudo mkfs.ext4 -L db-data /dev/vdb        # the empty disk you found above
+sudo mkdir -p /srv/db-data
+echo 'LABEL=db-data /srv/db-data ext4 defaults,nofail 0 2' | sudo tee -a /etc/fstab
+sudo mount /srv/db-data
+df -h /srv/db-data
 ```
 
-Set ownership for the application account rather than making the mount writable to everyone. To remount after reboot, read the filesystem UUID with `sudo blkid` and use that UUID in the guest's `/etc/fstab`. Test the entry before restarting; the cloud does not write the guest's mount configuration for you.
+Mounting by label, with `nofail`, keeps the instance starting even if the volume is detached.
 
-## Extend later
+## 3. Take a snapshot
 
-Stop application writes, unmount the filesystem and detach the volume first. Use its **Extend** action for a larger allocated size and wait until the operation succeeds. Reattach it, inspect the disk again, then grow its partition and filesystem with tools appropriate to the layout you created. Cloud extension alone does not grow a guest filesystem. Shrinking is not supported.
+A snapshot taken by hand needs the volume detached, so nothing is half-written.
 
-## Replace the instance or detach
+1. Stop the application, then `sudo umount /srv/db-data`.
+2. **Manage → Detach** on the volume.
+3. **Manage → Create snapshot**, named `db-data-before-upgrade`.
+4. Attach the volume again and `sudo mount /srv/db-data`.
 
-Stop application writes, unmount the filesystem and detach the volume before moving it to another instance. A same-project replacement must be in the same location. Deleting the old instance leaves its separate data volume; it does not preserve the old system disk.
+For snapshots on a timetable without detaching, use a [backup schedule](../storage/schedules.md).
 
-Verify the application can read its data after reattachment. Keep a [tested recovery point](persistent-storage.md), and delete the volume only after you no longer need its contents.
+## 4. Restore it to a new volume
+
+<figure class="ns-diagram">
+--8<-- "storage-recovery.svg"
+<figcaption>Restoring makes a new volume from the snapshot. The original volume and the snapshot are not changed.</figcaption>
+</figure>
+
+1. On the snapshot, choose **Manage → Create volume from it**, named `db-data-restored`.
+2. Attach the new volume to the instance, beside the original.
+3. Mount it read-only somewhere else and compare:
+
+    ```bash
+    sudo mkdir -p /mnt/restored
+    sudo mount -o ro LABEL=db-data /mnt/restored   # if both carry the label, use the device name from lsblk
+    ls /mnt/restored
+    ```
+
+4. When you are satisfied, unmount and detach it, and delete it if it was only a test.
+
+A restore you have tried is worth more than many you have not.
+
+## 5. Grow it later
+
+Detach the volume, choose **Manage → Extend** with the new size, attach it again, then grow the
+file system inside: `sudo resize2fs /dev/vdb` for ext4 on the whole disk.
+
+## Clean up
+
+Unmount and detach the volume, delete its snapshots, then delete the volume. A volume cannot be
+deleted while it is attached or has snapshots.
+
+## Related
+
+- [Volumes](../storage/volumes.md) · [Snapshots](../storage/snapshots.md) · [Schedules](../storage/schedules.md)

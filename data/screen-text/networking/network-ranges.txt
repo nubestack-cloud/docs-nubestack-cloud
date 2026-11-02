@@ -1,5 +1,4 @@
-ne
-us
+NubeStack Cloud
 Organization
 Acme
 Workspace
@@ -45,33 +44,33 @@ Attachments
 4
 Activity
 Address range
-192.0.2.0/24
+10.0.0.0/24
 app-v4
 Active
 Edit ranges
 Manage
 ⌄
-192.0.2.0
-192.0.2.255
-DHCP: 192.0.2.10–192.0.2.199, 190 addresses
-Static: 192.0.2.2–192.0.2.9, 192.0.2.200–192.0.2.254, 63 addresses
+10.0.0.0
+10.0.0.255
+DHCP: 10.0.0.10–10.0.0.199, 190 addresses
+Static: 10.0.0.2–10.0.0.9, 10.0.0.200–10.0.0.254, 63 addresses
 gateway
-192.0.2.1
+10.0.0.1
 256
 in the range
 Gateway
-192.0.2.1
+10.0.0.1
 DHCP range
-192.0.2.10–192.0.2.199
+10.0.0.10–10.0.0.199
 Static addresses
-192.0.2.2–192.0.2.9, 192.0.2.200–192.0.2.254 (63 addresses)
+10.0.0.2–10.0.0.9, 10.0.0.200–10.0.0.254 (63 addresses)
 DHCP
 On
 DNS servers
 location default
 Cloud ID
 sub-app-khi
-Edit app-v4 (192.0.2.0/24)
+Edit app-v4 (10.0.0.0/24)
 
 The range cannot change. Instances pick up new gateway and DNS settings at their next address renewal; with DHCP off, at their next boot from the metadata service.
 
@@ -85,12 +84,12 @@ DHCP never hands these out. Give one to an instance as its fixed private address
 ×
 55 addresses
 Reserve another range
-192.0.2.0
-192.0.2.255
-DHCP: 192.0.2.10–192.0.2.199, 190 addresses
-Static: 192.0.2.2–192.0.2.9, 192.0.2.200–192.0.2.254, 63 addresses
+10.0.0.0
+10.0.0.255
+DHCP: 10.0.0.10–10.0.0.199, 190 addresses
+Static: 10.0.0.2–10.0.0.9, 10.0.0.200–10.0.0.254, 63 addresses
 gateway
-192.0.2.1
+10.0.0.1
 256
 in the range
 Gateway

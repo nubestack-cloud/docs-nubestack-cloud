@@ -7,7 +7,7 @@ description: Label instances, volumes, networks and public IPs with key-value ta
 
 A **tag** is a label `key: value` on an instance, a volume, a network or a public IP, such as
 `env: prod` or `team: data`. Lists filter by tags, and the
-[cost explorer](../organization/statements-and-costs.md#the-cost-explorer) adds up cost by each key.
+[cost explorer](../organization/statements-and-costs.md#cost-explorer) adds up cost by each key.
 
 ![The instances list with env and team tags](../assets/screens/compute/instances-list.webp)
 

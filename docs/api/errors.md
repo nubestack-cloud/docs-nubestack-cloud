@@ -1,44 +1,55 @@
 ---
 title: Errors
+description: The problem body every API error returns, what to do for each status, when to retry, and every error code.
 ---
 
 # Errors
 
-Errors use RFC 9457 problem details, normally with `Content-Type: application/problem+json`. Match the machine-readable `code` in your integration rather than the human title, which can change.
+Every error is a JSON problem (RFC 9457), with `Content-Type: application/problem+json`:
 
 ```json
 {
-  "type": "about:blank",
+  "type": "https://docs.nubestack.cloud/problems/volume_in_use",
   "title": "Volume in use",
   "status": 409,
+  "detail": "Detach the volume from db-1 before deleting it.",
   "code": "volume_in_use",
-  "detail": "Detach the volume before deleting it.",
-  "request_id": "req_example"
+  "request_id": "req_01jbx7f3",
+  "retryable": false
 }
 ```
 
-This is an illustrative problem. A response may add fields naming attached instances, remaining snapshots or another dependency. Use those fields to explain the next action, and preserve the request ID for support.
+- **Match on `code`.** It is stable; `title` and `detail` are for people and can change. `type`
+  is a URL ending in the same code.
+- **`retryable`** says whether the same request can succeed later unchanged.
+- **`request_id`** identifies the request: give it to [support](../help/support.md).
+- A `422` lists what was wrong in `errors[]`, each with the field and a reason.
+- Some refusals add fields that name what is in the way, such as the listeners that serve a
+  certificate.
 
-## Decide what to do
+## What to do for each status
 
-| Status | Typical next step |
+| Status | Next step |
 |---|---|
-| `400` | Correct the request or restart an expired cursor |
-| `401` | Check the credential and its expiry |
-| `403` | Check the action, project grant and key scope |
-| `404` | Check the resource ID, organization and project |
-| `409` | Resolve the named state, quota or dependency conflict |
-| `412` | Read the current version and review the update |
-| `422` | Correct the fields identified by validation |
-| `428` | Send the required idempotency key or version precondition |
-| `429`, temporary `503` | Honor `Retry-After`, then use bounded retries if appropriate |
+| `400` | Fix the request; for an expired cursor, start the list again |
+| `401` | The key is unknown, revoked or expired (`api_key_invalid`) |
+| `403` | The key's roles do not allow it; or a second factor is needed (`second_factor_required`) |
+| `404` | Check the ID, the organization and the project; the key may have no role there |
+| `409` | Resolve the conflict the code names: something in use, a limit, a reused idempotency key |
+| `412` | Your version is stale: read again and decide |
+| `422` | Fix the fields listed in `errors[]` |
+| `428` | Send the missing `Idempotency-Key` or `If-Match` |
+| `429` | Wait the seconds in `Retry-After`, then retry with the same idempotency key |
+| `5xx` | Retry later with the same idempotency key if `retryable` is true |
 
-Do not retry a permanent refusal unchanged. For a request that was accepted, a later operation failure is reported on the operation: a successful acceptance response does not become a different HTTP response afterward.
+A change that was accepted and then failed in the location is not an HTTP error: the
+[operation](operations.md) ends `failed` and its failed step says why.
 
-## Customer problem codes
+## Every error code
 
-This table is generated at build time from `data/problems.json`, synchronized with the product's customer problem catalog. **Retryable** identifies temporary conditions; it is not a guarantee that an immediate retry will succeed. Read the detail and any retry delay first.
+The codes a customer can receive, generated from the product's catalog. **Retry?** marks the ones
+that can succeed later unchanged.
 
 <!-- problem-table -->
 
-For common cases in everyday language, see [Troubleshooting](../help/troubleshooting.md).
+Everyday cases in plain words are in [Troubleshooting](../help/troubleshooting.md).

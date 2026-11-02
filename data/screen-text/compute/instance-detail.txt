@@ -1,5 +1,4 @@
-ne
-us
+NubeStack Cloud
 Organization
 Acme
 Workspace
@@ -49,7 +48,7 @@ Activity
 Public IP
 203.0.113.21
 Private IP
-192.0.2.11
+10.0.0.11
 vCPUs
 2
 Memory
@@ -93,7 +92,7 @@ Last read
 Networking
 Networks
 Address	Network	Type
-192.0.2.11	app	Private · IPv4
+10.0.0.11	app	Private · IPv4
 203.0.113.21	app	Public · IPv4
 Security groups
 default

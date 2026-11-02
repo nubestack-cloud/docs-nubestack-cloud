@@ -1,5 +1,4 @@
-ne
-us
+NubeStack Cloud
 Organization
 Acme
 Workspace
@@ -44,7 +43,7 @@ Actions
 
 app
 	Karachi	Active
-192.0.2.0/24
+10.0.0.0/24
 
 Routed
 env: prod
@@ -54,7 +53,7 @@ env: prod
 
 db
 	Karachi	Active
-198.51.100.0/24
+10.0.1.0/24
 
 Routed
 env: prod
@@ -64,7 +63,7 @@ env: prod
 
 app
 	Islamabad	Active
-192.0.2.0/24
+10.0.0.0/24
 
 Routed	—	9 days ago	Manage
 ⌄

@@ -1,33 +1,57 @@
 ---
-title: Horizon single sign-on
+title: Horizon
+description: Sign in to a location's Horizon dashboard with your NubeStack Cloud account, open an instance there, and switch organization.
 ---
 
-# Horizon single sign-on
+# Horizon
 
-Horizon is a location's native OpenStack dashboard. Use it for direct access to that cloud with your NubeStack account. Your project role and the location's supported services determine what you can do.
+Horizon is each location's own OpenStack dashboard. It shows everything the OpenStack APIs offer
+in that location, including services and settings the NubeStack Cloud console does not. You sign
+in to it with your NubeStack Cloud account.
 
-## Open the dashboard
+## Before you start
 
-1. In NubeStack Cloud, open your project and choose **Consoles and CLI**.
-2. Find the location and choose **Open in Horizon**.
-3. On the dashboard sign-in page, choose **Nexus** as the sign-in method. This is the name currently displayed by the native dashboard.
-4. Sign in with your NubeStack account, choose the organization and complete the second-factor check if requested.
-5. Check the selected project before creating or deleting anything.
+- A project role (project admin, member or reader) on the project.
+- Your [second factor](../security/second-factor.md): signing in to a location always asks for it.
 
-![Connection links for each project location](../assets/screens/native-access/consoles-and-cli.webp)
+## Open a project in Horizon
 
-From an instance's page, **Console in Horizon** opens that instance in the native dashboard. For the instance's screen and keyboard directly in NubeStack Cloud, use [Open console](../compute/manage-instances.md#open-the-instances-console).
+1. In the project, open **Consoles and CLI** at the bottom of the side panel.
+2. Choose **Open in Horizon** beside the location.
+3. On Horizon's sign-in page, choose the NubeStack Cloud sign-in (the option may be labelled
+   **Nexus**).
+4. Sign in with your account, choose the organization, and give your second factor.
 
-## Switch organizations
+Horizon opens in the project.
 
-The native dashboard signs you in for one organization at a time. To use another, sign out and wait three minutes before signing in again, or use a private browser window. A stale native session can otherwise keep showing the previous organization.
+## Open an instance in Horizon
 
-## Missing access or resources
+On an instance's page in the console, choose **Console in Horizon**. Horizon opens on that
+instance's page, where its graphical console is. For the browser console without Horizon, see
+[Connect to an instance](../compute/connect-to-instances.md#open-the-browser-console).
 
-Confirm you hold a project grant, have selected the correct organization and location, and have waited for a recent access change to finish. An organization role alone does not permit native project access. Changes made in Horizon may need a console **Refresh** before they appear in NubeStack.
+## Switch organization
 
-Use the same caution as in the customer console: a native delete changes the same resource. It is counted in usage and included in project deletion and retention behavior.
+Horizon signs you in for one organization at a time. To switch, sign out of Horizon and wait three
+minutes before signing in again, or open the link in a private window.
 
-## API connection details
+## If it does not open
 
-Authorized callers can read a location entry's connection and dashboard details through `GET .../placements/{placement_id}/connection` and `/console`. These return connection information, not an API that signs you in as another user. See the [reference](../api/reference/index.md) for the exact response.
+| You see | What to do |
+|---|---|
+| **No console registered** | The location has no Horizon for customers; use the console and the CLI |
+| **Sign-in failed its last check** | Try again later, or [contact support](../help/support.md) |
+| Horizon says you have no projects | You have no project role there, or it was given in the last few minutes |
+| Horizon opens the wrong organization | Sign out, wait three minutes, and sign in choosing the right one |
+
+## Good to know
+
+- What you make in Horizon appears in the console within about an hour, or at once after
+  **Refresh**, marked **outside Nexus**.
+- Your access in Horizon follows your project role: `member` for project admins and members,
+  `reader` for project readers where the location enforces it.
+- Removing your access ends it in Horizon within 15 minutes.
+
+## Related
+
+- [OpenStack CLI](openstack-cli.md) · [Native OpenStack access](index.md)

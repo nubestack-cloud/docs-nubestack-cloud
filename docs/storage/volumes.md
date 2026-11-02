@@ -75,6 +75,8 @@ Inside the instance, find the disk by its label or UUID, not by a name such as `
 can change between attachments. The [tutorial](../tutorials/persistent-storage.md) shows how to
 format and mount it.
 
+![A volume's page: size, type, the instance it is attached to, and its snapshots](../assets/screens/storage/volume-detail.webp)
+
 A volume attaches to one instance at a time. A **multi-attach** volume, marked in the list, can
 attach to several; use a cluster file system on it, or the data is corrupted.
 

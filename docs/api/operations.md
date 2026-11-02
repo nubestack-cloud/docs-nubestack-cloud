@@ -1,60 +1,82 @@
 ---
-title: Operations and polling
+title: Operations
+description: Follow a change from 202 Accepted to its final state, wait between reads, read a failed step, and cancel a queued operation.
 ---
 
-# Operations and polling
+# Operations
 
-A `202 Accepted` response records work that will run in a location. It is not proof that the requested resource is ready. The response includes an operation and usually the resource's ID and link.
+A request that makes, changes or deletes something in a location is accepted at once with
+`202 Accepted`. The body names the **operation** that carries it out, and the `Location` header is
+its address. The new resource's ID is fixed from the start.
 
 ```json
 {
-  "operation": {
-    "id": "op_example",
-    "state": "queued",
-    "href": "/v1/orgs/org_example/operations/op_example"
-  },
-  "server": {
-    "id": "srv_example",
-    "href": "/v1/orgs/org_example/projects/prj_example/servers/srv_example"
-  }
+  "operation": {"id": "op_01jbweb3", "state": "queued", "href": "/v1/orgs/org_01jbacme/operations/op_01jbweb3"},
+  "server": {"id": "srv_01jbweb3", "href": "/v1/orgs/org_01jbacme/projects/prj_01jbwebshop/servers/srv_01jbweb3"}
 }
 ```
 
-## Poll to a final result
+<figure class="ns-diagram">
+--8<-- "operation-lifecycle.svg"
+<figcaption>The answer comes at once; the operation then runs in the location and ends as succeeded, partially succeeded or failed.</figcaption>
+</figure>
 
-1. Save the operation ID and `href` from the acceptance response.
-2. Request that link on your API origin, with the same authorization.
-3. While it is queued or running, wait a few seconds before another request. Honor `Retry-After` if supplied, and use a bounded deadline in automation.
-4. On a final state, inspect the result and failed steps. Read the resource to verify the state you need before a dependent action.
+## Follow an operation
+
+Read it until its `state` is final. Wait a few seconds between reads, and longer as it runs.
 
 ```bash
-curl --fail-with-body \
-  "$NUBESTACK_API/v1/orgs/$ORG/operations/$OPERATION_ID" \
-  -H "Authorization: Bearer $NUBESTACK_API_KEY"
+op="op_01jbweb3"
+while :; do
+  state=$(curl -sS "$NUBESTACK_API/v1/orgs/$ORG/operations/$op" \
+    -H "Authorization: Bearer $NUBESTACK_API_KEY" | jq -r .state)
+  echo "$state"
+  case "$state" in succeeded|partially_succeeded|failed|cancelled) break ;; esac
+  sleep 5
+done
 ```
 
-Only follow links returned by the API on the configured trusted API origin. Do not send your bearer key to a URL obtained from an untrusted source.
+The operation has `accepted_at`, `started_at`, `completed_at`, who asked (`actor`), the
+`resource` it acts on, its `error` if it failed, and each of its `steps` with how the location
+answered.
 
-## States
+| State | Means | Final? |
+|---|---|:-:|
+| `queued` | Accepted, waiting its turn | — |
+| `running` | The location is doing the work | — |
+| `succeeded` | Done | Yes |
+| `partially_succeeded` | Some steps finished, others did not; what finished stays | Yes |
+| `failed` | The work did not finish; read the failed step | Yes |
+| `cancelling`, `cancelled` | It was cancelled before it started | `cancelled` |
 
-| API state | Meaning |
-|---|---|
-| `queued` | Waiting to start |
-| `running` | Work is in progress |
-| `succeeded` | All required steps finished |
-| `partially_succeeded` | Some work succeeded; inspect retained resources and failed steps |
-| `failed` | Work failed; inspect the problem and steps |
-| `cancelling` | Cancellation is being applied |
-| `cancelled` | Work was cancelled; completed work remains |
+A final operation never changes and is never retried by itself. To try again, send the change
+again with a **new** idempotency key: that is a new operation.
 
-A terminal operation is not retried automatically. Fix the cause, inspect what remains and issue a new request with a new idempotency key if you still want the change. A timeout in your polling client is not evidence that the operation stopped; read the saved operation again before resubmitting work.
+## Why an accepted change can fail
 
-## Cancellation
+The API checks what it can before it accepts: the key's roles, the values, and the quota it last
+saw. The location has the final word, and can still refuse because the quota was used up at the
+same moment, it has no room for that size, it is in maintenance, or the resource changed
+meanwhile. Work a location cannot start in time (15 minutes, unless agreed otherwise) fails rather
+than landing late.
 
-Where allowed, `POST /v1/orgs/{org_id}/operations/{operation_id}:cancel` requests cancellation with an idempotency key. Only cancellable work can be stopped. It does not roll back completed steps or automatically clean up resources that were created.
+## Cancel an operation
 
-## Saved definitions
+```bash
+curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/operations/op_01jbweb3:cancel" \
+  -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+  -H "Idempotency-Key: $(uuidgen)"
+```
 
-Creating a schedule, launch template or instance group can return a resource immediately rather than `202`. A group's saved settings may trigger multiple later operations as its members converge on the desired count. Inspect its state and members, rather than waiting for an operation field that the endpoint does not return.
+Only a `queued` operation can be cancelled; once it runs, the answer is `409 not_cancellable`.
+Nothing is rolled back.
 
-The [console operations guide](../concepts/operations.md) explains activity links, partial results and failed-create cleanup.
+## Find operations
+
+- `GET /v1/orgs/{org_id}/operations`: the organization's operations, newest first.
+- `GET …/projects/{project_id}/{collection}/{id}/activity`: every operation on one resource.
+
+## Related
+
+- [Operations (concept)](../concepts/operations.md) · [Errors](errors.md)
+- [API reference: Operations](reference/operations.md)

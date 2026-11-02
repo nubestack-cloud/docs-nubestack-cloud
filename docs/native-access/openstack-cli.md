@@ -1,47 +1,70 @@
 ---
 title: OpenStack CLI
+description: Use the OpenStack CLI, SDKs and Terraform with a clouds.yaml that holds no secrets and a sign-in in your browser.
 ---
 
 # OpenStack CLI
 
-Use the OpenStack CLI to work directly with one location's resources. A person's connection file uses browser device sign-in and contains no password or bearer token.
+Use the OpenStack CLI, the OpenStack SDKs and Terraform's OpenStack provider against each
+location, signed in as you. The `clouds.yaml` file you download holds no password or token; each
+command signs you in through your browser when it needs to.
 
-## Install and download settings
+## Before you start
 
-Install the OpenStack client in an isolated Python environment. The device sign-in plugin requires `keystoneauth1` 5.2 or later.
+- A project role on the project.
+- The OpenStack client with `keystoneauth1` 5.2 or later, which recent client releases include:
 
-```bash
-python3 -m venv .venv-openstack
-. .venv-openstack/bin/activate
-python -m pip install python-openstackclient 'keystoneauth1>=5.2'
-```
+    ```bash
+    python3 -m pip install python-openstackclient
+    ```
 
-1. Open your project's **Consoles and CLI** page.
-2. Download **clouds.yaml** for the location you need.
-3. Put the downloaded configuration at `~/.config/openstack/clouds.yaml`, merging its entries with an existing file rather than overwriting other clouds.
-4. Use the entry name shown in that file. For example, if it is `acme-web-shop-pak-khi-1`:
+## Set it up
+
+1. In the project, open **Consoles and CLI** and choose **Download clouds.yaml**. The file has one
+   entry for each location of the project where you have a role, named
+   `<organization>-<project>-<location>`, for example `acme-web-shop-pak-khi-1`.
+2. Save it as `~/.config/openstack/clouds.yaml`, or merge its entries into the one you have.
+
+The entries use `auth_type: v3oidcdeviceauthz`. The file is safe to keep: it holds no secret.
+
+## Run a command
 
 ```bash
 openstack --os-cloud acme-web-shop-pak-khi-1 server list
 ```
 
-## Approve device sign-in
+The command prints a link and a code. Open the link in your browser, sign in to NubeStack Cloud if
+asked, choose the organization, give your second factor and allow access. The command then carries
+on.
 
-The command prints a verification link and code. Open the link in your browser, sign in, select the organization and approve the request. Return to the terminal; the command continues with the selected project's resources.
+## Connection details
 
-Only approve a request you initiated. Do not send the device code to someone else. The generated configuration uses `auth_type: v3oidcdeviceauthz`; keep its supplied endpoints and project ID rather than inventing them from a location name.
+**Connection details**, beside each location under **Consoles and CLI**, shows the same settings
+one by one, for tools that do not read `clouds.yaml`: the sign-in address (Keystone endpoint),
+region, identity provider, protocol, CLI client and the project's ID in that location.
 
-## Check context before changing resources
+## Terraform and SDKs
 
-```bash
-openstack --os-cloud acme-web-shop-pak-khi-1 network list
-openstack --os-cloud acme-web-shop-pak-khi-1 volume list
+Terraform's OpenStack provider and the Python SDK read the same `clouds.yaml`:
+
+```hcl
+provider "openstack" {
+  cloud = "acme-web-shop-pak-khi-1"
+}
 ```
 
-These commands read the same project and location used by the console. Native creates consume the same quota and become visible after the next inventory read or a console **Refresh**. A command against another cloud entry acts on that entry's project; review it before destructive work.
+The device sign-in needs a person at a browser. For pipelines and other unattended tools, use a
+[service account's cloud credential](../organization/service-accounts.md#get-a-cloud-credential):
+an application credential for one project in one location.
 
-## Automation and troubleshooting
+## Good to know
 
-Device sign-in is interactive. For unattended jobs, create a [service-account native credential](../organization/service-accounts.md#native-credentials), protect its one-time secret and track its expiry.
+- What you make with the CLI appears in the console within about an hour, or at once after
+  **Refresh**, marked **outside Nexus**, and counts against the same quota.
+- One organization at a time: to switch, sign out and wait three minutes, or start a fresh
+  session in a private browser window.
+- A NubeStack Cloud CLI of its own, for the console's API, is [coming later](../tools/cli.md).
 
-If the CLI does not recognize `v3oidcdeviceauthz`, verify the client is using the environment where the required authentication library was installed. If sign-in succeeds but access is refused, check the organization and project grant. A NubeStack customer API key is not a substitute for an OpenStack credential.
+## Related
+
+- [Horizon](horizon.md) · [Native OpenStack access](index.md)

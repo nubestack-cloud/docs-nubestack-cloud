@@ -1,53 +1,99 @@
 ---
-title: Automate a cloud change
+title: Automate with the API
+description: Give a script its own service account and API key, create a volume, wait for its operation, and clean up, safely retrying on network errors.
 ---
 
-# Automate a cloud change
+# Automate with the API
 
-Give a script its own identity, make one intentional cloud change and follow its final result. This workflow uses the customer API; it does not install or operate the cloud platform.
+Write a small script that creates a volume, waits for it, and deletes it again. It shows the three
+habits every NubeStack Cloud integration needs: its own identity, an idempotency key per change,
+and following the operation to its end.
 
-## Set up the identity
+**You will use:** a service account, an API key, `curl` and `jq`.
 
-Create a [service account](../organization/service-accounts.md) for the application. Grant the required project access, issue an expiring API key and put its one-time secret in your automation's secret store. An organization role alone does not grant workload changes.
+## 1. Give the script its own identity
 
-Use [the API setup variables](../api/index.md#before-you-start). The API address shown in the docs is a placeholder until NubeStack supplies your actual endpoint. Keep the origin without `/v1` in `NUBESTACK_API` because the request paths already include it.
+An owner or admin:
 
-## Discover the choices
+1. Creates a [service account](../organization/service-accounts.md) `ci-deploy`, role **Member**.
+2. Gives it **Project member** on `web-shop` (**Settings → Access → Grant access**).
+3. Chooses **Issue an API key**, 90 days, and stores the key in your CI's secret store as
+   `NUBESTACK_API_KEY`.
 
-Read the project's current resources and chosen location's catalog:
+## 2. Find the IDs
 
 ```bash
-curl --fail-with-body "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers" \
-  -H "Authorization: Bearer $NUBESTACK_API_KEY"
+export NUBESTACK_API="https://api.nubestack.cloud"   # placeholder: your API address
+api() { curl -sS --fail-with-body -H "Authorization: Bearer $NUBESTACK_API_KEY" "$@"; }
+
+ORG=$(api "$NUBESTACK_API/v1/me" | jq -r '.memberships[0].organization.id')
+PROJECT=$(api "$NUBESTACK_API/v1/orgs/$ORG/projects" | jq -r '.items[] | select(.slug=="web-shop") | .id')
+KHI=$(api "$NUBESTACK_API/v1/orgs/$ORG/locations" | jq -r '.items[] | select(.slug=="pak-khi-1") | .id')
 ```
 
-Get locations through `/v1/orgs/$ORG/locations` and offerings through `/v1/orgs/$ORG/catalog?location=<location-id>`. Do not hard-code a size, image or network copied from a documentation screenshot.
+Read sizes, images and volume types from the catalog rather than hard-coding them:
+`GET /v1/orgs/$ORG/catalog?location=$KHI`.
 
-## Submit exactly one change
+## 3. Make one change, safely
 
-Use the [instance create example](../compute/instances.md) or [volume example](../storage/volumes.md) with IDs from your own project. Generate an idempotency key before the first attempt, and keep the same key and body if a network failure makes the response uncertain.
+Choose the idempotency key **once** per change, and reuse it if you have to send the same request
+again after a network error. A new key per retry could create two volumes.
 
-A matching replay returns the original outcome. Generating a fresh key after every timeout risks a second resource. A changed intended request needs a new key.
+```bash
+KEY=$(uuidgen)
+BODY=$(jq -n --arg loc "$KHI" '{location: $loc, display_name: "ci-scratch", size_gb: 10}')
 
-<figure class="docs-diagram">
-<div>
-<!-- diagram: operation-lifecycle -->
-</div>
-<figcaption>Acceptance and completion are separate. Save the operation ID so you can resume checking after a client interruption.</figcaption>
+for attempt in 1 2 3; do
+  if RESP=$(api -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/volumes" \
+        -H "Idempotency-Key: $KEY" -H "Content-Type: application/json" -d "$BODY"); then
+    break
+  fi
+  sleep $((attempt * 5))
+done
+
+OP=$(echo "$RESP" | jq -r .operation.id)
+VOL=$(echo "$RESP" | jq -r .volume.id)
+```
+
+## 4. Wait for the operation
+
+<figure class="ns-diagram">
+--8<-- "operation-lifecycle.svg"
+<figcaption>Acceptance and completion are separate. Keep the operation ID so a restarted script can carry on waiting.</figcaption>
 </figure>
 
-## Follow the result
+```bash
+deadline=$((SECONDS + 600))
+while :; do
+  STATE=$(api "$NUBESTACK_API/v1/orgs/$ORG/operations/$OP" | jq -r .state)
+  case "$STATE" in
+    succeeded) echo "volume $VOL ready"; break ;;
+    partially_succeeded|failed|cancelled)
+      api "$NUBESTACK_API/v1/orgs/$ORG/operations/$OP" | jq '.error, .steps'; exit 1 ;;
+  esac
+  [ $SECONDS -lt $deadline ] || { echo "still $STATE after 10 minutes"; exit 1; }
+  sleep 5
+done
+```
 
-Save `operation.id` and `operation.href` from a `202` response. Poll the trusted API origin at that path, wait between reads, and honor `Retry-After` when present. Stop at a final state.
+A timeout in your script is not a cancellation: the operation goes on. Read it again before you
+make another change.
 
-- `succeeded`: read the resource and verify the state your next step needs.
-- `partially_succeeded`: inspect the steps and retain the successful resource IDs for repair or cleanup.
-- `failed` or `cancelled`: inspect the reason and what remains before a new request.
+## 5. Clean up
 
-Use a bounded polling deadline, but do not interpret your client's timeout as cancellation. Resume reading the saved operation before making another change. Schedule or group creation may return a saved definition immediately; consult the endpoint's actual status.
+```bash
+api -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/volumes/$VOL" \
+  -H "Idempotency-Key: $(uuidgen)" | jq .operation
+```
 
-## Handle changes and cleanup
+## Habits to keep
 
-For versioned resources, read the current ETag and send `If-Match` on updates. Refresh and review on `412`; do not bypass the check. Follow cursor pagination instead of assuming the first resource page is complete.
+- One service account per pipeline, with only the projects and roles it needs.
+- On `429`, wait the seconds in `Retry-After`. On `412`, read the resource again before you retry.
+- Match errors on `code`, never on the message. See [Errors](../api/errors.md).
+- Log `request_id` and operation IDs; they are what support needs.
+- Rotate the key before it expires.
 
-On cleanup, use each resource's documented delete action with its required headers and inspect the operation. Rotate credentials before expiry, revoke unused keys, and include request and operation IDs in redacted support reports. Never log bearer keys or one-time secrets.
+## Related
+
+- [API](../api/index.md) · [Requests](../api/requests.md) · [Operations](../api/operations.md)

@@ -1,5 +1,4 @@
-ne
-us
+NubeStack Cloud
 Organization
 Acme
 Workspace
@@ -49,22 +48,22 @@ RegionOne
 Karachi
 RegionOne
 2 networks · 5 connected resources
-192.0.2.20
+10.0.0.20
 External gateway
-192.0.2.11
-192.0.2.12
-192.0.2.50
-198.51.100.10
+10.0.0.11
+10.0.0.12
+10.0.0.50
+10.0.1.10
 app
-192.0.2.0/24
+10.0.0.0/24
 web-shop-private
 Router · 1 network
 batch-1
 Shutoff
 app
-192.0.2.0/24
+10.0.0.0/24
 db
-198.51.100.0/24
+10.0.1.0/24
 Internet
 External network
 web-shop-private

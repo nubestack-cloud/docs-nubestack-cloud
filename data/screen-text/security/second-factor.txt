@@ -1,0 +1,38 @@
+NubeStack Cloud
+Organization
+Acme
+Workspace
+Organization
+⌄
+◐
+A
+Organization
+Overview
+Projects
+Quota
+Locations
+Members
+Roles
+Service accounts
+Usage
+Statements
+Cost explorer
+Audit log
+Settings
+Collapse
+Organization settings
+
+How the organization works for its members: its name, how they sign in, its audit log, and closing it.
+
+General
+Security
+Audit and retention
+Danger zone
+Sign-in and invitations
+Enforce two-factor authentication
+Every member must sign in with a second factor. Only an owner changes this; turning it on asks for your own second factor first.
+
+Owners and admins always sign in with a second factor, whatever this setting says.
+
+Invitations only to these e-mail domains
+(owner only; empty: any domain)

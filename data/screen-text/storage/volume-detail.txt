@@ -1,5 +1,4 @@
-ne
-us
+NubeStack Cloud
 Organization
 Acme
 Workspace
@@ -75,7 +74,6 @@ Last read
 Recent activity
 All activity
 When	Action	By	Status
-4 min ago	Create instance	usr_01jbsara…	Succeeded	Steps
 30 min ago	Volume: snapshot	you	Succeeded	Steps
 
 All project activity

@@ -74,6 +74,8 @@ When a budget runs short, owners and admins ask NubeStack for more, one location
 The answer, and any note, appears under **Quota requests**; an approved request applies at once.
 One request per location can wait at a time; **Cancel request** withdraws it.
 
+![Quota requests: each request, its location, state and NubeStack's answer](../assets/screens/organization/quota-requests.webp)
+
 ## Quota is not capacity
 
 Quota says how much you may use. Whether a location has room right now is separate: a request

@@ -1,0 +1,47 @@
+NubeStack Cloud
+Organization
+Acme
+Workspace
+Organization
+⌄
+◐
+A
+Organization
+Overview
+Projects
+Quota
+Locations
+Members
+Roles
+Service accounts
+Usage
+Statements
+Cost explorer
+Audit log
+Settings
+Collapse
+Quota requests
+
+Ask your provider for a larger budget. An approved request applies at once.
+
+updated 0s ago
+Request more quota
+1
+waiting
+1
+approved
+0
+rejected
+Location	Asked for	State	Asked	Provider's note
+
+Karachi
+vCPUs
+48 → 64
+“Holiday sale traffic from 1 December”
+	Waiting	2 days ago	—	Cancel
+
+Islamabad
+Instances
+8 → 12
+“Analytics batch jobs”
+	Approved	22 days ago	Approved for the quarter.
