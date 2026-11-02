@@ -2,7 +2,6 @@
 title: NubeStack Cloud documentation
 description: Guides and reference for NubeStack Cloud in Karachi and Islamabad. Launch instances, connect networks, keep data on volumes and serve HTTPS, from the console or the API.
 hide:
-  - navigation
   - toc
   - path
 ---

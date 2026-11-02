@@ -94,18 +94,12 @@
 
 /* ---- Frame ------------------------------------------------------------------------------- */
 .md-header,
-.md-tabs {
-  background-color: var(--ns-header-bg);
-  color: var(--ns-header-fg);
-}
-.md-header { box-shadow: none; border-bottom: 1px solid var(--ns-border); }
-.md-header--shadow { box-shadow: var(--ns-shadow); }
-.md-tabs { border-bottom: 1px solid var(--ns-border); }
-.md-tabs__link { font-size: .72rem; opacity: .8; }
-.md-tabs__item--active .md-tabs__link { color: var(--md-primary-fg-color); opacity: 1; font-weight: 600; }
 .md-header__button.md-logo { padding: .3rem .2rem; }
 .md-header__button.md-logo .ns-mark { height: 1.7rem; width: auto; fill: none; }
 .ns-mark__n { fill: var(--ns-mark-n); stroke: var(--ns-mark-n); }
+/* On the teal header the N is drawn in the header's own colour, as the hexagon is: teal on teal
+   left an empty outline (2026-11-02). */
+.md-header .ns-mark__n { fill: currentColor; stroke: currentColor; }
 .md-header__title { font-weight: 650; letter-spacing: -.01em; }
 .md-search__form { background-color: var(--ns-surface); border: 1px solid var(--ns-border); border-radius: var(--ns-radius); }
 .md-search__form:hover { background-color: var(--ns-tint); }
@@ -196,3 +190,9 @@
 
 /* ---- 404 --------------------------------------------------------------------------------- */
 .md-typeset .ns-404__code { font-size: 3.5rem; font-weight: 800; color: var(--md-primary-fg-color); margin: 0; line-height: 1; }
+
+/* No table of contents on any page (owner, 2026-11-02, as on the ARGUS and OpsPilot docs): the
+   right-hand sidebar is hidden and the article takes its width. Material shows it with
+   `.md-sidebar--secondary:not([hidden])`, so the rule matches that specificity. */
+.md-sidebar--secondary,
+.md-sidebar--secondary:not([hidden]) { display: none; }
