@@ -10,9 +10,9 @@ Each location is an OpenStack cloud. You can use its own dashboard, Horizon, and
 
 ## Choose how to connect
 
-- [Horizon](/native-access/horizon.md): open the location's dashboard through single sign-on.
-- [OpenStack CLI](/native-access/openstack-cli.md): download connection settings and approve sign-in in your browser.
-- [Service-account native credentials](/organization/service-accounts.md#native-credentials): non-interactive access for automation in one project location.
+- [Horizon](horizon.md): open the location's dashboard through single sign-on.
+- [OpenStack CLI](openstack-cli.md): download connection settings and approve sign-in in your browser.
+- [Service-account native credentials](../organization/service-accounts.md#native-credentials): non-interactive access for automation in one project location.
 
 A project role is required to use the cloud. An organization role alone can let you read connection details without permitting a native sign-in.
 

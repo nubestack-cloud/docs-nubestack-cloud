@@ -14,7 +14,7 @@ Choose which optional notices this organization sends you. Preferences belong to
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -45,7 +45,7 @@ Choose which optional notices this organization sends you. Preferences belong to
 
     Returns `200` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/organizations.md#get-preferences).
+    [Request fields and responses](../api/reference/organizations.md).
 
     **Set an e-mail notice**
 
@@ -60,11 +60,11 @@ Choose which optional notices this organization sends you. Preferences belong to
 
     Returns `200` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/organizations.md#put-preference).
+    [Request fields and responses](../api/reference/organizations.md).
 
 
 ## Delivery and maintenance
 
 If the page says the provider is not sending email yet, saving a preference does not guarantee delivery; the choice applies when email is enabled. Check the dates and time zones in maintenance notices, and use the console's location and operation status when investigating an affected request.
 
-A maintenance notice is not an automatic application failover. Arrange your application's own recovery plan if it must continue through a location outage. Ask through your supplied [support route](/help/support.md) if the maintenance scope is unclear.
+A maintenance notice is not an automatic application failover. Arrange your application's own recovery plan if it must continue through a location outage. Ask through your supplied [support route](../help/support.md) if the maintenance scope is unclear.

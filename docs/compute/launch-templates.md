@@ -5,7 +5,7 @@ title: Launch templates
 
 # Launch templates
 
-A launch template saves instance settings so you can repeat a launch. Use it for consistent web servers, batch workers or the instances maintained by an [instance group](/compute/instance-groups.md). Templates belong to one project and contain a location-specific instance configuration.
+A launch template saves instance settings so you can repeat a launch. Use it for consistent web servers, batch workers or the instances maintained by an [instance group](instance-groups.md). Templates belong to one project and contain a location-specific instance configuration.
 
 <div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
 <span>Show instructions for</span>
@@ -14,7 +14,7 @@ A launch template saves instance settings so you can repeat a launch. Use it for
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -58,7 +58,7 @@ A launch template saves instance settings so you can repeat a launch. Use it for
 
     Returns `201` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/launch-templates.md#create-template).
+    [Request fields and responses](../api/reference/launch-templates.md).
 
 
 ## Launch instances
@@ -87,7 +87,7 @@ A launch template saves instance settings so you can repeat a launch. Use it for
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/launch-templates.md#post-launch).
+    [Request fields and responses](../api/reference/launch-templates.md).
 
 
 ## Versions and editing
@@ -111,7 +111,7 @@ A launch template saves instance settings so you can repeat a launch. Use it for
 
     Returns `200` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/launch-templates.md#change-template).
+    [Request fields and responses](../api/reference/launch-templates.md).
 
 
 ## Delete and limits
@@ -131,4 +131,4 @@ A launch template saves instance settings so you can repeat a launch. Use it for
 
     Returns `200` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/launch-templates.md#delete-template).
+    [Request fields and responses](../api/reference/launch-templates.md).

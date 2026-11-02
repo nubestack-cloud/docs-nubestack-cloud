@@ -14,7 +14,7 @@ Each instance has a **Manage** menu in its list and detail page. Choose the Cons
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -41,7 +41,7 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
 === "Console"
 
-    Open **Compute → Instances**, choose **Manage → Stop** on an active instance and confirm. **Start** brings a stopped instance back. Its disks, addresses and settings remain while stopped. Instance allocation, disks and public IPs can continue counting in usage; see [usage and costs](/concepts/usage-and-costs.md).
+    Open **Compute → Instances**, choose **Manage → Stop** on an active instance and confirm. **Start** brings a stopped instance back. Its disks, addresses and settings remain while stopped. Instance allocation, disks and public IPs can continue counting in usage; see [usage and costs](../concepts/usage-and-costs.md).
 
 === "API"
 
@@ -59,7 +59,7 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#stop-server).
+    [Request fields and responses](../api/reference/instances.md).
 
     **Start an instance**
 
@@ -73,7 +73,7 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#start-server).
+    [Request fields and responses](../api/reference/instances.md).
 
 
 ## Reboot an instance
@@ -96,7 +96,7 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#reboot-server).
+    [Request fields and responses](../api/reference/instances.md).
 
 
 ## Pause, suspend and resume
@@ -117,7 +117,7 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#pause-server).
+    [Request fields and responses](../api/reference/instances.md).
 
     **Unpause an instance**
 
@@ -129,7 +129,7 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#unpause-server).
+    [Request fields and responses](../api/reference/instances.md).
 
     **Suspend an instance**
 
@@ -141,7 +141,7 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#suspend-server).
+    [Request fields and responses](../api/reference/instances.md).
 
     **Resume an instance**
 
@@ -153,7 +153,7 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#resume-server).
+    [Request fields and responses](../api/reference/instances.md).
 
 
 ## Shelve and unshelve
@@ -174,7 +174,7 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#shelve-server).
+    [Request fields and responses](../api/reference/instances.md).
 
     **Unshelve an instance**
 
@@ -186,7 +186,7 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#unshelve-server).
+    [Request fields and responses](../api/reference/instances.md).
 
 
 ## Resize an instance
@@ -215,7 +215,7 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#resize-server).
+    [Request fields and responses](../api/reference/instances.md).
 
 
 ## Rebuild an instance
@@ -238,7 +238,7 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#rebuild-server).
+    [Request fields and responses](../api/reference/instances.md).
 
 
 ## Rescue and unrescue
@@ -259,7 +259,7 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#rescue-server).
+    [Request fields and responses](../api/reference/instances.md).
 
     **End a rescue**
 
@@ -271,7 +271,7 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#unrescue-server).
+    [Request fields and responses](../api/reference/instances.md).
 
 
 ## Lock and unlock
@@ -292,7 +292,7 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#lock-server).
+    [Request fields and responses](../api/reference/instances.md).
 
     **Unlock an instance**
 
@@ -304,14 +304,14 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#unlock-server).
+    [Request fields and responses](../api/reference/instances.md).
 
 
 ## Save the system disk as an image
 
 === "Console"
 
-    Choose **Manage → Create image**, name the image and follow its operation. Quiesce application writes first when consistency matters. The image contains the system disk, not attached data volumes or running memory. Verify it by launching a test instance; see [Images](/compute/images.md).
+    Choose **Manage → Create image**, name the image and follow its operation. Quiesce application writes first when consistency matters. The image contains the system disk, not attached data volumes or running memory. Verify it by launching a test instance; see [Images](images.md).
 
 === "API"
 
@@ -327,14 +327,14 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#create-image).
+    [Request fields and responses](../api/reference/instances.md).
 
 
 ## Attach and detach volumes
 
 === "Console"
 
-    Choose **Manage → Attach volume** and an available data disk in the same project and location. Format and mount a new empty disk inside the guest; do not format a restored data disk. Before **Detach volume**, stop writes and unmount the filesystem. Separate volumes remain after instance deletion. [Use persistent storage](/tutorials/persistent-storage.md) covers guest-side steps.
+    Choose **Manage → Attach volume** and an available data disk in the same project and location. Format and mount a new empty disk inside the guest; do not format a restored data disk. Before **Detach volume**, stop writes and unmount the filesystem. Separate volumes remain after instance deletion. [Use persistent storage](../tutorials/persistent-storage.md) covers guest-side steps.
 
 === "API"
 
@@ -352,7 +352,7 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#attach-volume).
+    [Request fields and responses](../api/reference/instances.md).
 
     **Detach a volume**
 
@@ -368,7 +368,7 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#detach-volume).
+    [Request fields and responses](../api/reference/instances.md).
 
 
 ## Networks
@@ -379,7 +379,7 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
     ![An instance's network interfaces](../assets/screens/compute/instance-networks.webp)
 
-    For a VPN or router guest, see [forwarding](/networking/routing.md#let-an-instance-forward-traffic).
+    For a VPN or router guest, see [forwarding](../networking/routing.md#let-an-instance-forward-traffic).
 
 === "API"
 
@@ -397,7 +397,7 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#attach-interface-server).
+    [Request fields and responses](../api/reference/instances.md).
 
     **Detach an instance from a network**
 
@@ -413,7 +413,7 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#detach-interface-server).
+    [Request fields and responses](../api/reference/instances.md).
 
 
 ## Change security groups
@@ -438,7 +438,7 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#set-server-groups).
+    [Request fields and responses](../api/reference/instances.md).
 
 
 ## Add or remove a public IP
@@ -467,7 +467,7 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/public-ips.md#post-address).
+    [Request fields and responses](../api/reference/public-ips.md).
 
     **Attach a public IP**
 
@@ -483,7 +483,7 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/public-ips.md#associate-address).
+    [Request fields and responses](../api/reference/public-ips.md).
 
     **Detach a public IP**
 
@@ -497,7 +497,7 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/public-ips.md#disassociate-address).
+    [Request fields and responses](../api/reference/public-ips.md).
 
 
 ## Metadata
@@ -523,7 +523,7 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#set-server-metadata).
+    [Request fields and responses](../api/reference/instances.md).
 
 
 ## Open the instance's console
@@ -544,7 +544,7 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#request-console).
+    [Request fields and responses](../api/reference/instances.md).
 
 
 ## Read the console log
@@ -565,7 +565,7 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#request-console-output).
+    [Request fields and responses](../api/reference/instances.md).
 
 
 ## Rename an instance
@@ -588,7 +588,7 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#update-server).
+    [Request fields and responses](../api/reference/instances.md).
 
 
 ## Delete an instance
@@ -599,7 +599,7 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
     ![Review what stays before confirming deletion](../assets/screens/compute/instance-delete.webp)
 
-    An active [instance group](/compute/instance-groups.md) can replace a deleted member; lower its desired count or stop group management first. Remove manually configured load balancer members and release unwanted public IPs separately.
+    An active [instance group](instance-groups.md) can replace a deleted member; lower its desired count or stop group management first. Remove manually configured load balancer members and release unwanted public IPs separately.
 
 === "API"
 
@@ -611,4 +611,4 @@ A resource that is creating, resizing or rebuilding offers no new actions until 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#delete-server).
+    [Request fields and responses](../api/reference/instances.md).

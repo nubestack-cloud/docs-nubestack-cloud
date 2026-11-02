@@ -36,10 +36,10 @@ Follow each operation before deleting its dependencies. A refusal names what is 
 
 Use the project's **Settings → Danger zone** and review its report. **Delete only if empty** refuses a non-empty project. **Delete everything in it** removes active compute and network resources, while eligible data resources remain during the displayed recovery window.
 
-Cancellation during that window does not recreate instances or networks already removed. The project remains suspended until resumed. **Delete now** ends the window early. Read [deletion and retention](/concepts/deletion-and-retention.md) before confirming either action.
+Cancellation during that window does not recreate instances or networks already removed. The project remains suspended until resumed. **Delete now** ends the window early. Read [deletion and retention](../concepts/deletion-and-retention.md) before confirming either action.
 
 ## Verify cleanup
 
 Refresh resource lists and inspect completed operations. Confirm unused public IPs were released, not merely detached, and that volumes, snapshots and images left behind are deliberate. Usage history remains; successful deletion stops future resource usage after it completes rather than erasing earlier usage.
 
-For API cleanup, use the same dependency order, correct project-scoped IDs, required idempotency keys and version checks. [The reference](/api/reference/index.md) documents the delete endpoints. If a location is unavailable, read the deletion status; stale inventory is not evidence that all resources are gone.
+For API cleanup, use the same dependency order, correct project-scoped IDs, required idempotency keys and version checks. [The reference](../api/reference/index.md) documents the delete endpoints. If a location is unavailable, read the deletion status; stale inventory is not evidence that all resources are gone.

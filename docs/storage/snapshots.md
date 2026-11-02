@@ -5,7 +5,7 @@ title: Snapshots
 
 # Snapshots
 
-A snapshot is a point-in-time copy of a volume in the same location. Use one before a change, or use a [schedule](/storage/schedules.md) to keep regular recovery points. Restoring creates a new volume; it does not overwrite the original.
+A snapshot is a point-in-time copy of a volume in the same location. Use one before a change, or use a [schedule](schedules.md) to keep regular recovery points. Restoring creates a new volume; it does not overwrite the original.
 
 <div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
 <span>Show instructions for</span>
@@ -14,7 +14,7 @@ A snapshot is a point-in-time copy of a volume in the same location. Use one bef
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -55,7 +55,7 @@ A snapshot is a point-in-time copy of a volume in the same location. Use one bef
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/volumes-and-snapshots.md#snapshot-volume).
+    [Request fields and responses](../api/reference/volumes-and-snapshots.md).
 
 
 ## Restore to a new volume
@@ -86,7 +86,7 @@ A snapshot is a point-in-time copy of a volume in the same location. Use one bef
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/volumes-and-snapshots.md#post-volume).
+    [Request fields and responses](../api/reference/volumes-and-snapshots.md).
 
 ## Rename or delete
 
@@ -110,7 +110,7 @@ A snapshot is a point-in-time copy of a volume in the same location. Use one bef
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/volumes-and-snapshots.md#update-volume-snapshot).
+    [Request fields and responses](../api/reference/volumes-and-snapshots.md).
 
     **Delete a snapshot**
 
@@ -122,7 +122,7 @@ A snapshot is a point-in-time copy of a volume in the same location. Use one bef
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/volumes-and-snapshots.md#delete-snapshot).
+    [Request fields and responses](../api/reference/volumes-and-snapshots.md).
 
 
 ## Limits and good practice

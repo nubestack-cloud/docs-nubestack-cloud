@@ -14,7 +14,7 @@ Members are the people who can use your organization. Invite a colleague, choose
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -33,7 +33,7 @@ Members are the people who can use your organization. Invite a colleague, choose
 
     ![Invite a member and select project access](../assets/screens/organization/invite.webp)
 
-    The recipient follows [Create your account](/get-started/account.md). They must sign in with the invited address. The invitation page shows its expiry; do not assume an old link still works. Organization domain restrictions can refuse an invitation.
+    The recipient follows [Create your account](../get-started/account.md). They must sign in with the invited address. The invitation page shows its expiry; do not assume an old link still works. Organization domain restrictions can refuse an invitation.
 
 === "API"
 
@@ -53,16 +53,16 @@ Members are the people who can use your organization. Invite a colleague, choose
 
     Returns `201` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/members-and-invitations.md#create-invitation).
+    [Request fields and responses](../api/reference/members-and-invitations.md).
 
 
 ## Change access
 
 === "Console"
 
-    Use a member's menu to change their organization role, suspend them, resume them or remove them. Manage their project grants from the project's **Access** settings. Built-in and [custom roles](/organization/custom-roles.md) control what each grant permits.
+    Use a member's menu to change their organization role, suspend them, resume them or remove them. Manage their project grants from the project's **Access** settings. Built-in and [custom roles](custom-roles.md) control what each grant permits.
 
-    An organization admin can manage the organization, but needs a project grant to change project workloads or sign in to that location's native tools. A project reader can inspect resources without changing them. Read the complete [roles and permissions](/concepts/roles-and-permissions.md) table before assigning a broad role.
+    An organization admin can manage the organization, but needs a project grant to change project workloads or sign in to that location's native tools. A project reader can inspect resources without changing them. Read the complete [roles and permissions](../concepts/roles-and-permissions.md) table before assigning a broad role.
 
     Removing or suspending someone affects their access, rather than deleting the instances and data they created. The owner's role is protected; use the ownership-transfer flow before removing an owner where required. Native access changes can take up to 15 minutes to reach each location.
 
@@ -85,7 +85,7 @@ Members are the people who can use your organization. Invite a colleague, choose
 
     Returns `200` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/members-and-invitations.md#change-roles).
+    [Request fields and responses](../api/reference/members-and-invitations.md).
 
     **Give a project role**
 
@@ -102,7 +102,7 @@ Members are the people who can use your organization. Invite a colleague, choose
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/project-access.md#create-grant).
+    [Request fields and responses](../api/reference/project-access.md).
 
     **Suspend a member**
 
@@ -115,7 +115,7 @@ Members are the people who can use your organization. Invite a colleague, choose
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/members-and-invitations.md#suspend).
+    [Request fields and responses](../api/reference/members-and-invitations.md).
 
     **Resume a member**
 
@@ -128,7 +128,7 @@ Members are the people who can use your organization. Invite a colleague, choose
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/members-and-invitations.md#resume).
+    [Request fields and responses](../api/reference/members-and-invitations.md).
 
     **Remove a member**
 
@@ -141,7 +141,7 @@ Members are the people who can use your organization. Invite a colleague, choose
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/members-and-invitations.md#remove).
+    [Request fields and responses](../api/reference/members-and-invitations.md).
 
 
 ## Ownership and leaving
@@ -169,7 +169,7 @@ Members are the people who can use your organization. Invite a colleague, choose
 
     Returns `200` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/members-and-invitations.md#transfer-ownership).
+    [Request fields and responses](../api/reference/members-and-invitations.md).
 
     **Leave the organization**
 
@@ -181,7 +181,7 @@ Members are the people who can use your organization. Invite a colleague, choose
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/members-and-invitations.md#leave).
+    [Request fields and responses](../api/reference/members-and-invitations.md).
 
 
 ## Good practice

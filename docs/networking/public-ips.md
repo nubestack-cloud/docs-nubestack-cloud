@@ -14,7 +14,7 @@ A public IP is an Internet-facing address allocated to your project in one locat
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -51,18 +51,18 @@ A public IP is an Internet-facing address allocated to your project in one locat
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/public-ips.md#post-address).
+    [Request fields and responses](../api/reference/public-ips.md).
 
 
 ## Attach or detach
 
 === "Console"
 
-    Choose **Manage → Attach**, then an instance or load balancer in the same location. For an instance with several interfaces, choose the intended private address when offered. The target network must be routed through an [Internet gateway](/networking/internet-gateways.md).
+    Choose **Manage → Attach**, then an instance or load balancer in the same location. For an instance with several interfaces, choose the intended private address when offered. The target network must be routed through an [Internet gateway](internet-gateways.md).
 
     ![Attach an address to an instance](../assets/screens/networking/public-ip-attach.webp)
 
-    Follow the operation, then open the address's page to check its target. Instance and load balancer pages link back to the public IP. Allow the application's ports in its [security groups](/networking/security-groups.md); attachment alone does not allow traffic.
+    Follow the operation, then open the address's page to check its target. Instance and load balancer pages link back to the public IP. Allow the application's ports in its [security groups](security-groups.md); attachment alone does not allow traffic.
 
     ![Inspect the public IP and the private address it forwards to](../assets/screens/networking/public-ip-detail.webp)
 
@@ -84,7 +84,7 @@ A public IP is an Internet-facing address allocated to your project in one locat
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/public-ips.md#associate-address).
+    [Request fields and responses](../api/reference/public-ips.md).
 
     **Detach a public IP**
 
@@ -98,7 +98,7 @@ A public IP is an Internet-facing address allocated to your project in one locat
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/public-ips.md#disassociate-address).
+    [Request fields and responses](../api/reference/public-ips.md).
 
 
 ## Release and limits
@@ -107,7 +107,7 @@ A public IP is an Internet-facing address allocated to your project in one locat
 
     Detach an attached address, then choose **Manage → Release**. Release returns it to the location's pool and stops its allocated-IP usage. You cannot rely on getting the same address again. Update DNS and external allowlists before releasing an address in use.
 
-    Public IP quota is per project and location. Unattached addresses still count toward quota and measured usage. Use [tags](/concepts/tags.md) to find unused allocations.
+    Public IP quota is per project and location. Unattached addresses still count toward quota and measured usage. Use [tags](../concepts/tags.md) to find unused allocations.
 
 === "API"
 
@@ -119,7 +119,7 @@ A public IP is an Internet-facing address allocated to your project in one locat
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/public-ips.md#release-address).
+    [Request fields and responses](../api/reference/public-ips.md).
 
 ## Change public IP tags
 
@@ -144,4 +144,4 @@ A public IP is an Internet-facing address allocated to your project in one locat
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/public-ips.md#set-floating-ip-tags).
+    [Request fields and responses](../api/reference/public-ips.md).

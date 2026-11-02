@@ -39,8 +39,8 @@ Creating a project makes its creator the project admin.
 ## What each role may do
 
 `✓` means yes; `—` means no. "If allowed" means an owner or admin can switch it on in the
-[organization's settings](/organization/settings.md). The action name in the first column is what
-a [custom role](/organization/custom-roles.md) holds.
+[organization's settings](../organization/settings.md). The action name in the first column is what
+a [custom role](../organization/custom-roles.md) holds.
 
 | Action | What it allows | Owner | Admin | Billing | Member | Viewer | Project admin | Project member | Project reader |
 |---|---|---|---|---|---|---|---|---|---|
@@ -91,7 +91,7 @@ A project admin makes custom roles for their own project only.
 
 ## Service accounts
 
-A [service account](/organization/service-accounts.md) holds the **member** or **viewer**
+A [service account](../organization/service-accounts.md) holds the **member** or **viewer**
 organization role and the **project member** or **project reader** role on projects, or a custom
 role within those bounds. Whatever its roles say, it never manages people, project access, roles,
 API keys, settings or service accounts, and never creates or deletes projects or locations.
@@ -100,7 +100,7 @@ API keys, settings or service accounts, and never creates or deletes projects or
 
 When the built-in roles do not fit, owners and admins make their own: a name and a set of the
 actions above. You can only put an action you hold into a role, and only give a role whose actions
-you hold. See [Custom roles](/organization/custom-roles.md).
+you hold. See [Custom roles](../organization/custom-roles.md).
 
 ## In each location's own tools
 

@@ -11,28 +11,28 @@ Start with an invitation and finish with an instance you can reach. You need a N
 <div class="guide-cards" markdown>
 <div class="guide-card" markdown>
 
-### [Create your account](/get-started/account.md)
+### [Create your account](account.md)
 
 Accept an invitation, sign in and set up a second factor.
 
 </div>
 <div class="guide-card" markdown>
 
-### [Find your way around](/get-started/console.md)
+### [Find your way around](console.md)
 
 Choose your organization and project, find services and follow changes.
 
 </div>
 <div class="guide-card" markdown>
 
-### [Create a project](/get-started/create-a-project.md)
+### [Create a project](create-a-project.md)
 
 Choose a location, quota and the first network.
 
 </div>
 <div class="guide-card" markdown>
 
-### [Your first instance](/get-started/first-instance.md)
+### [Your first instance](first-instance.md)
 
 Add an SSH key, launch an instance, connect and clean up.
 
@@ -41,4 +41,4 @@ Add an SSH key, launch an instance, connect and clean up.
 
 ## What comes next?
 
-Follow [a practical tutorial](/tutorials/index.md) for persistent storage, private services, HTTPS or automation. Published operating-system images and sizes depend on the location. Read the create summary before confirming resources.
+Follow [a practical tutorial](index.md) for persistent storage, private services, HTTPS or automation. Published operating-system images and sizes depend on the location. Read the create summary before confirming resources.

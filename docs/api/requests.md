@@ -55,4 +55,4 @@ Cursors are opaque, expire and are bound to the caller, organization, route and 
 
 ## Rate and temporary refusals
 
-Respect `Retry-After` when supplied. Use bounded backoff for temporary failures, keeping the idempotency key for a retry of the same request. Never retry a permission, validation or dependency refusal unchanged. Record the problem's `request_id` when reporting a failure. See [Errors](/api/errors.md).
+Respect `Retry-After` when supplied. Use bounded backoff for temporary failures, keeping the idempotency key for a retry of the same request. Never retry a permission, validation or dependency refusal unchanged. Record the problem's `request_id` when reporting a failure. See [Errors](errors.md).

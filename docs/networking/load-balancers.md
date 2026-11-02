@@ -14,7 +14,7 @@ A load balancer distributes traffic across instances. Use it when an application
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -42,10 +42,10 @@ A load balancer distributes traffic across instances. Use it when an application
     1. Open **Networking → Load balancers → Create load balancer**.
     2. Select the location, name and subnet containing the backends.
     3. Choose **Standard** for TCP or UDP. Choose **Application** for HTTP or HTTPS where that type is offered.
-    4. Add a listener and its port. For HTTPS, choose a [certificate](/security/certificates.md) in this project and location.
+    4. Add a listener and its port. For HTTPS, choose a [certificate](../security/certificates.md) in this project and location.
     5. Add a pool, its balancing algorithm, and backend addresses and ports.
     6. Add a health check that matches what the application serves. Review and create.
-    7. Follow the operation. Attach a [public IP](/networking/public-ips.md) if the service should be reachable from the Internet.
+    7. Follow the operation. Attach a [public IP](public-ips.md) if the service should be reachable from the Internet.
 
     ![Create a load balancer and its initial listener](../assets/screens/networking/load-balancer-create.webp)
 
@@ -85,7 +85,7 @@ A load balancer distributes traffic across instances. Use it when an application
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/load-balancers.md#post-load-balancer).
+    [Request fields and responses](../api/reference/load-balancers.md).
 
 
 ## Add a listener
@@ -114,7 +114,7 @@ A load balancer distributes traffic across instances. Use it when an application
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/load-balancers.md#create-load-balancer-listener).
+    [Request fields and responses](../api/reference/load-balancers.md).
 
     Where the body has `expected`, the all-zero hash is an example: replace it with the current `lb_configuration.version` you read. Protocol and port are fixed after listener creation.
 
@@ -142,7 +142,7 @@ A load balancer distributes traffic across instances. Use it when an application
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/load-balancers.md#update-load-balancer-listener).
+    [Request fields and responses](../api/reference/load-balancers.md).
 
     **Delete a listener**
 
@@ -158,7 +158,7 @@ A load balancer distributes traffic across instances. Use it when an application
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/load-balancers.md#delete-load-balancer-listener).
+    [Request fields and responses](../api/reference/load-balancers.md).
 
     Where the body has `expected`, the all-zero hash is an example: replace it with the current `lb_configuration.version` you read. Protocol and port are fixed after listener creation.
 
@@ -189,7 +189,7 @@ A load balancer distributes traffic across instances. Use it when an application
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/load-balancers.md#create-load-balancer-pool).
+    [Request fields and responses](../api/reference/load-balancers.md).
 
     **Change a pool**
 
@@ -206,7 +206,7 @@ A load balancer distributes traffic across instances. Use it when an application
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/load-balancers.md#update-load-balancer-pool).
+    [Request fields and responses](../api/reference/load-balancers.md).
 
     Where the body has `expected`, the all-zero hash is an example: replace it with the current `lb_configuration.version` you read. Protocol and port are fixed after listener creation.
 
@@ -236,7 +236,7 @@ A load balancer distributes traffic across instances. Use it when an application
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/load-balancers.md#put-lb-members).
+    [Request fields and responses](../api/reference/load-balancers.md).
 
     Where the body has `expected`, the all-zero hash is an example: replace it with the current `lb_configuration.version` you read. Protocol and port are fixed after listener creation.
 
@@ -266,7 +266,7 @@ A load balancer distributes traffic across instances. Use it when an application
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/load-balancers.md#set-health-monitor).
+    [Request fields and responses](../api/reference/load-balancers.md).
 
     **Remove a pool's health check**
 
@@ -278,7 +278,7 @@ A load balancer distributes traffic across instances. Use it when an application
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/load-balancers.md#clear-health-monitor).
+    [Request fields and responses](../api/reference/load-balancers.md).
 
 
 ## HTTPS and certificate rotation
@@ -304,7 +304,7 @@ A load balancer distributes traffic across instances. Use it when an application
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/load-balancers.md#update-load-balancer-listener).
+    [Request fields and responses](../api/reference/load-balancers.md).
 
     Where the body has `expected`, the all-zero hash is an example: replace it with the current `lb_configuration.version` you read. Protocol and port are fixed after listener creation.
 
@@ -329,7 +329,7 @@ A load balancer distributes traffic across instances. Use it when an application
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/load-balancers.md#delete-load-balancer-pool).
+    [Request fields and responses](../api/reference/load-balancers.md).
 
     Where the body has `expected`, the all-zero hash is an example: replace it with the current `lb_configuration.version` you read. Protocol and port are fixed after listener creation.
 
@@ -352,4 +352,4 @@ A load balancer distributes traffic across instances. Use it when an application
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/load-balancers.md#delete-load-balancer).
+    [Request fields and responses](../api/reference/load-balancers.md).

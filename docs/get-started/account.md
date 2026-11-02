@@ -46,9 +46,9 @@ factor:
 
 - always, if you are an owner or admin of an organization;
 - always, when you sign in to a location's own dashboard or the OpenStack CLI
-  ([native access](/native-access/overview.md));
+  ([native access](../native-access/index.md));
 - otherwise when your organization requires it for every member
-  ([Organization settings](/organization/settings.md#security)).
+  ([Organization settings](../organization/settings.md#security)).
 
 If you belong to several organizations, the console asks which one to open. Tick **Open this one
 next time** to skip the question. You can switch at any time with the **Organization** list at the
@@ -64,16 +64,16 @@ projects.
 
     NubeStack Cloud runs on Nexus, a control plane for OpenStack clouds. You will see its name in a few
     places: the logo at the top left, a resource **Created by: Nexus**, or one marked **outside Nexus**
-    because it was made with a location's own tools. See the [glossary](/help/glossary.md#nexus).
+    because it was made with a location's own tools. See the [glossary](../help/glossary.md#nexus).
 
 
 ## Lost your password or your phone
 
-There is no self-service reset yet. Contact [NubeStack support](/help/support.md). Support sends
+There is no self-service reset yet. Contact [NubeStack support](../help/support.md). Support sends
 you a one-time reset link: opening it signs you in once, your old password and second factor stop
 working, and you set new ones.
 
 ## Next
 
-- [Organizations, members and roles](/get-started/organizations.md): what your role lets you do.
-- [Create a project](/get-started/create-a-project.md).
+- [Organizations, members and roles](organizations.md): what your role lets you do.
+- [Create a project](create-a-project.md).

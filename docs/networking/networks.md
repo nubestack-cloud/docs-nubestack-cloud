@@ -14,7 +14,7 @@ A network gives instances a private address range in one location. Use separate 
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -61,7 +61,7 @@ Open **Networking → Networks** in your project. The list shows the location, r
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/networking.md#post-network).
+    [Request fields and responses](../api/reference/networking.md).
 
 
 ## Edit an address range
@@ -91,17 +91,17 @@ Open **Networking → Networks** in your project. The list shows the location, r
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/networking.md#update-subnet).
+    [Request fields and responses](../api/reference/networking.md).
 
 
 ## Connect services
 
 === "Console"
 
-    - Choose this network when creating an [instance](/compute/instances.md), or attach it from an instance's **Networks** tab.
-    - A [load balancer](/networking/load-balancers.md) uses a subnet in this location.
-    - **Attach to private routing** connects an isolated network to the project's router. An [Internet gateway](/networking/internet-gateways.md) adds Internet access to routed networks.
-    - [Security groups](/networking/security-groups.md) control allowed traffic even when routing exists.
+    - Choose this network when creating an [instance](../compute/instances.md), or attach it from an instance's **Networks** tab.
+    - A [load balancer](load-balancers.md) uses a subnet in this location.
+    - **Attach to private routing** connects an isolated network to the project's router. An [Internet gateway](internet-gateways.md) adds Internet access to routed networks.
+    - [Security groups](security-groups.md) control allowed traffic even when routing exists.
 
 === "API"
 
@@ -118,7 +118,7 @@ Open **Networking → Networks** in your project. The list shows the location, r
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/networking.md#set-network-routing).
+    [Request fields and responses](../api/reference/networking.md).
 
 
 ## Delete and limits
@@ -127,7 +127,7 @@ Open **Networking → Networks** in your project. The list shows the location, r
 
     From **Manage → Delete**, review the resources holding ports on the network. Delete or disconnect the named instances and load balancers first. Detach public IPs before removing routing. A refused delete names what is still using the network; do not repeatedly submit it unchanged.
 
-    Quota is per project and location. Connected ranges must not overlap. Keep application networks private unless they need Internet access, and use [tags](/concepts/tags.md) to identify their purpose.
+    Quota is per project and location. Connected ranges must not overlap. Keep application networks private unless they need Internet access, and use [tags](../concepts/tags.md) to identify their purpose.
 
 === "API"
 
@@ -139,7 +139,7 @@ Open **Networking → Networks** in your project. The list shows the location, r
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/networking.md#delete-network).
+    [Request fields and responses](../api/reference/networking.md).
 
 ## Change network tags
 
@@ -164,4 +164,4 @@ Open **Networking → Networks** in your project. The list shows the location, r
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/networking.md#set-network-tags).
+    [Request fields and responses](../api/reference/networking.md).

@@ -16,7 +16,7 @@ organization, has a **recovery window** during which you can change your mind.
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -115,7 +115,7 @@ links to it:
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/projects.md#delete-project).
+    [Request fields and responses](../api/reference/projects.md).
 
     **Cancel a project's deletion**
 
@@ -127,7 +127,7 @@ links to it:
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/projects.md#cancel-project).
+    [Request fields and responses](../api/reference/projects.md).
 
     **End a deletion's retention early**
 
@@ -143,7 +143,7 @@ links to it:
 
     Returns `200` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/projects.md#delete-now).
+    [Request fields and responses](../api/reference/projects.md).
 
     **Resume a project**
 
@@ -155,7 +155,7 @@ links to it:
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/projects.md#resume-project).
+    [Request fields and responses](../api/reference/projects.md).
 
 
 ## Close the organization
@@ -173,7 +173,7 @@ links to it:
     | Afterwards | The audit log and usage records are kept for the period the page shows |
 
     While the organization is closing, an owner can download a copy of its records: see
-    [Organization settings](/organization/settings.md#take-a-copy-of-your-data).
+    [Organization settings](../organization/settings.md#take-a-copy-of-your-data).
 
 === "API"
 
@@ -189,7 +189,7 @@ links to it:
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/organizations.md#close-org).
+    [Request fields and responses](../api/reference/organizations.md).
 
     **Cancel the organization's closure**
 
@@ -201,7 +201,7 @@ links to it:
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/organizations.md#cancel-org-closure).
+    [Request fields and responses](../api/reference/organizations.md).
 
 
 ## People leaving

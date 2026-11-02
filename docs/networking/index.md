@@ -18,49 +18,49 @@ Connect your services inside a location and decide which can be reached from the
 <div class="guide-cards" markdown>
 <div class="guide-card" markdown>
 
-### [Networks and subnets](/networking/networks.md)
+### [Networks and subnets](networks.md)
 
 Create address ranges and control DHCP, DNS and private routing.
 
 </div>
 <div class="guide-card" markdown>
 
-### [Routing](/networking/routing.md)
+### [Routing](routing.md)
 
 Connect networks and manage routes and forwarding.
 
 </div>
 <div class="guide-card" markdown>
 
-### [Internet gateways](/networking/internet-gateways.md)
+### [Internet gateways](internet-gateways.md)
 
 Give routed networks an Internet path.
 
 </div>
 <div class="guide-card" markdown>
 
-### [Security groups](/networking/security-groups.md)
+### [Security groups](security-groups.md)
 
 Allow only the required protocols, ports and sources.
 
 </div>
 <div class="guide-card" markdown>
 
-### [Public IPs](/networking/public-ips.md)
+### [Public IPs](public-ips.md)
 
 Allocate, attach, detach and release Internet-facing addresses.
 
 </div>
 <div class="guide-card" markdown>
 
-### [Load balancers](/networking/load-balancers.md)
+### [Load balancers](load-balancers.md)
 
 Distribute traffic and terminate HTTPS where offered.
 
 </div>
 <div class="guide-card" markdown>
 
-### [Network map](/networking/network-map.md)
+### [Network map](network-topology.md)
 
 Inspect the relationships between project resources.
 

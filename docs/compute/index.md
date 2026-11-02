@@ -11,49 +11,49 @@ Run virtual machines for your applications. Start with an instance, save repeata
 <div class="guide-cards" markdown>
 <div class="guide-card" markdown>
 
-### [Instances](/compute/instances.md)
+### [Instances](instances.md)
 
 Choose an image, size, network, access and data disks.
 
 </div>
 <div class="guide-card" markdown>
 
-### [Manage instances](/compute/manage-instances.md)
+### [Manage instances](manage-instances.md)
 
 Connect to the console, restart, resize, rebuild or delete.
 
 </div>
 <div class="guide-card" markdown>
 
-### [SSH keys](/compute/ssh-keys.md)
+### [SSH keys](ssh-keys.md)
 
 Keep private keys with you and register their public halves.
 
 </div>
 <div class="guide-card" markdown>
 
-### [Images](/compute/images.md)
+### [Images](images.md)
 
 Use a published image or save a prepared system disk.
 
 </div>
 <div class="guide-card" markdown>
 
-### [Server groups](/compute/server-groups.md)
+### [Server groups](server-groups.md)
 
 Keep instances on different hosts, or together.
 
 </div>
 <div class="guide-card" markdown>
 
-### [Launch templates](/compute/launch-templates.md)
+### [Launch templates](launch-templates.md)
 
 Version a reusable instance configuration.
 
 </div>
 <div class="guide-card" markdown>
 
-### [Instance groups](/compute/instance-groups.md)
+### [Instance groups](instance-groups.md)
 
 Maintain a desired count with replacement and scheduled sizes.
 
@@ -71,4 +71,4 @@ Maintain a desired count with replacement and scheduled sizes.
 
 Instances start from images. Booting an instance directly from a volume is not offered by the console. Availability of sizes and images depends on the location.
 
-[Walk through a web application](/tutorials/publish-web-application.md) or [scale replicas](/tutorials/scale-an-application.md).
+[Walk through a web application](../tutorials/publish-web-application.md) or [scale replicas](../tutorials/scale-an-application.md).

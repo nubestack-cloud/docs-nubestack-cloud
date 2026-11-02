@@ -14,7 +14,7 @@ A certificate lets an Application load balancer terminate HTTPS for your domain.
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -47,14 +47,14 @@ A certificate lets an Application load balancer terminate HTTPS for your domain.
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/certificates.md#post-certificate).
+    [Request fields and responses](../api/reference/certificates.md).
 
 
 ## Use and rotate
 
 === "Console"
 
-    Open the certificate to see its domains, expiry, fingerprint and linked listeners. Add or edit an HTTPS listener under [Load balancers](/networking/load-balancers.md) and select this certificate. The API protocol is `TERMINATED_HTTPS`.
+    Open the certificate to see its domains, expiry, fingerprint and linked listeners. Add or edit an HTTPS listener under [Load balancers](../networking/load-balancers.md) and select this certificate. The API protocol is `TERMINATED_HTTPS`.
 
     ![A certificate's details and listeners using it](../assets/screens/security/certificate-detail.webp)
 
@@ -79,7 +79,7 @@ A certificate lets an Application load balancer terminate HTTPS for your domain.
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/load-balancers.md#update-load-balancer-listener).
+    [Request fields and responses](../api/reference/load-balancers.md).
 
     Where the body has `expected`, the all-zero hash is an example: replace it with the current `lb_configuration.version` you read. Protocol and port are fixed after listener creation.
 
@@ -100,4 +100,4 @@ A certificate lets an Application load balancer terminate HTTPS for your domain.
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/certificates.md#delete-certificate).
+    [Request fields and responses](../api/reference/certificates.md).

@@ -14,7 +14,7 @@ Activity helps answer who changed a resource, what happened and which operation 
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -45,14 +45,14 @@ Activity helps answer who changed a resource, what happened and which operation 
 
     Returns `200` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/audit-log.md#list-audit-events).
+    [Request fields and responses](../api/reference/audit-log.md).
 
 
 ## Export
 
 === "Console"
 
-    When allowed by organization policy, export the selected audit events as CSV or JSON lines. Narrow the time range to the incident or review you need. The readable window is configured in [organization settings](/organization/settings.md); it may not cover the organization's entire history.
+    When allowed by organization policy, export the selected audit events as CSV or JSON lines. Narrow the time range to the incident or review you need. The readable window is configured in [organization settings](settings.md); it may not cover the organization's entire history.
 
     Protect exports because they can contain member addresses and resource information. Events do not provide a way to recover private keys or one-time credential secrets.
 
@@ -65,7 +65,7 @@ Activity helps answer who changed a resource, what happened and which operation 
 
     Returns `200` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/audit-log.md#export-audit-events).
+    [Request fields and responses](../api/reference/audit-log.md).
 
 
 ## When asking for help

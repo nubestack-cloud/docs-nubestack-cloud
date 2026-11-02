@@ -19,4 +19,4 @@ Do not include API keys, private SSH or certificate keys, invitation fragments, 
 
 For an access incident, state which account or credential is affected and whether you have revoked it. For a failed change, leave the operation ID available even if you have cleaned up the resource.
 
-Try [Troubleshooting](/help/troubleshooting.md) for common dependency, quota, networking and sign-in refusals.
+Try [Troubleshooting](troubleshooting.md) for common dependency, quota, networking and sign-in refusals.

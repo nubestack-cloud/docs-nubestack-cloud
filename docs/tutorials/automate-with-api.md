@@ -8,9 +8,9 @@ Give a script its own identity, make one intentional cloud change and follow its
 
 ## Set up the identity
 
-Create a [service account](/organization/service-accounts.md) for the application. Grant the required project access, issue an expiring API key and put its one-time secret in your automation's secret store. An organization role alone does not grant workload changes.
+Create a [service account](../organization/service-accounts.md) for the application. Grant the required project access, issue an expiring API key and put its one-time secret in your automation's secret store. An organization role alone does not grant workload changes.
 
-Use [the API setup variables](/api/overview.md#before-you-start). The API address shown in the docs is a placeholder until NubeStack supplies your actual endpoint. Keep the origin without `/v1` in `NUBESTACK_API` because the request paths already include it.
+Use [the API setup variables](../api/index.md#before-you-start). The API address shown in the docs is a placeholder until NubeStack supplies your actual endpoint. Keep the origin without `/v1` in `NUBESTACK_API` because the request paths already include it.
 
 ## Discover the choices
 
@@ -25,7 +25,7 @@ Get locations through `/v1/orgs/$ORG/locations` and offerings through `/v1/orgs/
 
 ## Submit exactly one change
 
-Use the [instance create example](/compute/instances.md) or [volume example](/storage/volumes.md) with IDs from your own project. Generate an idempotency key before the first attempt, and keep the same key and body if a network failure makes the response uncertain.
+Use the [instance create example](../compute/instances.md) or [volume example](../storage/volumes.md) with IDs from your own project. Generate an idempotency key before the first attempt, and keep the same key and body if a network failure makes the response uncertain.
 
 A matching replay returns the original outcome. Generating a fresh key after every timeout risks a second resource. A changed intended request needs a new key.
 

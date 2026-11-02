@@ -46,4 +46,4 @@ title: Glossary
 
 Nexus is the platform behind NubeStack Cloud. You may see this name on the console or native sign-in page. It does not indicate a different account or a separate set of resources.
 
-Start with [Your first instance](/get-started/first-instance.md) for an example of how these services fit together.
+Start with [Your first instance](../get-started/first-instance.md) for an example of how these services fit together.

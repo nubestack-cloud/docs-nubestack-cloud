@@ -42,6 +42,6 @@ These commands read the same project and location used by the console. Native cr
 
 ## Automation and troubleshooting
 
-Device sign-in is interactive. For unattended jobs, create a [service-account native credential](/organization/service-accounts.md#native-credentials), protect its one-time secret and track its expiry.
+Device sign-in is interactive. For unattended jobs, create a [service-account native credential](../organization/service-accounts.md#native-credentials), protect its one-time secret and track its expiry.
 
 If the CLI does not recognize `v3oidcdeviceauthz`, verify the client is using the environment where the required authentication library was installed. If sign-in succeeds but access is refused, check the organization and project grant. A NubeStack customer API key is not a substitute for an OpenStack credential.

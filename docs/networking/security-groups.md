@@ -14,7 +14,7 @@ A security group is a set of firewall rules for an instance's network interfaces
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -52,7 +52,7 @@ Open **Networking → Security groups** in a project.
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/security-groups.md#post-group).
+    [Request fields and responses](../api/reference/security-groups.md).
 
 
 ## Add and remove rules
@@ -67,7 +67,7 @@ Open **Networking → Security groups** in a project.
 
     ![Rules on a security group's page](../assets/screens/networking/security-group-rules.webp)
 
-    To attach the group, choose it during [instance creation](/compute/instances.md) or use **Manage → Security groups** on an existing instance. A group must belong to the same project and location.
+    To attach the group, choose it during [instance creation](../compute/instances.md) or use **Manage → Security groups** on an existing instance. A group must belong to the same project and location.
 
     !!! warning "Shared groups affect every attached instance"
 
@@ -94,7 +94,7 @@ Open **Networking → Security groups** in a project.
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/security-groups.md#add-rule).
+    [Request fields and responses](../api/reference/security-groups.md).
 
     **Remove a security group rule**
 
@@ -115,7 +115,7 @@ Open **Networking → Security groups** in a project.
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/security-groups.md#remove-rule).
+    [Request fields and responses](../api/reference/security-groups.md).
 
 
 ## Delete and good practice
@@ -134,7 +134,7 @@ Open **Networking → Security groups** in a project.
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/security-groups.md#delete-group).
+    [Request fields and responses](../api/reference/security-groups.md).
 
 ## Attach a group to an instance
 
@@ -158,4 +158,4 @@ Open **Networking → Security groups** in a project.
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#set-server-groups).
+    [Request fields and responses](../api/reference/instances.md).

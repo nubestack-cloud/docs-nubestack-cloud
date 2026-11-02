@@ -16,7 +16,7 @@ Horizon is a location's native OpenStack dashboard. Use it for direct access to 
 
 ![Connection links for each project location](../assets/screens/native-access/consoles-and-cli.webp)
 
-From an instance's page, **Console in Horizon** opens that instance in the native dashboard. For the instance's screen and keyboard directly in NubeStack Cloud, use [Open console](/compute/manage-instances.md#open-the-instances-console).
+From an instance's page, **Console in Horizon** opens that instance in the native dashboard. For the instance's screen and keyboard directly in NubeStack Cloud, use [Open console](../compute/manage-instances.md#open-the-instances-console).
 
 ## Switch organizations
 
@@ -30,4 +30,4 @@ Use the same caution as in the customer console: a native delete changes the sam
 
 ## API connection details
 
-Authorized callers can read a location entry's connection and dashboard details through `GET .../placements/{placement_id}/connection` and `/console`. These return connection information, not an API that signs you in as another user. See the [reference](/api/reference/index.md) for the exact response.
+Authorized callers can read a location entry's connection and dashboard details through `GET .../placements/{placement_id}/connection` and `/console`. These return connection information, not an API that signs you in as another user. See the [reference](../api/reference/index.md) for the exact response.

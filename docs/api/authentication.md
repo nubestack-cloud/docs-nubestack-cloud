@@ -4,7 +4,7 @@ title: Authentication
 
 # Authentication
 
-Authenticate automation with an API key issued to a [service account](/organization/service-accounts.md). The key acts with that account's current organization roles and project grants.
+Authenticate automation with an API key issued to a [service account](../organization/service-accounts.md). The key acts with that account's current organization roles and project grants.
 
 ```http
 Authorization: Bearer nxk_example
@@ -39,4 +39,4 @@ The browser console manages its own sign-in session. Do not copy browser cookies
 
 ## Customer API and native tools
 
-A customer API key authenticates this API. OpenStack tools use either a person's [device sign-in](/native-access/openstack-cli.md) or a service account's native credential for one project location. These credential types are not interchangeable. Use the [reference](/api/reference/index.md) for creating and collecting native credentials programmatically.
+A customer API key authenticates this API. OpenStack tools use either a person's [device sign-in](../native-access/openstack-cli.md) or a service account's native credential for one project location. These credential types are not interchangeable. Use the [reference](reference/index.md) for creating and collecting native credentials programmatically.

@@ -33,7 +33,7 @@ A successful read returns `200` with JSON. Use the returned IDs for later reques
 
 ## Make a change
 
-1. Create a [service account and API key](/organization/service-accounts.md) with the required project grant.
+1. Create a [service account and API key](../organization/service-accounts.md) with the required project grant.
 2. Read the service's current state, quota and required fields.
 3. Send the mutation with a fresh `Idempotency-Key` and, where required, the current `If-Match`.
 4. If the response is `202`, follow its `operation.href` to a final result.
@@ -41,10 +41,10 @@ A successful read returns `200` with JSON. Use the returned IDs for later reques
 
 ## API guide
 
-- [Authentication](/api/authentication.md): bearer keys, roles and credential lifetime.
-- [Requests](/api/requests.md): retries, concurrency and pagination.
-- [Operations and polling](/api/operations.md): follow asynchronous work.
-- [Errors](/api/errors.md): problem responses and customer error codes.
-- [Reference](/api/reference/index.md): generated endpoints, request fields and response schemas.
+- [Authentication](authentication.md): bearer keys, roles and credential lifetime.
+- [Requests](requests.md): retries, concurrency and pagination.
+- [Operations and polling](operations.md): follow asynchronous work.
+- [Errors](errors.md): problem responses and customer error codes.
+- [Reference](reference/index.md): generated endpoints, request fields and response schemas.
 
-You can [download the OpenAPI contract](/assets/openapi.json). The checked-in contract supplies the reference; shared permission and conflict responses may apply even when an endpoint's generated response table does not enumerate them.
+You can [download the OpenAPI contract](../assets/openapi/v1.json). The checked-in contract supplies the reference; shared permission and conflict responses may apply even when an endpoint's generated response table does not enumerate them.

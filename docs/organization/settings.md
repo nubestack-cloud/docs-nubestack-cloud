@@ -14,7 +14,7 @@ Organization settings control membership policy, sign-in requirements, activity 
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -53,7 +53,7 @@ Organization settings control membership policy, sign-in requirements, activity 
 
     Returns `200` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/organizations.md#patch-settings).
+    [Request fields and responses](../api/reference/organizations.md).
 
 
 ## Audit and retention
@@ -82,7 +82,7 @@ Organization settings control membership policy, sign-in requirements, activity 
 
     Returns `200` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/organizations.md#patch-settings).
+    [Request fields and responses](../api/reference/organizations.md).
 
 ## Take a copy of your data
 
@@ -100,7 +100,7 @@ Organization settings control membership policy, sign-in requirements, activity 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/organizations.md#request-data-export).
+    [Request fields and responses](../api/reference/organizations.md).
 
 
 ## E-mail notices
@@ -111,7 +111,7 @@ Use your notification preferences to choose optional messages. Required service 
 
 === "Console"
 
-    The owner can transfer ownership or request organization closure. Closure affects every project and all resources across locations. Review the report and deadlines, and request a data export if needed. See [Deletion and retention](/concepts/deletion-and-retention.md) before using these actions.
+    The owner can transfer ownership or request organization closure. Closure affects every project and all resources across locations. Review the report and deadlines, and request a data export if needed. See [Deletion and retention](../concepts/deletion-and-retention.md) before using these actions.
 
 === "API"
 
@@ -127,7 +127,7 @@ Use your notification preferences to choose optional messages. Required service 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/organizations.md#close-org).
+    [Request fields and responses](../api/reference/organizations.md).
 
     **Cancel the organization's closure**
 
@@ -139,4 +139,4 @@ Use your notification preferences to choose optional messages. Required service 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/organizations.md#cancel-org-closure).
+    [Request fields and responses](../api/reference/organizations.md).

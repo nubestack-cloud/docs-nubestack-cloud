@@ -14,7 +14,7 @@ Usage measures allocated resources over time. Open the organization's **Usage** 
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -44,7 +44,7 @@ Usage measures allocated resources over time. Open the organization's **Usage** 
 
     Returns `200` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/usage-and-costs.md#organization-usage).
+    [Request fields and responses](../api/reference/usage-and-costs.md).
 
 
 ## What continues counting

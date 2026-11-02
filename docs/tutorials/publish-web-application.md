@@ -14,7 +14,7 @@ Launch a small Ubuntu web server and verify that its HTTP endpoint is reachable.
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. `{P}` below means `/v1/orgs/{org_id}/projects/{project_id}`. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. `{P}` below means `/v1/orgs/{org_id}/projects/{project_id}`. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -27,7 +27,7 @@ Launch a small Ubuntu web server and verify that its HTTP endpoint is reachable.
 
 ## Before you begin
 
-Create a [project](/get-started/create-a-project.md) and register your [public SSH key](/compute/ssh-keys.md). You need project-member or project-admin access and enough quota. Choose a supported Ubuntu image and size from the location's catalog. The addresses in screenshots are examples; use the address actually allocated to you.
+Create a [project](../get-started/create-a-project.md) and register your [public SSH key](../compute/ssh-keys.md). You need project-member or project-admin access and enough quota. Choose a supported Ubuntu image and size from the location's catalog. The addresses in screenshots are examples; use the address actually allocated to you.
 
 
 
@@ -35,7 +35,7 @@ Create a [project](/get-started/create-a-project.md) and register your [public S
 
 === "Console"
 
-    1. Choose your project and location. Confirm the network is **Routed** and the location has an [Internet gateway](/networking/internet-gateways.md).
+    1. Choose your project and location. Confirm the network is **Routed** and the location has an [Internet gateway](../networking/internet-gateways.md).
     2. Open **Compute → Instances → Create instance**. Name the server `web-1`, choose Ubuntu and a size, and select the network.
     3. Select your SSH key. Allow TCP 80 for public HTTP. For SSH, prefer a security-group rule restricted to your own address rather than opening port 22 to everyone.
     4. Choose **A new public IP**. Review where the create-page shortcuts will add firewall rules; modifying a shared group affects its other instances.
@@ -58,7 +58,7 @@ Create a [project](/get-started/create-a-project.md) and register your [public S
 
     <span id="with-the-api" data-docs-method="API"></span>
 
-    Use the [instance create example](/compute/instances.md) with a valid location, image, size, network and SSH key. `POST {P}/servers` accepts the request with `202`; save and follow its operation link. `{P}` is the project API path.
+    Use the [instance create example](../compute/instances.md) with a valid location, image, size, network and SSH key. `POST {P}/servers` accepts the request with `202`; save and follow its operation link. `{P}` is the project API path.
 
     The API's `user_data` is base64-encoded. To prepare the same cloud-init document from a local `cloud-init.yaml` file:
 
@@ -66,7 +66,7 @@ Create a [project](/get-started/create-a-project.md) and register your [public S
     python3 -c 'import base64,pathlib; print(base64.b64encode(pathlib.Path("cloud-init.yaml").read_bytes()).decode())'
     ```
 
-    Put that encoded value into the create body's `user_data`. Select the required security groups explicitly or use the documented firewall templates. Use a stable idempotency key for retries of the same request. The [reference](/api/reference/instances.md#post-server) lists all create fields.
+    Put that encoded value into the create body's `user_data`. Select the required security groups explicitly or use the documented firewall templates. Use a stable idempotency key for retries of the same request. The [reference](../api/reference/instances.md) lists all create fields.
 
 
 ## Verify the application
@@ -82,8 +82,8 @@ On the instance, `cloud-init status --wait` waits for first-boot configuration. 
 
 ## Add a domain or HTTPS
 
-You can create an A record at your DNS provider pointing to the allocated public IP. This guide does not imply a managed DNS service. For a shared HTTPS frontend and several backends, continue with [an HTTPS load balancer](/tutorials/https-load-balancer.md).
+You can create an A record at your DNS provider pointing to the allocated public IP. This guide does not imply a managed DNS service. For a shared HTTPS frontend and several backends, continue with [an HTTPS load balancer](https-load-balancer.md).
 
 ## Clean up
 
-Delete the instance and follow its operation. Release its public IP separately. Remove an Internet gateway or dedicated security group only if no other service needs it. Separate volumes, snapshots and saved images need their own cleanup; [the cleanup guide](/tutorials/clean-up-resources.md) explains the order.
+Delete the instance and follow its operation. Release its public IP separately. Remove an Internet gateway or dedicated security group only if no other service needs it. Separate volumes, snapshots and saved images need their own cleanup; [the cleanup guide](../concepts/deletion-and-retention.md) explains the order.

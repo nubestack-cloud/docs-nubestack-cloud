@@ -14,7 +14,7 @@ Keep a desired number of replaceable application instances running from a launch
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. `{P}` below means `/v1/orgs/{org_id}/projects/{project_id}`. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. `{P}` below means `/v1/orgs/{org_id}/projects/{project_id}`. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -31,7 +31,7 @@ A server group controls sharing or spreading hosts; an instance group controls t
 
 === "Console"
 
-    1. Save the working configuration as a [launch template](/compute/launch-templates.md). Pin its version when you want predictable replacements.
+    1. Save the working configuration as a [launch template](../compute/launch-templates.md). Pin its version when you want predictable replacements.
     2. Open **Compute → Instance groups → Create instance group**. Choose the template, a desired count, minimum and maximum, and how many creates may run at once.
     3. Optionally select a load balancer pool and the backend port. Group-created members join the pool once running and leave before deletion.
     4. Create the group, then inspect member state and linked operations until the desired count is reached.
@@ -48,7 +48,7 @@ A server group controls sharing or spreading hosts; an instance group controls t
 
     Create a template with `POST {P}/launch-templates`, then a group with `POST {P}/instance-groups`. Both return the saved definition with `201` rather than a single provisioning operation. Inspect the group's members and the operations creating them.
 
-    Update desired size with `PATCH {P}/instance-groups/{id}` and the current ETag in `If-Match`. A size schedule uses the schedule kind `resize`, an `instance_group` target and the desired count. Use the [group](/api/reference/instance-groups.md) and [schedule](/api/reference/schedules.md) reference for exact request fields.
+    Update desired size with `PATCH {P}/instance-groups/{id}` and the current ETag in `If-Match`. A size schedule uses the schedule kind `resize`, an `instance_group` target and the desired count. Use the [group](../api/reference/instance-groups.md) and [schedule](../api/reference/schedules.md) reference for exact request fields.
 
 
 ## Verify and maintain

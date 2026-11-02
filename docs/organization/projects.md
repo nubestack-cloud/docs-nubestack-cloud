@@ -14,7 +14,7 @@ Use projects to separate applications or teams while keeping membership and budg
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -60,7 +60,7 @@ Confirm whether you are administering its access and locations or changing its w
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/project-access.md#create-grant).
+    [Request fields and responses](../api/reference/project-access.md).
 
     **Add a location to a project**
 
@@ -76,7 +76,7 @@ Confirm whether you are administering its access and locations or changing its w
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/projects.md#post-placement).
+    [Request fields and responses](../api/reference/projects.md).
 
     **Remove a location from a project**
 
@@ -88,7 +88,7 @@ Confirm whether you are administering its access and locations or changing its w
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/projects.md#delete-placement).
+    [Request fields and responses](../api/reference/projects.md).
 
 
 ## Quota and resource boundaries
@@ -103,9 +103,9 @@ Adding Islamabad to a project that uses Karachi does not copy its instances, net
 
     Use **Danger zone → Delete project** only after checking retained data and automatic groups or schedules. Review **Delete only if empty** versus **Delete everything in it** and the displayed recovery window.
 
-    During that window, **Cancel deletion** stops further deletion but does not recreate resources already removed. The project remains suspended until an authorized person chooses **Resume project**. **Delete now** ends recovery early and can require a fresh second-factor check. Read [deletion and retention](/concepts/deletion-and-retention.md) before confirming.
+    During that window, **Cancel deletion** stops further deletion but does not recreate resources already removed. The project remains suspended until an authorized person chooses **Resume project**. **Delete now** ends recovery early and can require a fresh second-factor check. Read [deletion and retention](../concepts/deletion-and-retention.md) before confirming.
 
-    For an application you are retiring without deleting the project, follow [resource cleanup](/tutorials/clean-up-resources.md).
+    For an application you are retiring without deleting the project, follow [resource cleanup](../concepts/deletion-and-retention.md).
 
 === "API"
 
@@ -123,7 +123,7 @@ Adding Islamabad to a project that uses Karachi does not copy its instances, net
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/projects.md#delete-project).
+    [Request fields and responses](../api/reference/projects.md).
 
     **Cancel a project's deletion**
 
@@ -135,7 +135,7 @@ Adding Islamabad to a project that uses Karachi does not copy its instances, net
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/projects.md#cancel-project).
+    [Request fields and responses](../api/reference/projects.md).
 
     **Resume a project**
 
@@ -147,7 +147,7 @@ Adding Islamabad to a project that uses Karachi does not copy its instances, net
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/projects.md#resume-project).
+    [Request fields and responses](../api/reference/projects.md).
 
     **End a deletion's retention early**
 
@@ -163,4 +163,4 @@ Adding Islamabad to a project that uses Karachi does not copy its instances, net
 
     Returns `200` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/projects.md#delete-now).
+    [Request fields and responses](../api/reference/projects.md).

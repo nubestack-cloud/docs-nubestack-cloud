@@ -14,7 +14,7 @@ Attach a new data volume to an instance and make it usable inside the guest. Kee
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. `{P}` below means `/v1/orgs/{org_id}/projects/{project_id}`. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. `{P}` below means `/v1/orgs/{org_id}/projects/{project_id}`. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -40,13 +40,13 @@ You need a running Linux instance and access to administer its operating system.
 
     <span id="with-the-api" data-docs-method="API"></span>
 
-    [Create a volume](/storage/volumes.md) using `POST {P}/volumes`. After the create operation succeeds, attach it with `POST {P}/servers/{server_id}:attach-volume` and this body:
+    [Create a volume](../storage/volumes.md) using `POST {P}/volumes`. After the create operation succeeds, attach it with `POST {P}/servers/{server_id}:attach-volume` and this body:
 
     ```json
     {"volume_id": "vol_example"}
     ```
 
-    Use the [API example variables](/api/overview.md#before-you-start), replace the IDs, and follow both `202` operation results before relying on the disk. Read the volume's related resources to verify the attachment.
+    Use the [API example variables](../api/index.md#before-you-start), replace the IDs, and follow both `202` operation results before relying on the disk. Read the volume's related resources to verify the attachment.
 
 
 ## Identify, format and mount
@@ -78,4 +78,4 @@ Stop application writes, unmount the filesystem and detach the volume first. Use
 
 Stop application writes, unmount the filesystem and detach the volume before moving it to another instance. A same-project replacement must be in the same location. Deleting the old instance leaves its separate data volume; it does not preserve the old system disk.
 
-Verify the application can read its data after reattachment. Keep a [tested recovery point](/tutorials/recover-a-volume.md), and delete the volume only after you no longer need its contents.
+Verify the application can read its data after reattachment. Keep a [tested recovery point](persistent-storage.md), and delete the volume only after you no longer need its contents.

@@ -17,7 +17,7 @@ admin or project member on a project, here `web-shop`.
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -37,7 +37,7 @@ admin or project member on a project, here `web-shop`.
     3. Paste the whole line into **Public key**. Never paste the private key: the console refuses it.
     4. Leave **Who can use it** on **Only me** and choose **Add SSH key**.
 
-    [SSH keys](/compute/ssh-keys.md) has the details.
+    [SSH keys](../compute/ssh-keys.md) has the details.
 
 === "API"
 
@@ -56,7 +56,7 @@ admin or project member on a project, here `web-shop`.
 
     Returns `201` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/ssh-keys.md#post-key).
+    [Request fields and responses](../api/reference/ssh-keys.md).
 
 
 ## 2. Make sure the network reaches the Internet
@@ -67,7 +67,7 @@ admin or project member on a project, here `web-shop`.
 
     1. Under **Networking**, choose **Networks**. The project's network, `app` with `192.0.2.0/24`,
        was made with the project. No network in Karachi? Choose **Set up network** in the notice at the
-       top, or [create one](/networking/networks.md#create-a-network) as **Routed**.
+       top, or [create one](../networking/networks.md#create-a-network) as **Routed**.
     2. Under **Networking**, choose **Internet gateways**. If Karachi is not listed, choose **Create
        Internet gateway**, pick **Karachi** and confirm. The gateway is ready when its **Outbound
        address** shows.
@@ -99,7 +99,7 @@ admin or project member on a project, here `web-shop`.
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/networking.md#post-network).
+    [Request fields and responses](../api/reference/networking.md).
 
     **Add an Internet gateway**
 
@@ -113,7 +113,7 @@ admin or project member on a project, here `web-shop`.
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/networking.md#create-internet-gateway).
+    [Request fields and responses](../api/reference/networking.md).
 
 
 ## 3. Create the instance
@@ -155,7 +155,7 @@ admin or project member on a project, here `web-shop`.
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#post-server).
+    [Request fields and responses](../api/reference/instances.md).
 
 
 ## 4. Log in
@@ -173,11 +173,11 @@ admin or project member on a project, here `web-shop`.
 
         Check, in this order: the instance is **Active**; it has a public IP; one of its security groups
         allows TCP 22 from your address; the location has an Internet gateway. The instance's
-        **Console log** tab shows whether it booted. More in [Troubleshooting](/help/troubleshooting.md).
+        **Console log** tab shows whether it booted. More in [Troubleshooting](../help/troubleshooting.md).
 
 
     Once you are in, narrow SSH to your own addresses: add a rule for your office range in the
-    [security group](/networking/security-groups.md#add-and-remove-rules), then remove the rule open to
+    [security group](../networking/security-groups.md#add-and-remove-rules), then remove the rule open to
     `0.0.0.0/0`.
 
 === "API"
@@ -188,7 +188,7 @@ admin or project member on a project, here `web-shop`.
     ssh ubuntu@203.0.113.21
     ```
 
-    Replace the documentation address with your allocated address. An API key does not replace the instance's private SSH key. After confirming access, [narrow the SSH rule](/networking/security-groups.md#add-and-remove-rules) to your own address range.
+    Replace the documentation address with your allocated address. An API key does not replace the instance's private SSH key. After confirming access, [narrow the SSH rule](../networking/security-groups.md#add-and-remove-rules) to your own address range.
 
 
 ## 5. Clean up
@@ -216,7 +216,7 @@ admin or project member on a project, here `web-shop`.
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#delete-server).
+    [Request fields and responses](../api/reference/instances.md).
 
     **Release a public IP**
 
@@ -228,7 +228,7 @@ admin or project member on a project, here `web-shop`.
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/public-ips.md#release-address).
+    [Request fields and responses](../api/reference/public-ips.md).
 
     **Remove the Internet gateway**
 
@@ -240,4 +240,4 @@ admin or project member on a project, here `web-shop`.
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/networking.md#delete-internet-gateway).
+    [Request fields and responses](../api/reference/networking.md).

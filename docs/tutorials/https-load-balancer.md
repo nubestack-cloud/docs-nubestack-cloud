@@ -14,7 +14,7 @@ Give several application instances one HTTPS endpoint. An Application load balan
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. `{P}` below means `/v1/orgs/{org_id}/projects/{project_id}`. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. `{P}` below means `/v1/orgs/{org_id}/projects/{project_id}`. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -53,9 +53,9 @@ Keep all resources in one project and location. Decide the backend port and a he
 
     Create the certificate with `POST {P}/certificates` and follow its operation. Use an Application offering from the location's catalog for `POST {P}/load-balancers`.
 
-    The API protocol for HTTPS termination is `TERMINATED_HTTPS`. Set the listener's `certificate_id`, pool, members and health check using the fields in the [load balancer reference](/api/reference/load-balancers.md). A Standard TCP listener does not terminate HTTPS.
+    The API protocol for HTTPS termination is `TERMINATED_HTTPS`. Set the listener's `certificate_id`, pool, members and health check using the fields in the [load balancer reference](../api/reference/load-balancers.md). A Standard TCP listener does not terminate HTTPS.
 
-    Allocate and associate the frontend address through the [public IP endpoints](/api/reference/public-ips.md). Follow each operation before a dependent change; the first `202` is not proof that the service is ready.
+    Allocate and associate the frontend address through the [public IP endpoints](../api/reference/public-ips.md). Follow each operation before a dependent change; the first `202` is not proof that the service is ready.
 
 
 ## Verify end to end

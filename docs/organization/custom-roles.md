@@ -14,7 +14,7 @@ Custom roles combine selected actions when the built-in roles are too broad. Use
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -33,7 +33,7 @@ Custom roles combine selected actions when the built-in roles are too broad. Use
 
     ![Create a custom role from allowed actions](../assets/screens/organization/role-create.webp)
 
-    Some security-sensitive actions are unavailable in custom roles. The action list is authoritative; a role cannot be used to give access you do not hold. See [Roles and permissions](/concepts/roles-and-permissions.md) for the organization/project distinction and native access behavior.
+    Some security-sensitive actions are unavailable in custom roles. The action list is authoritative; a role cannot be used to give access you do not hold. See [Roles and permissions](../concepts/roles-and-permissions.md) for the organization/project distinction and native access behavior.
 
 === "API"
 
@@ -58,7 +58,7 @@ Custom roles combine selected actions when the built-in roles are too broad. Use
 
     Returns `201` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/roles.md#create-role).
+    [Request fields and responses](../api/reference/roles.md).
 
 
 ## Edit a role safely
@@ -84,7 +84,7 @@ Custom roles combine selected actions when the built-in roles are too broad. Use
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/roles.md#change-role).
+    [Request fields and responses](../api/reference/roles.md).
 
 
 ## Delete and limits
@@ -104,4 +104,4 @@ Custom roles combine selected actions when the built-in roles are too broad. Use
 
     Returns `200` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/roles.md#delete-role).
+    [Request fields and responses](../api/reference/roles.md).

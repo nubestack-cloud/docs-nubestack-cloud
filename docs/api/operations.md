@@ -57,4 +57,4 @@ Where allowed, `POST /v1/orgs/{org_id}/operations/{operation_id}:cancel` request
 
 Creating a schedule, launch template or instance group can return a resource immediately rather than `202`. A group's saved settings may trigger multiple later operations as its members converge on the desired count. Inspect its state and members, rather than waiting for an operation field that the endpoint does not return.
 
-The [console operations guide](/concepts/operations.md) explains activity links, partial results and failed-create cleanup.
+The [console operations guide](../concepts/operations.md) explains activity links, partial results and failed-create cleanup.

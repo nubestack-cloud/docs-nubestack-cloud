@@ -5,7 +5,7 @@ title: Server groups
 
 # Server groups
 
-A server group controls whether instances run on the same physical host or on different hosts in one location. Use a group to spread application replicas or keep a tightly coupled workload together. A server group does not keep a desired number of instances running; use an [instance group](/compute/instance-groups.md) for that.
+A server group controls whether instances run on the same physical host or on different hosts in one location. Use a group to spread application replicas or keep a tightly coupled workload together. A server group does not keep a desired number of instances running; use an [instance group](instance-groups.md) for that.
 
 <div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
 <span>Show instructions for</span>
@@ -14,7 +14,7 @@ A server group controls whether instances run on the same physical host or on di
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -60,7 +60,7 @@ A server group controls whether instances run on the same physical host or on di
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/server-groups.md#post-server-group).
+    [Request fields and responses](../api/reference/server-groups.md).
 
 
 ## Launch instances in the group
@@ -91,7 +91,7 @@ A server group controls whether instances run on the same physical host or on di
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#post-server).
+    [Request fields and responses](../api/reference/instances.md).
 
 ## Delete and limits
 
@@ -111,4 +111,4 @@ A server group controls whether instances run on the same physical host or on di
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/server-groups.md#delete-server-group).
+    [Request fields and responses](../api/reference/server-groups.md).

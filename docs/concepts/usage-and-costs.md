@@ -39,10 +39,10 @@ vCPU and RAM hours stop.
 
 - **Usage**, in the organization's left panel, for owners, admins and the billing role: pick a
   period, then break a measure down by project, location or kind of resource.
-  See [Usage](/organization/usage.md).
+  See [Usage](../organization/usage.md).
 - **Statements** and **Cost explorer**, for owners, admins and the billing role: what each month
   cost at the published rates, and where the money goes, by project, service, location or tag.
-  See [Statements and cost explorer](/organization/statements-and-costs.md).
+  See [Statements and cost explorer](../organization/statements-and-costs.md).
 - **Quota and usage**, at the bottom of a project's left panel: what that project used, for anyone
   with a role on the project.
 
@@ -61,12 +61,12 @@ existed. After a project or the organization is deleted, its usage records are k
 
 ## Keep costs down
 
-- Release [public IPs](/networking/public-ips.md) you no longer need: an allocated address counts
+- Release [public IPs](../networking/public-ips.md) you no longer need: an allocated address counts
   even when attached to nothing, and stays allocated after its instance is deleted.
 - Delete snapshots and images you no longer need; they count for as long as they exist.
-- Stop instances you are not using, or put them on a [power schedule](/storage/schedules.md):
+- Stop instances you are not using, or put them on a [power schedule](../storage/schedules.md):
   vCPU and RAM hours stop while an instance is stopped. Instance hours, disks and addresses still
   count.
-- Delete an [Internet gateway](/networking/internet-gateways.md) you made only for a test.
-- Use [tags](/concepts/tags.md) and the cost explorer's **Tag** view to see which team or
+- Delete an [Internet gateway](../networking/internet-gateways.md) you made only for a test.
+- Use [tags](tags.md) and the cost explorer's **Tag** view to see which team or
   environment spends what.

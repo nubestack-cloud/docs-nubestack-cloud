@@ -14,7 +14,7 @@ A volume is a persistent disk in one location. Use it for application data that 
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -54,7 +54,7 @@ A volume is a persistent disk in one location. Use it for application data that 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/volumes-and-snapshots.md#post-volume).
+    [Request fields and responses](../api/reference/volumes-and-snapshots.md).
 
 
 ## Attach and use it
@@ -83,7 +83,7 @@ A volume is a persistent disk in one location. Use it for application data that 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#attach-volume).
+    [Request fields and responses](../api/reference/instances.md).
 
 
 ## Detach a volume
@@ -106,7 +106,7 @@ A volume is a persistent disk in one location. Use it for application data that 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#detach-volume).
+    [Request fields and responses](../api/reference/instances.md).
 
 
 ## Extend a volume
@@ -131,7 +131,7 @@ A volume is a persistent disk in one location. Use it for application data that 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/volumes-and-snapshots.md#extend-volume).
+    [Request fields and responses](../api/reference/volumes-and-snapshots.md).
 
 
 ## Change the volume type
@@ -154,7 +154,7 @@ A volume is a persistent disk in one location. Use it for application data that 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/volumes-and-snapshots.md#retype-volume).
+    [Request fields and responses](../api/reference/volumes-and-snapshots.md).
 
 
 ## Change the bootable marker
@@ -177,7 +177,7 @@ A volume is a persistent disk in one location. Use it for application data that 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/volumes-and-snapshots.md#set-volume-bootable).
+    [Request fields and responses](../api/reference/volumes-and-snapshots.md).
 
 
 ## Move a volume to another project
@@ -200,7 +200,7 @@ A volume is a persistent disk in one location. Use it for application data that 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/volumes-and-snapshots.md#transfer-volume).
+    [Request fields and responses](../api/reference/volumes-and-snapshots.md).
 
 
 ## Create a snapshot
@@ -211,7 +211,7 @@ A volume is a persistent disk in one location. Use it for application data that 
 
     ![Name the volume's snapshot](../assets/screens/storage/volume-snapshot.webp)
 
-    For a tested restore, follow [Recover a volume](/tutorials/recover-a-volume.md).
+    For a tested restore, follow [Recover a volume](../tutorials/persistent-storage.md).
 
 === "API"
 
@@ -227,7 +227,7 @@ A volume is a persistent disk in one location. Use it for application data that 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/volumes-and-snapshots.md#snapshot-volume).
+    [Request fields and responses](../api/reference/volumes-and-snapshots.md).
 
 
 ## Change tags
@@ -253,7 +253,7 @@ A volume is a persistent disk in one location. Use it for application data that 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/volumes-and-snapshots.md#set-volume-tags).
+    [Request fields and responses](../api/reference/volumes-and-snapshots.md).
 
 
 ## Rename a volume
@@ -274,7 +274,7 @@ A volume is a persistent disk in one location. Use it for application data that 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/volumes-and-snapshots.md#update-volume).
+    [Request fields and responses](../api/reference/volumes-and-snapshots.md).
 
 
 ## Delete a volume
@@ -293,9 +293,9 @@ A volume is a persistent disk in one location. Use it for application data that 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/volumes-and-snapshots.md#delete-volume).
+    [Request fields and responses](../api/reference/volumes-and-snapshots.md).
 
 
 ## Limits and good practice
 
-The API accepts 1–4,096 GiB; quota and volume types can impose lower limits. Attached and unattached disks both count as allocated storage. Guest filesystem growth is separate from cloud extension. [Use persistent storage](/tutorials/persistent-storage.md) walks through guest preparation and mounting.
+The API accepts 1–4,096 GiB; quota and volume types can impose lower limits. Attached and unattached disks both count as allocated storage. Guest filesystem growth is separate from cloud extension. [Use persistent storage](../tutorials/persistent-storage.md) walks through guest preparation and mounting.

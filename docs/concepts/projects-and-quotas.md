@@ -20,7 +20,7 @@ its **Settings** page, tab **Locations**.
   You can have a network (`192.0.2.0/24`) and an Internet gateway set up there at the same time.
   Nothing is copied from the project's other locations.
 - **Remove location**: project admins, owners and admins. It works like
-  [deleting the project](/concepts/deletion-and-retention.md#delete-a-project), for that location
+  [deleting the project](deletion-and-retention.md#delete-a-project), for that location
   only. A project keeps at least one location: add another first, or delete the project.
 
 ## Who can use a project
@@ -45,7 +45,7 @@ The role applies in every location of the project. To take it away, choose **Rev
 beside the person: they lose it in every location within minutes, and what they made stays.
 
 Owners and admins can also give project roles from **Members**, or on an invitation. A
-[custom project role](/organization/custom-roles.md) works the same way.
+[custom project role](../organization/custom-roles.md) works the same way.
 
 ## Quota
 
@@ -68,7 +68,7 @@ the bottom of the project's left panel.
 ![The project's quota per location, with what is in use](../assets/screens/concepts/project-quota.webp)
 
 How owners and admins set quota, choose presets and ask NubeStack for more:
-[Quota](/organization/quota.md).
+[Quota](../organization/quota.md).
 
 ### Quota is not capacity
 

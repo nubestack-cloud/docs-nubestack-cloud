@@ -13,7 +13,7 @@ Start with the exact refusal or failed operation. Check the project and location
 3. Confirm the public IP is attached to the intended interface.
 4. Confirm the network is routed and the location has an Internet gateway.
 5. Check a security group permits TCP 22 from your current address, and check the guest firewall.
-6. Read **Console log** or open the [instance console](/compute/manage-instances.md#open-the-instances-console) to investigate boot or guest network problems.
+6. Read **Console log** or open the [instance console](../compute/manage-instances.md#open-the-instances-console) to investigate boot or guest network problems.
 
 The IPs shown in these docs are reserved examples and are not reachable service addresses.
 
@@ -56,6 +56,6 @@ Use the invited email address and check the link's expiry. Ask an administrator 
 
 ## Costs seem incomplete
 
-Check the provisional label, data-as-of time, source status and unrated lines. Unrated or unavailable amounts are not zero-cost resources. [Cost reporting](/organization/statements-and-costs.md) explains later adjustments and projections.
+Check the provisional label, data-as-of time, source status and unrated lines. Unrated or unavailable amounts are not zero-cost resources. [Cost reporting](../organization/statements-and-costs.md) explains later adjustments and projections.
 
-If you still need help, prepare the details listed on [Support](/help/support.md). The [API error catalog](/api/errors.md) lists machine-readable codes.
+If you still need help, prepare the details listed on [Support](support.md). The [API error catalog](../api/errors.md) lists machine-readable codes.

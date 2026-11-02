@@ -14,7 +14,7 @@ An Internet gateway connects a project's routed networks to the Internet in one 
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -30,7 +30,7 @@ An Internet gateway connects a project's routed networks to the Internet in one 
     3. Confirm and follow the operation. The gateway's outbound address appears when it is ready.
     4. Check that the instance's network is **Routed**. An isolated network gains no Internet access from creating a gateway.
 
-    Outbound access uses the gateway's address. For unsolicited inbound traffic, allocate and attach a [public IP](/networking/public-ips.md), then allow the required ports in a [security group](/networking/security-groups.md). Creating a gateway alone does not expose all instances.
+    Outbound access uses the gateway's address. For unsolicited inbound traffic, allocate and attach a [public IP](public-ips.md), then allow the required ports in a [security group](security-groups.md). Creating a gateway alone does not expose all instances.
 
 === "API"
 
@@ -46,7 +46,7 @@ An Internet gateway connects a project's routed networks to the Internet in one 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/networking.md#create-internet-gateway).
+    [Request fields and responses](../api/reference/networking.md).
 
 
 ## Delete and limits
@@ -55,7 +55,7 @@ An Internet gateway connects a project's routed networks to the Internet in one 
 
     Choose **Manage → Delete gateway** and read which networks lose Internet access. Attached public IPs can block removal; detach them first, including addresses on load balancers. Private traffic between routed networks continues when the gateway is removed.
 
-    The console offers one project Internet gateway per location. Gateway hours count while it exists. Release unused public IPs separately, and check [usage](/organization/usage.md) after cleaning up.
+    The console offers one project Internet gateway per location. Gateway hours count while it exists. Release unused public IPs separately, and check [usage](../organization/usage.md) after cleaning up.
 
 === "API"
 
@@ -67,4 +67,4 @@ An Internet gateway connects a project's routed networks to the Internet in one 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/networking.md#delete-internet-gateway).
+    [Request fields and responses](../api/reference/networking.md).

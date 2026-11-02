@@ -14,7 +14,7 @@ Quota limits how much a project may allocate in each location. It is separate fr
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -42,7 +42,7 @@ Quota limits how much a project may allocate in each location. It is separate fr
 
     Returns `200` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/quota.md#get-quota-allocations).
+    [Request fields and responses](../api/reference/quota.md).
 
     **Get a project's quota**
 
@@ -53,7 +53,7 @@ Quota limits how much a project may allocate in each location. It is separate fr
 
     Returns `200` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/quota.md#get-project-quota).
+    [Request fields and responses](../api/reference/quota.md).
 
 
 ## Change a project's quota
@@ -81,7 +81,7 @@ Quota limits how much a project may allocate in each location. It is separate fr
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/quota.md#patch-placement-quota).
+    [Request fields and responses](../api/reference/quota.md).
 
 ## Request more
 
@@ -121,7 +121,7 @@ Quota limits how much a project may allocate in each location. It is separate fr
 
     Returns `201` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/quota.md#create-quota-request).
+    [Request fields and responses](../api/reference/quota.md).
 
     **Cancel a budget request**
 
@@ -133,14 +133,14 @@ Quota limits how much a project may allocate in each location. It is separate fr
 
     Returns `200` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/quota.md#cancel-quota-request).
+    [Request fields and responses](../api/reference/quota.md).
 
 
 ## Release quota
 
 === "Console"
 
-    Delete unused resources, release public IPs and wait for successful operations and refreshed usage. Stopping an instance does not free its allocated instance quota, disks or public addresses. Read [Projects and quotas](/concepts/projects-and-quotas.md) and [Limits](/concepts/limits.md) for related rules.
+    Delete unused resources, release public IPs and wait for successful operations and refreshed usage. Stopping an instance does not free its allocated instance quota, disks or public addresses. Read [Projects and quotas](../concepts/projects-and-quotas.md) and [Limits](../concepts/limits.md) for related rules.
 
 === "API"
 
@@ -152,4 +152,4 @@ Quota limits how much a project may allocate in each location. It is separate fr
 
     Returns `200` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/quota.md#get-project-quota).
+    [Request fields and responses](../api/reference/quota.md).

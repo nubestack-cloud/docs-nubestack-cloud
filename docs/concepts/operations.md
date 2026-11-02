@@ -18,7 +18,7 @@ an **operation**.
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -50,7 +50,7 @@ with a link to follow the operation. The operation page shows:
 
 Every operation of a project is under **Activity**, at the bottom of the project's left panel, and
 each resource has an **Activity** tab with its own. The organization's
-[audit log](/organization/activity.md) has every change, refusal and security event.
+[audit log](../organization/activity.md) has every change, refusal and security event.
 
 ![The project's activity: recent operations, who asked, and how each went](../assets/screens/concepts/project-activity.webp)
 
@@ -102,7 +102,7 @@ so a change never lands long after you stopped expecting it.
 
     Returns `200` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/operations.md#cancel-operation).
+    [Request fields and responses](../api/reference/operations.md).
 
 
 ## What a failed create leaves behind
@@ -124,7 +124,7 @@ so a change never lands long after you stopped expecting it.
 
     Returns `200` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/resources-all-types.md#dismiss-failed).
+    [Request fields and responses](../api/reference/resources.md).
 
 
 ## Why a list can be out of date
@@ -138,7 +138,7 @@ so a change never lands long after you stopped expecting it.
     location now. Anything made with the location's own tools appears after the next regular read, or
     at once after a refresh.
 
-    Through the API, see [Operations and polling](/api/operations.md).
+    Through the API, see [Operations and polling](../api/operations.md).
 
 === "API"
 
@@ -150,4 +150,4 @@ so a change never lands long after you stopped expecting it.
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/resources-all-types.md#refresh-item).
+    [Request fields and responses](../api/reference/resources.md).

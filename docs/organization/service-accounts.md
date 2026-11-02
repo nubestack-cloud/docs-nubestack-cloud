@@ -14,7 +14,7 @@ A service account is an identity for automation. Give it the roles and project g
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -52,7 +52,7 @@ A service account is an identity for automation. Give it the roles and project g
 
     Returns `201` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/service-accounts-and-api-keys.md#create-service-account).
+    [Request fields and responses](../api/reference/service-accounts-and-api-keys.md).
 
     **Give a project role**
 
@@ -69,7 +69,7 @@ A service account is an identity for automation. Give it the roles and project g
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/project-access.md#create-grant).
+    [Request fields and responses](../api/reference/project-access.md).
 
 
 ## Issue an API key
@@ -97,7 +97,7 @@ A service account is an identity for automation. Give it the roles and project g
 
     Returns `201` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/service-accounts-and-api-keys.md#create-api-key).
+    [Request fields and responses](../api/reference/service-accounts-and-api-keys.md).
 
 
 ## Rotate or revoke
@@ -125,7 +125,7 @@ A service account is an identity for automation. Give it the roles and project g
 
     Returns `201` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/service-accounts-and-api-keys.md#rotate-api-key).
+    [Request fields and responses](../api/reference/service-accounts-and-api-keys.md).
 
     **Revoke an API key**
 
@@ -137,7 +137,7 @@ A service account is an identity for automation. Give it the roles and project g
 
     Returns `200` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/service-accounts-and-api-keys.md#revoke-api-key).
+    [Request fields and responses](../api/reference/service-accounts-and-api-keys.md).
 
     **Delete a service account**
 
@@ -149,14 +149,14 @@ A service account is an identity for automation. Give it the roles and project g
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/service-accounts-and-api-keys.md#delete-service-account).
+    [Request fields and responses](../api/reference/service-accounts-and-api-keys.md).
 
 
 ## Native credentials
 
 === "Console"
 
-    For non-interactive OpenStack tools, use the account's **Native credentials** section to create a credential for a project location where it has the required project-member access. Copy the generated `clouds.yaml` entry once, protect it as a secret and record its expiry. This is different from the secret-free browser device sign-in used by [people](/native-access/openstack-cli.md).
+    For non-interactive OpenStack tools, use the account's **Native credentials** section to create a credential for a project location where it has the required project-member access. Copy the generated `clouds.yaml` entry once, protect it as a secret and record its expiry. This is different from the secret-free browser device sign-in used by [people](../native-access/openstack-cli.md).
 
     Native credentials are local to a project location and can be revoked individually. Never put their secrets in source control.
 
@@ -172,7 +172,7 @@ A service account is an identity for automation. Give it the roles and project g
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/service-accounts-and-api-keys.md#mint-native-credential).
+    [Request fields and responses](../api/reference/service-accounts-and-api-keys.md).
 
     **Revoke a location credential**
 
@@ -184,7 +184,7 @@ A service account is an identity for automation. Give it the roles and project g
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/service-accounts-and-api-keys.md#revoke-native-credential).
+    [Request fields and responses](../api/reference/service-accounts-and-api-keys.md).
 
 
 ## Good practice

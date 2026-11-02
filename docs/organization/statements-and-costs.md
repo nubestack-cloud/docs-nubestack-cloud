@@ -14,7 +14,7 @@ Statements summarize rated usage for a month. The cost explorer groups estimated
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -47,7 +47,7 @@ Statements summarize rated usage for a month. The cost explorer groups estimated
 
     Returns `200` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/usage-and-costs.md#list-statements).
+    [Request fields and responses](../api/reference/usage-and-costs.md).
 
     **Get a statement**
 
@@ -58,7 +58,7 @@ Statements summarize rated usage for a month. The cost explorer groups estimated
 
     Returns `200` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/usage-and-costs.md#get-statement).
+    [Request fields and responses](../api/reference/usage-and-costs.md).
 
 
 ## The cost explorer
@@ -80,7 +80,7 @@ Statements summarize rated usage for a month. The cost explorer groups estimated
 
     Returns `200` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/usage-and-costs.md#costs).
+    [Request fields and responses](../api/reference/usage-and-costs.md).
 
 
 ## Rate card and projections

@@ -14,7 +14,7 @@ Create a recovery point, restore it into a new volume and inspect the data witho
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. `{P}` below means `/v1/orgs/{org_id}/projects/{project_id}`. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. `{P}` below means `/v1/orgs/{org_id}/projects/{project_id}`. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -58,9 +58,9 @@ Identify which volume contains the application data. A snapshot of a data volume
 
     Create a detached volume's snapshot with `POST {P}/volumes/{volume_id}:snapshot` and a `display_name`. Poll the returned operation.
 
-    Restore with `POST {P}/volumes`, supplying the source `snapshot_id`, location, name, size and volume type. This is a new volume, not an in-place restore. [The volume guide](/storage/volumes.md) and [reference](/api/reference/volumes-and-snapshots.md) show the body fields.
+    Restore with `POST {P}/volumes`, supplying the source `snapshot_id`, location, name, size and volume type. This is a new volume, not an in-place restore. [The volume guide](../storage/volumes.md) and [reference](../api/reference/volumes-and-snapshots.md) show the body fields.
 
-    A recurring snapshot schedule is a saved definition: [schedule creation](/storage/schedules.md) returns `201`, and its later runs create operations. Do not wait for an operation on the schedule-save response.
+    A recurring snapshot schedule is a saved definition: [schedule creation](../storage/schedules.md) returns `201`, and its later runs create operations. Do not wait for an operation on the schedule-save response.
 
 
 ## Test the restored data

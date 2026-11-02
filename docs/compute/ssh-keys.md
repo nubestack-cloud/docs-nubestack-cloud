@@ -17,7 +17,7 @@ leaves your computer; NubeStack Cloud never makes one for you.
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -71,14 +71,14 @@ Find them in a project under **Compute → SSH keys**.
 
     Returns `201` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/ssh-keys.md#post-key).
+    [Request fields and responses](../api/reference/ssh-keys.md).
 
 
 ## Use a key
 
 === "Console"
 
-    Choose the key under **Access → SSH key** when you [create an instance](/compute/instances.md#create-an-instance).
+    Choose the key under **Access → SSH key** when you [create an instance](instances.md#create-an-instance).
     Log in as the image's default user, for example `ubuntu` on Ubuntu images:
 
     ```bash
@@ -109,7 +109,7 @@ Find them in a project under **Compute → SSH keys**.
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#post-server).
+    [Request fields and responses](../api/reference/instances.md).
 
 
 ## Remove a key
@@ -132,4 +132,4 @@ Find them in a project under **Compute → SSH keys**.
 
     Returns `200` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/ssh-keys.md#delete-key).
+    [Request fields and responses](../api/reference/ssh-keys.md).

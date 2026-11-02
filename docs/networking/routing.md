@@ -14,7 +14,7 @@ Routing connects networks inside one location. Use it to let a web tier reach a 
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -50,7 +50,7 @@ Open **Networking → Routing** to see routers, connected ranges and routes.
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/networking.md#set-network-routing).
+    [Request fields and responses](../api/reference/networking.md).
 
 
 ## Manage routers and routes
@@ -59,7 +59,7 @@ Open **Networking → Routing** to see routers, connected ranges and routes.
 
     In **Routing**, open a router to manage its interfaces, gateway and static routes. Add an interface by choosing the network's subnet. Remove an interface only after moving traffic that depends on it. Static routes need a destination CIDR and a reachable next-hop address.
 
-    An [Internet gateway](/networking/internet-gateways.md) supplies Internet access; private routing by itself does not. A route also does not open a firewall rule: check the instances' [security groups](/networking/security-groups.md).
+    An [Internet gateway](internet-gateways.md) supplies Internet access; private routing by itself does not. A route also does not open a firewall rule: check the instances' [security groups](security-groups.md).
 
 === "API"
 
@@ -80,7 +80,7 @@ Open **Networking → Routing** to see routers, connected ranges and routes.
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/networking.md#post-router).
+    [Request fields and responses](../api/reference/networking.md).
 
     **Attach a range to a router**
 
@@ -96,7 +96,7 @@ Open **Networking → Routing** to see routers, connected ranges and routes.
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/networking.md#router-add-interface).
+    [Request fields and responses](../api/reference/networking.md).
 
     **Detach a range from a router**
 
@@ -112,7 +112,7 @@ Open **Networking → Routing** to see routers, connected ranges and routes.
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/networking.md#router-remove-interface).
+    [Request fields and responses](../api/reference/networking.md).
 
     **Set a router's routes**
 
@@ -133,7 +133,7 @@ Open **Networking → Routing** to see routers, connected ranges and routes.
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/networking.md#router-set-routes).
+    [Request fields and responses](../api/reference/networking.md).
 
 
 ## Let an instance forward traffic
@@ -159,7 +159,7 @@ Open **Networking → Routing** to see routers, connected ranges and routes.
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#set-server-forwarding).
+    [Request fields and responses](../api/reference/instances.md).
 
 
 ## Delete and good practice
@@ -178,4 +178,4 @@ Open **Networking → Routing** to see routers, connected ranges and routes.
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/networking.md#delete-router).
+    [Request fields and responses](../api/reference/networking.md).

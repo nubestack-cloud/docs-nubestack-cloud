@@ -44,9 +44,9 @@ An organization role never gives a project role. An owner manages access to ever
 creates instances in one only with a project role on it. Whoever creates a project becomes its
 project admin.
 
-Owners and admins can also make [custom roles](/organization/custom-roles.md) when the built-in ones
+Owners and admins can also make [custom roles](../organization/custom-roles.md) when the built-in ones
 do not fit. The full table of who may do what is in
-[Roles and permissions](/concepts/roles-and-permissions.md).
+[Roles and permissions](../concepts/roles-and-permissions.md).
 
 ## Several organizations
 
@@ -65,5 +65,5 @@ quota and usage. Pick the one you work in from the **Organization** list at the 
 
 ## Next
 
-- [Create a project](/get-started/create-a-project.md).
-- [Invite your colleagues](/organization/members.md#invite-someone).
+- [Create a project](create-a-project.md).
+- [Invite your colleagues](../organization/members.md#invite-someone).

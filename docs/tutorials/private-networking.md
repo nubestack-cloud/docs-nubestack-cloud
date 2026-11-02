@@ -14,7 +14,7 @@ Connect a web tier to a database tier in one location without giving the databas
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. `{P}` below means `/v1/orgs/{org_id}/projects/{project_id}`. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. `{P}` below means `/v1/orgs/{org_id}/projects/{project_id}`. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -50,7 +50,7 @@ Use one project and one location. For a private example, use `10.20.0.0/24` for 
 
     Create each network with `POST {P}/networks`, a valid private `subnet.cidr` and `routed: true`. Follow each operation. The `:set-routing` network action connects an existing isolated network to private routing.
 
-    Create or update [security groups](/networking/security-groups.md) and their rules, then use `POST {P}/servers/{id}:set-security-groups` for the intended instance selection. Inspect the [Networking reference](/api/reference/networking.md) and [Security groups reference](/api/reference/security-groups.md) for exact fields. A firewall change returns an operation too.
+    Create or update [security groups](../networking/security-groups.md) and their rules, then use `POST {P}/servers/{id}:set-security-groups` for the intended instance selection. Inspect the [Networking reference](../api/reference/networking.md) and [Security groups reference](../api/reference/security-groups.md) for exact fields. A firewall change returns an operation too.
 
 
 ## Verify from both sides
@@ -65,4 +65,4 @@ An isolated network cannot reach other networks through the project's router. De
 
 The project Internet gateway can provide outbound access to routed networks. **No public IP** on the database prevents that direct inbound endpoint, but is not a substitute for firewall rules. There is no private network spanning Karachi and Islamabad.
 
-Remove instances or their interfaces before deleting networks. Detach public IPs before removing routing that they depend on. Review [the delete dependencies](/tutorials/clean-up-resources.md) when cleaning up.
+Remove instances or their interfaces before deleting networks. Detach public IPs before removing routing that they depend on. Review [the delete dependencies](../concepts/deletion-and-retention.md) when cleaning up.

@@ -39,4 +39,4 @@ Service procedures have **Console** and **API** tabs. The Console tab shows the 
 
 Project **Settings** groups access, locations and deletion. Organization **Settings** controls organization policy and closure. The account menu contains your **E-mail notices** preferences; these apply only to the selected organization and person.
 
-For a complete first task, continue with [your first instance](/get-started/first-instance.md). The [glossary](/help/glossary.md) explains the words used throughout the console and this guide.
+For a complete first task, continue with [your first instance](first-instance.md). The [glossary](../help/glossary.md) explains the words used throughout the console and this guide.

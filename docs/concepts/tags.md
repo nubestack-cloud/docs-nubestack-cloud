@@ -8,7 +8,7 @@ description: Label instances, volumes, networks and public IPs with key-value ta
 
 A **tag** is a label `key: value` on an instance, a volume, a network or a public IP, such as
 `env: prod` or `team: data`. Lists filter by tags, and the
-[cost explorer](/organization/statements-and-costs.md#the-cost-explorer) adds up cost by each key.
+[cost explorer](../organization/statements-and-costs.md#the-cost-explorer) adds up cost by each key.
 
 <div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
 <span>Show instructions for</span>
@@ -17,7 +17,7 @@ A **tag** is a label `key: value` on an instance, a volume, a network or a publi
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -56,7 +56,7 @@ A **tag** is a label `key: value` on an instance, a volume, a network or a publi
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#set-server-tags).
+    [Request fields and responses](../api/reference/instances.md).
 
     **Set a volume's tags**
 
@@ -75,7 +75,7 @@ A **tag** is a label `key: value` on an instance, a volume, a network or a publi
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/volumes-and-snapshots.md#set-volume-tags).
+    [Request fields and responses](../api/reference/volumes-and-snapshots.md).
 
     **Set a network's tags**
 
@@ -94,7 +94,7 @@ A **tag** is a label `key: value` on an instance, a volume, a network or a publi
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/networking.md#set-network-tags).
+    [Request fields and responses](../api/reference/networking.md).
 
     **Set a public IP's tags**
 
@@ -113,7 +113,7 @@ A **tag** is a label `key: value` on an instance, a volume, a network or a publi
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/public-ips.md#set-floating-ip-tags).
+    [Request fields and responses](../api/reference/public-ips.md).
 
 
 ## The rules
@@ -143,7 +143,7 @@ A **tag** is a label `key: value` on an instance, a volume, a network or a publi
 
     Returns `200` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/resources-all-types.md#list-collection).
+    [Request fields and responses](../api/reference/resources.md).
 
 
 ## In the location's own tools

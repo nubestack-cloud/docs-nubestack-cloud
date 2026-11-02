@@ -6,7 +6,7 @@ description: The fixed limits of NubeStack Cloud, apart from your quota.
 # Limits
 
 Your **quota** limits how much a project holds in each location, and your organization's
-**budget** limits the quota (see [Projects and quotas](/concepts/projects-and-quotas.md#quota)).
+**budget** limits the quota (see [Projects and quotas](projects-and-quotas.md#quota)).
 The limits below are fixed by the product. A request past one is refused with the code shown,
 before anything is made.
 

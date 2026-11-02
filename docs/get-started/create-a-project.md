@@ -16,7 +16,7 @@ the locations you choose and has its own quota in each.
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -47,12 +47,12 @@ Owners and admins create projects. Members can too when the organization allows 
        later in the project's settings.
     4. **Quota preset**: how much the project starts with in each location. Keep the default unless an
        owner or admin told you otherwise. The project gets the preset's figures, or what is left of
-       the organization's budget there, whichever is less. See [Quota](/organization/quota.md).
+       the organization's budget there, whichever is less. See [Quota](../organization/quota.md).
     5. **Network**: leave **Set up a network** on. A private network is built in each location once
        the project is ready, `192.0.2.0/24` unless you choose another range. Pick another range if you
        will connect this network to one that already uses `192.0.2.0/24`.
     6. **Create an Internet gateway (outbound NAT)**: turn it on if your instances should reach the
-       Internet or have public IPs. You can [create one later](/networking/internet-gateways.md) instead.
+       Internet or have public IPs. You can [create one later](../networking/internet-gateways.md) instead.
     7. Check the summary on the right and choose **Create project**.
 
     The project is ready in each location within a few minutes. While it is being set up, its
@@ -78,9 +78,9 @@ Owners and admins create projects. Members can too when the organization allows 
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/projects.md#post-project).
+    [Request fields and responses](../api/reference/projects.md).
 
 ## Next
 
-- [Your first instance](/get-started/first-instance.md).
-- [Give others access to the project](/concepts/projects-and-quotas.md#who-can-use-a-project).
+- [Your first instance](first-instance.md).
+- [Give others access to the project](../concepts/projects-and-quotas.md#who-can-use-a-project).

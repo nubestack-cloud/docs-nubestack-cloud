@@ -14,7 +14,7 @@ An image is a template for an instance's system disk. Use the location's publish
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -25,7 +25,7 @@ An image is a template for an instance's system disk. Use the location's publish
 
 === "Console"
 
-    Open **Compute → Images** to inspect saved project images in your project's locations. Published operating-system choices are shown on **Create instance**; the project image list does not replace that catalog. During [instance creation](/compute/instances.md), choose an image offered in the selected location. Project images appear under **Your images**. An image in Karachi cannot be used directly in Islamabad.
+    Open **Compute → Images** to inspect saved project images in your project's locations. Published operating-system choices are shown on **Create instance**; the project image list does not replace that catalog. During [instance creation](instances.md), choose an image offered in the selected location. Project images appear under **Your images**. An image in Karachi cannot be used directly in Islamabad.
 
     An image does not carry a running instance's memory, network identity or attached data volumes. Set the network, SSH key, security groups and volumes for each new instance.
 
@@ -51,7 +51,7 @@ An image is a template for an instance's system disk. Use the location's publish
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#post-server).
+    [Request fields and responses](../api/reference/instances.md).
 
 
 ## Save an instance as an image
@@ -82,14 +82,14 @@ An image is a template for an instance's system disk. Use the location's publish
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/instances.md#create-image).
+    [Request fields and responses](../api/reference/instances.md).
 
 
 ## Rename and delete
 
 === "Console"
 
-    Use the image's **Manage** menu to rename or delete a project image you control. Location-provided images are managed by NubeStack. Check [launch templates](/compute/launch-templates.md) and [instance groups](/compute/instance-groups.md) before deleting an image they will need for future launches or replacements.
+    Use the image's **Manage** menu to rename or delete a project image you control. Location-provided images are managed by NubeStack. Check [launch templates](launch-templates.md) and [instance groups](instance-groups.md) before deleting an image they will need for future launches or replacements.
 
     Deleting an image does not serve as a way to delete instances already created from it. Image storage and availability are local to each location, and quota or a resource dependency can refuse deletion.
 
@@ -109,7 +109,7 @@ An image is a template for an instance's system disk. Use the location's publish
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/images.md#update-image).
+    [Request fields and responses](../api/reference/images.md).
 
     **Delete an image**
 
@@ -121,9 +121,9 @@ An image is a template for an instance's system disk. Use the location's publish
 
     A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-    [Request fields and responses](/api/reference/images.md#delete-image).
+    [Request fields and responses](../api/reference/images.md).
 
 
 ## Good practice
 
-Keep saved images free of private credentials and machine-specific configuration. Use cloud-init for settings that vary between instances. A project image is a reusable system disk, while [volume snapshots](/storage/snapshots.md) protect separate data disks.
+Keep saved images free of private credentials and machine-specific configuration. Use cloud-init for settings that vary between instances. A project image is a reusable system disk, while [volume snapshots](../storage/snapshots.md) protect separate data disks.

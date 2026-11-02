@@ -5,7 +5,7 @@ title: Instance groups
 
 # Instance groups
 
-An instance group keeps a desired number of instances running from a [launch template](/compute/launch-templates.md). Use it for replaceable application replicas. It can replace failed members, add or remove instances, and maintain membership in a load balancer pool.
+An instance group keeps a desired number of instances running from a [launch template](launch-templates.md). Use it for replaceable application replicas. It can replace failed members, add or remove instances, and maintain membership in a load balancer pool.
 
 <div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
 <span>Show instructions for</span>
@@ -14,7 +14,7 @@ An instance group keeps a desired number of instances running from a [launch tem
 
 <div class="docs-method-note" markdown>
 
-[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
 
 </div>
 
@@ -58,7 +58,7 @@ This is count-based scaling with manual and scheduled changes. CPU-triggered or 
 
     Returns `201` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/instance-groups.md#create-instance-group).
+    [Request fields and responses](../api/reference/instance-groups.md).
 
 
 ## Size, replacement and editing
@@ -71,7 +71,7 @@ This is count-based scaling with manual and scheduled changes. CPU-triggered or 
 
     Use **Edit** to change the name, template version, bounds, surge and optional pool. The location remains fixed. A version change affects future creations and replacements; it does not roll out a rebuild of every existing member.
 
-    The group replaces instances it identifies as failed. It does not prove application-level health or repair a broken application configuration. [Load balancer health checks](/networking/load-balancers.md) decide whether a backend receives traffic.
+    The group replaces instances it identifies as failed. It does not prove application-level health or repair a broken application configuration. [Load balancer health checks](../networking/load-balancers.md) decide whether a backend receives traffic.
 
     ![Edit a group's template version, bounds and creation concurrency](../assets/screens/compute/instance-group-edit.webp)
 
@@ -90,7 +90,7 @@ This is count-based scaling with manual and scheduled changes. CPU-triggered or 
 
     Returns `200` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/instance-groups.md#change-instance-group).
+    [Request fields and responses](../api/reference/instance-groups.md).
 
 
 ## Pause and scheduled sizes
@@ -99,7 +99,7 @@ This is count-based scaling with manual and scheduled changes. CPU-triggered or 
 
     **Pause** stops the group acting to reach its desired count. It leaves existing instances running. **Resume** allows it to reconcile the count again. Manual deletion of a member while the group is active can cause a replacement.
 
-    In **Scheduled sizes**, set counts for particular days and local times. These are [size schedules](/storage/schedules.md). Review the time zone and the next run, and keep scheduled counts inside the group's bounds.
+    In **Scheduled sizes**, set counts for particular days and local times. These are [size schedules](../storage/schedules.md). Review the time zone and the next run, and keep scheduled counts inside the group's bounds.
 
 === "API"
 
@@ -114,7 +114,7 @@ This is count-based scaling with manual and scheduled changes. CPU-triggered or 
 
     Returns `200` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/instance-groups.md#pause-instance-group).
+    [Request fields and responses](../api/reference/instance-groups.md).
 
     **Resume an instance group**
 
@@ -127,7 +127,7 @@ This is count-based scaling with manual and scheduled changes. CPU-triggered or 
 
     Returns `200` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/instance-groups.md#resume-instance-group).
+    [Request fields and responses](../api/reference/instance-groups.md).
 
     ```bash
     curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/schedules" \
@@ -152,7 +152,7 @@ This is count-based scaling with manual and scheduled changes. CPU-triggered or 
 
     Returns `201` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/schedules.md#create-schedule).
+    [Request fields and responses](../api/reference/schedules.md).
 
 ## Delete and limits
 
@@ -171,6 +171,6 @@ This is count-based scaling with manual and scheduled changes. CPU-triggered or 
 
     Returns `200` directly. Read the returned resource or current state to verify the change.
 
-    [Request fields and responses](/api/reference/instance-groups.md#delete-instance-group).
+    [Request fields and responses](../api/reference/instance-groups.md).
 
     For group deletion, the `instances` query parameter defaults to `keep`. Use `instances=delete` only when you intend to delete the member instances too.

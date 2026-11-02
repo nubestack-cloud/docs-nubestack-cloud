@@ -18,35 +18,35 @@ Keep application data on persistent volumes and use snapshots as recovery points
 <div class="guide-cards" markdown>
 <div class="guide-card" markdown>
 
-### [Volumes](/storage/volumes.md)
+### [Volumes](volumes.md)
 
 Create, attach, extend and manage persistent disks.
 
 </div>
 <div class="guide-card" markdown>
 
-### [Snapshots](/storage/snapshots.md)
+### [Snapshots](snapshots.md)
 
 Create a point-in-time copy and restore into a new volume.
 
 </div>
 <div class="guide-card" markdown>
 
-### [Schedules](/storage/schedules.md)
+### [Schedules](schedules.md)
 
 Schedule snapshots, instance power changes and group sizes.
 
 </div>
 <div class="guide-card" markdown>
 
-### [Use a data disk](/tutorials/persistent-storage.md)
+### [Use a data disk](../tutorials/persistent-storage.md)
 
 Identify a new disk, mount it and keep it through an instance replacement.
 
 </div>
 <div class="guide-card" markdown>
 
-### [Test a recovery](/tutorials/recover-a-volume.md)
+### [Test a recovery](../tutorials/persistent-storage.md)
 
 Restore a snapshot without overwriting the original data.
 

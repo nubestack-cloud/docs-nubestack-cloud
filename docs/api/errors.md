@@ -41,4 +41,4 @@ This table is generated at build time from `data/problems.json`, synchronized wi
 
 <!-- problem-table -->
 
-For common cases in everyday language, see [Troubleshooting](/help/troubleshooting.md).
+For common cases in everyday language, see [Troubleshooting](../help/troubleshooting.md).
