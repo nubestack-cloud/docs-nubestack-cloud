@@ -1,0 +1,74 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Networking
+Network topology
+Networks
+Routing
+Internet gateways
+Security groups
+Public IPs
+Load balancers
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Networks
+/
+app
+app
+Active
+
+Network
+Karachi
+
+Refresh
+Detach from private routing
+Rename
+Delete
+Overview
+Address range
+Tags
+1
+Attachments
+4
+Activity
+Details
+Name
+app
+Status
+Active
+Location
+Karachi
+Routing
+Routed
+Address range
+192.0.2.0/24
+Created
+2026-10-12 07:30:00 UTC (9 days ago)
+Created by
+Nexus
+ID
+net_01jbapp00000000000000000001
+Cloud ID
+net-app-khi
+Last read
+2026-10-21 07:28:00 UTC (2 min ago)
+Recent activity
+All activity
+When	Action	By	Status
+4 min ago	Create instance	usr_01jbsara…	Succeeded	Steps
+30 min ago	Volume: snapshot	you	Succeeded	Steps
+
+All project activity

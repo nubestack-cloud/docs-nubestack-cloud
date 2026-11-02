@@ -1,0 +1,64 @@
+ne
+us
+Organization
+Acme
+Workspace
+Organization
+⌄
+◐
+A
+Organization
+Overview
+Projects
+Quota
+Locations
+Members
+Roles
+Service accounts
+Usage
+Statements
+Cost explorer
+Audit log
+Settings
+Collapse
+Quota
+
+The budget your provider set in each location, how much of it you allocated to projects, and what is in use now. Each budget is enforced in its own location.
+
+Quota presets
+1 request waiting
+67%
+All locations
+2 locations
+Tightest: Instances in Islamabad
+50%
+Karachi
+1 project
+Tightest: Instances
+67%
+Islamabad
+2 projects
+Tightest: Instances
+All locations
+In use
+Allocated
+Budget
+Compute
+Tightest: Instances at 67% in Islamabad
+Resource	Share of budget	In use	Allocated	Budget	Free	Allocated %
+vCPUs
+	9	36	80	44	45%
+RAMGiB
+	18	72	320	248	23%
+Instances
+	4	18	32	14	56%
+Networking
+Tightest: Public IPs at 50% in Karachi
+Resource	Share of budget	In use	Allocated	Budget	Free	Allocated %
+Public IPs
+	3	5	10	5	50%
+Storage
+Tightest: Volume storage at 40% in Islamabad
+Resource	Share of budget	In use	Allocated	Budget	Free	Allocated %
+Volume storageGiB
+	170	900	3,000	2,100	30%

@@ -1,0 +1,89 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Networking
+Network topology
+Networks
+Routing
+Internet gateways
+Security groups
+Public IPs
+Load balancers
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Network topology
+
+Networks and their recorded connections, kept separate by location and region.
+
+All accessible projects
+All locations
+Karachi
+Islamabad
+Layers
+⌄
+Diagram
+List
+Refresh
+21 resources
+read 0s ago
+−
+100%
++
+Fit width
+Islamabad
+RegionOne
+1 network · 1 connected resource
+Karachi
+RegionOne
+2 networks · 5 connected resources
+192.0.2.20
+External gateway
+192.0.2.11
+192.0.2.12
+192.0.2.50
+198.51.100.10
+app
+192.0.2.0/24
+web-shop-private
+Router · 1 network
+batch-1
+Shutoff
+app
+192.0.2.0/24
+db
+198.51.100.0/24
+Internet
+External network
+web-shop-private
+Router · 2 networks
+web-1
+Active
+203.0.113.21
+web-2
+Active
+web-lb
+Active
+203.0.113.40
+db-1
+Active
+198.51.100.7
+Reserved
+Network
+Connected, with its address
+Change in progress
+Not resolved
+Select a resource to trace its connections. Recorded configuration; reachability is not tested.
+Source coverage · Current

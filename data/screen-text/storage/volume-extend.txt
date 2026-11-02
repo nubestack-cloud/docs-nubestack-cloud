@@ -1,0 +1,92 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Networking
+Storage
+Volumes
+Snapshots
+Schedules
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Volumes
+
+Block storage in one location. A volume is attached to one instance there at a time (a multi-attach volume to several) and keeps its data when detached.
+
+Create volume
+All locations
+Karachi
+Islamabad
+All states
+In use
+Available
+Filter by tag
+env: dev
+env: prod
+team: data
+3 volumes
+Refresh
+2 available
+1 in use
+Name
+⇅
+	Location
+⇅
+	Status
+⇅
+	Size
+⇅
+	Type
+⇅
+	Attached to
+⇅
+	Tags	Created
+⇅
+
+Actions
+
+
+db-data
+	Karachi	In use	100 GiB
+standard
+
+db-1
+
+env: prod
+team: data
+	9 days ago	Manage
+⌄
+
+
+scratch
+	Karachi	Available	20 GiB
+fast
+	—
+env: dev
+	9 days ago	Manage
+⌄
+Extend scratch
+
+It is 20 GiB now. A volume can only grow, never shrink, and it must be detached. The larger size is charged from the moment it is applied. The disk inside your instance does not grow by itself: once it is attached again, grow its partition and file system there (for example growpart and resize2fs, or Disk Management on Windows). Find the disk by its label or UUID, not a name like /dev/vdb, which can change between attachments.
+
+New size in GiB
+Cancel
+Extend volume
+
+
+batch-data
+	Islamabad	Available	50 GiB
+standard
+	—	—	9 days ago	Manage
+⌄

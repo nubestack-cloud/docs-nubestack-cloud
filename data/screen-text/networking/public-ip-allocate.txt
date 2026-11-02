@@ -1,0 +1,69 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Networking
+Network topology
+Networks
+Routing
+Internet gateways
+Security groups
+Public IPs
+Load balancers
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Public IPs
+/
+New
+Allocate a public IP
+
+An address from the location's public network. It stays allocated, and charged, until you release it.
+
+Cancel
+1
+Location
+Where the address is; it reaches instances and load balancers there
+Location
+Karachi
+pak-khi-1
+ready
+Islamabad
+pak-isb-1
+ready
+Tags
+Optional labels for the public IP, such as env: prod
+Key	Value
+Remove
+
+
+0 of 20 tags
+
+Lists filter by them, and the cost explorer adds up cost by each key. They are written to the public IP in its location as nx. tags.
+
+Summary
+not created yet
+new public IP
+IPv4, from the location's public network
+Location
+not set
+Tags
+none
+Attached to
+nothing yet
+To do:
+Choose a location
+Allocate
+Cancel
+View the API request

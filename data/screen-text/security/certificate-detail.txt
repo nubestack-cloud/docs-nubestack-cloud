@@ -1,0 +1,55 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Networking
+Storage
+Security
+Certificates
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Certificates
+www-2026
+Active
+
+Karachi ·
+crt_01jbwww00000000000000000001
+
+Delete
+Expires
+214 days left
+Sun, 23 May 2027 08:30:00 GMT
+Served by
+1
+listener
+Key
+EC 256
+never shown
+Covers
+www.acme.example, acme.example
+Subject
+CN=www.acme.example
+Valid from
+Mon, 21 Sep 2026 07:30:00 GMT
+Valid until
+Sun, 23 May 2027 08:30:00 GMT
+Chain
+1 intermediate certificate
+Fingerprint (SHA-256)
+3f9a1c0e7b2d4a6f8c1e3b5d7f9a2c4e6b8d0f1a3c5e7b9d2f4a6c8e0b1d3f5a
+Served by
+https
+Uploaded
+Mon, 21 Sep 2026 07:30:00 GMT
+
+To rotate it: upload the next certificate, switch each listener to it, then delete this one.

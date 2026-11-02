@@ -1,0 +1,91 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Networking
+Network topology
+Networks
+Routing
+Internet gateways
+Security groups
+Public IPs
+Load balancers
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Security groups
+/
+New
+Create a security group
+
+A set of firewall rules for instances in one location. Start from a template; change the rules on the group's page at any time.
+
+Cancel
+1
+Location
+Where the group exists; it applies to instances there
+Location
+Karachi
+pak-khi-1
+ready
+Islamabad
+pak-isb-1
+ready
+2
+Name
+How the group is listed and chosen
+Name
+Up to 255 characters, for example ssh-office or web.
+Starting rules
+Inbound traffic the group allows
+Starting rules
+SSH
+open to all
+Log in to Linux instances from anywhere.
+TCP 22
+Web
+open to all
+Serve HTTP and HTTPS to anyone.
+TCP 80
+TCP 443
+Private only
+Private addresses in and out; no Internet, even on an attached network.
+private ranges
+Empty
+No inbound rules: add your own from the group's page.
+Inbound rules created with the group
+Inbound rules
+ingress	TCP 22	0.0.0.0/0
+
+Outbound traffic is allowed, as the cloud sets up every new group.
+
+Summary
+not created yet
+new security group
+1 inbound rule
+Location
+not set
+Template
+SSH
+Inbound
+TCP 22
+Outbound
+anywhere
+To do:
+Choose a location
+To do:
+Name the group
+Create security group
+Cancel
+View the API request

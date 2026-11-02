@@ -1,0 +1,65 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Instances
+SSH keys
+Images
+Server groups
+Launch templates
+Instance groups
+Networking
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+SSH keys
+/
+New
+Add an SSH key
+
+The public key of a computer you connect from. Choose it when you create an instance and it is copied into the instance; the private key never leaves your computer.
+
+Cancel
+1
+Public key
+The contents of your .pub file
+Public key
+For example the output of cat ~/.ssh/id_ed25519.pub. Ed25519, ECDSA or RSA (2048 bits or more); the comment is not stored.
+2
+Key name
+How you will recognise it
+Name
+Up to 64 characters; filled from the key's comment when it has one.
+Who can use it
+Only you, or everyone in this project
+Who can use it
+Only me
+A personal key, offered to you in every project of the organization.
+Everyone in web-shop
+A project key, offered to every member of this project.
+Summary
+not created yet
+new key
+no key pasted yet
+Type
+not set
+Scope
+Personal
+To do:
+Paste a public key
+To do:
+Name the key
+Add SSH key
+Cancel
+View the API request

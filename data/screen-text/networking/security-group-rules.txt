@@ -1,0 +1,96 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Networking
+Network topology
+Networks
+Routing
+Internet gateways
+Security groups
+Public IPs
+Load balancers
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Security groups
+/
+web
+web
+Active
+
+Security group
+Karachi
+
+Refresh
+Rename
+Delete
+Overview
+Rules
+4
+Attachments
+2
+Activity
+↓
+Inbound
+3
+Traffic	IP	From
+Actions
+
+TCP
+80
+	IPv4	0.0.0.0/0anywhere	Remove
+TCP
+443
+	IPv4	0.0.0.0/0anywhere	Remove
+TCP
+22
+	IPv4	203.0.113.0/24	Remove
+↑
+Outbound
+1
+Traffic	IP	To
+Actions
+
+ANY	IPv4	any address	Remove
+Add a rule
+Rule
+SSH (TCP 22)
+HTTP (TCP 80)
+HTTPS (TCP 443)
+RDP (TCP 3389)
+ICMP (ping)
+All TCP
+All UDP
+Custom rule
+Direction
+Inbound
+Outbound
+IP version
+IPv4
+IPv6
+Protocol
+TCP
+UDP
+ICMP
+Any
+From port
+To port
+Remote
+Addresses (CIDR)
+Security group
+CIDR
+Add rule
+
+All project activity

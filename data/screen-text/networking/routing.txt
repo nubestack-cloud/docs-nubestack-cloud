@@ -1,0 +1,53 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Networking
+Network topology
+Networks
+Routing
+Internet gateways
+Security groups
+Public IPs
+Load balancers
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Routing
+
+One private router per project location connects routed networks. Security groups control permitted traffic.
+
+Network topology
+All locations
+Karachi
+Islamabad
+2 routers
+Refresh
+Name	Location	Status	Networks	Last read
+Actions
+
+
+Private router
+	Karachi	Active
+app
+db
+	2 min ago	Manage
+⌄
+
+
+Private router
+	Islamabad	Active
+app
+	2 min ago	Manage
+⌄

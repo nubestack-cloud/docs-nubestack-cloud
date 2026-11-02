@@ -1,0 +1,37 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Instances
+SSH keys
+Images
+Server groups
+Launch templates
+Instance groups
+Networking
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Launch templates
+
+A reusable instance blueprint: launch one to ten instances from it at once.
+
+Create launch template
+Name	Location	Size · image	Version	Updated
+
+web
+user data
+Web front end, Ubuntu 24.04, joins web-pool
+	Karachi	medium · ubuntu-24-04	v2	6 days ago	Manage
+⌄

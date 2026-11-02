@@ -1,0 +1,44 @@
+ne
+us
+Organization
+Acme
+Workspace
+Organization
+⌄
+◐
+A
+Organization
+Overview
+Projects
+Quota
+Locations
+Members
+Roles
+Service accounts
+Usage
+Statements
+Cost explorer
+Audit log
+Settings
+Collapse
+Roles
+
+What each role may do. Make your own from the same actions the built-in roles are made of; you can only use actions you hold.
+
+Create role
+Name	Given	Actions	In each location	Held by	Changed
+Actions
+
+
+Deployer
+CI pipelines that ship the web shop
+	On any project	4	Member	2	4 days ago	Manage
+⌄
+
+
+Auditor
+Reads the audit log and usage
+	To members	3	—	1	15 days ago	Manage
+⌄
+Built-in roles
+6

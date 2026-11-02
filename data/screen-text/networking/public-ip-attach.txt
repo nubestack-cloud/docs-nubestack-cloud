@@ -1,0 +1,79 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Networking
+Network topology
+Networks
+Routing
+Internet gateways
+Security groups
+Public IPs
+Load balancers
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Public IPs
+
+A public IP stays yours (and is charged) until you release it, even after its instance is deleted.
+
+Allocate public IP
+All locations
+Karachi
+Islamabad
+Filter by tag
+env: prod
+3 public IPs
+Refresh
+3 active
+Address	Location	Status	Attached to	Tags
+Actions
+
+
+203.0.113.21
+	Karachi	Active
+→
+192.0.2.11
+web-1
+
+env: prod
+	Manage
+⌄
+
+
+203.0.113.40
+	Karachi	Active
+→
+192.0.2.50
+web-lb
+
+env: prod
+	Manage
+⌄
+
+
+198.51.100.7
+	Karachi	Active	Not attached	—	Manage
+⌄
+Attach 198.51.100.7
+
+It points at one instance or load balancer in Karachi, which becomes reachable from the Internet at this address.
+
+Attach to
+web-1
+web-2
+db-1
+web-lb (load balancer)
+Cancel
+Attach

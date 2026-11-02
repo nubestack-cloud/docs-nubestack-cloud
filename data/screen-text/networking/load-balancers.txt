@@ -1,0 +1,47 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Networking
+Network topology
+Networks
+Routing
+Internet gateways
+Security groups
+Public IPs
+Load balancers
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Load balancers
+
+Spread traffic for a port across instances in one location. Each load balancer has an address on one of your subnets; attach a public IP to reach it from the internet.
+
+Create load balancer
+All locations
+Karachi
+Islamabad
+1 load balancer
+Refresh
+1 active
+Name	Location	Address	Listeners	Status	Created
+Actions
+
+
+web-lb
+	Karachi	192.0.2.50
+HTTP 80
+TERMINATED_HTTPS 443
+	Activeonline	9 days ago	Manage
+⌄

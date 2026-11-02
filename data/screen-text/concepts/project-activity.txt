@@ -1,0 +1,68 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Instances
+SSH keys
+Images
+Server groups
+Launch templates
+Instance groups
+Networking
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Activity
+
+Every action in this project, with the resource it acted on and how it went. Open one for each step's call status.
+
+All actions
+Failed
+In progress
+Mine
+Organization audit log
+1
+in progress
+1
+failed
+3
+succeeded
+
+5 in all
+
+What happened	Resource	Cloud ID	By	Status	When
+Create instance
+web-3
+· Karachi
+	—	You	Running	1 min ago
+Create instance
+web-2
+· Karachi
+	—	Sara Malik
+sara@acme.example
+	Succeeded	4 min ago
+Volume: snapshot
+db-data
+· Karachi
+	—	You	Succeeded	30 min ago
+Change load balancer
+web-lb
+· Karachi
+	—	Service account automation-prod	Succeeded	10 h ago
+Extend volume
+scratch
+· Karachi
+	—	Sara Malik
+sara@acme.example
+	Failed	15 h ago

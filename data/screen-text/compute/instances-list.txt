@@ -1,0 +1,102 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Instances
+SSH keys
+Images
+Server groups
+Launch templates
+Instance groups
+Networking
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Instances
+
+Virtual machines, each in one location. An instance keeps its disk, addresses and security groups in that location; nothing about it moves to another.
+
+Create instance
+All locations
+Karachi
+Islamabad
+All states
+Active
+Stopped
+Filter by tag
+env: dev
+env: prod
+team: data
+team: web
+4 instances
+Refresh
+3 active
+1 stopped
+Name
+⇅
+	Location
+⇅
+	Status
+⇅
+	Address
+⇅
+	Size
+⇅
+	Tags	Created
+⇅
+
+Actions
+
+
+web-1
+	Karachi	Active
+203.0.113.21
+public
+	Medium
+env: prod
+team: web
+	9 days ago	Manage
+⌄
+
+
+web-2
+	Karachi	Active
+192.0.2.12
+private
+	Medium
+env: prod
+team: web
+	9 days ago	Manage
+⌄
+
+
+db-1
+	Karachi	Active
+198.51.100.10
+private
+	Large
+env: prod
+team: data
+	9 days ago	Manage
+⌄
+
+
+batch-1
+	Islamabad	Stopped
+192.0.2.20
+private
+	Small
+env: dev
+	9 days ago	Manage
+⌄

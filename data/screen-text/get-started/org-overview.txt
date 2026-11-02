@@ -1,0 +1,129 @@
+ne
+us
+Organization
+Acme
+Workspace
+Organization
+⌄
+◐
+A
+Organization
+Overview
+Projects
+Quota
+Locations
+Members
+Roles
+Service accounts
+Usage
+Statements
+Cost explorer
+Audit log
+Settings
+Collapse
+Organization overview
+
+Your projects, their share of the budget, and anything waiting on someone.
+
+Manage projects
+New project
+Waiting
+1
+quota request with your provider
+View requests
+1
+invitation not yet accepted
+Review
+Projects
+
+2
+of 10 permitted
+
+vCPUs allocated
+
+36
+of 80 budget
+
+Across 2 locations
+
+Members
+
+6
+
+2 members, 1 owner, 1 admin, 1 billing, 1 viewer
+
+Locations
+
+2
+of 2 available
+
+Projects
+2
+Project	Locations	Instances
+Open
+
+
+web-shop
+
+Karachi
+Islamabad
+	4	Open project
+
+analytics
+
+Islamabad
+	0	Open project
+Quota
+All quotas
+In use
+Allocated
+Budget
+vCPUs
+9/36/80
+RAMGiB
+18/72/320
+Volume storageGiB
+170/900/3,000
+InstancesIslamabad
+1/8/12
+InstancesKarachi
+3/10/20
+
+Totals across locations; each location’s quota is enforced separately.
+
+Usage this month Provisional
+
+Measured from what the clouds report. Provisional, not a bill.
+
+Full usage
+Instance hours
+
+2,232
+h
+
+vCPU hours
+
+6,696
+vCPU·h
+
+RAM
+
+13,392
+GiB·h
+
+Volumes
+
+126K
+GiB·h
+
+partly estimated
+
+Public IP hours
+
+2,232
+h
+
+Load balancer hours
+
+744
+h

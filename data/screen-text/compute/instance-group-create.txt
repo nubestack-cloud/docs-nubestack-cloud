@@ -1,0 +1,92 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Instances
+SSH keys
+Images
+Server groups
+Launch templates
+Instance groups
+Networking
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Instance groups
+/
+New
+Create an instance group
+
+Keeps a number of instances of a launch template running, replaces any that fail, and keeps a load balancer pool in step. It creates and deletes instances as you: you need the rights it uses.
+
+Cancel
+1
+Location
+A group keeps its instances in one location
+Location
+Karachi
+pak-khi-1
+ready
+Islamabad
+pak-isb-1
+ready
+2
+Launch template
+What each instance is made from
+
+No launch template makes instances in this location. Create a launch template
+
+Size
+How many to keep running
+Instances
+0 to 100
+Smallest
+A size never set below this
+Largest
+A size never set above this
+At once
+Instances created at a time, 1 to 10
+Load balancer
+Optional: a pool its instances join
+Pool
+None
+Each instance joins once it runs, and leaves before it is deleted
+5
+Group name
+Its instances are named after it
+Name
+Letters, digits, '.', '_' and '-'; instances are named name-1, name-2, …
+Summary
+not created yet
+new group
+No template yet
+Location
+not set
+Template
+not set
+Instances
+2 (0 to 4)
+Pool
+none
+Acts as
+you
+To do:
+Choose a location
+To do:
+Choose a launch template
+To do:
+A name of letters, digits, '.', '_' and '-', up to 48
+Create instance group
+Cancel
+View the API request

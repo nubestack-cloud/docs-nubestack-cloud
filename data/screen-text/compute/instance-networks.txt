@@ -1,0 +1,63 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Instances
+SSH keys
+Images
+Server groups
+Launch templates
+Instance groups
+Networking
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Instances
+/
+web-1
+web-1
+Active
+
+Karachi
+compute zone nova
+Medium
+
+Refresh
+Open console
+Manage
+⌄
+Overview
+Networks
+1
+Tags
+2
+Metadata
+Console log
+Schedules
+Activity
+Networks
+1
+Attach network
+Network	Addresses	Routing
+
+app
+
+192.0.2.11
+private
+203.0.113.21
+public
+	Routed	Manage
+⌄
+
+From the last read of Karachi; a change made a moment ago appears after the next read.

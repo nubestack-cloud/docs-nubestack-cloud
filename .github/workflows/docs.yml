@@ -1,0 +1,23 @@
+name: Documentation
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements.lock
+      - run: python -m pip install -r requirements.lock
+      - run: mkdocs build --strict
+      - run: python scripts/check.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: documentation-site
+          path: site/

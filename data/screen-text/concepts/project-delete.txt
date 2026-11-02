@@ -1,0 +1,60 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Instances
+SSH keys
+Images
+Server groups
+Launch templates
+Instance groups
+Networking
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+web-shop settings
+
+Who may use this project, the locations it runs in, and deleting it.
+
+General
+Access
+Locations
+Danger zone
+Delete project
+Right away
+Its servers stop. Deleting everything in it also deletes its servers and networking within minutes.
+Kept
+Its volumes, snapshots and images, for a retention period in which you can cancel.
+Then
+What is left is deleted in every location. The dialog lists what each location holds before you confirm.
+Delete project
+Delete web-shop
+Location	Resources
+pak-khi-1	3 Servers, 2 Volumes, 2 Volume snapshots, 2 Networks, 3 Floating ips, 1 Load balancer, 4 Security groups
+pak-isb-1	1 Server, 1 Volume, 1 Network
+
+From the last inventory, 0s ago. The deletion checks again before anything is deleted.
+
+What to delete
+Delete only if empty (refused: resources exist)
+Delete everything in it
+
+Servers stop at once. Everything is kept for 7 days and you can cancel until then; after that it is deleted and cannot be recovered.
+
+Type web-shop to confirm
+
+It still has resources: choose “Delete everything in it”, or delete them first.
+
+Keep it
+Delete project

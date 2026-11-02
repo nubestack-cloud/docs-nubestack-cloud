@@ -1,0 +1,58 @@
+ne
+us
+Organization
+Acme
+Workspace
+Organization
+⌄
+◐
+A
+Organization
+Overview
+Projects
+Quota
+Locations
+Members
+Roles
+Service accounts
+Usage
+Statements
+Cost explorer
+Audit log
+Settings
+Collapse
+automation-prod
+/
+New
+Issue an API key
+
+A key with which automation calls the Nexus API as automation-prod, under its role and project access. It is shown once.
+
+Cancel
+1
+Key
+What it is for and how long it lasts
+Name
+For example github-actions. Up to 64 characters.
+Expires after (days)
+At most a year. Rotate it before then.
+Extra permissions
+Off unless the automation needs them; the key otherwise has only what the account's roles allow
+Extra permissions
+Make cloud credentials
+The key may also get cloud credentials for this service account (credentials:mint).
+Open instance consoles
+The key may also open an instance's console and read its console log where the account is a project member (consoles).
+Summary
+not created yet
+new API key
+automation-prod
+Expires
+in 90 days
+Extra permissions
+none
+To do:
+Name the key
+Issue key
+Cancel
+View the API request

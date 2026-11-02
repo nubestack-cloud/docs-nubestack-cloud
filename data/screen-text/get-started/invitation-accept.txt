@@ -1,0 +1,11 @@
+Join an organization
+Acme
+Member
+1 project
+
+You are invited to join Acme as Member, with a role on one project.
+
+The invitation expires 2026-10-27 07:30 UTC (in 6 days).
+
+Accept invitation
+Decline

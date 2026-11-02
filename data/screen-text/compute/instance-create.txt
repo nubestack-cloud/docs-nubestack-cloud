@@ -1,0 +1,271 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Instances
+SSH keys
+Images
+Server groups
+Launch templates
+Instance groups
+Networking
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Instances
+/
+New
+Create an instance
+
+A virtual machine in the web-shop project. The summary shows what it takes from the project's quota in the chosen location before you create it.
+
+Cancel
+Location
+, done
+Name
+, done
+Size
+, done
+Image
+, done
+Network
+, done
+Access
+, done
+7
+Server group
+, optional
+8
+Volumes
+, optional
+9
+Load balancer
+, optional
+10
+Tags
+, optional
+Start from
+Your own settings
+Choose the location, size, image and the rest below.
+A launch template
+1 saved in this project; choose how many to launch
+Location
+Where this instance runs
+Location
+Karachi
+pak-khi-1
+ready
+Islamabad
+pak-isb-1
+ready
+
+Each location is an independent cloud: the instance, its disk and its network stay where you create them. Sizes, images and networks below come from the chosen location.
+
+Instance name
+How the instance is listed
+Name
+
+Up to 255 characters. You can see it in the portal and in the location's own console.
+
+Instances
+1 to 10. Several are named web-3-1, web-3-2, … and admitted all together or not at all.
+Size
+vCPU, memory and root disk
+Size
+Small
+1 vCPU
+2 GiB RAM
+20 GiB disk
+small
+Medium
+2 vCPU
+4 GiB RAM
+40 GiB disk
+medium
+Large
+4 vCPU
+8 GiB RAM
+80 GiB disk
+large
+
+A size that would exceed the project's quota in this location is marked; the cloud refuses it. An organization owner or admin can raise the project's quota.
+
+Image
+The operating system the instance boots
+Image
+UB
+Ubuntu 24.04
+version 24.04
+ubuntu-24-04
+DE
+Debian 12
+version 12
+debian-12
+RK
+Rocky Linux 9
+version 9
+rocky-9
+
+Your images
+
+web-golden
+saved 12/10/2026
+Network
+How the instance is reached
+Path this instance will have
+Internet
+inbound allowed
+Public IP
+via the gateway
+app
+private address
+web-3
+instance
+Network
+No network
+isolated
+Without a network the instance has no network access.
+app
+192.0.2.0/24
+db
+198.51.100.0/24
+Private address (optional)
+Static ranges: 192.0.2.2–192.0.2.9 (8 addresses), 192.0.2.200–192.0.2.254 (55 addresses). DHCP never hands these out. Empty lets the cloud pick one.
+Public IP
+No public IP
+Reachable only from its private network.
+A new public IP
+Allocated with the instance; it stays allocated after the instance is deleted, until you release it.
+One you have
+1 unattached here
+Access
+Login and firewall
+SSH key
+ayesha-laptop
+Ed25519
+SHA256:Qm9vZG9jcy1le…
+personal key
+web-shop-deploy
+Ed25519
+SHA256:ZXhhbXBsZS1wc…
+project key
+No key
+You will not be able to log in with SSH.
+
+The key is copied into the instance when it is created.
+
+Firewall
+Allow SSH (port 22) from anywhere
+Open to 0.0.0.0/0. Narrow it under Security groups once the instance is up.
+open to all
+Allow web traffic (ports 80 and 443) from anywhere
+Needed only if this instance serves HTTP directly.
+Existing security groups
+default
+⌄
+Rules of the chosen groups
+Group	Direction	IP version	Protocol	Ports	From or to
+default	in	IPv4	ANY	all ports	members of default
+default	out	IPv4	ANY	all ports	any address
+Adds port 22 to default
+Rules added to default
+Direction	IP version	Protocol	Port	From
+in	IPv4	TCP	port 22	0.0.0.0/0
+
+This rule applies to every instance in this project and location that uses default.
+
+SSH and web add only the rules none of the chosen groups already has, to the first group you choose, the cloud's default group included. With no group chosen, they go into one new group, named web-shop-access (a number is added when your organization already has a group of that name).
+
+Advanced
+Server group
+Hosts kept apart or together (optional)
+Server group
+None
+web-spread · different hosts · 2 instances
+
+An instance joins a group only now, when it is created: it cannot join one later, leave it, or move to another.
+
+Volumes
+Data disks attached once it runs (optional)
+Existing volumes
+None
+⌄
+New volumes
++ Add a new volume
+
+New volumes are made empty before the instance; once it runs, every volume is attached in this order. If one cannot be attached, the instance and all the volumes stay, and you attach it from the volume's menu. Deleting the instance later detaches its volumes and keeps them.
+
+Load balancer
+A pool it joins once it runs (optional)
+Load balancer pool
+No load balancer
+web-lb · web-pool
+HTTP pool, round robin
+
+Once the instance runs, it is added to the pool at its address on this network. If that fails, the instance stays. Deleting the instance later takes it out of the pool first.
+
+Tags
+Optional labels for the instance, such as env: prod
+Key	Value
+Remove
+
+
+0 of 20 tags
+
+Lists filter by them, and the cost explorer adds up cost by each key. They are written to the instance in its location as nx. tags.
+
+Summary
+not created yet
+web-3
+2 vCPU · 4 GiB · 40 GiB disk
+Location
+Karachi
+Size
+Medium
+Image
+Ubuntu 24.04
+Network
+app · 192.0.2.0/24
+Private address
+picked by the cloud
+Public IP
+allocated on create
+SSH key
+ayesha-laptop
+User data
+not set
+Security groups
+default
+Firewall
+Adds port 22 to default
+Server group
+not set
+Volumes
+not set
+Load balancer
+not set
+Instances
+not set
+Project quota in pak-khi-1 after this instance
+Instances
+3 + 1 / 10
+vCPUs
+8 + 2 / 20
+RAM
+16 + 4 / 40 GiB
+Ready to create
+Create instance
+Cancel
+Save as launch template
+View the API request

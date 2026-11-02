@@ -1,0 +1,85 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Networking
+Storage
+Volumes
+Snapshots
+Schedules
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Volumes
+
+Block storage in one location. A volume is attached to one instance there at a time (a multi-attach volume to several) and keeps its data when detached.
+
+Create volume
+All locations
+Karachi
+Islamabad
+All states
+In use
+Available
+Filter by tag
+env: dev
+env: prod
+team: data
+3 volumes
+Refresh
+2 available
+1 in use
+Name
+⇅
+	Location
+⇅
+	Status
+⇅
+	Size
+⇅
+	Type
+⇅
+	Attached to
+⇅
+	Tags	Created
+⇅
+
+Actions
+
+
+db-data
+	Karachi	In use	100 GiB
+standard
+
+db-1
+
+env: prod
+team: data
+	9 days ago	Manage
+⌄
+
+
+scratch
+	Karachi	Available	20 GiB
+fast
+	—
+env: dev
+	9 days ago	Manage
+⌄
+
+
+batch-data
+	Islamabad	Available	50 GiB
+standard
+	—	—	9 days ago	Manage
+⌄

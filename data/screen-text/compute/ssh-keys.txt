@@ -1,0 +1,49 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Instances
+SSH keys
+Images
+Server groups
+Launch templates
+Instance groups
+Networking
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+SSH keys
+
+The public-key library. You choose one of your own keys, or one shared with everyone in this project, when you create an instance. Another member's keys are listed here only so you can see and remove them.
+
+Add SSH key
+Every key
+Yours
+This project
+Another member's
+2 keys
+Name	Type	Fingerprint	Whose	Added
+Actions
+
+
+ayesha-laptop	Ed25519
+SHA256:Qm9vZG9jcy1leGF…
+	Yours	40 days ago	Manage
+⌄
+
+
+web-shop-deploy	Ed25519
+SHA256:ZXhhbXBsZS1wcm9…
+	This project	20 days ago	Manage
+⌄

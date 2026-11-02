@@ -1,0 +1,164 @@
+ne
+us
+Organization
+Acme
+Workspace
+Organization
+⌄
+◐
+A
+Organization
+Overview
+Projects
+Quota
+Locations
+Members
+Roles
+Service accounts
+Usage
+Statements
+Cost explorer
+Audit log
+Settings
+Collapse
+Audit log
+
+Every change, refusal and security event in this organization. An event that started background work links to that operation's progress.
+
+Download CSV
+Download JSON lines
+Category
+All
+Management
+Access
+Workload
+Security
+System
+Who acted
+People and Nexus operators
+People
+Nexus operators
+Nexus itself
+Everyone
+Event name starts with
+Time
+Last 24 hours
+Last 7 days
+Last 30 days
+Last 90 days
+Custom range
+Time	Event	Category	Outcome	Actor	Target
+
+07:26:00 UTC
+2026-10-21
+
+An instance was requested
+workload.server.create
+
+Management
+	Succeeded
+Sara Malik
+
+Server
+srv_01jbweb200000000000000001
+	Details
+
+07:00:00 UTC
+2026-10-21
+
+A volume snapshot was requested
+workload.volume.snapshot
+
+Management
+	Succeeded
+Scheduler
+
+Volume
+vol_01jbdbdata0000000000000001
+	Details
+
+05:55:00 UTC
+2026-10-21
+
+A member's organization roles changed
+iam.member.roles_change
+
+Access
+	Succeeded
+You
+
+Usman Tariq
+Member
+	Details
+
+04:30:00 UTC
+2026-10-21
+
+Someone was invited
+iam.invitation.created
+
+Access
+	Succeeded
+You
+
+Invitation
+inv_01jbzain00000000000000000001
+	Details
+
+02:30:00 UTC
+2026-10-21
+
+An API key was issued
+iam.api_key.created
+
+Credential
+	Succeeded
+Bilal Ahmed
+
+Api key
+key_01jbgithub00000000000000001
+	Details
+
+21:30:00 UTC
+2026-10-20
+
+A load balancer was changed
+workload.load_balancer.update
+
+Management
+	Succeeded
+Service account
+sa_01jbterraform000000000000001
+
+Load balancer
+lbs_01jbweblb0000000000000001
+	Details
+
+07:30:00 UTC
+2026-10-20
+
+A project was created
+tenancy.project.created
+
+Management
+	Succeeded
+You
+
+analytics
+Project
+	Details
+
+06:30:00 UTC
+2026-10-20
+
+A request was refused
+iam.session.denied
+
+Security
+warning
+	Denied
+Sara Malik
+
+analytics
+Project
+	Details

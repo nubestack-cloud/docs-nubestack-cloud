@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block extrahead %}
+  {{ super() }}
+  <meta name="theme-color" content="#3c7f7c">
+  <link rel="apple-touch-icon" href="{{ 'assets/apple-touch-icon.png' | url }}">
+{% endblock %}
+{% block content %}
+  {% if page and page.meta.home %}
+    <div class="docs-home">{{ page.content }}</div>
+  {% else %}
+    <nav class="docs-breadcrumb" aria-label="Breadcrumb"><a href="{{ '/' | url }}">Docs</a>{% if page.parent %}<span aria-hidden="true">/</span><span>{{ page.parent.title }}</span>{% endif %}</nav>
+    {{ super() }}
+    <aside class="docs-article-footer">Need help with this guide? <a href="{{ 'help/troubleshooting/' | url }}">Troubleshooting</a> · <a href="{{ 'help/support/' | url }}">Contact support</a></aside>
+  {% endif %}
+{% endblock %}

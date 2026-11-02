@@ -1,0 +1,48 @@
+---
+title: Service accounts and API keys
+---
+
+# Service accounts and API keys
+
+A service account is an identity for automation. Give it the roles and project grants a pipeline needs, then issue an API key. Use a separate account for each application or automation purpose so that access and activity remain understandable.
+
+![Service accounts for Acme](../assets/screens/organization/service-accounts.webp)
+
+## Create an account and grant project access
+
+1. Open the organization's **Service accounts** page and choose **Create service account**.
+2. Name it `ci-deploy` and describe its purpose. Choose the organization role you intend it to hold.
+3. In the project's **Access** settings, add a grant for this service account. An organization role alone does not grant workload changes in a project.
+4. Open the account to inspect its project access, API keys and native credentials.
+
+![A service account's access and keys](../assets/screens/organization/service-account.webp)
+
+## Issue an API key
+
+Choose **New API key**, give it a name and set its expiry. Copy the secret from the result once and store it in your automation's secret store. You cannot retrieve it again. Send it as `Authorization: Bearer <key>` to the customer API.
+
+![Create a named API key with an expiry](../assets/screens/organization/api-key-new.webp)
+
+Keys expire after 90 days by default; the supported range is 1–365 days. An account can have two active keys. Optional scopes only narrow what a key can do; they do not add permissions beyond its account's roles and grants. The `credentials:mint` scope permits the native-credential minting path described in the reference.
+
+## Rotate or revoke
+
+On a key, choose **Rotate** and an overlap period. Rotation issues a successor secret once. The default overlap is 24 hours; the supported range is zero to seven days. Install the successor in your automation and test it before the predecessor expires. Zero overlap revokes the predecessor immediately.
+
+Use **Revoke** when a key is no longer needed or may have been exposed. Deleting the service account revokes its credentials; it does not delete the workloads it created. Review project grants and activity before deletion.
+
+## Native credentials
+
+For non-interactive OpenStack tools, use the account's **Native credentials** section to create a credential for a project location where it has the required project-member access. Copy the generated `clouds.yaml` entry once, protect it as a secret and record its expiry. This is different from the secret-free browser device sign-in used by [people](/native-access/openstack-cli.md).
+
+Native credentials are local to a project location and can be revoked individually. Never put their secrets in source control.
+
+## With the API
+
+<!-- api-example: create_service_account -->
+
+API key creation is `POST /v1/orgs/{org_id}/service-accounts/{id}/api-keys`, returning `201` and a one-time `secret`. Native-credential creation returns `202` with an operation and uses a public-key-protected secret collection flow. Use the [reference](/api/reference/index.md) for that flow instead of sending credentials to an invented token endpoint.
+
+## Good practice
+
+Use short expiries and narrow grants. Name keys by the system using them, review last-use times and rotate before expiry. A replayed idempotent secret-issuing request does not replay the secret; create or rotate a credential if the one-time result was lost.

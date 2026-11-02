@@ -1,0 +1,63 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Networking
+Storage
+Volumes
+Snapshots
+Schedules
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Snapshots
+
+A point-in-time copy of one volume, kept (and charged for its size) until you delete it. To restore, make a new volume from it; the original volume is not changed.
+
+A snapshot sits in the same storage as the volume it came from, so it protects you against a change you want to undo — not against losing that storage. Nexus does not offer backups to separate storage yet.
+
+Create snapshot
+All locations
+Karachi
+Islamabad
+2 snapshots
+Refresh
+2 active
+Name
+⇅
+	Location
+⇅
+	Status
+⇅
+	Size
+⇅
+	Volume
+⇅
+	Created
+⇅
+
+Actions
+
+
+db-data-before-upgrade
+	Karachi	Active	100 GiB
+db-data
+	9 days ago	Manage
+⌄
+
+
+nightly-20261101-0200
+	Karachi	Active	100 GiB
+db-data
+	9 days ago	Manage
+⌄

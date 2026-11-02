@@ -1,0 +1,95 @@
+ne
+us
+Organization
+Acme
+Workspace
+Organization
+⌄
+◐
+A
+Organization
+Overview
+Projects
+Quota
+Locations
+Members
+Roles
+Service accounts
+Usage
+Statements
+Cost explorer
+Audit log
+Settings
+Collapse
+Projects
+/
+New
+Create a project
+
+A project holds instances, networks and volumes, and the people who may use them. It runs in one location and gets its own quota there.
+
+Cancel
+1
+Project name
+How the project is listed
+Name
+Up to 200 characters, for example Web shop.
+Advanced
+2
+Location
+Where the project runs. One is usual
+Location
+Karachi
+pak-khi-1
+PK
+Islamabad
+pak-isb-1
+PK
+Place it in more than one location
+
+You can add or remove locations later in the project's settings.
+
+Quota preset
+How much the project starts with
+Quota preset
+Small
+4 vCPU
+8 GiB RAM
+2 instances
+Standard
+default
+20 vCPU
+40 GiB RAM
+10 instances
+Web team
+yours
+8 vCPU
+16 GiB RAM
+4 instances
+
+Clipped to what each location's budget has left. Organization owners and admins can change it later, and make presets of their own under Quota presets.
+
+Network
+Ready for instances
+Set up a network
+A private network and subnet for instances, built once the project is ready. It is yours to change or delete.
+Create an Internet gateway (outbound NAT)
+Private routing works immediately. Create an Internet gateway later for outbound NAT and public IP associations.
+Advanced
+Summary
+not created yet
+new project
+no short name yet
+Locations
+not set
+Quota
+Standard
+Network
+10.0.0.0/24, private routing only
+To do:
+Name the project
+To do:
+Choose at least one location
+Create project
+Cancel
+View the API request

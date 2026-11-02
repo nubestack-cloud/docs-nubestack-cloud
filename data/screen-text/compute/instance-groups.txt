@@ -1,0 +1,44 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Instances
+SSH keys
+Images
+Server groups
+Launch templates
+Instance groups
+Networking
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Instance groups
+
+Keeps a number of instances of a launch template running in one location, replacing failed ones.
+
+Create instance group
+Name	Location	Template	Running	State	Created
+
+web
+	Karachi	web · latest version	2 of 3	Active	6 days ago	Manage
+⌄
+
+
+batch-workers
+	Islamabad	web · latest version	0 of 2
+3 failed
+	Paused
+3 creates failed
+	6 days ago	Manage
+⌄

@@ -1,0 +1,88 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Networking
+Network topology
+Networks
+Routing
+Internet gateways
+Security groups
+Public IPs
+Load balancers
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Security groups
+
+Firewall rules for instances. Traffic is refused unless a rule allows it; instances can always reach out.
+
+Create security group
+All locations
+Karachi
+Islamabad
+4 security groups
+Refresh
+4 active
+Name	Location	Status	Rules	Created
+Actions
+
+
+default
+cloud default
+	Karachi	Active
+↓
+1
+in
+↑
+1
+out
+	9 days ago	Manage
+⌄
+
+
+web
+	Karachi	Active
+↓
+3
+in
+↑
+1
+out
+	9 days ago	Manage
+⌄
+
+
+ssh-office
+	Karachi	Active
+↓
+1
+in
+↑
+1
+out
+	9 days ago	Manage
+⌄
+
+
+db
+	Karachi	Active
+↓
+1
+in
+↑
+1
+out
+	9 days ago	Manage
+⌄

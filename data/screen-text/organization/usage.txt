@@ -1,0 +1,80 @@
+ne
+us
+Organization
+Acme
+Workspace
+Organization
+⌄
+◐
+A
+Organization
+Overview
+Projects
+Quota
+Locations
+Members
+Roles
+Service accounts
+Usage
+Statements
+Cost explorer
+Audit log
+Settings
+Collapse
+Usage
+
+What this organization has used, by period and broken down by project, location or kind of resource.
+
+Period
+This month
+Last month
+Last 7 days
+Last 30 days
+2026-10-01 00:00 UTC – 2026-10-21 08:00 UTC (whole hours)
+Karachi: measured to 5 min ago
+Islamabad: measured to 6 min ago
+i
+Provisional usage — not a bill. Measured from what the clouds report every few minutes; times that fall between two observations are estimated. Invoices come from the billing system and may differ until usage measurement is validated.
+Compute
+Instance hours
+2,232
+h
+PKR 12,240.00
+vCPU hours
+6,696
+vCPU·h
+RAM
+13,392
+GiB·h
+Storage
+Volumes
+126,480
+GiB·h
+est.
+partly estimated
+PKR 6,177.60
+Snapshots
+0
+GiB·h
+Images
+0
+GiB·h
+Networking
+Public IP hours
+2,232
+h
+not rated
+Internet gateway hours
+0
+h
+Load balancer hours
+744
+h
+Instance hours by
+project
+resource type
+location
+2,232 h in all
+web-shop
+2,232 h
+100%

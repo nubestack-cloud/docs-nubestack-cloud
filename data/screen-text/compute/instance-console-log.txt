@@ -1,0 +1,57 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Instances
+SSH keys
+Images
+Server groups
+Launch templates
+Instance groups
+Networking
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Instances
+/
+web-1
+web-1
+Active
+
+Karachi
+compute zone nova
+Medium
+
+Refresh
+Open console
+Manage
+⌄
+Overview
+Networks
+1
+Tags
+2
+Metadata
+Console log
+Schedules
+Activity
+Console log
+Lines from the end
+50
+200
+1000
+2000
+Read log
+
+Nexus does not redact the console log: it shows what the instance printed, which can include passwords, keys and other secrets. It is read from the location when you ask, shown here once, and not kept: leaving this tab clears it.

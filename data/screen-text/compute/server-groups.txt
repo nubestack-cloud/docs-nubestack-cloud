@@ -1,0 +1,41 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Instances
+SSH keys
+Images
+Server groups
+Launch templates
+Instance groups
+Networking
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Server groups
+
+Keep instances on different hosts, or together on one. An instance joins a group when it is created and stays in it.
+
+Create server group
+All locations
+Karachi
+Islamabad
+1 server group
+Refresh
+1 active
+Name	Location	Status	Policy	Instances	Created
+
+web-spread
+	Karachi	Active	different hostsstrict	2	9 days ago	Manage
+⌄

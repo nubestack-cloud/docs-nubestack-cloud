@@ -1,0 +1,81 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Networking
+Storage
+Volumes
+Snapshots
+Schedules
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Volumes
+/
+db-data
+db-data
+In use
+
+Volume
+Karachi
+
+Refresh
+Rename
+Edit description
+Manage
+⌄
+Overview
+Tags
+2
+Attachments
+3
+Schedules
+Activity
+Size
+100 GiB
+Type
+standard
+Attached to
+db-1
+Snapshots
+2
+Details
+Name
+db-data
+Status
+In use
+Location
+Karachi
+Bootable
+No
+Multi-attach
+No
+Attached as
+/dev/vdb
+Created
+2026-10-12 07:30:00 UTC (9 days ago)
+Created by
+Nexus
+ID
+vol_01jbdbdata0000000000000001
+Cloud ID
+vol-db-data
+Last read
+2026-10-21 07:28:00 UTC (2 min ago)
+Recent activity
+All activity
+When	Action	By	Status
+4 min ago	Create instance	usr_01jbsara…	Succeeded	Steps
+30 min ago	Volume: snapshot	you	Succeeded	Steps
+
+All project activity

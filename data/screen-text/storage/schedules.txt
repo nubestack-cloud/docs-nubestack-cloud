@@ -1,0 +1,43 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Networking
+Storage
+Volumes
+Snapshots
+Schedules
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Schedules
+
+Snapshots of volumes on a timetable, keeping the newest few, and instances stopped and started on a weekly timetable.
+
+Create schedule
+Name	Acts on	When	Keeps	Next	State
+
+nightly
+backup
+Runs	db-data	Every day at 02:00
+Asia/Karachi
+	7	in 5 h	Active	Manage
+⌄
+
+
+office-hours
+power
+Runs	batch-1	Weekdays: stop 20:00, start 08:00
+Asia/Karachi
+	—	stop in 20 h · start in 8 h	Active	Manage
+⌄

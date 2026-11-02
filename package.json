@@ -1,32 +1,24 @@
 {
   "name": "docs-nubestack-cloud",
   "private": true,
-  "version": "0.1.0",
+  "version": "1.0.0",
   "type": "module",
   "description": "User documentation for NubeStack Cloud: the console, the API and native OpenStack access.",
   "engines": {
     "node": ">=24"
   },
   "scripts": {
-    "dev": "astro dev",
-    "build": "astro build",
-    "preview": "astro preview",
-    "check": "astro check",
+    "dev": "node scripts/mkdocs.mjs serve",
+    "build": "node scripts/mkdocs.mjs build --strict",
+    "preview": "python3 -m http.server 8000 --directory site",
+    "check": "python3 scripts/check.py",
     "sync:api": "node scripts/sync-api.mjs",
     "screens": "tsx scripts/screens/take.ts",
-    "check:names": "node scripts/check-names.mjs"
-  },
-  "dependencies": {
-    "@astrojs/starlight": "0.42.8",
-    "astro": "7.4.4",
-    "sharp": "0.35.5",
-    "starlight-openapi": "0.27.0"
+    "check:browser": "tsx scripts/check-browser.ts"
   },
   "devDependencies": {
-    "@astrojs/check": "0.9.12",
     "playwright": "1.63.0",
-    "starlight-links-validator": "0.27.0",
-    "tsx": "4.23.15",
-    "typescript": "5.9.3"
+    "sharp": "0.35.5",
+    "tsx": "4.23.15"
   }
 }

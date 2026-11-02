@@ -1,0 +1,67 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Instances
+SSH keys
+Images
+Server groups
+Launch templates
+Instance groups
+Networking
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Activity
+/
+Create instance
+Create instance
+Succeeded
+
+What Nexus did and how each location answered, step by step.
+
+Requested by
+Sara Malik
+sara@acme.example
+Accepted
+2026-10-21 07:26:00 UTC (4 min ago)
+Started
+2026-10-21 07:26:00 UTC (4 min ago)
+Finished
+2026-10-21 07:28:00 UTC (2 min ago)
+Operation ID
+op_01jbweb2create000000000001
+Instance
+Name
+web-2
+Location
+Karachi
+ID
+srv_01jbweb200000000000000001
+Cloud ID
+7c1d2e3f-0a1b-4c2d-8e3f-4a5b6c7d8e02
+Steps
+2 of 2 done
+Create server
+Succeeded
+Await server
+Succeeded
+#	Step	Where	Attempts	Result
+1	Create server	Karachi · Compute	1
+Succeeded
+1m 0s
+
+2	Await server	Karachi · Compute	1
+Succeeded
+1m 0s

@@ -1,0 +1,41 @@
+ne
+us
+Organization
+Acme
+Workspace
+Organization
+⌄
+◐
+A
+Organization
+Overview
+Projects
+Quota
+Locations
+Members
+Roles
+Service accounts
+Usage
+Statements
+Cost explorer
+Audit log
+Settings
+Collapse
+Organization settings
+
+How the organization works for its members: its name, how they sign in, its audit log, and closing it.
+
+General
+Security
+Audit and retention
+Danger zone
+Organization
+Acme
+Active
+Short name
+acme
+ID
+org_01jbacme00000000000000001
+Projects and members
+Members may create projects
+Otherwise only owners and admins create projects.

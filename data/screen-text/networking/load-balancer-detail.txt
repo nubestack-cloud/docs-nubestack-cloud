@@ -1,0 +1,84 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Networking
+Network topology
+Networks
+Routing
+Internet gateways
+Security groups
+Public IPs
+Load balancers
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Load balancers
+/
+web-lb
+web-lb
+Active
+
+Load balancer
+Karachi
+
+Refresh
+Rename
+Delete
+Overview
+Listeners
+2
+Attachments
+5
+Activity
+Private VIP
+192.0.2.50
+inside your networks
+Public IP
+203.0.113.40
+reachable from the internet
+Listeners
+2
+HTTP 80, TERMINATED_HTTPS 443
+Member health
+2 / 2
+online
+Details
+Name
+web-lb
+Status
+Active
+Location
+Karachi
+Provider
+amphora
+Health
+Online
+Created
+2026-10-12 07:30:00 UTC (9 days ago)
+Created by
+Nexus
+ID
+lbs_01jbweblb0000000000000001
+Cloud ID
+lb-web-khi
+Last read
+2026-10-21 07:28:00 UTC (2 min ago)
+Recent activity
+All activity
+When	Action	By	Status
+4 min ago	Create instance	usr_01jbsara…	Succeeded	Steps
+30 min ago	Volume: snapshot	you	Succeeded	Steps
+
+All project activity

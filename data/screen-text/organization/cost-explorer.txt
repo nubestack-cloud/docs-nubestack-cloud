@@ -1,0 +1,75 @@
+ne
+us
+Organization
+Acme
+Workspace
+Organization
+⌄
+◐
+A
+Organization
+Overview
+Projects
+Quota
+Locations
+Members
+Roles
+Service accounts
+Usage
+Statements
+Cost explorer
+Audit log
+Settings
+Collapse
+Cost explorer
+
+Where this organization's money goes: the month's cost so far by project, service, location or tag, day by day.
+
+Month
+October 2026
+September 2026
+i
+Provisional — not an invoice. Usage times the published rates. Figures can change until usage measurement is validated; a correction after a month closes appears on the next month as an adjustment.
+So far, October 2026
+
+PKR 14,000.00
+
+▼
+-29% against all of September 2026
+
+Projected for the month
+
+PKR 21,000.00
+
+▲
++7% against September 2026
+
+September 2026
+
+PKR 19,650.00
+
+the whole month
+
+Daily cost by project
+updated 45 min ago
+Project
+Service
+Location
+Tag
+PKR 700.00
+PKR 350.00
+0
+1
+5
+10
+15
+20
+25
+30
+web-shop
+analytics
+Project	Amount	Share	September 2026
+web-shop	PKR 10,400.00
+74%	PKR 13,832.00
+analytics	PKR 3,600.00
+26%	PKR 4,788.00

@@ -1,0 +1,105 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Networking
+Storage
+Volumes
+Snapshots
+Schedules
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Schedules
+/
+New
+Create a schedule
+
+Snapshots of volumes on a timetable, or instances stopped and started every week. Each run is an ordinary operation, done as you: you need the rights it uses.
+
+Cancel
+What it does
+Snapshots, or stop and start
+What it does
+Back up volumes
+Snapshot chosen volumes and keep the newest few.
+Back up instances
+Snapshot every volume attached to chosen instances.
+Stop and start instances
+On a weekly timetable; a stopped instance is not charged for vCPU or RAM.
+1
+Location
+A schedule acts in one location
+Location
+Karachi
+pak-khi-1
+ready
+Islamabad
+pak-isb-1
+ready
+3
+Volumes
+Up to 10, in this location
+
+No volumes in this location.
+
+Volumes in use are snapshotted as they are
+?
+
+When
+Local times in the zone you choose
+How often
+Every hour
+At a minute past each hour
+Every day
+At one time each day
+Every week
+On chosen days
+Time
+HH:MM
+Time zone
+An IANA name
+?
+Retention
+How many of its snapshots to keep
+Snapshots to keep of each volume
+1 to 100
+?
+6
+Name
+How it is listed
+Name
+Up to 64 characters; a backup's snapshots are named after it
+Summary
+not created yet
+new schedule
+Back up volumes
+Acts on
+not set
+When
+Every day at 02:00
+Time zone
+Asia/Karachi
+Keeps
+7 a volume
+Runs as
+you
+To do:
+Choose a location
+To do:
+Choose a volume
+To do:
+Name the schedule
+Create schedule
+Cancel
+View the API request

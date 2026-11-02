@@ -7,7 +7,7 @@
 //   broker/nexus/api/problems.py     the problem codes, their titles and which are retryable
 // Writes:
 //   openapi/nubestack-cloud-v1.json  the contract the API reference pages are built from
-//   src/data/problems.json           the codes the Errors page lists
+//   data/problems.json           the codes the Errors page lists
 //
 // The copy changes presentation only, never the contract: the title and server address, the
 // product's name in descriptions, and the grouping of operations into tags by path. Paths,
@@ -159,8 +159,8 @@ const customer = titles
   .filter(({ code }) => !OPERATOR_ONLY.has(code))
   .map(({ code, title }) => ({ code, title: rename(title), retryable: retryable.has(code) }))
   .sort((a, b) => a.code.localeCompare(b.code));
-mkdirSync(join(root, "src/data"), { recursive: true });
-writeFileSync(join(root, "src/data/problems.json"), JSON.stringify(customer, null, 2) + "\n");
+mkdirSync(join(root, "data"), { recursive: true });
+writeFileSync(join(root, "data/problems.json"), JSON.stringify(customer, null, 2) + "\n");
 
 console.log(`API: ${Object.keys(spec.paths).length} paths in ${spec.tags.length} groups -> openapi/nubestack-cloud-v1.json`);
-console.log(`Errors: ${customer.length} customer codes of ${titles.length} -> src/data/problems.json`);
+console.log(`Errors: ${customer.length} customer codes of ${titles.length} -> data/problems.json`);

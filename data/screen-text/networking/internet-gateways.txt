@@ -1,0 +1,47 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Networking
+Network topology
+Networks
+Routing
+Internet gateways
+Security groups
+Public IPs
+Load balancers
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Internet gateways
+
+Outbound IPv4 NAT for all networks attached to a location’s private router. Public IPs are managed separately.
+
+Network topology
+Create Internet gateway
+All locations
+Karachi
+Islamabad
+1 Internet gateway
+Refresh
+Name	Location	Status	Outbound address	Networks behind it	Last read
+Actions
+
+
+Internet gateway
+	Karachi	Active	198.51.100.2
+app
+db
+	2 min ago	Manage
+⌄

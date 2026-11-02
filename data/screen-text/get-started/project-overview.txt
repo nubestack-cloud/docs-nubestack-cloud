@@ -1,0 +1,125 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Instances
+SSH keys
+Images
+Server groups
+Launch templates
+Instance groups
+Networking
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Project: web-shop
+
+Project admin · Karachi, Islamabad
+
+View topology
+Create instance
+Failed
+Extend volume failed for scratch
+
+The operation did not finish. Requested 15 h ago.
+
+See what happened
+Pinned
+
+Nothing pinned yet. Choose the star on a service to keep it here.
+
+Get started
+Instances
+Compute
+Networks
+Networking
+Volumes
+Storage
+Security groups
+Networking
+Public IPs
+Networking
+Load balancers
+Networking
+Instances
+
+4
+
+3 active, 1 stopped
+
+Networks
+
+3
+
+In Karachi, Islamabad
+
+Volumes
+
+3
+
+170 GiB
+
+Public IPs
+
+3
+
+2 attached
+
+Load balancers
+
+1
+
+1 active
+
+Recent activity
+All activity
+What happened	Resource	Status	When
+Create instance
+web-3
+	Running	1 min ago
+Create instance
+web-2
+	Succeeded	4 min ago
+Volume: snapshot
+db-data
+	Succeeded	30 min ago
+Change load balancer
+web-lb
+	Succeeded	10 h ago
+Extend volume
+scratch
+	Failed	15 h ago
+Quota
+All quotas
+In use
+Allocated to the project
+vCPUs
+9/28
+RAMGiB
+18/56
+Volume storageGiB
+170/700
+Public IPsKarachi
+3/5
+
+Totals across locations; each location’s quota is enforced separately.
+
+Locations
+all ready
+Karachi
+Ready
+read 2 min ago
+Islamabad
+Ready
+read 3 min ago

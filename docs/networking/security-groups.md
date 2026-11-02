@@ -1,0 +1,46 @@
+---
+title: Security groups
+---
+
+# Security groups
+
+A security group is a set of firewall rules for an instance's network interfaces. Use groups to allow only the traffic an application needs. Rules are additive: traffic permitted by any attached group is permitted. An Internet gateway or public IP provides a path; the group decides which traffic may use it.
+
+Open **Networking → Security groups** in a project.
+
+![Security groups in the project](../assets/screens/networking/security-groups.webp)
+
+## Create a group
+
+1. Choose **Create security group**.
+2. Select its location and give it a name such as `web-access`.
+3. Choose a starting template if appropriate: SSH, web or private traffic.
+4. Review the rules and create it. Follow the operation.
+
+![Create a security group from a starting template](../assets/screens/networking/security-group-create.webp)
+
+## Add and remove rules
+
+1. Open a group and choose **Add rule**.
+2. Select ingress for traffic entering an instance, or egress for traffic leaving it.
+3. Choose the IP version and protocol. For TCP or UDP, set the port or port range.
+4. Set the remote CIDR or remote security group. Use your own office CIDR for SSH rather than `0.0.0.0/0`.
+5. Save and follow the operation. Remove an obsolete rule from its row's menu.
+
+![Rules on a security group's page](../assets/screens/networking/security-group-rules.webp)
+
+To attach the group, choose it during [instance creation](/compute/instances.md) or use **Manage → Security groups** on an existing instance. A group must belong to the same project and location.
+
+!!! warning "Shared groups affect every attached instance"
+
+    Changing the `default` group changes access for every instance using it. The create-instance shortcuts show which group receives the SSH and web rules. Check that summary before confirming.
+
+## With the API
+
+<!-- api-example: post_group -->
+
+Add and remove rules with `POST {P}/security-groups/{id}:add-rule` and `:remove-rule`. Change an instance's selection with `POST {P}/servers/{id}:set-security-groups`. See [the reference](/api/reference/index.md) for their bodies; each change returns an operation.
+
+## Delete and good practice
+
+Detach the group from all instances before choosing **Delete**. A refusal names its users; the default group has additional restrictions. Keep separate groups for SSH administration, public application ports and private database traffic. Review egress rules as well as ingress rules, and check project and location quota before adding many groups or rules.

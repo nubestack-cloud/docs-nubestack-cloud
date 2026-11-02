@@ -1,0 +1,40 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Networking
+Storage
+Security
+Certificates
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Certificates
+
+TLS certificates your HTTPS load balancers serve. A key is stored in the location's key manager and never shown again.
+
+Upload certificate
+All locations
+Karachi
+Islamabad
+2 certificates
+2 active
+Name	Location	Status	Covers	Expires	Served by	Uploaded
+
+www-2026
+	Karachi	Active	www.acme.example, acme.example	214 days left	1	30 days ago	Manage
+⌄
+
+
+api-2025
+	Karachi	Active	api.acme.example	12 days left	none	30 days ago	Manage
+⌄

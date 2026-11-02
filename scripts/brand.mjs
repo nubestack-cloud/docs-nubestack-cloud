@@ -4,9 +4,9 @@
 //   node scripts/brand.mjs [path/to/logo.png]
 //
 // Writes:
-//   src/assets/brand/logo-light.png  the logo as it is, for the light theme
-//   src/assets/brand/logo-dark.png   the charcoal parts lightened, for the dark theme
-//   public/favicon.png, public/apple-touch-icon.png, src/assets/brand/mark.png
+//   docs/assets/brand/logo-light.png  the logo as it is, for the light theme
+//   docs/assets/brand/logo-dark.png   the charcoal parts lightened, for the dark theme
+//   docs/assets/favicon.png, docs/assets/apple-touch-icon.png, docs/assets/brand/mark.png
 //                                    the mark alone, square, from the left of the logo
 import { mkdirSync, copyFileSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -14,12 +14,12 @@ import { fileURLToPath } from "node:url";
 import sharp from "sharp";
 
 const root = join(dirname(fileURLToPath(import.meta.url)), "..");
-const source = process.argv[2] ?? join(root, "src/assets/brand/logo-light.png");
+const source = process.argv[2] ?? join(root, "docs/assets/brand/logo-light.png");
 const out = (p) => join(root, p);
-mkdirSync(out("src/assets/brand"), { recursive: true });
-mkdirSync(out("public"), { recursive: true });
+mkdirSync(out("docs/assets/brand"), { recursive: true });
+mkdirSync(out("docs/assets"), { recursive: true });
 
-if (source !== out("src/assets/brand/logo-light.png")) copyFileSync(source, out("src/assets/brand/logo-light.png"));
+if (source !== out("docs/assets/brand/logo-light.png")) copyFileSync(source, out("docs/assets/brand/logo-light.png"));
 
 const { data, info } = await sharp(source).ensureAlpha().raw().toBuffer({ resolveWithObject: true });
 
@@ -31,7 +31,7 @@ for (let i = 0; i < dark.length; i += 4) {
   const grey = Math.abs(r - g) < 12 && Math.abs(g - b) < 12 && r < 140;
   if (grey) { dark[i] = 0xe8; dark[i + 1] = 0xe8; dark[i + 2] = 0xe8; }
 }
-await sharp(dark, { raw: info }).png().toFile(out("src/assets/brand/logo-dark.png"));
+await sharp(dark, { raw: info }).png().toFile(out("docs/assets/brand/logo-dark.png"));
 
 // The mark: the columns before the first empty gap after x=200.
 let end = info.width;
@@ -47,7 +47,7 @@ const mark = await sharp(source)
     left: Math.floor((side - end) / 2) + 8, right: Math.ceil((side - end) / 2) + 8,
     background: { r: 0, g: 0, b: 0, alpha: 0 } })
   .png().toBuffer();
-await sharp(mark).resize(512, 512).toFile(out("src/assets/brand/mark.png"));
-await sharp(mark).resize(64, 64).toFile(out("public/favicon.png"));
-await sharp(mark).resize(180, 180).flatten({ background: "#ffffff" }).toFile(out("public/apple-touch-icon.png"));
+await sharp(mark).resize(512, 512).toFile(out("docs/assets/brand/mark.png"));
+await sharp(mark).resize(64, 64).toFile(out("docs/assets/favicon.png"));
+await sharp(mark).resize(180, 180).flatten({ background: "#ffffff" }).toFile(out("docs/assets/apple-touch-icon.png"));
 console.log(`mark: columns 0-${end}; wrote logo-light, logo-dark, mark, favicon, apple-touch-icon`);

@@ -1,0 +1,98 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Instances
+SSH keys
+Images
+Server groups
+Launch templates
+Instance groups
+Networking
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Quota and usage
+
+What your organization allocated to this project in each location, what is in use, and what it used this month.
+
+Project quotas
+
+Allocated to this project by your organization, and in use now. Each quota is enforced in its own location.
+
+In use
+Allocated to the project
+60%
+All locations
+2 locations
+Tightest: Public IPs in Karachi
+60%
+Karachi
+Tightest: Public IPs
+33%
+Islamabad
+Tightest: Networks
+Compute
+Tightest: vCPUs at 40% in Karachi
+Resource	Use of allocation	In use	Allocated	Free	In use %
+Instances
+	4	14	10	29%
+vCPUs
+	9	28	19	32%
+RAMGiB
+	18	56	38	32%
+Networking
+Tightest: Public IPs at 60% in Karachi
+Resource	Use of allocation	In use	Allocated	Free	In use %
+Networks
+	3	8	5	38%
+Security groups
+	5	15	10	33%
+Public IPs
+	3	7	4	43%
+Storage
+Tightest: Volume storage at 25% in Islamabad
+Resource	Use of allocation	In use	Allocated	Free	In use %
+Volumes
+	3	15	12	20%
+Volume storageGiB
+	170	700	530	24%
+
+As of 07:28:00 UTC · in use comes from each location's inventory.
+
+Usage this month Provisional
+
+Measured from what the clouds report. Provisional, not a bill.
+
+Instance hours
+
+2,232
+h
+
+vCPU hours
+
+6,696
+vCPU·h
+
+RAM
+
+13,392
+GiB·h
+
+Volumes
+
+126K
+GiB·h
+
+partly estimated

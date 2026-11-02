@@ -1,0 +1,73 @@
+ne
+us
+Organization
+Acme
+Workspace
+Organization
+⌄
+◐
+A
+Organization
+Overview
+Projects
+Quota
+Locations
+Members
+Roles
+Service accounts
+Usage
+Statements
+Cost explorer
+Audit log
+Settings
+Collapse
+Members
+/
+New
+Invite someone
+
+A one-time link that makes the person a member of this organization with the role you choose, and optionally gives them roles on projects.
+
+Cancel
+1
+Person
+Who the invitation is for
+E-mail
+They sign in with this address, verified by the identity provider.
+Organization role
+What they may do across the organization
+Organization role
+Owner
+everything, including security settings and closing the organization
+Admin
+members, projects, quotas and settings
+Billing
+sees the members, projects, locations and usage
+Member
+only the projects they are given a role on
+Viewer
+read-only across the organization
+
+An organization role never implies a project role: a member sees only the projects they are given a role on.
+
+3
+Project access
+Optional: roles on projects, in every location
+
+No project roles: they will see no projects until you give them a role on one.
+
++ Add a project
+Summary
+not created yet
+no e-mail yet
+Member
+Role
+Member
+Projects
+none
+Expires
+in 7 days
+To do:
+Enter their e-mail address
+Invite
+Cancel

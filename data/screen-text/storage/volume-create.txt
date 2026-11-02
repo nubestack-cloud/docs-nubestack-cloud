@@ -1,0 +1,96 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Networking
+Storage
+Volumes
+Snapshots
+Schedules
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Volumes
+/
+New
+Create a volume
+
+An empty block-storage volume in the web-shop project. Attach it to an instance in the same location once it is available.
+
+Cancel
+1
+Location
+Where the volume is stored
+Location
+Karachi
+pak-khi-1
+ready
+Islamabad
+pak-isb-1
+ready
+
+A volume stays in its location: it can be attached only to instances there.
+
+2
+Volume name
+How the volume is listed
+Name
+Up to 255 characters.
+Contents
+Empty, or an image to start instances from
+
+Choose a location first.
+
+4
+Type
+The kind of storage, from this location's catalog
+
+Choose a location first.
+
+Size
+Gigabytes; a volume can grow later, never shrink
+Size (GiB)
+10 GiB
+50 GiB
+100 GiB
+500 GiB
+
+Extend it from its Manage menu while it is detached.
+
+Tags
+Optional labels for the volume, such as env: prod
+Key	Value
+Remove
+
+
+0 of 20 tags
+
+Lists filter by them, and the cost explorer adds up cost by each key. They are written to the volume in its location as nx. tags.
+
+Summary
+not created yet
+new volume
+10 GiB
+Location
+not set
+Type
+not set
+Size
+10 GiB
+To do:
+Choose a location
+To do:
+Name the volume
+Create volume
+Cancel
+View the API request

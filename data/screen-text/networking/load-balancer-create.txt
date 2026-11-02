@@ -1,0 +1,84 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Networking
+Network topology
+Networks
+Routing
+Internet gateways
+Security groups
+Public IPs
+Load balancers
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Load balancers
+/
+New
+Create a load balancer
+
+An address on one of your subnets that spreads each listener's traffic over a pool of instances in the same location.
+
+Cancel
+1
+Location
+Where it runs; its instances must be there too
+Location
+Karachi
+pak-khi-1
+ready
+Islamabad
+pak-isb-1
+not offered here
+2
+Load balancer name
+How you will find it
+Name
+3
+Type
+What this location's load balancers can do
+
+Choose a location first.
+
+4
+Network
+The subnet its address is on
+
+Choose a location first.
+
+5
+Listeners
+Ports it answers on, and the instances behind each
+
+Choose a location and type first.
+
+Summary
+not created yet
+new load balancer
+no type chosen yet
+Location
+not set
+Subnet
+not set
+Listeners
+not set
+Instances
+not set
+To do:
+Choose a location
+To do:
+Name the load balancer
+Create load balancer
+Cancel

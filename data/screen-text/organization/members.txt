@@ -1,0 +1,115 @@
+ne
+us
+Organization
+Acme
+Workspace
+Organization
+⌄
+◐
+A
+Organization
+Overview
+Projects
+Quota
+Locations
+Members
+Roles
+Service accounts
+Usage
+Statements
+Cost explorer
+Audit log
+Settings
+Collapse
+Members and roles
+
+Organization roles decide what someone may do across the organization; project roles give a member access to a project in every location. An organization role never implies a project role.
+
+Invite someone
+6
+members
+2
+owners and admins
+0
+suspended
+0
+cannot sign in
+Person	Organization role	Project access	Status
+Actions
+
+
+AK
+Ayesha Khan
+ayesha@acme.example
+
+Owner
+
+Admin
+analytics, web-shop
+	Active	Manage
+⌄
+
+
+BA
+Bilal Ahmed
+bilal@acme.example
+
+Admin
+
+Admin
+web-shop
+	Active	Manage
+⌄
+
+
+SM
+Sara Malik
+sara@acme.example
+
+Member
+
+Member
+web-shop
+	Active	Manage
+⌄
+
+
+UT
+Usman Tariq
+usman@acme.example
+
+Member
+
+Member
+analytics
+Reader
+web-shop
+	Active	Manage
+⌄
+
+
+HR
+Hina Raza
+hina@acme.example
+
+Billing
+	No project access	Active	Manage
+⌄
+
+
+OF
+Omar Farooq
+omar@acme.example
+
+Viewer
+	No project access	Active	Manage
+⌄
+Invitations
+E-mail	Organization role	Project access	Expires
+Actions
+
+zain@acme.example	Member
+Member
+web-shop
+	in 6 days	Manage
+⌄

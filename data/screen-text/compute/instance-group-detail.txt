@@ -1,0 +1,88 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Instances
+SSH keys
+Images
+Server groups
+Launch templates
+Instance groups
+Networking
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Instance groups
+/
+web
+web
+Active
+
+Karachi · from web · latest version
+
+Edit
+Pause
+Delete
+Size
+3
+Running
+2
+Creating
+1
+Failed
+0
+Bounds
+2–6
+At once
+1
+Pool
+port 8080
+Size
+Instances
+2 to 6
+Set size
+Scheduled sizes
+0
+
+No scheduled sizes: the size changes only when someone sets it.
+
+Size
+At
+Days
+Mon
+Tue
+Wed
+Thu
+Fri
+Sat
+Sun
+Add
+Local time in Asia/Karachi
+Members
+3
+Activity
+3
+Instance	Member	Status	Since	Created by
+
+web-1
+	Active	Active	6 days ago	operation
+
+web-2
+	Active	Active	6 days ago	operation
+
+web-3
+	Creating	—	1 min ago	operation
+
+Last reconciled 1 min ago · acts as you · ID
+igr_01jbweb00000000000000000001

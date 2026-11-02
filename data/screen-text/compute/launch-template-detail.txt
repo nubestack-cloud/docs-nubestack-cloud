@@ -1,0 +1,90 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Instances
+SSH keys
+Images
+Server groups
+Launch templates
+Instance groups
+Networking
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Launch templates
+/
+web
+web
+
+Web front end, Ubuntu 24.04, joins web-pool
+
+Launch
+Rename
+Edit
+Delete
+Version 2 (current)
+Instance names
+web-1, web-2, …
+Location
+Karachi
+Size
+medium
+Image
+ubuntu-24-04
+Network
+none
+Security groups
+the location's default
+Firewall rules
+none added
+SSH key
+none
+Public IP
+a new one for each instance
+Server group
+none
+New volumes
+none
+Load balancer
+joins pool web-pool on port 8080
+User data
+kept encrypted; never shown again
+Versions
+2
+Version	Saved	User data
+v2current	2026-10-15 07:30 UTC	kept	shown
+v1	2026-10-01 07:30 UTC	none	Show
+
+A launch uses the version current when it starts. ID
+ltp_01jbweb00000000000000000001
+
+Instances launched
+2
+Instance	Version	Launched
+
+web-1
+	v2	6 days ago
+
+web-2
+	v2	6 days ago
+Instance groups using it
+2
+Group	Version	Running
+
+web
+	latest	2 of 3
+
+batch-workers
+	latest	0 of 2

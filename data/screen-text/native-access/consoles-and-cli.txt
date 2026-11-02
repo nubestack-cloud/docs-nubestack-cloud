@@ -1,0 +1,46 @@
+ne
+us
+Organization
+Acme
+Workspace
+web-shop
+⌄
+◐
+A
+Overview
+Compute
+Instances
+SSH keys
+Images
+Server groups
+Launch templates
+Instance groups
+Networking
+Storage
+Security
+Quota and usage
+Consoles and CLI
+Activity
+Settings
+Collapse
+Consoles and CLI
+
+Each location's own console and the OpenStack CLI, with the same quota and access as Nexus.
+
+Locations
+Download clouds.yaml
+
+Changes made there appear here after the next inventory refresh. clouds.yaml signs in through your browser (device flow) and holds no password. What keeps working when Nexus is down
+
+Karachi
+pak-khi-1
+Console
+Open in Horizon ↗
+CLI and SDK
+Connection details
+Islamabad
+pak-isb-1
+Console
+Open in Horizon ↗
+CLI and SDK
+Connection details
