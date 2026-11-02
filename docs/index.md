@@ -9,47 +9,68 @@ hide:
 <section class="guide-hero" markdown>
 <div markdown>
 
-<p class="docs-kicker">DOCUMENTATION · CLOUD USER GUIDE</p>
+<p class="docs-kicker">YOUR CLOUD, EXPLAINED</p>
 
-# NubeStack Cloud<br>user guide
+# Build with<br>NubeStack Cloud.
 
-<p class="docs-lead">From your first instance to a running application. Learn how to connect services, manage persistent data and give your team the access it needs.</p>
+<p class="docs-lead">Practical guides for the things you want to build. Launch compute, connect your services and put your data to work — in the console or through the API.</p>
 
 <div class="docs-actions" markdown>
 
-[Launch your first instance :material-arrow-right:](/get-started/first-instance.md){ .docs-primary }
-[Find a tutorial](/tutorials/index.md)
+[Create your first instance :material-arrow-right:](/get-started/first-instance.md){ .docs-primary }
+[Explore tutorials :material-arrow-top-right:](/tutorials/index.md)
 
 </div>
 
 </div>
 <div class="guide-hero-visual">
 <!-- diagram: project-overview -->
+<p class="guide-visual-caption">A typical application, built from connected cloud resources.</p>
 </div>
 </section>
 
-<section class="guide-feature" markdown>
+<section class="guide-start" markdown>
+<div class="guide-section-title" markdown>
+
+## Start here. Build from there.
+
+[All getting started guides :material-arrow-right:](/get-started/index.md)
+
+</div>
+<div class="guide-steps" markdown>
 <div markdown>
 
-<span class="guide-label">NEW TO THE CLOUD?</span>
+<span class="guide-step-number">01</span>
 
-## From invitation to SSH
+### [Create a project](/get-started/create-a-project.md)
 
-Create your account, choose a project and launch an instance you can reach. The quickstart takes you through each console step and the resources to remove afterward.
-
-[Follow the quickstart →](/get-started/index.md)
+Give your application a home. Choose a location and set your resource quota.
 
 </div>
-<div class="guide-feature-image" markdown>
+<div markdown>
 
-![The web-shop project’s instance list in the NubeStack console](assets/screens/compute/instances-list.webp)
+<span class="guide-step-number">02</span>
 
+### [Launch an instance](/get-started/first-instance.md)
+
+Pick an image and size, connect a network, then sign in with SSH.
+
+</div>
+<div markdown>
+
+<span class="guide-step-number">03</span>
+
+### [Publish your application](/tutorials/publish-web-application.md)
+
+Allow web traffic and bring your service online with a public IP.
+
+</div>
 </div>
 </section>
 
-## Explore your cloud
+## Find your service
 
-Choose a service to understand its building blocks, complete a task and find the corresponding API instructions.
+Go from understanding a building block to creating, connecting and managing it.
 
 <div class="guide-families" markdown>
 <div class="guide-family" data-family="compute" markdown>
@@ -120,10 +141,33 @@ Automate through the API or use a location’s OpenStack tools.
 </div>
 </div>
 
-## Build something useful
+<section class="guide-feature" markdown>
+<div markdown>
+
+<span class="guide-label">TWO WAYS TO GET THINGS DONE</span>
+
+## Follow along. Your way.
+
+Every resource guide puts **Console** and **API** instructions beside the action. Start visually, switch to a request when you need it, and keep your preferred method across guides.
+
+[Explore instance actions :material-arrow-right:](/compute/manage-instances.md)
+
+<p class="guide-method-preview"><span>Console</span><span>API</span></p>
+
+</div>
+<div class="guide-feature-image" markdown>
+
+![Instance details in the NubeStack Cloud console](assets/screens/compute/instance-detail.webp)
+
+</div>
+</section>
+
+## Turn a goal into a working application
 
 <div class="guide-cards" markdown>
 <div class="guide-card" markdown>
+
+<span class="guide-card-kind">COMPUTE + NETWORKING</span>
 
 ### [Publish a web application](/tutorials/publish-web-application.md)
 
@@ -132,12 +176,16 @@ Create a server with cloud-init, allow HTTP and verify the public endpoint.
 </div>
 <div class="guide-card" markdown>
 
+<span class="guide-card-kind">NETWORKING + SECURITY</span>
+
 ### [Serve an application over HTTPS](/tutorials/https-load-balancer.md)
 
 Add a certificate, healthy backends, a public IP and your domain.
 
 </div>
 <div class="guide-card" markdown>
+
+<span class="guide-card-kind">COMPUTE + STORAGE</span>
 
 ### [Use persistent storage](/tutorials/persistent-storage.md)
 
@@ -146,6 +194,8 @@ Attach a data disk, identify it inside your instance and mount it safely.
 </div>
 <div class="guide-card" markdown>
 
+<span class="guide-card-kind">COMPUTE + AUTOMATION</span>
+
 ### [Scale application replicas](/tutorials/scale-an-application.md)
 
 Create a template, maintain a group and schedule its desired count.
@@ -153,7 +203,7 @@ Create a template, maintain a group and schedule its desired count.
 </div>
 </div>
 
-## Two locations. Your choice.
+## Built in Pakistan. Located where you choose.
 
 NubeStack Cloud is a public cloud with independent locations in Pakistan. Each resource stays in the location you choose; cross-location replication and failover need to be designed into your application.
 

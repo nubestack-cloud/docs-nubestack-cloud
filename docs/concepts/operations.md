@@ -1,4 +1,5 @@
 ---
+action_tabs: true
 title: Operations
 description: Why a change in a location is accepted at once and carried out after, how to follow it, and what each state means.
 ---
@@ -9,6 +10,17 @@ When you create, change or delete something that lives in a location, such as an
 network or a volume, NubeStack Cloud does not keep you waiting while the location does the work.
 It records the request, answers at once, and carries the work out in the background. That record is
 an **operation**.
+
+<div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
+<span>Show instructions for</span>
+<div><button type="button" data-interface-choice="Console" aria-pressed="true">Console</button><button type="button" data-interface-choice="API" aria-pressed="false">API</button></div>
+</div>
+
+<div class="docs-method-note" markdown>
+
+[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+
+</div>
 
 Some saved definitions return immediately without an operation, such as an invitation, SSH key,
 quota preset, schedule or instance group's settings. Changes to roles and quota can return an
@@ -21,6 +33,8 @@ for the particular change.
 </div>
 <figcaption>Follow the accepted operation through to a final result before relying on the resource.</figcaption>
 </figure>
+
+
 
 ## Follow an operation
 
@@ -71,23 +85,69 @@ so a change never lands long after you stopped expecting it.
 
 ## Cancel an operation
 
-A project admin, or the person who asked, can cancel an operation that has not started: open it
-and choose **Cancel operation**. Steps already done stay done. Nothing is rolled back.
+=== "Console"
+
+    A project admin, or the person who asked, can cancel an operation that has not started: open it
+    and choose **Cancel operation**. Steps already done stay done. Nothing is rolled back.
+
+=== "API"
+
+    <span id="with-the-api" data-docs-method="API"></span>
+
+    ```bash
+    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/operations/$OPERATION_ID:cancel" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY"
+    ```
+
+    Returns `200` directly. Read the returned resource or current state to verify the change.
+
+    [Request fields and responses](/api/reference/operations.md#cancel-operation).
+
 
 ## What a failed create leaves behind
 
-Something that failed to create stays in its list, marked failed, so you can see what happened.
-The project's **Overview** gathers them under **Failed to create**. Choose **Remove** beside one to
-clear it from the list. Anything made before the failure, such as a new public IP, stays until you
-delete it, and the operation lists it.
+=== "Console"
+
+    Something that failed to create stays in its list, marked failed, so you can see what happened.
+    The project's **Overview** gathers them under **Failed to create**. Choose **Remove** beside one to
+    clear it from the list. Anything made before the failure, such as a new public IP, stays until you
+    delete it, and the operation lists it.
+
+=== "API"
+
+    ```bash
+    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/$COLLECTION/$ITEM_ID:dismiss" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY"
+    ```
+
+    Returns `200` directly. Read the returned resource or current state to verify the change.
+
+    [Request fields and responses](/api/reference/resources-all-types.md#dismiss-failed).
+
 
 ## Why a list can be out of date
 
-Lists show what each location last reported, and say when that was (**Last read**). A location that
-has not answered for a while is marked stale; its rows stay, with the time they are from.
+=== "Console"
 
-Choose **Refresh** above a list, or **Refresh** on a resource's page, to read it again from its
-location now. Anything made with the location's own tools appears after the next regular read, or
-at once after a refresh.
+    Lists show what each location last reported, and say when that was (**Last read**). A location that
+    has not answered for a while is marked stale; its rows stay, with the time they are from.
 
-Through the API, see [Operations and polling](/api/operations.md).
+    Choose **Refresh** above a list, or **Refresh** on a resource's page, to read it again from its
+    location now. Anything made with the location's own tools appears after the next regular read, or
+    at once after a refresh.
+
+    Through the API, see [Operations and polling](/api/operations.md).
+
+=== "API"
+
+    ```bash
+    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/$COLLECTION/$ITEM_ID:refresh" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY"
+    ```
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/resources-all-types.md#refresh-item).

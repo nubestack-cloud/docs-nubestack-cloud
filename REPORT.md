@@ -4,9 +4,9 @@
 
 71 authored customer-guide pages, including eight practical tutorials and eight chapter landing pages. The reference covers 228 customer API operations and 323 schemas. The error catalog contains 189 customer problem codes.
 
-The graphical layout uses resource-flow illustrations, distinct service families, a real console preview, readable guide cards and captioned screenshots that enlarge with keyboard support. Six accessible SVG diagrams explain project resources, public connectivity, HTTPS, data recovery, roles and operations.
+The revised overview introduces a detailed project blueprint, a three-step getting-started path, illustrated service families, a real console preview and task cards. The shared layout has clearer typography, navigation, light/dark surfaces and captioned screenshots that enlarge with keyboard support. Six accessible SVG diagrams explain project resources, public connectivity, HTTPS, data recovery, roles and operations.
 
-37 procedure pages offer Console and API tabs. Readers can carry their chosen method between pages and link directly into an API section. The component supports additional CLI/Terraform methods when those workflows are actually released; no unavailable-method tabs were added.
+132 individual action sections across 39 procedure pages offer native Console and API tabs, with a sticky page-wide method control. Readers can carry their chosen method between pages and link directly into an API section. The component supports additional CLI/Terraform methods when those workflows are actually released; no unavailable-method tabs were added.
 
 ## Customer workflows
 
@@ -45,10 +45,11 @@ See [the coverage review](CONTENT_REVIEW.md) for product source evidence and cor
 ## Verification
 
 - Strict MkDocs build and built HTML link/anchor checks.
-- All procedure pages checked for Console/API tabs; SVGs checked for title and description.
+- All 132 action sections checked for native Console/API pairs and matching API operation links; SVGs checked for title and description.
+- 176 documented curl operations and 109 JSON request bodies checked against the customer API contract.
 - Search, mobile navigation, theme choice, cross-page tab persistence, direct API links and screenshot enlargement tested at 1440px, 768px and 390px in light and dark themes.
 - Sample-data, screenshot text audit and unfinished-stub checks.
-- Additional-method rendering checked with a future Terraform example in an isolated fixture.
+- Native method tabs are directly authored, allowing released CLI/Terraform methods to be added without a Python rewrite.
 - Product working tree unchanged; no push or deployment.
 
 ## Intentional placeholders

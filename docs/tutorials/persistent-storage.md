@@ -1,35 +1,53 @@
 ---
 title: Use persistent storage
-methods: true
+action_tabs: true
 ---
 
 # Use persistent storage
 
 Attach a new data volume to an instance and make it usable inside the guest. Keep application data on this volume when you want to replace the instance independently of its system disk.
 
+<div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
+<span>Show instructions for</span>
+<div><button type="button" data-interface-choice="Console" aria-pressed="true">Console</button><button type="button" data-interface-choice="API" aria-pressed="false">API</button></div>
+</div>
+
+<div class="docs-method-note" markdown>
+
+[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. `{P}` below means `/v1/orgs/{org_id}/projects/{project_id}`. Reuse an idempotency key for retries of one request; use a new key for each new action.
+
+</div>
+
+
 ## Before you begin
 
 You need a running Linux instance and access to administer its operating system. Choose the same project and location for the volume. A cloud attachment makes a disk available to the guest; it does not format or mount it.
 
-<!-- methods -->
+
+
 ## Create and attach the disk
 
-1. Open **Storage → Volumes → Create volume**. Name it `app-data`, choose **Empty**, select an offered type and set the size.
-2. Wait for the create operation to succeed.
-3. Choose **Manage → Attach**, select the intended instance and follow the attach operation.
-4. Open the volume to confirm the named attachment. Keep its ID so that you can identify it later.
+=== "Console"
 
-![Attach an available volume to an instance in the same location](../assets/screens/storage/volume-attach.webp)
+    1. Open **Storage → Volumes → Create volume**. Name it `app-data`, choose **Empty**, select an offered type and set the size.
+    2. Wait for the create operation to succeed.
+    3. Choose **Manage → Attach**, select the intended instance and follow the attach operation.
+    4. Open the volume to confirm the named attachment. Keep its ID so that you can identify it later.
 
-## With the API
+    ![Attach an available volume to an instance in the same location](../assets/screens/storage/volume-attach.webp)
 
-[Create a volume](/storage/volumes.md) using `POST {P}/volumes`. After the create operation succeeds, attach it with `POST {P}/servers/{server_id}:attach-volume` and this body:
+=== "API"
 
-```json
-{"volume_id": "vol_example"}
-```
+    <span id="with-the-api" data-docs-method="API"></span>
 
-Use the [API example variables](/api/overview.md#before-you-start), replace the IDs, and follow both `202` operation results before relying on the disk. Read the volume's related resources to verify the attachment.
+    [Create a volume](/storage/volumes.md) using `POST {P}/volumes`. After the create operation succeeds, attach it with `POST {P}/servers/{server_id}:attach-volume` and this body:
+
+    ```json
+    {"volume_id": "vol_example"}
+    ```
+
+    Use the [API example variables](/api/overview.md#before-you-start), replace the IDs, and follow both `202` operation results before relying on the disk. Read the volume's related resources to verify the attachment.
+
 
 ## Identify, format and mount
 

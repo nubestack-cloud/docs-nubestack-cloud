@@ -36,3 +36,11 @@ The product checkout is read-only. Source paths below are reviewer evidence, not
 ## Deliberate limitations
 
 The dedicated NubeStack CLI and Terraform provider, multiple-certificate SNI and separate-storage backup service are not presented as available. API origin and support contact remain explicit placeholders until NubeStack supplies production details. Large-project topology limitations and resource freshness are explained.
+
+## Resource-action and design review
+
+132 Console/API action sets across 39 pages replace the old page-wide, hook-generated tabs. Instance management now gives each lifecycle or connection task its own pair; volumes cover each attachment, size, type, bootable, transfer, snapshot, tagging, rename and deletion action. Load balancer listeners, pools, members, health checks and certificate rotation have their own procedures.
+
+The overview now shows the relationships between a public IP, load balancer, two instances and a persistent volume inside an example project. A three-step starting path, service families and task cards organize discovery. The method picker is visible near the beginning of each procedure page and stays available while scrolling. Content stays within the cloud customer perspective.
+
+Request examples were checked against the customer OpenAPI contract, including integer quota values, version preconditions, power/resize schedule bodies and required project/volume fields. Live preview behavior was checked separately because MkDocs retains imported hook modules until the preview restarts; native action tabs do not depend on that cache.

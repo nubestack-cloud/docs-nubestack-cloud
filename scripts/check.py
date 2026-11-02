@@ -63,12 +63,34 @@ def check():
     for path in (ROOT / "docs").rglob("*.md"):
         if re.search(r"This page is being written|TODO|TBD", path.read_text()):
             errors.append(f"Unfinished page: {path.relative_to(ROOT)}")
-        if re.search(r"^methods: true$", path.read_text(), re.M):
-            relative = path.relative_to(ROOT / "docs").with_suffix("") / "index.html"
-            rendered = (SITE / relative).read_text()
-            labels = re.findall(r'<label for="__tabbed_[^"]+">([^<]+)</label>', rendered)
-            if labels[:2] != ["Console", "API"]:
-                errors.append(f"Missing Console/API tabs: {path.relative_to(ROOT)}")
+    manifest = json.loads((ROOT / "data/action-tabs.json").read_text())
+    count = 0
+    for source, actions in manifest.items():
+        path = ROOT / "docs" / source
+        markdown = path.read_text()
+        relative = Path(source).with_suffix("") / "index.html"
+        rendered = (SITE / relative).read_text()
+        labels = re.findall(r'<label for="__tabbed_[^"]+">([^<]+)</label>', rendered)
+        if labels != [label for _ in actions for label in ("Console", "API")]:
+            errors.append(f"Missing action tabs: {source}")
+        sections = dict(re.findall(r"^## ([^\n]+)\n(.*?)(?=^## |\Z)", markdown, re.M | re.S))
+        for action in actions:
+            body = sections.get(action["heading"], "")
+            if not all(f'=== "{method}"' in body for method in ("Console", "API")):
+                errors.append(f"Action has no interface choice: {source}: {action['heading']}")
+            for operation in action["operations"]:
+                anchor = re.sub(r"[^a-z0-9]+", "-", operation.lower()).strip("-")
+                if f"#{anchor})" not in body:
+                    errors.append(f"Action lacks its API operation: {source}: {operation}")
+            count += 1
+        if not re.search(r"^action_tabs: true$", markdown, re.M):
+            errors.append(f"Action page lacks metadata: {source}")
+    for path in (ROOT / "docs").rglob("*.md"):
+        text = path.read_text()
+        if "methods: true" in text or "<!-- methods -->" in text:
+            errors.append(f"Legacy hook-dependent tabs: {path.relative_to(ROOT)}")
+        if "action_tabs: true" in text and path.relative_to(ROOT / "docs").as_posix() not in manifest:
+            errors.append(f"Action page missing from coverage inventory: {path.relative_to(ROOT)}")
     for path in (ROOT / "docs/assets/diagrams").glob("*.svg"):
         try:
             root = ET.fromstring(path.read_text())
@@ -91,7 +113,7 @@ def check():
             if not any(term.lower() in (p.get("title", "") + p.get("text", "")).lower() for p in entries):
                 errors.append(f"Search index lacks {term}")
     if not errors:
-        print(f"Passed: {len(pages)} HTML pages, local links and anchors, {len(shots)} audited screenshots, search index, customer-data scan and no unfinished stubs.")
+        print(f"Passed: {len(pages)} HTML pages, local links and anchors, {len(shots)} audited screenshots, {count} Console/API action sets across {len(manifest)} guides, search index, customer-data scan and no unfinished stubs.")
     return errors
 
 

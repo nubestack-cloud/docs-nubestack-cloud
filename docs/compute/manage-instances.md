@@ -1,167 +1,614 @@
 ---
-methods: true
+action_tabs: true
 title: Manage instances
-description: Stop, start, reboot, resize, rebuild, rescue and lock instances; open their console and console log; attach networks and volumes; delete them.
 ---
 
 # Manage instances
 
-Each instance has a **Manage** menu, in the list and on its page. It offers only what the
-instance's state allows.
+Each instance has a **Manage** menu in its list and detail page. Choose the Console or API method beside the action you need. Actions depend on the current state; wait for an operation to finish before submitting a dependent change.
 
-![The Manage menu of an active instance](../assets/screens/compute/instance-manage-menu.webp)
+<div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
+<span>Show instructions for</span>
+<div><button type="button" data-interface-choice="Console" aria-pressed="true">Console</button><button type="button" data-interface-choice="API" aria-pressed="false">API</button></div>
+</div>
+
+<div class="docs-method-note" markdown>
+
+[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+
+</div>
+
+![The management menu for an active instance](../assets/screens/compute/instance-manage-menu.webp)
+
 
 ## What you can do in each state
 
-| State | What you can do |
+| State | Available actions |
 |---|---|
-| Active | Stop, Reboot, Pause, Suspend, Shelve, Resize, Create image, Rebuild, Rescue, Lock |
-| Stopped | Start, Shelve, Resize, Create image, Rebuild, Rescue, Lock |
-| Paused | Resume |
-| Suspended | Resume |
+| Active | Stop, reboot, pause, suspend, shelve, resize, create image, rebuild, rescue and lock |
+| Stopped | Start, shelve, resize, create image, rebuild, rescue and lock |
+| Paused or suspended | Resume through the appropriate action |
 | Shelved | Unshelve |
 | Rescued | Unrescue |
-| Error | Reboot, Rebuild, Rescue |
-| Locked | Unlock, and nothing else |
+| Error | Reboot, rebuild or rescue |
+| Locked | Unlock before other changes |
 
-**Rename** and **Delete** are always there, except while the instance is changing. An instance
-that is changing (creating, resizing, rebuilding) offers no actions until it settles.
+A resource that is creating, resizing or rebuilding offers no new actions until it settles. A disallowed API action is refused with `server_state`.
 
-## What each action does
+<span id="what-each-action-does"></span>
 
-- **Stop** shuts it down. Its disks, addresses and settings stay, and it keeps its place on its
-  host. **Start** brings it back.
-- **Reboot** restarts it. Programs running on it are interrupted and connections drop.
-- **Pause** freezes it in memory; nothing runs until you resume it.
-- **Suspend** saves its memory to disk and stops it until you resume it.
-- **Shelve** shuts it down and gives up its place on its host. **Unshelve** starts it again, which
-  takes longer than a start.
-- **Resize** moves it to another size. It restarts on the new size and comes back as it was,
-  running or stopped. Quota and capacity are checked first. There is no trial period: to go
-  back, resize again. A size with a smaller root disk is refused.
+## Start and stop an instance
 
-  ![The Resize dialog with the new size](../assets/screens/compute/instance-resize.webp)
+=== "Console"
 
-- **Rebuild** replaces its system disk with a fresh copy of an image you choose. Everything written
-  to that disk is lost. Its addresses, volumes, security groups and SSH key stay.
-- **Rescue** restarts it from a fresh copy of its image, with its own disk attached as an extra
-  disk you can repair. **Unrescue** starts it from its own disk again.
-- **Lock** stops anyone changing or deleting it until someone chooses **Unlock**.
-- **Create image** saves its system disk as it is now as one of the project's
-  [images](/compute/images.md).
+    Open **Compute → Instances**, choose **Manage → Stop** on an active instance and confirm. **Start** brings a stopped instance back. Its disks, addresses and settings remain while stopped. Instance allocation, disks and public IPs can continue counting in usage; see [usage and costs](/concepts/usage-and-costs.md).
 
-Also in the menu, while the instance is settled:
+=== "API"
 
-- **Add public IP** and **Remove public IP**. Removing one detaches it; the address stays allocated
-  to the project until you release it under **Public IPs**.
-- **Security groups**: choose the groups it is in. The instance accepts the traffic their rules
-  allow, on every network it is on. Choosing no groups means it accepts and sends nothing.
-- **Attach volume** and **Detach volume**. An attached [volume](/storage/volumes.md) appears inside
-  the instance as a new disk to format or mount.
-- **Console in Horizon** (on the instance's page): the instance's page in the location's own
-  dashboard ([Horizon](/native-access/horizon.md)).
+    <span id="with-the-api" data-docs-method="API"></span>
+
+    **Stop an instance**
+
+    ```bash
+    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$SERVER_ID:stop" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Content-Type: application/json" \
+      --data '{}'
+    ```
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/instances.md#stop-server).
+
+    **Start an instance**
+
+    ```bash
+    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$SERVER_ID:start" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Content-Type: application/json" \
+      --data '{}'
+    ```
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/instances.md#start-server).
+
+
+## Reboot an instance
+
+=== "Console"
+
+    Choose **Manage → Reboot**. Running programs and network connections are interrupted. Check the guest and application after the operation succeeds; rebooting does not repair a broken application configuration.
+
+=== "API"
+
+    ```bash
+    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$SERVER_ID:reboot" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Content-Type: application/json" \
+      --data '{
+      "type": "soft"
+    }'
+    ```
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/instances.md#reboot-server).
+
+
+## Pause, suspend and resume
+
+=== "Console"
+
+    **Pause** freezes an active instance in memory. **Suspend** saves its memory to disk and stops it. The menu offers **Resume** when appropriate. Follow the operation and check the resulting state before another action.
+
+=== "API"
+
+    **Pause an instance**
+
+    ```bash
+    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$SERVER_ID:pause" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY"
+    ```
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/instances.md#pause-server).
+
+    **Unpause an instance**
+
+    ```bash
+    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$SERVER_ID:unpause" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY"
+    ```
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/instances.md#unpause-server).
+
+    **Suspend an instance**
+
+    ```bash
+    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$SERVER_ID:suspend" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY"
+    ```
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/instances.md#suspend-server).
+
+    **Resume an instance**
+
+    ```bash
+    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$SERVER_ID:resume" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY"
+    ```
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/instances.md#resume-server).
+
+
+## Shelve and unshelve
+
+=== "Console"
+
+    **Shelve** shuts an instance down and gives up its place on the host. **Unshelve** starts it again and can take longer than Start. Its disks and allocated addresses remain; shelving is not deletion.
+
+=== "API"
+
+    **Shelve an instance**
+
+    ```bash
+    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$SERVER_ID:shelve" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY"
+    ```
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/instances.md#shelve-server).
+
+    **Unshelve an instance**
+
+    ```bash
+    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$SERVER_ID:unshelve" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY"
+    ```
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/instances.md#unshelve-server).
+
+
+## Resize an instance
+
+=== "Console"
+
+    1. Open **Manage → Resize** on a settled active or stopped instance.
+    2. Choose an offered size with a root disk at least as large as the existing one.
+    3. Review quota and confirm. The instance restarts on the new size, returning to its prior running or stopped state.
+
+    There is no trial period: to return to the previous size, resize again.
+
+    ![Choose a new size in the Resize dialog](../assets/screens/compute/instance-resize.webp)
+
+=== "API"
+
+    ```bash
+    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$SERVER_ID:resize" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Content-Type: application/json" \
+      --data '{
+      "offering": "large"
+    }'
+    ```
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/instances.md#resize-server).
+
+
+## Rebuild an instance
+
+=== "Console"
+
+    Choose **Manage → Rebuild** and the replacement image. This replaces the system disk and destroys data written to it. Addresses, separate volumes, security groups and the original SSH key remain. Save data you need before confirming, and verify the guest and application afterward.
+
+=== "API"
+
+    ```bash
+    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$SERVER_ID:rebuild" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Content-Type: application/json" \
+      --data '{
+      "image": "ubuntu-24-04"
+    }'
+    ```
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/instances.md#rebuild-server).
+
+
+## Rescue and unrescue
+
+=== "Console"
+
+    Choose **Manage → Rescue** to boot a repair environment with the instance's own disk available as an extra disk. Repair the filesystem or configuration, then choose **Unrescue** to boot the original disk again. Rescue interrupts the running application.
+
+=== "API"
+
+    **Rescue an instance**
+
+    ```bash
+    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$SERVER_ID:rescue" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY"
+    ```
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/instances.md#rescue-server).
+
+    **End a rescue**
+
+    ```bash
+    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$SERVER_ID:unrescue" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY"
+    ```
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/instances.md#unrescue-server).
+
+
+## Lock and unlock
+
+=== "Console"
+
+    Choose **Manage → Lock** to prevent changes and deletion until it is unlocked. Use **Unlock** before another lifecycle change. Lock is a management guard, not a backup or application-security control.
+
+=== "API"
+
+    **Lock an instance**
+
+    ```bash
+    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$SERVER_ID:lock" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY"
+    ```
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/instances.md#lock-server).
+
+    **Unlock an instance**
+
+    ```bash
+    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$SERVER_ID:unlock" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY"
+    ```
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/instances.md#unlock-server).
+
+
+## Save the system disk as an image
+
+=== "Console"
+
+    Choose **Manage → Create image**, name the image and follow its operation. Quiesce application writes first when consistency matters. The image contains the system disk, not attached data volumes or running memory. Verify it by launching a test instance; see [Images](/compute/images.md).
+
+=== "API"
+
+    ```bash
+    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$SERVER_ID:create-image" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Content-Type: application/json" \
+      --data '{
+      "display_name": "web-base"
+    }'
+    ```
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/instances.md#create-image).
+
+
+## Attach and detach volumes
+
+=== "Console"
+
+    Choose **Manage → Attach volume** and an available data disk in the same project and location. Format and mount a new empty disk inside the guest; do not format a restored data disk. Before **Detach volume**, stop writes and unmount the filesystem. Separate volumes remain after instance deletion. [Use persistent storage](/tutorials/persistent-storage.md) covers guest-side steps.
+
+=== "API"
+
+    **Attach a volume**
+
+    ```bash
+    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$SERVER_ID:attach-volume" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Content-Type: application/json" \
+      --data '{
+      "volume_id": "vol_example"
+    }'
+    ```
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/instances.md#attach-volume).
+
+    **Detach a volume**
+
+    ```bash
+    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$SERVER_ID:detach-volume" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Content-Type: application/json" \
+      --data '{
+      "volume_id": "vol_example"
+    }'
+    ```
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/instances.md#detach-volume).
+
 
 ## Networks
 
-On the **Networks** tab, **Attach network** gives the instance an address on another network in
-the same location. If its system does not bring a new interface up by itself, bring it up inside
-the instance. **Detach network** removes the address at once; the network stays.
+=== "Console"
 
-![An instance's Networks tab](../assets/screens/compute/instance-networks.webp)
+    On **Networks**, choose **Attach network** to add an interface on a network in the same location. Bring the interface up inside the guest if its operating system does not do so automatically. **Detach network** removes its address immediately and can interrupt your connection.
 
-Where the location offers it, an interface can also forward traffic for private ranges behind it,
-for a VPN or a router instance: see [Routing](/networking/routing.md#let-an-instance-forward-traffic).
+    ![An instance's network interfaces](../assets/screens/compute/instance-networks.webp)
+
+    For a VPN or router guest, see [forwarding](/networking/routing.md#let-an-instance-forward-traffic).
+
+=== "API"
+
+    **Attach an instance to a network**
+
+    ```bash
+    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$SERVER_ID:attach-interface" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Content-Type: application/json" \
+      --data '{
+      "network_id": "net_example"
+    }'
+    ```
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/instances.md#attach-interface-server).
+
+    **Detach an instance from a network**
+
+    ```bash
+    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$SERVER_ID:detach-interface" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Content-Type: application/json" \
+      --data '{
+      "network_id": "net_example"
+    }'
+    ```
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/instances.md#detach-interface-server).
+
+
+## Change security groups
+
+=== "Console"
+
+    Use **Manage → Security groups** and select the complete intended set. Rules from attached groups are additive. Check shared groups before changing them, and keep a rule allowing your administrative connection if you still need it.
+
+=== "API"
+
+    ```bash
+    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$SERVER_ID:set-security-groups" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Content-Type: application/json" \
+      --data '{
+      "security_group_ids": [
+        "sgr_example"
+      ]
+    }'
+    ```
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/instances.md#set-server-groups).
+
+
+## Add or remove a public IP
+
+=== "Console"
+
+    Use **Manage → Add public IP** to allocate an address or select an available allocation in the location. **Remove public IP** detaches it. The address stays allocated until you release it under **Public IPs**. A routed network and Internet gateway are needed for the Internet path.
+
+=== "API"
+
+    **Allocate a public IP**
+
+    ```bash
+    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/floating-ips" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Content-Type: application/json" \
+      --data '{
+      "location": "loc_example",
+      "tags": {
+        "env": "prod",
+        "team": "web"
+      }
+    }'
+    ```
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/public-ips.md#post-address).
+
+    **Attach a public IP**
+
+    ```bash
+    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/floating-ips/$ADDRESS_ID:associate" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Content-Type: application/json" \
+      --data '{
+      "server_id": "srv_example"
+    }'
+    ```
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/public-ips.md#associate-address).
+
+    **Detach a public IP**
+
+    ```bash
+    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/floating-ips/$ADDRESS_ID:disassociate" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Content-Type: application/json" \
+      --data '{}'
+    ```
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/public-ips.md#disassociate-address).
+
 
 ## Metadata
 
-On the **Metadata** tab, choose **Change metadata** to set or remove keys. A key is 1 to 64 letters,
-digits, `-` or `_`; a value is at most 255 characters. Keys starting with `nexus` are reserved. The
-console cannot list the keys an instance already has; the location's dashboard or
-`openstack server show` shows them.
+=== "Console"
+
+    On **Metadata**, choose **Change metadata** to set or remove keys. A key is 1–64 letters, digits, `-` or `_`; a value is at most 255 characters. Keys beginning `nexus` are reserved. Existing metadata can also be inspected with the location's native tools.
+
+=== "API"
+
+    ```bash
+    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$SERVER_ID:set-metadata" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Content-Type: application/json" \
+      --data '{
+      "metadata": {
+        "environment": "production",
+        "obsolete_key": null
+      }
+    }'
+    ```
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/instances.md#set-server-metadata).
+
 
 ## Open the instance's console
 
-**Open console**, on the instance's page, gives you its screen and keyboard in your browser, as if
-a monitor were plugged in: for an instance you cannot reach over the network, or to watch it start.
-Project admins and project members can open it while the instance is active or rescued.
+=== "Console"
 
-1. Choose **Open console**. The location is asked for a console; this takes a few seconds.
-2. Choose **Open console ↗**. The console opens in a new browser tab.
+    Choose **Open console** on the instance page, wait for the request, then follow **Open console ↗**. It opens the instance's screen and keyboard in another browser tab. Project members and admins can use it while the instance is active or rescued.
 
-The link works once and only for a few minutes: the address itself is the key to the console, so
-do not share or bookmark it. It is not kept anywhere. The console closes by itself 10 minutes after
-it was opened; choose **Reconnect** for a new one.
+    The link is a short-lived, one-time credential. Do not share it. The browser console closes after ten minutes; use **Reconnect** for another session. **Console in Horizon** is a separate link to the native dashboard.
+
+=== "API"
+
+    ```http
+    POST /v1/orgs/{org_id}/projects/{project_id}/servers/$SERVER_ID:request-console
+    ```
+
+    Generate an EC P-256 key pair locally. Send its public JWK with `protocol: "novnc"`. Keep the private key locally; after the operation succeeds, collect the encrypted result through the returned console request and decrypt it. The one-time console URL is a credential.
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/instances.md#request-console).
+
 
 ## Read the console log
 
-The **Console log** tab shows the last lines the instance wrote to its console: boot messages and
-whatever its system and programs printed. Use it to see why an instance does not start or cannot be
-reached. It is available while the instance is active or rescued.
+=== "Console"
 
-![The Console log tab with the number of lines to read](../assets/screens/compute/instance-console-log.webp)
+    Open **Console log**, choose 50–2,000 trailing lines and select **Read log**. Copy or download the result if needed; leaving the tab clears it. The displayed log is limited to 100 KB and can include secrets printed by the guest.
 
-Choose how many lines from the end (50 to 2,000), then **Read log**. The log is shown once, as plain
-text, with **Copy** and **Download**; at most the last 100 KB.
+    ![Read the guest's console output](../assets/screens/compute/instance-console-log.webp)
 
-!!! warning
+=== "API"
 
-    The console log is shown exactly as the instance printed it, which can include passwords, keys and
-    other secrets (cloud-init prints host keys, and a generated password if you asked for one). It is
-    not stored: leaving the tab clears it.
+    ```http
+    POST /v1/orgs/{org_id}/projects/{project_id}/servers/$SERVER_ID:request-console-output
+    ```
+
+    Generate an EC P-256 key pair locally. Send its public JWK with `lines` (for example 200). After the operation succeeds, collect the encrypted log through the console request and decrypt it locally. Logs may contain secrets.
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/instances.md#request-console-output).
+
+
+## Rename an instance
+
+=== "Console"
+
+    Use **Manage → Rename** and save the new display name. This changes its cloud display name; review guest and application names separately.
+
+=== "API"
+
+    ```bash
+    curl --fail-with-body -i -X PATCH "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$RESOURCE_ID" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Content-Type: application/json" \
+      --data '{
+      "display_name": "web-1-renamed"
+    }'
+    ```
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/instances.md#update-server).
 
 
 ## Delete an instance
 
-Choose **Delete** from its **Manage** menu and confirm. Its system disk is deleted with it.
+=== "Console"
 
-![The delete dialog says what stays](../assets/screens/compute/instance-delete.webp)
+    Choose **Manage → Delete** and read what the confirmation will remove and retain. The system disk is deleted. Separate data volumes, allocated public IPs and security groups remain unless the dialog explicitly says otherwise.
 
-- Attached volumes, public IPs and security groups stay. The dialog names any volume the location
-  is set to delete with the instance, so read it before you confirm.
-- Release public IPs you no longer need under **Public IPs**: until then they stay allocated and
-  counted in your usage.
-- The addresses the instance had on its networks go with it.
-- If the instance joined a load balancer's pool when it was created, it is taken out of that pool
-  first, so no traffic is sent to its address afterwards. Members you added to a pool yourself are
-  not touched: remove those from the pool.
-- An instance that belongs to an [instance group](/compute/instance-groups.md) is replaced by the
-  group. Lower the group's size instead.
+    ![Review what stays before confirming deletion](../assets/screens/compute/instance-delete.webp)
 
-## With the API
+    An active [instance group](/compute/instance-groups.md) can replace a deleted member; lower its desired count or stop group management first. Remove manually configured load balancer members and release unwanted public IPs separately.
 
-`{P}` is `/v1/orgs/{org_id}/projects/{project_id}`, `{id}` the instance's `srv_` ID. Each action is
-a `POST` with an `Idempotency-Key`, answered `202 Accepted` with an operation.
+=== "API"
 
-| Action | Request | Body |
-|---|---|---|
-| Stop, start, reboot | `POST {P}/servers/{id}:stop`, `:start`, `:reboot` | none |
-| Pause, unpause, suspend, resume | `:pause`, `:unpause`, `:suspend`, `:resume` | none |
-| Shelve, unshelve | `:shelve`, `:unshelve` | none |
-| Lock, unlock | `:lock`, `:unlock` | none |
-| Resize | `:resize` | `{"offering": "large"}` |
-| Rebuild | `:rebuild` | `{"image": "ubuntu-24-04"}` or `{"image_id": "img_…"}` |
-| Rescue, end rescue | `:rescue`, `:unrescue` | none |
-| Save as an image | `:create-image` | the image's name |
-| Attach, detach a volume | `:attach-volume`, `:detach-volume` | `{"volume_id": "vol_…"}` |
-| Attach, detach a network | `:attach-interface`, `:detach-interface` | the network |
-| Security groups | `:set-security-groups` | the whole list of groups |
-| Metadata | `:set-metadata` | keys to set (a string) or remove (`null`) |
-| Open the console | `:request-console`, then `POST {P}/console-requests/{id}:collect` | a public key |
-| Console log | `:request-console-output`, then the same collect | a public key and the number of lines |
-| Rename | `PATCH {P}/servers/{id}` | `{"display_name": "web-1b"}` |
-| Delete | `DELETE {P}/servers/{id}` | none |
+    ```bash
+    curl --fail-with-body -i -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$SERVER_ID" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY"
+    ```
 
-For example, resize:
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
 
-```bash
-curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$SERVER:resize" \
-  -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-  -H "Idempotency-Key: $(uuidgen)" \
-  -H "Content-Type: application/json" \
-  -d '{"offering": "large"}'
-```
-
-An action the instance's state does not allow is refused with `409 server_state`. The console and
-console log come back encrypted to the public key you send, so only you can open them; an API key
-needs the **Open instance consoles** permission for the console. The exact bodies are in the
-[API reference](/api/reference/index.md).
+    [Request fields and responses](/api/reference/instances.md#delete-server).

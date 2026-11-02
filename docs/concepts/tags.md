@@ -1,5 +1,5 @@
 ---
-methods: true
+action_tabs: true
 title: Tags
 description: Label instances, volumes, networks and public IPs with key-value tags, filter lists by them and see cost by tag.
 ---
@@ -10,16 +10,111 @@ A **tag** is a label `key: value` on an instance, a volume, a network or a publi
 `env: prod` or `team: data`. Lists filter by tags, and the
 [cost explorer](/organization/statements-and-costs.md#the-cost-explorer) adds up cost by each key.
 
+<div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
+<span>Show instructions for</span>
+<div><button type="button" data-interface-choice="Console" aria-pressed="true">Console</button><button type="button" data-interface-choice="API" aria-pressed="false">API</button></div>
+</div>
+
+<div class="docs-method-note" markdown>
+
+[Set up API authentication and variables](/api/overview.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
+
+</div>
+
 ![The instances list with env and team tags](../assets/screens/compute/instances-list.webp)
+
 
 ## Set tags
 
-- **When you create one:** the create pages of instances, volumes and networks, and allocating a
-  public IP, have a **Tags** section. Leave a row empty to skip it.
-- **Later:** open the resource and choose its **Tags** tab. Change the rows and choose
-  **Save tags**. The whole set is replaced: a row you remove is removed.
+=== "Console"
 
-![Inspect an instance's tags before changing or filtering them](../assets/screens/compute/instance-tags.webp)
+    - **When you create one:** the create pages of instances, volumes and networks, and allocating a
+      public IP, have a **Tags** section. Leave a row empty to skip it.
+    - **Later:** open the resource and choose its **Tags** tab. Change the rows and choose
+      **Save tags**. The whole set is replaced: a row you remove is removed.
+
+    ![Inspect an instance's tags before changing or filtering them](../assets/screens/compute/instance-tags.webp)
+
+=== "API"
+
+    <span id="with-the-api" data-docs-method="API"></span>
+
+    **Set an instance's tags**
+
+    ```bash
+    curl --fail-with-body -i -X PUT "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$RESOURCE_ID/tags" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "If-Match: $ETAG" \
+      -H "Content-Type: application/json" \
+      --data '{
+      "tags": {
+        "env": "prod"
+      }
+    }'
+    ```
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/instances.md#set-server-tags).
+
+    **Set a volume's tags**
+
+    ```bash
+    curl --fail-with-body -i -X PUT "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/volumes/$RESOURCE_ID/tags" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "If-Match: $ETAG" \
+      -H "Content-Type: application/json" \
+      --data '{
+      "tags": {
+        "env": "prod"
+      }
+    }'
+    ```
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/volumes-and-snapshots.md#set-volume-tags).
+
+    **Set a network's tags**
+
+    ```bash
+    curl --fail-with-body -i -X PUT "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/networks/$RESOURCE_ID/tags" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "If-Match: $ETAG" \
+      -H "Content-Type: application/json" \
+      --data '{
+      "tags": {
+        "env": "prod"
+      }
+    }'
+    ```
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/networking.md#set-network-tags).
+
+    **Set a public IP's tags**
+
+    ```bash
+    curl --fail-with-body -i -X PUT "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/floating-ips/$RESOURCE_ID/tags" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
+      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "If-Match: $ETAG" \
+      -H "Content-Type: application/json" \
+      --data '{
+      "tags": {
+        "env": "prod"
+      }
+    }'
+    ```
+
+    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+
+    [Request fields and responses](/api/reference/public-ips.md#set-floating-ip-tags).
+
 
 ## The rules
 
@@ -32,9 +127,24 @@ A **tag** is a label `key: value` on an instance, a volume, a network or a publi
 
 ## Filter lists
 
-On the instances, volumes, networks and public IPs lists, choose a tag in **Filter by tag**. It
-becomes a chip; add more, and only resources with all of them stay. Remove a chip with its ×. The
-filter is in the page's address, so you can send the link to someone.
+=== "Console"
+
+    On the instances, volumes, networks and public IPs lists, choose a tag in **Filter by tag**. It
+    becomes a chip; add more, and only resources with all of them stay. Remove a chip with its ×. The
+    filter is in the page's address, so you can send the link to someone.
+
+=== "API"
+
+    Use the list endpoint's documented tag filters and keep filters unchanged while following pagination.
+    ```bash
+    curl --fail-with-body -i -X GET "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/$COLLECTION" \
+      -H "Authorization: Bearer $NUBESTACK_API_KEY"
+    ```
+
+    Returns `200` directly. Read the returned resource or current state to verify the change.
+
+    [Request fields and responses](/api/reference/resources-all-types.md#list-collection).
+
 
 ## In the location's own tools
 
@@ -58,20 +168,3 @@ A change of tags counts from the moment you save it: the hour it happened in is 
 old tags and part at the new.
 
 Tags are labels only. They never decide which project owns a resource or what is deleted.
-
-## With the API
-
-Send the whole set with `PUT` and the `tags_version` you read, in `If-Match`:
-
-```bash
-curl -sS -X PUT "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$SERVER/tags" \
-  -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-  -H "If-Match: \"$TAGS_VERSION\"" \
-  -H "Content-Type: application/json" \
-  -d '{"tags": {"env": "prod", "team": "web"}}'
-```
-
-The answer is `202 Accepted` with an operation that writes the tags to the resource in its
-location. The same path works for `volumes`, `networks` and `floating-ips`. Someone else's change
-since you read it is refused with `412`: read the resource again and retry. Create bodies take `tags` too.
-Lists filter with `?tag=env:prod` (repeat it for more) and `?tag_key=env`.

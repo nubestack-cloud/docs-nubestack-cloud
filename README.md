@@ -32,7 +32,8 @@ Open `http://127.0.0.1:8000`. Search works in the static preview. `npm run dev`,
 - `openapi/nubestack-cloud-v1.json`: checked-in customer contract; no product checkout needed for builds.
 - `data/problems.json`: customer problem catalog used by the errors guide.
 - `data/examples.json`: service request bodies used in generated curl examples.
-- `scripts/hooks.py`: generates reference pages and schemas in memory, adds navigation and search, expands `api-example` markers and builds the problem table.
+- `data/action-tabs.json`: inventory of the 132 action sections and their API operations across 39 guides.
+- `scripts/build_docs.py`: generates reference pages and schemas in memory, adds navigation and search, expands `api-example` markers and builds the problem table.
 - `data/screen-text/`: rendered sample text captured with each screenshot, for the data audit.
 
 The generated reference covers every operation in the contract, including nested request/response schemas, parameters and response statuses. It works offline after building and does not embed a remote reference viewer.
@@ -68,26 +69,34 @@ The real customer API endpoint and support contact details must be supplied by N
 
 ## Authoring method tabs and visual guides
 
-A customer procedure has shared prerequisites, a Console tab and an API tab. Add `methods: true` to its frontmatter and use this source structure:
+Write method tabs directly in Markdown, beside each action, rather than generating a page-wide switch in Python. Add `action_tabs: true` to frontmatter and register the action heading and operations in `data/action-tabs.json` so the built-site checker verifies coverage.
 
 ```markdown
-Shared description and prerequisites.
-
-<!-- methods -->
 ## Create the resource
 
-Console instructions and screenshots.
+=== "Console"
 
-## With the API
+    1. Open the service and choose **Create**.
+    2. Complete the fields and follow the operation.
 
-API instructions and examples.
+=== "API"
 
-## Verify the result
+    API instructions, request example and reference link.
 
-Checks and cleanup that apply to either method.
+## Delete the resource
+
+=== "Console"
+
+    Review dependencies and choose **Delete**.
+
+=== "API"
+
+    The equivalent delete request and its completion checks.
 ```
 
-The hook renders native Material content tabs. Selection follows the reader between pages; direct links into an API section open that tab. When a CLI or Terraform workflow is actually released, add `## With the CLI` or `## With Terraform` before the shared verification section to create another tab. Do not add empty tabs for unavailable interfaces.
+The native Material tabs work without custom Python transformations or JavaScript. For a page-wide method control, copy the `.docs-method-picker` block from an existing guide. Its choices synchronize the action tabs, persist across pages and remain available while scrolling. Shared prerequisites, limits and verification stay outside the tabs. Direct API links open the corresponding action tab.
+
+When a CLI or Terraform workflow is released, add a native `=== "CLI"` or `=== "Terraform"` block and its method-picker button. Do not add empty tabs for unavailable interfaces. Restart `mkdocs serve` after editing Python hooks: MkDocs caches imported hook modules for the lifetime of the preview process.
 
 Inline diagrams use `<!-- diagram: storage-recovery -->` with accessible SVGs in `docs/assets/diagrams/`. Diagram text explains resource relationships rather than platform internals. Screenshot Markdown is framed with its alt text as a caption and opens in a keyboard-accessible enlargement dialog; the underlying image link also works without JavaScript.
 

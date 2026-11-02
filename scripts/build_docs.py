@@ -161,29 +161,6 @@ def on_page_markdown(markdown, page, config, files):
         table += [f"| `{p['code']}` | {cell(p['title'])} | {'Yes' if p['retryable'] else 'No'} |" for p in problems]
         markdown = markdown.replace("<!-- problem-table -->", "\n".join(table))
     markdown = re.sub(r"<!-- diagram: ([a-z0-9-]+) -->", lambda m: (ROOT / "docs/assets/diagrams" / (m[1] + ".svg")).read_text(), markdown)
-    # Native Material tabs can grow from Console/API to other released interfaces.
-    if page.meta.get("methods"):
-        labels = {"With the API": "API", "The same with the API": "API", "With the CLI": "CLI", "With Terraform": "Terraform"}
-        headings = list(re.finditer(r"^## (With the API|The same with the API|With the CLI|With Terraform)\s*$", markdown, re.M))
-        if headings:
-            before = markdown[:headings[0].start()]
-            start = re.search(r"<!-- methods -->", before) or re.search(r"^## |^!\[", before, re.M)
-            if start:
-                intro = before[:start.start()]
-                console = before[start.start():].replace("<!-- methods -->", "", 1)
-                tabs, shared = [("Console", console)], []
-                for index, heading in enumerate(headings):
-                    stop = headings[index + 1].start() if index + 1 < len(headings) else len(markdown)
-                    section = markdown[heading.end():stop].lstrip()
-                    following = re.search(r"^## ", section, re.M)
-                    body = section[:following.start()] if following else section
-                    if following:
-                        shared.append(section[following.start():])
-                    label = labels[heading[1]]
-                    anchor = slug(heading[1])
-                    tabs.append((label, f'<span id="{anchor}" data-docs-method="{label}"></span>\n\n' + body))
-                indent = lambda text: "\n".join("    " + line if line else "" for line in text.strip().splitlines())
-                markdown = intro.rstrip() + "\n\n" + "\n\n".join(f'=== "{label}"\n\n' + indent(body) for label, body in tabs) + "\n\n" + "\n\n".join(shared)
     return markdown
 
 

@@ -39,7 +39,7 @@ theme:
 plugins:
   - search
 hooks:
-  - scripts/hooks.py
+  - scripts/build_docs.py
 extra:
   generator: false
 extra_css:
