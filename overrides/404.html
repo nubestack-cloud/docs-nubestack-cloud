@@ -1,0 +1,18 @@
+{% extends "main.html" %}
+
+{% block content %}
+  <div class="ns-404">
+    <p class="ns-404__code">404</p>
+    <h1>This page is not here</h1>
+    <p>The page may have moved when the docs were reorganized, or the address has a typo. Search
+      with the box at the top, or start from one of these:</p>
+    <div class="grid cards">
+      <ul>
+        <li><a href="{{ 'get-started/' | url }}"><strong>Get started</strong></a><br>Sign up, create a project and launch an instance.</li>
+        <li><a href="{{ 'services/' | url }}"><strong>Services</strong></a><br>Compute, networking, storage, security and your organization.</li>
+        <li><a href="{{ 'api/' | url }}"><strong>API</strong></a><br>Authentication, requests, operations and the full reference.</li>
+        <li><a href="{{ 'help/troubleshooting/' | url }}"><strong>Troubleshooting</strong></a><br>Common problems and how to fix them.</li>
+      </ul>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,193 @@
+/* NubeStack Cloud docs: brand tokens on top of Material. Colours live in the two scheme blocks;
+   everything below them reads tokens only. */
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("../fonts/inter-latin-wght-normal.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Inter";
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("../fonts/inter-latin-wght-italic.woff2") format("woff2");
+}
+@font-face {
+  font-family: "JetBrains Mono";
+  font-style: normal;
+  font-weight: 100 800;
+  font-display: swap;
+  src: url("../fonts/jetbrains-mono-latin-wght-normal.woff2") format("woff2");
+}
+
+:root {
+  --md-text-font: "Inter";
+  --md-code-font: "JetBrains Mono";
+  --ns-teal: #3c7f7c;
+  --ns-charcoal: #474747;
+  --ns-radius: 8px;
+}
+
+/* ---- Light ------------------------------------------------------------------------------- */
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color: #3c7f7c;
+  --md-primary-fg-color--light: #5d9b98;
+  --md-primary-fg-color--dark: #2c6360;
+  --md-primary-bg-color: #ffffff;
+  --md-accent-fg-color: #2c6360;
+  --md-accent-fg-color--transparent: rgb(60 127 124 / 10%);
+  --md-default-fg-color: #1d2222;
+  --md-default-fg-color--light: #535b5b;
+  --md-default-fg-color--lighter: #8a9292;
+  --md-default-fg-color--lightest: #e4e8e7;
+  --md-typeset-color: #2a3030;
+  --md-typeset-a-color: #2f6d6a;
+  --md-code-bg-color: #f3f6f5;
+  --md-code-fg-color: #263030;
+  --md-typeset-table-color: #e4e8e7;
+  --md-footer-bg-color: #2b2f2f;
+  --md-footer-bg-color--dark: #222525;
+  --ns-heading: #2f3333;
+  --ns-header-bg: #ffffff;
+  --ns-header-fg: var(--ns-charcoal);
+  --ns-border: #e2e6e5;
+  --ns-surface: #f6f8f8;
+  --ns-tint: #e9f2f1;
+  --ns-shadow: 0 1px 2px rgb(20 40 40 / 6%), 0 4px 16px rgb(20 40 40 / 5%);
+  --ns-mark-n: #3c7f7c;
+}
+
+/* ---- Dark -------------------------------------------------------------------------------- */
+[data-md-color-scheme="slate"] {
+  --md-hue: 180;
+  --md-default-bg-color: #161a1a;
+  --md-default-bg-color--light: #161a1ab3;
+  --md-primary-fg-color: #5fa8a4;
+  --md-primary-fg-color--light: #7fc0bc;
+  --md-primary-fg-color--dark: #3c7f7c;
+  --md-primary-bg-color: #161a1a;
+  --md-accent-fg-color: #8fd0cc;
+  --md-accent-fg-color--transparent: rgb(95 168 164 / 14%);
+  --md-default-fg-color: #e3e8e7;
+  --md-default-fg-color--light: #a9b3b2;
+  --md-default-fg-color--lighter: #6f7a79;
+  --md-default-fg-color--lightest: #2a3131;
+  --md-typeset-color: #d4dbda;
+  --md-typeset-a-color: #7cc3be;
+  --md-code-bg-color: #1e2424;
+  --md-code-fg-color: #d6dddc;
+  --md-typeset-table-color: #2a3131;
+  --md-footer-bg-color: #111414;
+  --md-footer-bg-color--dark: #0c0e0e;
+  --ns-heading: #eef2f1;
+  --ns-header-bg: #1b2020;
+  --ns-header-fg: #e3e8e7;
+  --ns-border: #2a3131;
+  --ns-surface: #1c2121;
+  --ns-tint: #1d2c2b;
+  --ns-shadow: 0 1px 2px rgb(0 0 0 / 30%);
+  --ns-mark-n: #5fa8a4;
+}
+
+/* ---- Frame ------------------------------------------------------------------------------- */
+.md-header,
+.md-tabs {
+  background-color: var(--ns-header-bg);
+  color: var(--ns-header-fg);
+}
+.md-header { box-shadow: none; border-bottom: 1px solid var(--ns-border); }
+.md-header--shadow { box-shadow: var(--ns-shadow); }
+.md-tabs { border-bottom: 1px solid var(--ns-border); }
+.md-tabs__link { font-size: .72rem; opacity: .8; }
+.md-tabs__item--active .md-tabs__link { color: var(--md-primary-fg-color); opacity: 1; font-weight: 600; }
+.md-header__button.md-logo { padding: .3rem .2rem; }
+.md-header__button.md-logo .ns-mark { height: 1.7rem; width: auto; fill: none; }
+.ns-mark__n { fill: var(--ns-mark-n); stroke: var(--ns-mark-n); }
+.md-header__title { font-weight: 650; letter-spacing: -.01em; }
+.md-search__form { background-color: var(--ns-surface); border: 1px solid var(--ns-border); border-radius: var(--ns-radius); }
+.md-search__form:hover { background-color: var(--ns-tint); }
+.md-search__input, .md-search__input::placeholder, .md-search__icon { color: var(--md-default-fg-color--light); }
+.md-nav__link--active, .md-nav__link:is(:hover, :focus) { color: var(--md-primary-fg-color); }
+.md-nav--primary .md-nav__item--section > .md-nav__link { color: var(--ns-heading); font-weight: 650; }
+.md-path { font-size: .64rem; }
+/* With tabs, sections and index pages, Material makes the active section's index link sticky,
+   which lays it over the section's first page on desktop. Keep it in the flow. */
+.md-nav--lifted > .md-nav__list > .md-nav__item--active > .md-nav__container { position: static; }
+
+/* ---- Type -------------------------------------------------------------------------------- */
+.md-typeset { font-feature-settings: "cv11", "ss01"; line-height: 1.65; }
+.md-typeset h1, .md-typeset h2, .md-typeset h3, .md-typeset h4 { color: var(--ns-heading); letter-spacing: -.015em; }
+.md-typeset h1 { font-weight: 700; font-size: 1.85em; margin-bottom: .6em; }
+.md-typeset h2 { font-weight: 650; font-size: 1.35em; margin-top: 2em; padding-top: 1.2em; border-top: 1px solid var(--ns-border); }
+.md-typeset h1 + h2, .md-typeset .ns-lead + h2 { border-top: 0; padding-top: 0; }
+.md-typeset h3 { font-weight: 620; font-size: 1.08em; }
+.md-typeset .ns-lead { font-size: 1.06em; color: var(--md-default-fg-color--light); margin-top: -.3em; }
+.md-typeset code { border-radius: 4px; font-size: .84em; }
+.md-typeset pre > code { border-radius: var(--ns-radius); }
+.md-typeset kbd { font-size: .8em; }
+.md-typeset table:not([class]) { font-size: .74rem; border: 1px solid var(--ns-border); border-radius: var(--ns-radius); box-shadow: none; }
+.md-typeset table:not([class]) th { background-color: var(--ns-surface); font-weight: 600; }
+.md-typeset .admonition, .md-typeset details { border-radius: var(--ns-radius); font-size: .74rem; box-shadow: none; }
+.md-typeset .md-button { border-radius: var(--ns-radius); font-weight: 600; padding: .5em 1.2em; }
+.md-typeset .tabbed-set { border: 1px solid var(--ns-border); border-radius: var(--ns-radius); padding: 0 1em; margin: 1.2em 0; }
+.md-typeset .tabbed-labels > label { font-size: .72rem; font-weight: 600; }
+
+/* ---- Figures: screenshots and diagrams ----------------------------------------------------- */
+.md-typeset figure.ns-shot { margin: 1.4em 0; display: block; }
+.md-typeset figure.ns-shot img {
+  display: block; margin: 0 auto; border: 1px solid var(--ns-border); border-radius: var(--ns-radius);
+  box-shadow: var(--ns-shadow); background: #fff;
+}
+.md-typeset figure figcaption { font-size: .68rem; color: var(--md-default-fg-color--light); margin-top: .7em; max-width: 42rem; }
+.md-typeset figure.ns-diagram { margin: 1.6em 0; max-width: 100%; }
+.md-typeset figure.ns-diagram svg { width: 100%; height: auto; max-height: 30rem; }
+
+/* Diagram classes, shared by every inline SVG in docs/assets/diagrams. */
+.ns-diagram { --d-line: var(--md-default-fg-color--lighter); }
+.ns-diagram .d-zone { fill: var(--ns-surface); stroke: var(--ns-border); }
+.ns-diagram .d-zone-teal { fill: var(--ns-tint); stroke: var(--md-primary-fg-color); stroke-dasharray: 5 4; stroke-opacity: .6; }
+.ns-diagram .d-box { fill: var(--md-default-bg-color); stroke: var(--ns-border); stroke-width: 1.2; }
+.ns-diagram .d-box-teal { fill: var(--md-default-bg-color); stroke: var(--md-primary-fg-color); stroke-width: 1.6; }
+.ns-diagram .d-chip { fill: var(--ns-tint); }
+.ns-diagram text { font-family: var(--md-text-font-family); fill: var(--md-default-fg-color); font-size: 13px; }
+.ns-diagram .d-title { font-weight: 650; font-size: 14px; fill: var(--ns-heading); }
+.ns-diagram .d-label { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; fill: var(--md-default-fg-color--light); }
+.ns-diagram .d-muted { font-size: 12px; fill: var(--md-default-fg-color--light); }
+.ns-diagram .d-teal { fill: var(--md-primary-fg-color); }
+.ns-diagram .d-mono { font-family: var(--md-code-font-family); font-size: 12px; }
+.ns-diagram .d-line { fill: none; stroke: var(--d-line); stroke-width: 1.5; }
+.ns-diagram .d-flow { fill: none; stroke: var(--md-primary-fg-color); stroke-width: 2; }
+.ns-diagram .d-dash { stroke-dasharray: 4 4; }
+.ns-diagram .d-arrow { fill: var(--d-line); }
+.ns-diagram .d-arrow-teal { fill: var(--md-primary-fg-color); }
+.ns-diagram .d-icon { fill: none; stroke: var(--md-primary-fg-color); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ---- Cards ------------------------------------------------------------------------------- */
+.md-typeset .grid.cards > ul > li, .md-typeset .grid > .card {
+  border: 1px solid var(--ns-border); border-radius: var(--ns-radius); box-shadow: none; padding: 1rem 1.1rem;
+}
+.md-typeset .grid.cards > ul > li:hover, .md-typeset .grid > .card:hover {
+  border-color: var(--md-primary-fg-color); box-shadow: var(--ns-shadow);
+}
+.md-typeset .grid.cards > ul > li > hr, .md-typeset .grid > .card > hr { margin: .6em 0; border-color: var(--ns-border); }
+.md-typeset .grid.cards .twemoji, .md-typeset .grid.cards .lg { color: var(--md-primary-fg-color); }
+.md-typeset .grid.cards p { margin: .4em 0; }
+
+/* ---- Home -------------------------------------------------------------------------------- */
+.md-typeset .ns-hero { padding: 1.5rem 0 1rem; max-width: 40rem; }
+.md-typeset .ns-hero h1 { font-size: 2.4em; line-height: 1.12; margin: 0 0 .5em; }
+.md-typeset .ns-hero p { font-size: 1.08em; color: var(--md-default-fg-color--light); }
+.md-typeset .ns-hero .md-button { margin: .4em .5em .4em 0; }
+.md-typeset .ns-eyebrow { font-size: .66rem; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; color: var(--md-primary-fg-color); margin: 0; }
+.md-typeset .ns-locations { display: flex; flex-wrap: wrap; gap: .5rem; margin: .8rem 0 0; padding: 0; list-style: none; }
+.md-typeset .ns-locations li {
+  margin: 0; padding: .25rem .7rem; border: 1px solid var(--ns-border); border-radius: 999px; font-size: .7rem;
+  background: var(--ns-surface);
+}
+.md-typeset .ns-locations code { background: none; padding: 0; }
+
+/* ---- 404 --------------------------------------------------------------------------------- */
+.md-typeset .ns-404__code { font-size: 3.5rem; font-weight: 800; color: var(--md-primary-fg-color); margin: 0; line-height: 1; }

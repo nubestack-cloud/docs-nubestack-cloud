@@ -1509,6 +1509,16 @@
             ],
             "description": "As inventory last read it.",
             "title": "Protocol"
+          },
+          "role": {
+            "default": "default",
+            "description": "`default`: the listener serves it to a client whose host name no other certificate covers; `sni`: only to a client asking for one of its names.",
+            "enum": [
+              "default",
+              "sni"
+            ],
+            "title": "Role",
+            "type": "string"
           }
         },
         "required": [
@@ -4096,6 +4106,14 @@
             ],
             "title": "Last Operation"
           },
+          "lb_certificates": {
+            "description": "A listener: the certificates it serves, the default first.",
+            "items": {
+              "$ref": "#/components/schemas/LbListenerCertificate"
+            },
+            "title": "Lb Certificates",
+            "type": "array"
+          },
           "lb_change_pending": {
             "title": "Lb Change Pending",
             "type": "boolean"
@@ -5120,6 +5138,15 @@
             "pattern": "^[A-Z][A-Z_-]{1,31}$",
             "title": "Protocol",
             "type": "string"
+          },
+          "sni_certificate_ids": {
+            "description": "More certificates a `TERMINATED_HTTPS` listener serves (`crt_…`, at most 10), each chosen by the host name the client asks for (SNI); a client whose host name none of them covers gets `certificate_id`, the default. Each one this project's in the load balancer's location, listed once, never the default.",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 10,
+            "title": "Sni Certificate Ids",
+            "type": "array"
           }
         },
         "required": [
@@ -5127,6 +5154,38 @@
           "port"
         ],
         "title": "LbListenerBody",
+        "type": "object"
+      },
+      "LbListenerCertificate": {
+        "description": "A certificate a TLS-terminating listener serves.",
+        "properties": {
+          "certificate_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "`crt_…`; null for a secret that was not uploaded through NubeStack Cloud.",
+            "title": "Certificate Id"
+          },
+          "role": {
+            "description": "`default`: served when no other certificate covers the host name the client asks for; `sni`: served only to a client asking for one of its names.",
+            "enum": [
+              "default",
+              "sni"
+            ],
+            "title": "Role",
+            "type": "string"
+          }
+        },
+        "required": [
+          "certificate_id",
+          "role"
+        ],
+        "title": "LbListenerCertificate",
         "type": "object"
       },
       "LbListenerCreateBody": {
@@ -5187,6 +5246,15 @@
             "pattern": "^[A-Z][A-Z_-]{1,31}$",
             "title": "Protocol",
             "type": "string"
+          },
+          "sni_certificate_ids": {
+            "description": "More certificates a `TERMINATED_HTTPS` listener serves (`crt_…`, at most 10), each chosen by the host name the client asks for (SNI); a client whose host name none of them covers gets `certificate_id`, the default. Each one this project's in the load balancer's location, listed once, never the default.",
+            "items": {
+              "type": "string"
+            },
+            "maxItems": 10,
+            "title": "Sni Certificate Ids",
+            "type": "array"
           }
         },
         "required": [
@@ -5257,6 +5325,23 @@
             ],
             "default": null,
             "title": "Pool Id"
+          },
+          "sni_certificate_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "maxItems": 10,
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "Replace the certificates a `TERMINATED_HTTPS` listener serves by host name (SNI) with these (`crt_…`, at most 10; `[]` removes them all). Each one this project's in the load balancer's location, listed once, never the default.",
+            "title": "Sni Certificate Ids"
           }
         },
         "required": [
@@ -14979,17 +15064,18 @@
       }
     },
     "securitySchemes": {
-      "nexusBearer": {
-        "bearerFormat": "JWT",
+      "Authorization": {
+        "type": "http",
         "scheme": "bearer",
-        "type": "http"
+        "bearerFormat": "API key",
+        "description": "Bearer followed by a service account's API key. The console uses your signed-in session instead."
       }
     }
   },
   "info": {
     "title": "NubeStack Cloud API",
     "version": "1",
-    "description": "The NubeStack Cloud customer API, version 1. Every path starts with `/v1`. Authenticate with a service account's API key as a bearer token. Changes that run in a location answer `202 Accepted` with an operation to follow. See the API guide at /api/overview/ for how to call it."
+    "description": "The NubeStack Cloud customer API, version 1. Authenticate with a service account's API key as a bearer token. Changes that run in a location answer `202 Accepted` with an operation to follow."
   },
   "openapi": "3.1.0",
   "paths": {
@@ -15057,7 +15143,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Look up an invitation",
@@ -15130,7 +15216,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Accept an invitation",
@@ -15203,7 +15289,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Decline an invitation",
@@ -15298,7 +15384,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Who am I",
@@ -15346,7 +15432,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get the organization",
@@ -15576,7 +15662,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "List audit events",
@@ -15633,7 +15719,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get an audit event",
@@ -15847,7 +15933,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Export audit events",
@@ -15904,7 +15990,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get a location's catalog",
@@ -15952,7 +16038,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get the organization's closure report",
@@ -16044,7 +16130,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Explore the organization's costs",
@@ -16092,7 +16178,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Download the organization's data export",
@@ -16154,7 +16240,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Request the organization's data export",
@@ -16202,7 +16288,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get the organization's budgets",
@@ -16250,7 +16336,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "List invitations",
@@ -16322,7 +16408,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Invite someone",
@@ -16395,7 +16481,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Revoke an invitation",
@@ -16468,7 +16554,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Send an invitation again",
@@ -16516,7 +16602,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "List locations",
@@ -16613,7 +16699,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "List members' project roles",
@@ -16693,7 +16779,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "List members",
@@ -16757,7 +16843,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Leave the organization",
@@ -16846,7 +16932,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Remove a member",
@@ -16943,7 +17029,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Change a member's roles",
@@ -17032,7 +17118,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Resume a member",
@@ -17121,7 +17207,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Suspend a member",
@@ -17198,7 +17284,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get the network map summary",
@@ -17246,7 +17332,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get my e-mail notices",
@@ -17313,7 +17399,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Set an e-mail notice",
@@ -17410,7 +17496,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "List operations",
@@ -17467,7 +17553,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get an operation",
@@ -17540,7 +17626,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Cancel an operation",
@@ -17614,7 +17700,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Make another member an owner",
@@ -17662,7 +17748,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "List projects",
@@ -17734,7 +17820,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Create a project",
@@ -17817,7 +17903,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Delete a project",
@@ -17872,7 +17958,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get a project",
@@ -17946,7 +18032,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "List certificates",
@@ -18027,7 +18113,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Upload a certificate",
@@ -18109,7 +18195,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Delete a certificate",
@@ -18173,7 +18259,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get a certificate",
@@ -18246,7 +18332,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Download clouds.yaml",
@@ -18312,7 +18398,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Collect a console URL or console log",
@@ -18369,7 +18455,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get a project's deletion report",
@@ -18452,7 +18538,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Allocate a public IP",
@@ -18534,7 +18620,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Release a public IP",
@@ -18626,7 +18712,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Attach a public IP",
@@ -18718,7 +18804,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Detach a public IP",
@@ -18826,7 +18912,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Set a public IP's tags",
@@ -18915,7 +19001,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "List a project's roles",
@@ -18996,7 +19082,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Give a project role",
@@ -19104,7 +19190,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Take a project role away",
@@ -19168,7 +19254,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get a project role",
@@ -19284,7 +19370,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Change a project role",
@@ -19366,7 +19452,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Delete an image",
@@ -19458,7 +19544,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Rename an image",
@@ -19532,7 +19618,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "List instance groups",
@@ -19613,7 +19699,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Create an instance group",
@@ -19725,7 +19811,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Delete an instance group",
@@ -19789,7 +19875,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get an instance group",
@@ -19895,7 +19981,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Change an instance group",
@@ -19993,7 +20079,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Pause an instance group",
@@ -20091,7 +20177,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Resume an instance group",
@@ -20184,7 +20270,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Find launches",
@@ -20265,7 +20351,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Launch instances",
@@ -20331,7 +20417,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get a launch",
@@ -20388,12 +20474,12 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get a project's inventory summary",
         "tags": [
-          "Resources (all types)"
+          "Resources"
         ]
       }
     },
@@ -20471,12 +20557,12 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Check a project's resources now",
         "tags": [
-          "Resources (all types)"
+          "Resources"
         ]
       }
     },
@@ -20528,7 +20614,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "List launch templates",
@@ -20609,7 +20695,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Create a launch template",
@@ -20707,7 +20793,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Delete a launch template",
@@ -20788,7 +20874,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get a launch template",
@@ -20894,7 +20980,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Change a launch template",
@@ -20977,7 +21063,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Create a load balancer",
@@ -21059,7 +21145,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Delete a load balancer",
@@ -21149,7 +21235,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Rename a load balancer",
@@ -21241,7 +21327,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Add a listener",
@@ -21349,7 +21435,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Delete a listener",
@@ -21455,7 +21541,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Change a listener",
@@ -21547,7 +21633,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Add a pool",
@@ -21655,7 +21741,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Delete a pool",
@@ -21761,7 +21847,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Change a pool",
@@ -21852,7 +21938,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Remove a pool's health check",
@@ -21951,7 +22037,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Set a pool's health check",
@@ -22052,7 +22138,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Replace a pool's members",
@@ -22183,7 +22269,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get a project's network map",
@@ -22266,7 +22352,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Create a network",
@@ -22358,7 +22444,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Connect two networks",
@@ -22449,7 +22535,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Disconnect two networks",
@@ -22541,7 +22627,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Add an address range",
@@ -22633,7 +22719,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Turn a network's Internet access on or off",
@@ -22725,7 +22811,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Attach or detach private routing",
@@ -22807,7 +22893,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Delete a network",
@@ -22897,7 +22983,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Rename a network",
@@ -23005,7 +23091,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Set a network's tags",
@@ -23088,7 +23174,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Add a location to a project",
@@ -23180,7 +23266,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Remove a location from a project",
@@ -23246,7 +23332,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get connection details",
@@ -23328,7 +23414,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get a console link",
@@ -23410,7 +23496,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Remove the Internet gateway",
@@ -23500,7 +23586,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Add an Internet gateway",
@@ -23566,7 +23652,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get a project's quota in one location",
@@ -23682,7 +23768,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Set a project's quota in one location",
@@ -23774,7 +23860,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Create a ready network",
@@ -23856,7 +23942,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Cancel a location's removal",
@@ -23932,7 +24018,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Confirm a blocked removal",
@@ -24014,7 +24100,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Resume a project in one location",
@@ -24071,7 +24157,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get a project's quota",
@@ -24128,7 +24214,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "List what a project's roles may hold",
@@ -24185,7 +24271,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "List a project's roles",
@@ -24266,7 +24352,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Create a project role",
@@ -24364,7 +24450,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Delete a project's role",
@@ -24428,7 +24514,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Read a project's role",
@@ -24544,7 +24630,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Change a project's role",
@@ -24627,7 +24713,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Create a router",
@@ -24719,7 +24805,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Delete a router",
@@ -24809,7 +24895,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Rename a router",
@@ -24901,7 +24987,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Attach a range to a router",
@@ -24993,7 +25079,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Detach a range from a router",
@@ -25085,7 +25171,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Set a router's public gateway",
@@ -25177,7 +25263,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Set a router's routes",
@@ -25272,7 +25358,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "List schedules",
@@ -25353,7 +25439,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Create a schedule",
@@ -25451,7 +25537,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Delete a schedule",
@@ -25515,7 +25601,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get a schedule",
@@ -25621,7 +25707,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Change a schedule",
@@ -25719,7 +25805,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Pause a schedule",
@@ -25817,7 +25903,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Resume a schedule",
@@ -25900,7 +25986,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Create a security group",
@@ -25982,7 +26068,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Delete a security group",
@@ -26072,7 +26158,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Rename a security group",
@@ -26164,7 +26250,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Add a security group rule",
@@ -26256,7 +26342,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Remove a security group rule",
@@ -26339,7 +26425,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Create a server group",
@@ -26421,7 +26507,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Delete a server group",
@@ -26504,7 +26590,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Create an instance",
@@ -26596,7 +26682,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Rename an instance",
@@ -26704,7 +26790,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Set an instance's tags",
@@ -26786,7 +26872,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Delete an instance",
@@ -26852,7 +26938,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get what an instance forwards for",
@@ -26944,7 +27030,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Attach an instance to a network",
@@ -27036,7 +27122,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Attach a volume",
@@ -27128,7 +27214,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Save an instance as an image",
@@ -27220,7 +27306,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Detach an instance from a network",
@@ -27312,7 +27398,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Detach a volume",
@@ -27404,7 +27490,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Lock an instance",
@@ -27496,7 +27582,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Pause an instance",
@@ -27588,7 +27674,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Restart an instance",
@@ -27680,7 +27766,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Rebuild an instance",
@@ -27772,7 +27858,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Open an instance's console",
@@ -27864,7 +27950,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Read an instance's console log",
@@ -27956,7 +28042,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Rescue an instance",
@@ -28048,7 +28134,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Resize an instance",
@@ -28140,7 +28226,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Resume an instance",
@@ -28232,7 +28318,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Set what an instance forwards for",
@@ -28324,7 +28410,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Set an instance's metadata",
@@ -28416,7 +28502,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Set an instance's security groups",
@@ -28508,7 +28594,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Shelve an instance",
@@ -28600,7 +28686,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Start an instance",
@@ -28692,7 +28778,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Stop an instance",
@@ -28784,7 +28870,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Suspend an instance",
@@ -28876,7 +28962,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Unlock an instance",
@@ -28968,7 +29054,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Unpause an instance",
@@ -29060,7 +29146,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "End a rescue",
@@ -29152,7 +29238,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Unshelve an instance",
@@ -29234,7 +29320,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Delete an address range",
@@ -29324,7 +29410,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Change an address range",
@@ -29432,7 +29518,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get a project's usage",
@@ -29524,7 +29610,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Rename a snapshot",
@@ -29606,7 +29692,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Delete a snapshot",
@@ -29689,7 +29775,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Create a volume",
@@ -29781,7 +29867,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Rename a volume",
@@ -29889,7 +29975,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Set a volume's tags",
@@ -29971,7 +30057,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Delete a volume",
@@ -30063,7 +30149,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Extend a volume",
@@ -30155,7 +30241,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Change a volume's type",
@@ -30247,7 +30333,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Set whether a volume is bootable",
@@ -30339,7 +30425,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Snapshot a volume",
@@ -30431,7 +30517,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Move a volume to another project",
@@ -30623,12 +30709,12 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "List a project's resources",
         "tags": [
-          "Resources (all types)"
+          "Resources"
         ]
       }
     },
@@ -30698,12 +30784,12 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get a resource",
         "tags": [
-          "Resources (all types)"
+          "Resources"
         ]
       }
     },
@@ -30773,12 +30859,12 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get a resource's activity",
         "tags": [
-          "Resources (all types)"
+          "Resources"
         ]
       }
     },
@@ -30848,12 +30934,12 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get a resource's attachments",
         "tags": [
-          "Resources (all types)"
+          "Resources"
         ]
       }
     },
@@ -30939,12 +31025,12 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Dismiss a failed create",
         "tags": [
-          "Resources (all types)"
+          "Resources"
         ]
       }
     },
@@ -31030,12 +31116,12 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Check a resource now",
         "tags": [
-          "Resources (all types)"
+          "Resources"
         ]
       }
     },
@@ -31103,7 +31189,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Cancel a project's deletion",
@@ -31186,7 +31272,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "End a deletion's retention early",
@@ -31259,7 +31345,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Resume a project",
@@ -31307,7 +31393,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get every project's quota",
@@ -31365,7 +31451,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Choose the default quota preset",
@@ -31423,7 +31509,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Create a quota preset",
@@ -31473,7 +31559,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Delete a quota preset",
@@ -31554,7 +31640,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Change a quota preset",
@@ -31602,7 +31688,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "List quota presets",
@@ -31650,7 +31736,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "List budget requests",
@@ -31706,7 +31792,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Ask for a larger budget",
@@ -31763,7 +31849,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Cancel a budget request",
@@ -31811,7 +31897,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get the rate card in force",
@@ -31859,7 +31945,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "List what custom roles may hold",
@@ -31907,7 +31993,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "List roles",
@@ -31979,7 +32065,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Create a custom role",
@@ -32068,7 +32154,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Delete a custom role",
@@ -32123,7 +32209,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Read a role",
@@ -32230,7 +32316,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Change a custom role",
@@ -32310,7 +32396,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "List service accounts",
@@ -32382,7 +32468,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Create a service account",
@@ -32465,7 +32551,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Delete a service account",
@@ -32520,7 +32606,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get a service account",
@@ -32577,7 +32663,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "List API keys",
@@ -32658,7 +32744,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Create an API key",
@@ -32740,7 +32826,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Revoke an API key",
@@ -32832,7 +32918,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Rotate an API key",
@@ -32889,7 +32975,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "List location credentials",
@@ -32970,7 +33056,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Create a location credential",
@@ -33062,7 +33148,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Revoke a location credential",
@@ -33128,7 +33214,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Collect a location credential's secret",
@@ -33176,7 +33262,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get the organization's settings",
@@ -33248,7 +33334,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Change the organization's settings",
@@ -33344,7 +33430,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "List SSH keys",
@@ -33416,7 +33502,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Add an SSH key",
@@ -33489,7 +33575,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Delete an SSH key",
@@ -33569,7 +33655,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "List the organization's statements",
@@ -33626,7 +33712,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get a statement",
@@ -33724,7 +33810,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Trace a statement line to its usage",
@@ -33823,7 +33909,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Get the organization's usage",
@@ -33887,7 +33973,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Cancel the organization's closure",
@@ -33961,7 +34047,7 @@
         },
         "security": [
           {
-            "nexusBearer": []
+            "Authorization": []
           }
         ],
         "summary": "Close the organization",
@@ -33988,7 +34074,7 @@
     },
     {
       "name": "Instances",
-      "description": "Virtual machines: create, change, act on, delete; consoles and console logs."
+      "description": "Create, change, act on and delete instances; consoles and console logs."
     },
     {
       "name": "Launch templates",
@@ -33996,7 +34082,7 @@
     },
     {
       "name": "Instance groups",
-      "description": "A number of instances from a template kept running."
+      "description": "A number of instances from a template, kept running."
     },
     {
       "name": "Server groups",
@@ -34008,7 +34094,7 @@
     },
     {
       "name": "Volumes and snapshots",
-      "description": "Block storage and point-in-time copies."
+      "description": "Block storage volumes and their snapshots."
     },
     {
       "name": "Schedules",
@@ -34024,7 +34110,7 @@
     },
     {
       "name": "Security groups",
-      "description": "Firewall rules for instances."
+      "description": "Firewall rules for instances and load balancers."
     },
     {
       "name": "Public IPs",
@@ -34032,7 +34118,7 @@
     },
     {
       "name": "Networking",
-      "description": "Networks, address ranges, routing, Internet gateways and the network map."
+      "description": "Networks, address ranges, routing, Internet gateways and the network topology."
     },
     {
       "name": "SSH keys",
@@ -34056,7 +34142,7 @@
     },
     {
       "name": "Quota",
-      "description": "Your organization's budgets, project quota, presets and requests for more."
+      "description": "Budgets, project quota, presets and requests for more."
     },
     {
       "name": "Usage and costs",
@@ -34079,7 +34165,7 @@
       "description": "Projects, their locations, and deleting or resuming them."
     },
     {
-      "name": "Resources (all types)",
+      "name": "Resources",
       "description": "Lists, reads, attachments and activity of any resource type."
     }
   ]

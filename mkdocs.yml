@@ -1,97 +1,135 @@
-site_name: NubeStack Cloud
+site_name: NubeStack Cloud Docs
 site_url: https://docs.nubestack.cloud/
-site_description: Build with instances, networks and storage in Karachi and Islamabad.
+site_description: >-
+  Guides and reference for NubeStack Cloud: instances, networks, storage, load balancers and
+  certificates in Karachi and Islamabad, from the console or the API.
 site_author: NubeStack
-copyright: NubeStack Cloud · Documentation
+copyright: Copyright &copy; 2026 NubeStack
 strict: true
+
 theme:
   name: material
   custom_dir: overrides
   language: en
-  logo: assets/brand/mark.png
-  favicon: assets/favicon.png
-  font: false
+  favicon: assets/brand/favicon.svg
+  font: false              # self-hosted in docs/assets/fonts (see extra.css); no font CDN
+  icon:
+    admonition:
+      note: material/information-outline
+      tip: material/lightbulb-on-outline
+      warning: material/alert-outline
+      danger: material/alert-octagon-outline
+      example: material/console
   palette:
-    - media: '(prefers-color-scheme: light)'
+    - media: "(prefers-color-scheme: light)"
       scheme: default
       primary: custom
       accent: custom
       toggle:
         icon: material/weather-night
-        name: Switch to dark mode
-    - media: '(prefers-color-scheme: dark)'
+        name: Use the dark theme
+    - media: "(prefers-color-scheme: dark)"
       scheme: slate
       primary: custom
       accent: custom
       toggle:
         icon: material/weather-sunny
-        name: Switch to light mode
+        name: Use the light theme
   features:
-    - navigation.indexes
-    - navigation.footer
-    - navigation.top
+    - navigation.instant
+    - navigation.instant.progress
     - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.indexes
+    - navigation.path
+    - navigation.top
+    - navigation.footer
     - toc.follow
     - search.suggest
     - search.highlight
+    - search.share
     - content.code.copy
+    - content.code.annotate
     - content.tabs.link
-plugins:
-  - search
-hooks:
-  - scripts/build_docs.py
+    - content.tooltips
+
+extra_css:
+  - assets/stylesheets/extra.css
+  - assets/stylesheets/api-reference.css
+
 extra:
   generator: false
-extra_css:
-  - assets/stylesheets/documentation.css
-extra_javascript:
-  - assets/javascripts/docs.js
+
+plugins:
+  - search
+
+hooks:
+  - scripts/hooks.py
+
 markdown_extensions:
+  - abbr
   - admonition
   - attr_list
+  - def_list
+  - footnotes
   - md_in_html
   - tables
   - toc:
       permalink: true
+      permalink_title: Link to this section
   - pymdownx.details
   - pymdownx.highlight:
       anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.snippets:
+      base_path: [docs/assets/diagrams, includes]
+      check_paths: true
+      auto_append: [abbreviations.md]
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
+  - pymdownx.tasklist:
+      custom_checkbox: true
   - pymdownx.emoji:
       emoji_index: !!python/name:material.extensions.emoji.twemoji
       emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
 validation:
   nav:
     omitted_files: warn
     not_found: warn
   links:
-    absolute_links: relative_to_docs
+    absolute_links: warn
     anchors: warn
     not_found: warn
     unrecognized_links: warn
+
 nav:
-  - Overview: index.md
+  - Home: index.md
   - Get started:
-      - Overview: get-started/index.md
-      - Create your account: get-started/account.md
-      - Find your way around: get-started/console.md
-      - Your organization: get-started/organizations.md
+      - get-started/index.md
+      - Sign up and sign in: get-started/account.md
+      - The console: get-started/console.md
+      - Organizations: get-started/organizations.md
       - Create a project: get-started/create-a-project.md
-      - Your first instance: get-started/first-instance.md
-  - Tutorials:
-      - Overview: tutorials/index.md
-      - Publish a web application: tutorials/publish-web-application.md
-      - Use persistent storage: tutorials/persistent-storage.md
-      - Recover a volume: tutorials/recover-a-volume.md
-      - Connect private services: tutorials/private-networking.md
-      - Serve an application over HTTPS: tutorials/https-load-balancer.md
-      - Scale application replicas: tutorials/scale-an-application.md
-      - Automate a cloud change: tutorials/automate-with-api.md
-      - Clean up a project safely: tutorials/clean-up-resources.md
-  - Core concepts:
-      - Overview: concepts/index.md
+      - Launch your first instance: get-started/first-instance.md
+      - Tutorials:
+          - Publish a web application: tutorials/publish-web-application.md
+          - Serve an application over HTTPS: tutorials/https-load-balancer.md
+          - Keep data on a volume: tutorials/persistent-storage.md
+          - Connect private services: tutorials/private-networking.md
+          - Run a group of instances: tutorials/scale-an-application.md
+          - Automate with the API: tutorials/automate-with-api.md
+  - Concepts:
+      - concepts/index.md
       - Locations: concepts/locations.md
       - Projects and quotas: concepts/projects-and-quotas.md
       - Operations: concepts/operations.md
@@ -100,60 +138,66 @@ nav:
       - Usage and costs: concepts/usage-and-costs.md
       - Deletion and retention: concepts/deletion-and-retention.md
       - Limits: concepts/limits.md
-  - Compute:
-      - Overview: compute/index.md
-      - Instances: compute/instances.md
-      - Manage instances: compute/manage-instances.md
-      - SSH keys: compute/ssh-keys.md
-      - Images: compute/images.md
-      - Server groups: compute/server-groups.md
-      - Launch templates: compute/launch-templates.md
-      - Instance groups: compute/instance-groups.md
-  - Networking:
-      - Overview: networking/index.md
-      - Networks and subnets: networking/networks.md
-      - Routing: networking/routing.md
-      - Internet gateways: networking/internet-gateways.md
-      - Security groups: networking/security-groups.md
-      - Public IPs: networking/public-ips.md
-      - Load balancers: networking/load-balancers.md
-      - Network map: networking/network-map.md
-  - Storage:
-      - Overview: storage/index.md
-      - Volumes: storage/volumes.md
-      - Snapshots: storage/snapshots.md
-      - Schedules: storage/schedules.md
-  - Security:
-      - Overview: security/index.md
-      - Certificates: security/certificates.md
-  - Organization:
-      - Overview: organization/index.md
-      - Members and invitations: organization/members.md
-      - Manage projects: organization/projects.md
-      - Custom roles: organization/custom-roles.md
-      - Service accounts and API keys: organization/service-accounts.md
-      - Quota: organization/quota.md
-      - Settings and second factor: organization/settings.md
-      - E-mail notices: organization/notifications.md
-      - Activity and audit log: organization/activity.md
-      - Usage: organization/usage.md
-      - Statements and cost explorer: organization/statements-and-costs.md
+  - Services:
+      - services.md
+      - Compute:
+          - compute/index.md
+          - Instances: compute/instances.md
+          - Manage an instance: compute/manage-instances.md
+          - Connect to an instance: compute/connect-to-instances.md
+          - SSH keys: compute/ssh-keys.md
+          - Images: compute/images.md
+          - Server groups: compute/server-groups.md
+          - Launch templates: compute/launch-templates.md
+          - Instance groups: compute/instance-groups.md
+      - Networking:
+          - networking/index.md
+          - Networks: networking/networks.md
+          - Routing: networking/routing.md
+          - Internet gateways: networking/internet-gateways.md
+          - Security groups: networking/security-groups.md
+          - Public IPs: networking/public-ips.md
+          - Load balancers: networking/load-balancers.md
+          - Network topology: networking/network-topology.md
+      - Storage:
+          - storage/index.md
+          - Volumes: storage/volumes.md
+          - Snapshots: storage/snapshots.md
+          - Schedules: storage/schedules.md
+      - Security:
+          - security/index.md
+          - Certificates: security/certificates.md
+          - Several certificates on one listener (SNI): security/sni.md
+          - Second factor: security/second-factor.md
+      - Organization:
+          - organization/index.md
+          - Members and invitations: organization/members.md
+          - Projects: organization/projects.md
+          - Custom roles: organization/custom-roles.md
+          - Service accounts and API keys: organization/service-accounts.md
+          - Quota: organization/quota.md
+          - Settings: organization/settings.md
+          - E-mail notices: organization/notifications.md
+          - Audit log and activity: organization/activity.md
+          - Usage: organization/usage.md
+          - Statements and cost explorer: organization/statements-and-costs.md
   - API:
-      - Overview: api/overview.md
+      - api/index.md
       - Authentication: api/authentication.md
       - Requests: api/requests.md
-      - Operations and polling: api/operations.md
+      - Operations: api/operations.md
       - Errors: api/errors.md
       - API reference: api/reference/index.md
-  - Tools & access:
-      - Native OpenStack access:
-          - Overview: native-access/overview.md
-          - Horizon single sign-on: native-access/horizon.md
-          - OpenStack CLI: native-access/openstack-cli.md
-      - Tools:
-          - NubeStack CLI: tools/cli.md
-          - Terraform: tools/terraform.md
+  - Native access:
+      - native-access/index.md
+      - Horizon: native-access/horizon.md
+      - OpenStack CLI: native-access/openstack-cli.md
+  - Tools:
+      - tools/index.md
+      - NubeStack CLI: tools/cli.md
+      - Terraform: tools/terraform.md
   - Help:
+      - help/index.md
       - Troubleshooting: help/troubleshooting.md
       - Glossary: help/glossary.md
       - Support: help/support.md

@@ -1,18 +1,18 @@
 // Takes the documentation's screenshots from the Nexus portal, running on Vite against a mock of
 // the customer API that answers with this site's sample world (world.ts, mock.ts).
 //
-//   NEXUS_PORTAL_DIR=/path/to/nexus/portal npm run screens            all shots
-//   NEXUS_PORTAL_DIR=/path/to/nexus/portal npm run screens -- compute  only shots whose name has "compute"
+//   NEXUS_PORTAL_DIR=/path/to/nexus/portal node --import ./scripts/screens/register.mjs scripts/screens/take.ts
+//   ... take.ts compute     only the shots whose name contains "compute"
 //
-// The portal needs its own dependencies first: `cd $NEXUS_PORTAL_DIR && npm ci`. Writes WebP
+// Node 24+ runs this TypeScript directly. Playwright comes from the portal's own dependencies
+// (`cd $NEXUS_PORTAL_DIR && npm ci`), so this repository installs no Node packages. Writes WebP
 // files to docs/assets/screens/<name>.webp; see scripts/screens/README.md.
 import { spawn, type ChildProcess } from "node:child_process";
 import { mkdirSync, existsSync, writeFileSync } from "node:fs";
 import { createServer } from "node:net";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
-import { chromium, type Page } from "playwright";
-import sharp from "sharp";
+import type { Browser, Page } from "playwright";
 import { installMock, type MockOptions } from "./mock.ts";
 import { SHOTS } from "./shots.ts";
 import { FIXED_NOW } from "./world.ts";
@@ -23,7 +23,28 @@ if (!existsSync(join(portal, "node_modules", ".bin", "vite"))) {
   console.error(`No portal with its dependencies at ${portal}. Set NEXUS_PORTAL_DIR to a Nexus checkout's portal/ and run npm ci there.`);
   process.exit(2);
 }
+const { chromium } = await import(pathToFileURL(join(portal, "node_modules", "playwright", "index.mjs")).href);
 const filter = process.argv.slice(2);
+
+/** PNG to WebP, by the browser's own encoder: no image library needed. */
+async function webp(browser: Browser, png: Buffer, quality = 0.86): Promise<Buffer> {
+  const page = await browser.newPage();
+  try {
+    const data = await page.evaluate(async ({ b64, q }) => {
+      const bitmap = await createImageBitmap(await (await fetch(`data:image/png;base64,${b64}`)).blob());
+      const canvas = new OffscreenCanvas(bitmap.width, bitmap.height);
+      canvas.getContext("2d")!.drawImage(bitmap, 0, 0);
+      const blob = await canvas.convertToBlob({ type: "image/webp", quality: q });
+      const bytes = new Uint8Array(await blob.arrayBuffer());
+      let binary = "";
+      for (let i = 0; i < bytes.length; i += 0x8000) binary += String.fromCharCode(...bytes.subarray(i, i + 0x8000));
+      return btoa(binary);
+    }, { b64: png.toString("base64"), q: quality });
+    return Buffer.from(data, "base64");
+  } finally {
+    await page.close();
+  }
+}
 const forbidden = /hinxton|\bhgi\b|sanger|\blab\b|10\.11\.|172\.27\.|nip\.io/i;
 
 async function freePort(): Promise<number> {
@@ -119,23 +140,23 @@ try {
       else {
         const selector = clip === "main" ? "main.content" : clip === "dialog" ? "[role=dialog]" : clip;
         const panel = page.locator(selector).first();
-        png = await panel.screenshot({ animations: "disabled", caret: "hide" });
         if (clip === "main") {
-          // Crop empty viewport padding, keeping all visible text and controls intact.
-          const contentHeight = await panel.evaluate((element) => {
+          // Crop the empty space below the content, keeping all visible text and controls.
+          const box = await panel.evaluate((element) => {
             const bounds = element.getBoundingClientRect();
             const leaves = [...element.querySelectorAll("h1,h2,h3,h4,p,table,button,a,input,select,textarea,[role=tablist],pre,dl,svg,canvas")];
             const bottom = Math.max(bounds.top, ...leaves.filter(e => e.getClientRects().length > 0).map(e => e.getBoundingClientRect().bottom));
-            return Math.min(bounds.height, Math.ceil(bottom - bounds.top + 24));
+            return { x: bounds.left + window.scrollX, y: bounds.top + window.scrollY, width: bounds.width,
+              height: Math.min(bounds.height, Math.ceil(bottom - bounds.top + 24)) };
           });
-          const info = await sharp(png).metadata();
-          const height = Math.min(info.height!, Math.ceil(contentHeight * 2));
-          if (height > 0 && height < info.height!) png = await sharp(png).extract({ left: 0, top: 0, width: info.width!, height }).toBuffer();
+          png = await page.screenshot({ animations: "disabled", caret: "hide", fullPage: true, clip: box });
+        } else {
+          png = await panel.screenshot({ animations: "disabled", caret: "hide" });
         }
       }
       const out = join(root, "docs", "assets", "screens", `${shot.name}.webp`);
       mkdirSync(dirname(out), { recursive: true });
-      await sharp(png).webp({ quality: 86, effort: 5 }).toFile(out);
+      writeFileSync(out, await webp(browser, png));
       const textFile = join(root, "data", "screen-text", `${shot.name}.txt`);
       mkdirSync(dirname(textFile), { recursive: true });
       writeFileSync(textFile, visibleText.split("\n").map(line => line.trimEnd()).join("\n") + "\n");
@@ -144,7 +165,7 @@ try {
       failed += 1;
       console.error(`FAIL  ${shot.name}: ${(error as Error).message.split("\n")[0]}`);
       mkdirSync(join(root, "scripts", "screens", "failed"), { recursive: true });
-      await page.screenshot({ path: join(root, "scripts", "screens", "failed", `${shot.name.replaceAll("/", "-")}.png`) }).catch(() => undefined);
+          await page.screenshot({ path: join(root, "scripts", "screens", "failed", `${shot.name.replaceAll("/", "-")}.png`) }).catch(() => undefined);
     } finally {
       await context.close();
     }
