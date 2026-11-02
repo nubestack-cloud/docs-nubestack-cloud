@@ -1,23 +1,54 @@
 # Console screenshots
 
-Screenshots are rendered from the real Nexus portal with Playwright, using only the sample world in `world.ts` and the mock routes in `mock.ts`. The product's fixtures and source are not edited. The API join helpers are read from its `portal/e2e/mock-api.ts`.
+The screenshots in `docs/assets/screens/` are rendered from the real Nexus portal (the console
+NubeStack Cloud runs), on Vite, against a mock of the customer API that answers with this site's
+sample world. No live installation or cloud is ever reached.
+
+| File | What it is |
+|---|---|
+| `take.ts` | The runner: starts Vite, takes each shot, encodes WebP, writes the text audit |
+| `shots.ts` | Every shot: its name, portal path, what to click, and what to crop to |
+| `world.ts` | The sample world: Acme, web-shop and analytics, Karachi and Islamabad, Ayesha Khan and colleagues |
+| `mock.ts` | Answers the API routes from `world.ts`, importing the portal mock's join helpers |
+| `register.mjs` | Lets Node load the portal's TypeScript helpers |
 
 ## Regenerate
 
-Install Node 24+, run `npm ci` in this documentation repository and install Chromium with `npx playwright install chromium`. The product portal must already have its dependencies installed.
+You need Node 24 (it runs TypeScript itself) and a Nexus checkout whose portal has its
+dependencies installed. This repository installs no Node packages: Playwright comes from the
+portal.
 
 ```bash
-NEXUS_PORTAL_DIR=/path/to/nexus/portal npm run screens
-# One subset:
-NEXUS_PORTAL_DIR=/path/to/nexus/portal npm run screens -- networking
+cd /path/to/nexus/portal && npm ci && cd -
+NEXUS_PORTAL_DIR=/path/to/nexus/portal node --import ./scripts/screens/register.mjs scripts/screens/take.ts
+# only the shots whose name contains a filter:
+NEXUS_PORTAL_DIR=/path/to/nexus/portal node --import ./scripts/screens/register.mjs scripts/screens/take.ts security/ instance-create
 ```
 
-The runner starts Vite on a free localhost port, renders each entry in `shots.ts`, then stops the Vite process by its PID in a `finally` block. It uses a 1365px viewport, device scale factor 2, light theme and a fixed sample clock. Dialogs and panels are cropped where useful. WebP files go to `docs/assets/screens/`.
+The runner:
 
-It aborts browser requests to origins other than its local portal. API reads and writes are mocked; it never needs cloud credentials or a live installation. Rendered page text is checked before each image is saved and recorded in `data/screen-text/` for review alongside the images. A failed image is not substituted with an invented screen.
+- starts Vite on a free local port and stops it by its PID when done;
+- uses a 1365 px wide window at device scale factor 2, the light theme, a fixed clock and the
+  `Asia/Karachi` time zone;
+- blocks every request that is not to the local portal, and answers `/api/**` from the mock;
+- draws NubeStack's mark and name in place of the platform's wordmark;
+- crops to the content panel or a dialog where that reads better;
+- refuses to save a shot whose visible text matches a forbidden value;
+- encodes WebP in the browser and writes the visible text to `data/screen-text/<name>.txt`.
 
-## Sample data and review
+A failed shot leaves a PNG in `scripts/screens/failed/` (ignored) and the old image in place.
 
-The world uses Acme, web-shop and analytics; Karachi and Islamabad; invented people with `acme.example` addresses; and reserved documentation ranges for public IPs. Private network form examples use RFC 1918 ranges, never addresses of a real customer. `0.0.0.0/0` represents an actual firewall wildcard, not a sample host. Prices are invented examples and remain provisional.
+## Sample data rules
 
-After regenerating, run `mkdocs build --strict` and `python scripts/check.py`. Review screenshots for readability and compare each guide's action names with the portal. Capture new screens by adding a route and optional interaction to `shots.ts`; keep all scenario overrides here instead of editing the product fixtures.
+- Organization **Acme**, projects **web-shop** and **analytics**, locations **Karachi
+  (pak-khi-1)** and **Islamabad (pak-isb-1)**, person **Ayesha Khan &lt;ayesha@acme.example&gt;**;
+  colleagues are invented names at `acme.example`.
+- Public addresses only from 203.0.113.0/24, 198.51.100.0/24 and 192.0.2.0/24. Private networks
+  use 10.0.0.0/24 and 10.0.1.0/24, because a location accepts only private ranges for networks.
+- Prices and quantities are invented and marked provisional.
+
+## Add a shot
+
+Add an entry to `shots.ts`, extend `world.ts` or a shot's `mock.extra` if the page needs data,
+run the runner for that shot, look at the image, then reference it from a page with alt text.
+After regenerating, run `mkdocs build --strict` and `python scripts/check.py`.

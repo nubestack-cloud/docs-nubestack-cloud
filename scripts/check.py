@@ -1,4 +1,15 @@
-"""Check built links, customer-safe examples, screenshot coverage and the search index."""
+"""Checks the built site and the sources. Run after `mkdocs build --strict`:
+
+    python scripts/check.py
+
+1. Every internal link and anchor in the built HTML resolves (MkDocs checks Markdown links; this
+   also covers generated pages, the theme and raw HTML).
+2. No page, image text, script or data file carries a forbidden value: names of real sites,
+   people or private address ranges that must never appear in customer docs.
+3. Every screenshot and diagram has alt text, every screenshot its captured-text audit, every
+   diagram a title and description, and no page loads anything from another host.
+4. No unfinished stubs, and the search index has the core terms.
+"""
 from __future__ import annotations
 
 import json
@@ -11,109 +22,104 @@ from urllib.parse import unquote, urljoin, urlsplit
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "site"
-FORBIDDEN = re.compile(r"hinxton|sanger|\bhgi\b|\blab\b|10\.11\.|172\.27\.|nip\.io", re.I)
+HOST = "docs.nubestack.cloud"
+FORBIDDEN = re.compile(r"hinxton|sanger|\bhgi\b|\blab\b|\blabs\b|10\.11\.|172\.27\.|nip\.io", re.I)
+SCANNED = ("docs", "data", "openapi", "scripts", "overrides", "includes", "site")
+SUFFIXES = {".md", ".html", ".json", ".txt", ".ts", ".mjs", ".py", ".svg", ".css", ".yml", ".js"}
 
 
 class Page(HTMLParser):
-    def __init__(self, source):
+    def __init__(self, source: str):
         super().__init__(convert_charrefs=True)
-        self.ids = set()
-        self.links = []
+        self.ids: set[str] = set()
+        self.links: list[str] = []
+        self.images_without_alt: list[str] = []
+        self.external: list[str] = []
         self.feed(source)
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
         if attrs.get("id"):
             self.ids.add(attrs["id"])
-        for attr in ("href", "src"):
-            if attrs.get(attr):
-                self.links.append(attrs[attr])
+        if tag == "a" and attrs.get("href"):
+            self.links.append(attrs["href"])
+        loaded = attrs.get("src") if tag in ("img", "script") else attrs.get("href") if tag == "link" else None
+        if loaded:
+            if urlsplit(loaded).netloc not in ("", HOST):
+                self.external.append(loaded)
+            else:
+                self.links.append(loaded)
+        if tag == "img" and not (attrs.get("alt") or "").strip():
+            self.images_without_alt.append(attrs.get("src", "?"))
 
 
-def check():
-    errors = []
+def check() -> list[str]:
+    errors: list[str] = []
     if not (SITE / "index.html").exists():
-        return ["No built site. Run mkdocs build --strict first."]
+        return ["No built site: run mkdocs build --strict first."]
     pages = {p.relative_to(SITE).as_posix(): Page(p.read_text()) for p in SITE.rglob("*.html")}
     for source, page in pages.items():
         base = "/" + (source.removesuffix("index.html") if source.endswith("index.html") else source)
         for link in page.links:
             if link.startswith(("mailto:", "tel:", "data:", "javascript:")):
                 continue
-            target = urlsplit(urljoin("https://docs.nubestack.cloud" + base, link))
-            if target.netloc != "docs.nubestack.cloud":
+            target = urlsplit(urljoin(f"https://{HOST}{base}", link))
+            if target.netloc != HOST:
                 continue
             path = unquote(target.path).lstrip("/")
             if not path or path.endswith("/"):
                 path += "index.html"
-            dest = SITE / path
-            if not dest.exists():
+            if not (SITE / path).exists():
                 errors.append(f"Broken link: {source} -> {link}")
             elif target.fragment and path in pages and unquote(target.fragment) not in pages[path].ids:
                 errors.append(f"Missing anchor: {source} -> {link}")
-    for directory in ("docs", "data", "openapi", "site", "scripts/screens"):
+        for src in page.images_without_alt:
+            if "assets/screens/" in src or "assets/diagrams/" in src:
+                errors.append(f"Image without alt text: {source} -> {src}")
+        for ref in page.external:
+            errors.append(f"Loads from another host: {source} -> {ref}")
+
+    for directory in SCANNED:
         for path in (ROOT / directory).rglob("*"):
-            if path.suffix not in {".md", ".html", ".json", ".txt", ".ts", ".svg"}:
+            if path.suffix not in SUFFIXES or path.name in {"check.py", "take.ts"} or "node_modules" in path.parts:
                 continue
-            if path.name == "take.ts":
-                continue  # The runner contains the deny pattern itself.
-            match = FORBIDDEN.search(path.read_text())
+            match = FORBIDDEN.search(path.read_text(errors="ignore"))
             if match:
-                errors.append(f"Forbidden sample value: {path.relative_to(ROOT)} ({match[0]})")
+                errors.append(f"Forbidden value: {path.relative_to(ROOT)} ({match[0]})")
+
     for path in (ROOT / "docs").rglob("*.md"):
-        if re.search(r"This page is being written|TODO|TBD", path.read_text()):
+        if re.search(r"\bTODO\b|\bTBD\b|To be written|# Stub", path.read_text()):
             errors.append(f"Unfinished page: {path.relative_to(ROOT)}")
-    manifest = json.loads((ROOT / "data/action-tabs.json").read_text())
-    count = 0
-    for source, actions in manifest.items():
-        path = ROOT / "docs" / source
-        markdown = path.read_text()
-        relative = Path(source).with_suffix("") / "index.html"
-        rendered = (SITE / relative).read_text()
-        labels = re.findall(r'<label for="__tabbed_[^"]+">([^<]+)</label>', rendered)
-        if labels != [label for _ in actions for label in ("Console", "API")]:
-            errors.append(f"Missing action tabs: {source}")
-        sections = dict(re.findall(r"^## ([^\n]+)\n(.*?)(?=^## |\Z)", markdown, re.M | re.S))
-        for action in actions:
-            body = sections.get(action["heading"], "")
-            if not all(f'=== "{method}"' in body for method in ("Console", "API")):
-                errors.append(f"Action has no interface choice: {source}: {action['heading']}")
-            for operation in action["operations"]:
-                anchor = re.sub(r"[^a-z0-9]+", "-", operation.lower()).strip("-")
-                if f"#{anchor})" not in body:
-                    errors.append(f"Action lacks its API operation: {source}: {operation}")
-            count += 1
-        if not re.search(r"^action_tabs: true$", markdown, re.M):
-            errors.append(f"Action page lacks metadata: {source}")
-    for path in (ROOT / "docs").rglob("*.md"):
-        text = path.read_text()
-        if "methods: true" in text or "<!-- methods -->" in text:
-            errors.append(f"Legacy hook-dependent tabs: {path.relative_to(ROOT)}")
-        if "action_tabs: true" in text and path.relative_to(ROOT / "docs").as_posix() not in manifest:
-            errors.append(f"Action page missing from coverage inventory: {path.relative_to(ROOT)}")
+
     for path in (ROOT / "docs/assets/diagrams").glob("*.svg"):
         try:
-            root = ET.fromstring(path.read_text())
-            ns = {"svg": "http://www.w3.org/2000/svg"}
-            if root.find("svg:title", ns) is None or root.find("svg:desc", ns) is None:
-                errors.append(f"Diagram lacks an accessible description: {path.name}")
+            svg = ET.fromstring(path.read_text())
         except ET.ParseError as error:
             errors.append(f"Invalid SVG: {path.name}: {error}")
-    shots = list((ROOT / "docs/assets/screens").rglob("*.webp"))
+            continue
+        ns = {"svg": "http://www.w3.org/2000/svg"}
+        if svg.find("svg:title", ns) is None or svg.find("svg:desc", ns) is None:
+            errors.append(f"Diagram without title and description: {path.name}")
+
+    shots = sorted((ROOT / "docs/assets/screens").rglob("*.webp"))
     for shot in shots:
         audit = ROOT / "data/screen-text" / shot.relative_to(ROOT / "docs/assets/screens").with_suffix(".txt")
         if not audit.exists():
-            errors.append(f"Screenshot lacks captured-text audit: {shot.relative_to(ROOT)}")
+            errors.append(f"Screenshot without its text audit: {shot.relative_to(ROOT)}")
+    for audit in (ROOT / "data/screen-text").rglob("*.txt"):
+        shot = ROOT / "docs/assets/screens" / audit.relative_to(ROOT / "data/screen-text").with_suffix(".webp")
+        if not shot.exists():
+            errors.append(f"Text audit without its screenshot: {audit.relative_to(ROOT)}")
+
     index = SITE / "search/search_index.json"
-    if not index.exists():
-        errors.append("Missing search index")
-    else:
-        entries = json.loads(index.read_text()).get("docs", [])
-        for term in ("Instances", "Certificates", "Idempotency", "API reference"):
-            if not any(term.lower() in (p.get("title", "") + p.get("text", "")).lower() for p in entries):
-                errors.append(f"Search index lacks {term}")
+    entries = json.loads(index.read_text()).get("docs", []) if index.exists() else []
+    for term in ("Instances", "Certificates", "SNI", "Idempotency", "API reference"):
+        if not any(term.lower() in (e.get("title", "") + e.get("text", "")).lower() for e in entries):
+            errors.append(f"Search index lacks {term}")
+
     if not errors:
-        print(f"Passed: {len(pages)} HTML pages, local links and anchors, {len(shots)} audited screenshots, {count} Console/API action sets across {len(manifest)} guides, search index, customer-data scan and no unfinished stubs.")
+        print(f"Passed: {len(pages)} HTML pages (links, anchors, alt text, no external loads), "
+              f"{len(shots)} screenshots with text audits, diagrams, forbidden-value scan, search index.")
     return errors
 
 

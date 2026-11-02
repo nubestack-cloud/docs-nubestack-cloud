@@ -1,103 +1,87 @@
 # NubeStack Cloud documentation
 
-Customer documentation built with MkDocs 1.6 and Material 9.7, with a neutral documentation layout, a service sidebar, light/dark themes, local search and a generated API reference. The output is a static site; Python is the only requirement for building it. Node is optional for screenshots and browser verification.
+The customer documentation for NubeStack Cloud: guides, concepts, service pages, the API and its
+reference, for people who run instances, networks, storage, load balancers and certificates in
+Karachi and Islamabad. Built with [MkDocs](https://www.mkdocs.org/) and
+[Material for MkDocs](https://squidfunk.github.io/mkdocs-material/).
 
-## Build and preview
+## Set up
 
-Use Python 3.10 or later:
+Python 3.10 or later:
 
 ```bash
 python3 -m venv .venv
-. .venv/bin/activate
-python -m pip install -r requirements.lock
-mkdocs serve --dev-addr 127.0.0.1:8000
+.venv/bin/pip install -r requirements.lock      # every package pinned; requirements.txt lists the direct ones
 ```
 
-Build and check the publishable output:
+## Serve
 
 ```bash
-mkdocs build --strict
-python scripts/check.py
-python -m http.server 8000 --directory site
+.venv/bin/mkdocs serve -a 0.0.0.0:8000
 ```
 
-Open `http://127.0.0.1:8000`. Search works in the static preview. `npm run dev`, `npm run build` and `npm run preview` are convenience aliases; the build alias automatically uses `.venv` when present. MkDocs is pinned to 1.6.1 for compatibility with the chosen Material theme.
+Open <http://localhost:8000>. Pages reload as you edit. Restart `mkdocs serve` after changing
+`scripts/hooks.py`: MkDocs keeps hook modules loaded.
 
-## Content and design
-
-- `docs/`: customer guides in Markdown. Link to source `.md` files; strict validation checks pages and anchors.
-- `docs/assets/`: brand assets, custom CSS and real console screenshots.
-- `overrides/`: small Material template overrides for the logo, article label and home layout.
-- `mkdocs.yml`: navigation, theme, Markdown features and validation.
-- `openapi/nubestack-cloud-v1.json`: checked-in customer contract; no product checkout needed for builds.
-- `data/problems.json`: customer problem catalog used by the errors guide.
-- `data/examples.json`: service request bodies used in generated curl examples.
-- `data/action-tabs.json`: inventory of the 132 action sections and their API operations across 39 guides.
-- `scripts/build_docs.py`: generates reference pages and schemas in memory, adds navigation and search, expands `api-example` markers and builds the problem table.
-- `data/screen-text/`: rendered sample text captured with each screenshot, for the data audit.
-
-The generated reference covers every operation in the contract, including nested request/response schemas, parameters and response statuses. It works offline after building and does not embed a remote reference viewer.
-
-## Refresh the contract
-
-With Node 24+ and a local Nexus checkout:
+## Build and check
 
 ```bash
-NEXUS_DIR=/path/to/nexus node scripts/sync-api.mjs
-mkdocs build --strict
-python scripts/check.py
+.venv/bin/mkdocs build --strict    # fails on any broken link, missing anchor or absolute link
+.venv/bin/python scripts/check.py  # built links, alt text, no external loads, forbidden values
 ```
 
-The sync script reads the product contract and problem catalog. It updates presentation and service grouping without changing API paths or request fields. Check guides and examples whenever the contract changes.
+The output is `site/`, a static site with no external requests (fonts, icons and the API
+reference are all local). Publish that directory to any static host at `site_url`.
 
-## Screenshots and browser checks
+## Regenerate the screenshots
+
+Screenshots are taken from the Nexus portal running on Vite against a mock API with this site's
+sample world (Acme, web-shop and analytics, Karachi and Islamabad, Ayesha Khan). You need Node 24
+and a Nexus checkout with the portal's dependencies:
 
 ```bash
-npm ci
-npx playwright install chromium
-NEXUS_PORTAL_DIR=/path/to/nexus/portal npm run screens
-npm run check:browser
+cd /path/to/nexus/portal && npm ci && cd -
+NEXUS_PORTAL_DIR=/path/to/nexus/portal node --import ./scripts/screens/register.mjs scripts/screens/take.ts
+# only some: … take.ts security/ compute/instance
 ```
 
-The product portal needs its own installed dependencies. See [the screenshot guide](scripts/screens/README.md). Screenshots use sample data against a mocked API. The browser check starts and stops its own static server, tests desktop/mobile in both themes, search navigation and theme persistence, and writes review images to ignored `artifacts/`.
+See [scripts/screens/README.md](scripts/screens/README.md).
 
-## Validation and publication
+## Refresh the API reference from Nexus
 
-CI builds strictly and checks local links, anchors, search, screenshot text audits, unfinished stubs and forbidden sample values. The output is `site/`; publish that directory to a static host at the configured site URL. This repository has no automatic production deployment or live API connection.
-
-The real customer API endpoint and support contact details must be supplied by NubeStack before public launch. The dedicated CLI and Terraform provider remain coming later; usage and costs remain provisional. The [completion report](REPORT.md) records scope and verification.
-
-## Authoring method tabs and visual guides
-
-Write method tabs directly in Markdown, beside each action, rather than generating a page-wide switch in Python. Add `action_tabs: true` to frontmatter and register the action heading and operations in `data/action-tabs.json` so the built-site checker verifies coverage.
-
-```markdown
-## Create the resource
-
-=== "Console"
-
-    1. Open the service and choose **Create**.
-    2. Complete the fields and follow the operation.
-
-=== "API"
-
-    API instructions, request example and reference link.
-
-## Delete the resource
-
-=== "Console"
-
-    Review dependencies and choose **Delete**.
-
-=== "API"
-
-    The equivalent delete request and its completion checks.
+```bash
+.venv/bin/python scripts/refresh_api.py /path/to/nexus
+.venv/bin/mkdocs build --strict
 ```
 
-The native Material tabs work without custom Python transformations or JavaScript. For a page-wide method control, copy the `.docs-method-picker` block from an existing guide. Its choices synchronize the action tabs, persist across pages and remain available while scrolling. Shared prerequisites, limits and verification stay outside the tabs. Direct API links open the corresponding action tab.
+This copies `openapi/v1.json` and the customer error codes (`data/problems.json`) from a Nexus
+checkout, groups operations by service and names the product NubeStack Cloud in descriptions. The
+paths, fields and responses are unchanged. At build time `scripts/hooks.py` renders one reference
+page per service with Neoteroi's `essentials-openapi`, offline.
 
-When a CLI or Terraform workflow is released, add a native `=== "CLI"` or `=== "Terraform"` block and its method-picker button. Do not add empty tabs for unavailable interfaces. Restart `mkdocs serve` after editing Python hooks: MkDocs caches imported hook modules for the lifetime of the preview process.
+## Layout
 
-Inline diagrams use `<!-- diagram: storage-recovery -->` with accessible SVGs in `docs/assets/diagrams/`. Diagram text explains resource relationships rather than platform internals. Screenshot Markdown is framed with its alt text as a caption and opens in a keyboard-accessible enlargement dialog; the underlying image link also works without JavaScript.
+| Path | What |
+|---|---|
+| `mkdocs.yml` | Site configuration and navigation |
+| `docs/` | Pages in Markdown, and `assets/` (brand, fonts, stylesheets, screenshots, diagrams) |
+| `docs/assets/diagrams/` | Inline SVG diagrams, styled by `extra.css` for both themes; include with `--8<-- "name.svg"` |
+| `overrides/` | Material template overrides: the logo, the 404 page, head tags |
+| `includes/` | Snippets appended to every page (abbreviations) |
+| `openapi/v1.json` | The customer API contract the reference is built from |
+| `data/problems.json` | The error codes the Errors page lists |
+| `data/screen-text/` | The text each screenshot showed, for review and the forbidden-value scan |
+| `scripts/` | Build hooks, the API refresh, the link fixer, the checker and the screenshot runner |
 
-Keep user content in the customer perspective. Deployment of the platform, underlying cloud administration and operator procedures belong in the product repository, not this site's navigation. The coverage review is recorded in [CONTENT_REVIEW.md](CONTENT_REVIEW.md).
+## Writing pages
+
+- Service pages follow one pattern: what it is and when to use it; before you start; tasks, each in
+  `=== "Console"` and `=== "API"` tabs; how it connects; what blocks a delete; limits and good
+  practice; related pages.
+- Use the customer's words: location, project, instance, network, public IP, volume, operation.
+- Link pages relatively (`../networking/networks.md`); the strict build rejects absolute links.
+- A screenshot alone in its paragraph becomes a figure; its alt text is the caption.
+- Sample data only: Acme, `acme.example`, public addresses from 203.0.113.0/24, 198.51.100.0/24
+  and 192.0.2.0/24, private networks on 10.0.0.0/16.
+
+The 2026-11-02 review that led to this structure is in [REVIEW-2026-11-02.md](REVIEW-2026-11-02.md).
