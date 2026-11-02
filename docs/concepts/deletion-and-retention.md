@@ -1,208 +1,92 @@
 ---
-action_tabs: true
 title: Deletion and retention
-description: What happens when you delete a resource, a project or the organization, which deletions you can still undo, and for how long.
+description: What happens when you delete a resource, a project or the organization, what blocks a delete, and what you can still recover and for how long.
 ---
 
 # Deletion and retention
 
-Deleting one resource is final after its operation succeeds; acceptance is not immediate completion. Deleting a whole project, or closing the
-organization, has a **recovery window** during which you can change your mind.
-
-<div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
-<span>Show instructions for</span>
-<div><button type="button" data-interface-choice="Console" aria-pressed="true">Console</button><button type="button" data-interface-choice="API" aria-pressed="false">API</button></div>
-</div>
-
-<div class="docs-method-note" markdown>
-
-[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
-
-</div>
-
-
+Deleting one resource is final once its operation succeeds. Deleting a whole project, or closing
+the organization, has a **recovery window** in which you can change your mind.
 
 ## Deleting a resource
 
-An instance, a volume, a snapshot, a network or any other resource is deleted when its operation
-finishes, and cannot be recovered. Before you confirm, each dialog says what goes with it and what
-stays. The rules worth knowing:
+Each delete dialog says what goes with the resource and what stays.
 
 | You delete | What goes with it | What stays |
 |---|---|---|
-| An instance | Its system disk, its addresses on its networks | Attached volumes, public IPs (still allocated), security groups |
+| An instance | Its system disk, its addresses, and volumes the location is set to delete with it (the dialog names them) | Other attached volumes, public IPs (still allocated), security groups |
 | A volume | Its data | Nothing; delete its snapshots first |
 | A snapshot | The copy | Volumes already made from it |
-| A load balancer | Its listeners, pools and health checks | The instances behind it; a public IP on it, detached but still allocated |
+| A load balancer | Its listeners, pools and health checks | The instances behind it; its public IP, detached but still allocated; its certificates |
 | A network | Its range and its routing attachment | Other networks, private routing |
-| An instance group | Nothing, by default: its instances become ordinary instances | You can choose to delete its instances with it |
-| A schedule | Nothing | The snapshots it made |
-| A launch template | Its versions and its kept user data | Instances launched from it |
-| A certificate | The uploaded certificate and key | Nothing |
+| An instance group | Nothing, by default | Its instances, unless you choose to delete them too |
+| A schedule | Nothing | The snapshots it made, no longer pruned |
+| A launch template | Its versions and its user data | Instances launched from it |
+| A certificate | The certificate and its key in the key manager | Nothing |
 
-### What blocks a delete
+## What blocks a delete
 
-Some deletes are refused until something else is gone. The refusal names what is in the way and
-links to it:
+Some deletes are refused until something else is gone. The refusal names what is in the way.
 
-- a **volume** that is attached, or has snapshots;
-- a **snapshot** while a volume is being made from it;
-- a **network** while instances, load balancers or anything else still have addresses on it;
-- a **security group** while an instance or load balancer uses it;
-- a **server group** with instances in it;
-- an **Internet gateway** while a public IP in that location is attached;
-- a **certificate** while a listener serves it;
-- a **launch template** while an instance group uses it, or a launch from it is still creating its
-  instances;
-- a **pool** that a listener still sends traffic to, or that still has members or a health check.
+| Resource | Refused while | Code |
+|---|---|---|
+| Instance | It is locked, or a change to it is running | — |
+| Volume | It is attached, or has snapshots | `volume_in_use`, `volume_has_snapshots` |
+| Snapshot | A volume is being made from it | `snapshot_restore_pending` |
+| Image | It is protected in the location | `image_protected` |
+| Network | Instances, load balancers or others have addresses on it | `resource_in_use` |
+| Network (detach routing) | A public IP or a route uses it | `public_ips_in_use`, `route_uses_network` |
+| Security group | An instance or load balancer uses it; or it is `default` | `security_group_in_use`, `default_security_group` |
+| Server group | It has instances | `server_group_in_use` |
+| Internet gateway | A public IP in that location is attached | `public_ips_in_use` |
+| Load balancer pool | A listener uses it, or it has members or a health check | `lb_child_in_use` |
+| Certificate | A listener serves it, as default or by host name | `certificate_in_use` |
+| Launch template | A launch is creating its instances, or an instance group uses it | `launch_template_in_use` |
+| Custom role | Someone holds it | `role_in_use` |
+
+Nothing blocks deleting an SSH key, a public IP, a schedule, an instance group or a whole load
+balancer.
 
 ## Delete a project
 
-=== "Console"
+Project admins, owners and admins delete a project from its **Settings → Danger zone**. Choose
+**Delete only if empty**, or **Delete everything in it**: instances, load balancers, public IPs,
+routers, networks and security groups go within minutes, while volumes, snapshots and images are
+kept for the recovery window. Step by step: [Projects](../organization/projects.md#delete-a-project).
 
-    Project admins, owners and admins delete projects, from the project's **Settings**, tab
-    **Danger zone**, or from **Manage → Delete project** on the **Projects** list.
+| When | What happens |
+|---|---|
+| At once | The project is suspended: nothing new can be made in it |
+| During the recovery window (7 days unless agreed otherwise) | **Cancel deletion**, then **Resume project**, brings it back. After **Delete everything**, only volumes, snapshots and images come back |
+| **Delete now**, or the window ends | Everything left is deleted in every location; this cannot be cancelled once started |
+| Afterwards | Activity and usage records are kept |
 
-    ![The Delete project dialog: what the project holds in each location, and what to delete](../assets/screens/concepts/project-delete.webp)
+The project's schedules pause when its deletion is requested; its launch templates, schedules,
+instance groups and certificates go with it. Stacks and clusters made with a location's own tools
+must be deleted with those tools; the page names anything that stops the deletion, and the
+deletion carries on once it is gone.
 
-    1. Choose **Delete project**. The dialog lists what the project holds in each location.
-    2. **What to delete**:
-       - **Delete only if empty**: refused while anything is left. Delete things yourself first.
-       - **Delete everything in it**: instances, load balancers, public IPs, routers, networks and
-         security groups are deleted within minutes. Volumes, snapshots and images are kept for the
-         recovery window.
-    3. Type the project's name and choose **Delete project**.
+**Removing a location** from a project works the same way, for that location only.
 
-    The dialog shows the recovery window, normally **7 days**. Until it ends:
+## Clean up a project safely
 
-    - the project is suspended: its instances are stopped and nothing new can be made in it;
-    - **Cancel deletion** stops the deletion. The project stays suspended until a project admin
-      chooses **Resume project**; then start its instances again. If you deleted everything, only the
-      volumes, snapshots and images come back: networks, public IPs and instances have to be made
-      again;
-    - **Delete now** ends the window early. Everything left is deleted within minutes and cannot be
-      recovered. You may be asked for your second factor.
+Before you delete a project, or to stop paying for what you no longer use:
 
-    When the window ends, everything left is deleted in every location and the project is gone. The
-    project's page shows each location's progress. Once the deletion has started, it cannot be
-    cancelled. The project's schedules pause when its deletion is requested, and its launch templates,
-    schedules and instance groups go with it.
-
-    If something stops the deletion, such as a resource that cannot be deleted or a location that
-    cannot be checked, the page says what and why. Stacks and Kubernetes clusters made with a
-    location's own tools must be deleted with those tools. Delete what the page names, and the deletion
-    carries on by itself.
-
-    **Removing a location** from a project works the same way, for that location only.
-
-    Activity and usage records of a deleted project are kept.
-
-=== "API"
-
-    <span id="with-the-api" data-docs-method="API"></span>
-
-    **Delete a project**
-
-    ```bash
-    curl --fail-with-body -i -X DELETE "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "cascade": false
-    }'
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/projects.md).
-
-    **Cancel a project's deletion**
-
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT:cancel-deletion" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY"
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/projects.md).
-
-    **End a deletion's retention early**
-
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT:delete-now" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{
-      "confirm": "web-shop"
-    }'
-    ```
-
-    Returns `200` directly. Read the returned resource or current state to verify the change.
-
-    [Request fields and responses](../api/reference/projects.md).
-
-    **Resume a project**
-
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT:resume" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY"
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/projects.md).
-
+1. Copy any data you need off its volumes, and save images you want to keep elsewhere.
+2. Delete instance groups (with their instances) and schedules, so nothing creates new resources.
+3. Delete load balancers, then instances.
+4. Release public IPs: they stay allocated, and counted, after their instance is gone.
+5. Delete snapshots, then volumes, then images you no longer need.
+6. Delete the Internet gateway if nothing needs the Internet, then networks you made.
+7. Check **Usage** the next day: anything still counting is still there.
 
 ## Close the organization
 
-=== "Console"
-
-    Owners only, from **Settings**, tab **Danger zone**, **Close organization**. The dialog lists every
-    project it will delete and asks you to type the organization's name.
-
-    | When | What happens |
-    |---|---|
-    | Right away | Every instance stops and pending invitations are revoked. Nothing can be changed; owners can still read everything |
-    | During the recovery window | Everything is kept. **Cancel closure** on the same tab brings it back. The window is normally **30 days**; the page shows the date |
-    | When the window ends | Every project is deleted in every location, and every member is removed. This cannot be undone |
-    | Afterwards | The audit log and usage records are kept for the period the page shows |
-
-    While the organization is closing, an owner can download a copy of its records: see
-    [Organization settings](../organization/settings.md#take-a-copy-of-your-data).
-
-=== "API"
-
-    **Close the organization**
-
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG:close" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
-      -H "Content-Type: application/json" \
-      --data '{}'
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/organizations.md).
-
-    **Cancel the organization's closure**
-
-    ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG:cancel-closure" \
-      -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY"
-    ```
-
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/organizations.md).
-
+Owners only, from **Settings → Danger zone → Close organization**. Every instance stops at once;
+everything is kept for the recovery window (30 days unless agreed otherwise), when **Cancel
+closure** brings it back. When the window ends, every project is deleted and every member removed.
+While it is closing, an owner can download a copy of its records. See
+[Settings](../organization/settings.md#close-the-organization).
 
 ## People leaving
 
@@ -210,3 +94,7 @@ links to it:
   out of every location within 15 minutes. What they made stays.
 - **Deleting a service account** stops its API keys at once, ends its project access and deletes
   its cloud credentials in every location.
+
+## Related
+
+- [Projects](../organization/projects.md) · [Settings](../organization/settings.md) · [Usage](../organization/usage.md)

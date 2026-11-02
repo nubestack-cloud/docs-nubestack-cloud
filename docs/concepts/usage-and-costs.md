@@ -16,7 +16,6 @@ the **cost explorer**.
     still being checked against each location's own records, and until that is done the figures can
     change. A provisional statement is not a final invoice. Use the commercial information supplied with your account for billing questions; the console does not collect payments or calculate taxes.
 
-
 ## What is measured
 
 | Measure | Unit | Counted while |

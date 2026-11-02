@@ -1,5 +1,4 @@
 ---
-action_tabs: true
 title: Operations
 description: Why a change in a location is accepted at once and carried out after, how to follow it, and what each state means.
 ---
@@ -11,30 +10,14 @@ network or a volume, NubeStack Cloud does not keep you waiting while the locatio
 It records the request, answers at once, and carries the work out in the background. That record is
 an **operation**.
 
-<div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
-<span>Show instructions for</span>
-<div><button type="button" data-interface-choice="Console" aria-pressed="true">Console</button><button type="button" data-interface-choice="API" aria-pressed="false">API</button></div>
-</div>
+Changes that live only in NubeStack Cloud's own records, such as an invitation, an SSH key, a
+quota preset, a schedule or an instance group's settings, take effect at once and have no
+operation: the API answers `200 OK` or `201 Created`.
 
-<div class="docs-method-note" markdown>
-
-[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
-
-</div>
-
-Some saved definitions return immediately without an operation, such as an invitation, SSH key,
-quota preset, schedule or instance group's settings. Changes to roles and quota can return an
-operation when native access or a location must be updated. Follow the status and body returned
-for the particular change.
-
-<figure class="docs-diagram">
-<div>
-<!-- diagram: operation-lifecycle -->
-</div>
-<figcaption>Follow the accepted operation through to a final result before relying on the resource.</figcaption>
+<figure class="ns-diagram">
+--8<-- "operation-lifecycle.svg"
+<figcaption>An operation is accepted at once, queued, run in the location, and ends in one of three states. Only a queued operation can be cancelled.</figcaption>
 </figure>
-
-
 
 ## Follow an operation
 
@@ -87,23 +70,17 @@ so a change never lands long after you stopped expecting it.
 
 === "Console"
 
-    A project admin, or the person who asked, can cancel an operation that has not started: open it
-    and choose **Cancel operation**. Steps already done stay done. Nothing is rolled back.
+    A project admin can cancel an operation that is still **queued**: open it and choose **Cancel
+    operation**. Once it is running, cancelling is refused with `409 not_cancellable`.
 
 === "API"
-
-    <span id="with-the-api" data-docs-method="API"></span>
-
     ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/operations/$OPERATION_ID:cancel" \
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/operations/$OPERATION_ID:cancel" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY"
+      -H "Idempotency-Key: $(uuidgen)"
     ```
 
-    Returns `200` directly. Read the returned resource or current state to verify the change.
-
-    [Request fields and responses](../api/reference/operations.md).
-
+    The answer is `200 OK`.
 
 ## What a failed create leaves behind
 
@@ -117,15 +94,12 @@ so a change never lands long after you stopped expecting it.
 === "API"
 
     ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/$COLLECTION/$ITEM_ID:dismiss" \
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/$COLLECTION/$ITEM_ID:dismiss" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY"
+      -H "Idempotency-Key: $(uuidgen)"
     ```
 
-    Returns `200` directly. Read the returned resource or current state to verify the change.
-
-    [Request fields and responses](../api/reference/resources.md).
-
+    The answer is `200 OK`.
 
 ## Why a list can be out of date
 
@@ -134,20 +108,20 @@ so a change never lands long after you stopped expecting it.
     Lists show what each location last reported, and say when that was (**Last read**). A location that
     has not answered for a while is marked stale; its rows stay, with the time they are from.
 
-    Choose **Refresh** above a list, or **Refresh** on a resource's page, to read it again from its
+    Choose **Refresh** above a list, or **Check for changes** on a resource's page, to read it again from its
     location now. Anything made with the location's own tools appears after the next regular read, or
     at once after a refresh.
-
-    Through the API, see [Operations and polling](../api/operations.md).
 
 === "API"
 
     ```bash
-    curl --fail-with-body -i -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/$COLLECTION/$ITEM_ID:refresh" \
+    curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/$COLLECTION/$ITEM_ID:refresh" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY"
+      -H "Idempotency-Key: $(uuidgen)"
     ```
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
+    The answer is `202 Accepted` with an operation. [Follow it](../api/operations.md) until it succeeds.
 
-    [Request fields and responses](../api/reference/resources.md).
+## Related
+
+- [API: Operations](../api/operations.md) · [Audit log and activity](../organization/activity.md)

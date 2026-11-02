@@ -32,7 +32,7 @@ sign-in. That has consequences you should design for:
 - **Quota is per location.** A project's quota in Karachi is separate from its quota in
   Islamabad.
 
-To be in both locations, a project is [placed in both](projects-and-quotas.md#locations).
+To be in both locations, a project is [placed in both](projects-and-quotas.md#a-project-in-several-locations).
 To survive a location's failure, run copies of your service in each, with their own data, and
 send traffic to both: NubeStack Cloud does not fail over for you.
 
@@ -51,7 +51,7 @@ NubeStack sometimes takes a location into maintenance. While it lasts, what you 
 and you can still read it, but new work in that location may wait or be refused with
 `location_maintenance`, which you can retry later. Owners and admins receive e-mail notices when
 maintenance starts, is extended and ends, unless they turn them off
-([e-mail notices](../organization/settings.md#e-mail-notices)).
+([E-mail notices](../organization/notifications.md)).
 
 A location can also stop taking **new** projects while it keeps running what is there; adding it
 to a project is then refused.

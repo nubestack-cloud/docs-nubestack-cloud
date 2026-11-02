@@ -15,7 +15,7 @@ before anything is made.
 | What | Limit | Refusal |
 |---|---|---|
 | Projects | set by NubeStack for your organization; the organization's **Overview** shows it | `project_limit` |
-| Service accounts | 100 | `service_account_limit` |
+| Service accounts | 100, unless NubeStack set another limit | `service_account_limit` |
 | Active API keys per service account | 2 (the key and its successor while you rotate) | `api_key_limit` |
 | Cloud credentials per service account, per project location | 2 | `credential_limit` |
 | Custom roles for the organization | 50 | `role_limit` |
@@ -84,7 +84,8 @@ before anything is made.
 | Chain | up to 5 intermediate certificates |
 | Private key | RSA of 2,048 bits or more, or EC on P-256 or P-384, without a passphrase |
 | Validity at upload | valid now and for at least another day |
-| Certificates per HTTPS listener | 1 |
+| Certificates per HTTPS listener | 1 default, and up to 10 more served by host name ([SNI](../security/sni.md)) |
+| Certificate put on a listener | valid for at least another 24 hours |
 
 ## API
 
@@ -94,3 +95,5 @@ before anything is made.
 | `Idempotency-Key` | up to 255 of letters, digits and `.` `_` `~` `-` |
 | API key lifetime | 1 to 365 days, 90 by default |
 | Requests too fast | refused with `429`; wait the seconds in `Retry-After` |
+
+Need more than a limit allows? Quota can be raised by [request](../organization/quota.md#request-more-quota); the fixed limits above cannot. [Contact support](../help/support.md) if one blocks you.

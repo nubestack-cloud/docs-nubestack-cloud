@@ -1,68 +1,62 @@
 ---
-title: Understand your cloud
+title: Concepts
+description: The ideas every NubeStack Cloud service shares - locations, projects, quota, operations, roles, tags, usage, deletion and limits.
 ---
 
-# Understand your cloud
+# Concepts
 
-A few ideas connect every service: where your resources run, who may use them, and how a requested change becomes a ready resource.
+A few ideas run through every service: where your resources live, who may use them, how a change
+you ask for becomes a ready resource, and what it costs. Read these once; the service pages
+assume them.
 
-## Choose a guide
+<div class="grid cards" markdown>
 
-<div class="guide-cards" markdown>
-<div class="guide-card" markdown>
+-   :material-map-marker-radius-outline:{ .lg .middle } **[Locations](locations.md)**
 
-### [Locations](locations.md)
+    ---
 
-Karachi and Islamabad are independent clouds.
+    Karachi and Islamabad are independent clouds. What stays where, and why.
 
-</div>
-<div class="guide-card" markdown>
+-   :material-folder-outline:{ .lg .middle } **[Projects and quotas](projects-and-quotas.md)**
 
-### [Projects and quotas](projects-and-quotas.md)
+    ---
 
-Separate workspaces, permissions and per-location allocations.
+    How a project spans locations, who can use it, and how quota is shared.
 
-</div>
-<div class="guide-card" markdown>
+-   :material-progress-clock:{ .lg .middle } **[Operations](operations.md)**
 
-### [Roles and permissions](roles-and-permissions.md)
+    ---
 
-Understand organization roles and project access.
+    How a change is accepted at once and carried out in the location.
 
-</div>
-<div class="guide-card" markdown>
+-   :material-account-key-outline:{ .lg .middle } **[Roles and permissions](roles-and-permissions.md)**
 
-### [Operations](operations.md)
+    ---
 
-Follow accepted work and understand partial results.
+    Organization roles, project roles and the full table of who may do what.
 
-</div>
-<div class="guide-card" markdown>
+-   :material-tag-outline:{ .lg .middle } **[Tags](tags.md)**
 
-### [Tags](tags.md)
+    ---
 
-Organize supported resources and group later costs.
+    `key: value` labels to filter lists and break down costs.
 
-</div>
-<div class="guide-card" markdown>
+-   :material-cash-multiple:{ .lg .middle } **[Usage and costs](usage-and-costs.md)**
 
-### [Usage and costs](usage-and-costs.md)
+    ---
 
-Read provisional measurements and estimates.
+    What is measured, how it is priced, and why it is provisional.
 
-</div>
-<div class="guide-card" markdown>
+-   :material-delete-clock-outline:{ .lg .middle } **[Deletion and retention](deletion-and-retention.md)**
 
-### [Deletion and retention](deletion-and-retention.md)
+    ---
 
-Know what is removed and what can still be recovered.
+    What is deleted at once, what is kept for a while, and what you can still recover.
 
-</div>
-<div class="guide-card" markdown>
+-   :material-ruler:{ .lg .middle } **[Limits](limits.md)**
 
-### [Limits](limits.md)
+    ---
 
-Check fixed service bounds in addition to quota.
+    Fixed bounds that apply as well as your quota.
 
-</div>
 </div>

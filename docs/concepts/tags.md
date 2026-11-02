@@ -1,5 +1,4 @@
 ---
-action_tabs: true
 title: Tags
 description: Label instances, volumes, networks and public IPs with key-value tags, filter lists by them and see cost by tag.
 ---
@@ -10,19 +9,7 @@ A **tag** is a label `key: value` on an instance, a volume, a network or a publi
 `env: prod` or `team: data`. Lists filter by tags, and the
 [cost explorer](../organization/statements-and-costs.md#the-cost-explorer) adds up cost by each key.
 
-<div class="docs-method-picker" hidden role="group" aria-label="Instruction method">
-<span>Show instructions for</span>
-<div><button type="button" data-interface-choice="Console" aria-pressed="true">Console</button><button type="button" data-interface-choice="API" aria-pressed="false">API</button></div>
-</div>
-
-<div class="docs-method-note" markdown>
-
-[Set up API authentication and variables](../api/index.md#before-you-start). Replace example IDs and catalog choices. Reuse an idempotency key for retries of one request; use a new key for each new action.
-
-</div>
-
 ![The instances list with env and team tags](../assets/screens/compute/instances-list.webp)
-
 
 ## Set tags
 
@@ -36,15 +23,12 @@ A **tag** is a label `key: value` on an instance, a volume, a network or a publi
     ![Inspect an instance's tags before changing or filtering them](../assets/screens/compute/instance-tags.webp)
 
 === "API"
-
-    <span id="with-the-api" data-docs-method="API"></span>
-
     **Set an instance's tags**
 
     ```bash
-    curl --fail-with-body -i -X PUT "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$RESOURCE_ID/tags" \
+    curl -sS -X PUT "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers/$RESOURCE_ID/tags" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Idempotency-Key: $(uuidgen)" \
       -H "If-Match: $ETAG" \
       -H "Content-Type: application/json" \
       --data '{
@@ -54,16 +38,14 @@ A **tag** is a label `key: value` on an instance, a volume, a network or a publi
     }'
     ```
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/instances.md).
+    The answer is `202 Accepted` with an operation. [Follow it](../api/operations.md) until it succeeds.
 
     **Set a volume's tags**
 
     ```bash
-    curl --fail-with-body -i -X PUT "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/volumes/$RESOURCE_ID/tags" \
+    curl -sS -X PUT "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/volumes/$RESOURCE_ID/tags" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Idempotency-Key: $(uuidgen)" \
       -H "If-Match: $ETAG" \
       -H "Content-Type: application/json" \
       --data '{
@@ -73,16 +55,14 @@ A **tag** is a label `key: value` on an instance, a volume, a network or a publi
     }'
     ```
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/volumes-and-snapshots.md).
+    The answer is `202 Accepted` with an operation. [Follow it](../api/operations.md) until it succeeds.
 
     **Set a network's tags**
 
     ```bash
-    curl --fail-with-body -i -X PUT "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/networks/$RESOURCE_ID/tags" \
+    curl -sS -X PUT "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/networks/$RESOURCE_ID/tags" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Idempotency-Key: $(uuidgen)" \
       -H "If-Match: $ETAG" \
       -H "Content-Type: application/json" \
       --data '{
@@ -92,16 +72,14 @@ A **tag** is a label `key: value` on an instance, a volume, a network or a publi
     }'
     ```
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/networking.md).
+    The answer is `202 Accepted` with an operation. [Follow it](../api/operations.md) until it succeeds.
 
     **Set a public IP's tags**
 
     ```bash
-    curl --fail-with-body -i -X PUT "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/floating-ips/$RESOURCE_ID/tags" \
+    curl -sS -X PUT "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/floating-ips/$RESOURCE_ID/tags" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
-      -H "Idempotency-Key: $REQUEST_KEY" \
+      -H "Idempotency-Key: $(uuidgen)" \
       -H "If-Match: $ETAG" \
       -H "Content-Type: application/json" \
       --data '{
@@ -111,10 +89,7 @@ A **tag** is a label `key: value` on an instance, a volume, a network or a publi
     }'
     ```
 
-    A `202` accepts the change. Follow `operation.href` to its final result before the next dependent action.
-
-    [Request fields and responses](../api/reference/public-ips.md).
-
+    The answer is `202 Accepted` with an operation. [Follow it](../api/operations.md) until it succeeds.
 
 ## The rules
 
@@ -137,14 +112,11 @@ A **tag** is a label `key: value` on an instance, a volume, a network or a publi
 
     Use the list endpoint's documented tag filters and keep filters unchanged while following pagination.
     ```bash
-    curl --fail-with-body -i -X GET "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/$COLLECTION" \
+    curl -sS -X GET "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/$COLLECTION" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY"
     ```
 
-    Returns `200` directly. Read the returned resource or current state to verify the change.
-
-    [Request fields and responses](../api/reference/resources.md).
-
+    The answer is `200 OK`.
 
 ## In the location's own tools
 
