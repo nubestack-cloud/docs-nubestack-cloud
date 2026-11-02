@@ -171,6 +171,8 @@ def on_page_content(content, page, config, files):
         img = re.sub(r'\s*title="[^"]*"', "", img)
         if "loading=" not in img:
             img = img.replace("<img ", '<img loading="lazy" decoding="async" ', 1)
-        return f'<figure class="ns-shot">{img}<figcaption>{caption}</figcaption></figure>'
+        src = re.search(r'\bsrc="([^"]*)"', img)
+        link = f'<a href="{src[1]}" title="Open the full-size image" target="_blank" rel="noopener">{img}</a>' if src else img
+        return f'<figure class="ns-shot">{link}<figcaption>{caption}</figcaption></figure>'
 
     return _FIGURE.sub(figure, content)

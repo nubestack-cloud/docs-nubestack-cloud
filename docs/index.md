@@ -17,10 +17,12 @@ Launch instances, connect private networks, keep data on volumes and serve HTTPS
 balancers. Work in the console or automate the same steps with the API.
 
 [Get started](get-started/index.md){ .md-button .md-button--primary }
-[Browse services](services.md){ .md-button }
+[Browse services](services/index.md){ .md-button }
 [API reference](api/reference/index.md){ .md-button }
 
-<p class="ns-locations"><span>:material-map-marker-outline: Karachi `pak-khi-1`</span> <span>:material-map-marker-outline: Islamabad `pak-isb-1`</span></p>
+<div class="ns-locations" markdown>
+<span>:material-map-marker-outline: Karachi `pak-khi-1`</span> <span>:material-map-marker-outline: Islamabad `pak-isb-1`</span>
+</div>
 
 </div>
 

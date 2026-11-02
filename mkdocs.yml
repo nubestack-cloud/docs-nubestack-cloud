@@ -87,9 +87,8 @@ markdown_extensions:
   - pymdownx.inlinehilite
   - pymdownx.keys
   - pymdownx.snippets:
-      base_path: [docs/assets/diagrams, includes]
+      base_path: [docs/assets/diagrams]
       check_paths: true
-      auto_append: [abbreviations.md]
   - pymdownx.superfences
   - pymdownx.tabbed:
       alternate_style: true
@@ -139,7 +138,7 @@ nav:
       - Deletion and retention: concepts/deletion-and-retention.md
       - Limits: concepts/limits.md
   - Services:
-      - services.md
+      - services/index.md
       - Compute:
           - compute/index.md
           - Instances: compute/instances.md

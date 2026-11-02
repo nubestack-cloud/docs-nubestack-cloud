@@ -67,7 +67,6 @@ page per service with Neoteroi's `essentials-openapi`, offline.
 | `docs/` | Pages in Markdown, and `assets/` (brand, fonts, stylesheets, screenshots, diagrams) |
 | `docs/assets/diagrams/` | Inline SVG diagrams, styled by `extra.css` for both themes; include with `--8<-- "name.svg"` |
 | `overrides/` | Material template overrides: the logo, the 404 page, head tags |
-| `includes/` | Snippets appended to every page (abbreviations) |
 | `openapi/v1.json` | The customer API contract the reference is built from |
 | `data/problems.json` | The error codes the Errors page lists |
 | `data/screen-text/` | The text each screenshot showed, for review and the forbidden-value scan |

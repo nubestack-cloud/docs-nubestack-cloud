@@ -42,9 +42,11 @@
 .md-typeset .message-separator { visibility: hidden; }
 .md-typeset .sub-section-title { font-style: italic; font-size: .7rem; }
 
-/* Generated tables: compact, and they scroll on narrow screens. */
-.md-typeset table:has(td.parameter-name), .md-typeset h3 + table {
-  display: block; overflow-x: auto; font-size: .7rem; border: 1px solid var(--ns-border); border-radius: var(--ns-radius);
+/* Generated tables are raw HTML, outside Material's scroll wrapper: compact, and they scroll on
+   narrow screens instead of widening the page. */
+.md-typeset table:not(.md-typeset__table > table) {
+  display: block; max-width: 100%; overflow-x: auto; font-size: .7rem;
+  border: 1px solid var(--ns-border); border-radius: var(--ns-radius);
 }
 .md-typeset table th { background-color: var(--ns-surface); }
 .md-typeset td.parameter-name code { white-space: nowrap; }

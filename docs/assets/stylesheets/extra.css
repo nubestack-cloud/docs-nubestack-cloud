@@ -134,16 +134,21 @@
 .md-typeset .md-button { border-radius: var(--ns-radius); font-weight: 600; padding: .5em 1.2em; }
 .md-typeset .tabbed-set { border: 1px solid var(--ns-border); border-radius: var(--ns-radius); padding: 0 1em; margin: 1.2em 0; }
 .md-typeset .tabbed-labels > label { font-size: .72rem; font-weight: 600; }
+/* The tab set has its own border and padding, so its labels keep inside it on phones too
+   (Material pulls them to the screen edge with a negative margin). */
+.md-typeset .tabbed-set > .tabbed-labels { margin: 0; padding: 0; max-width: 100%; }
 
 /* ---- Figures: screenshots and diagrams ----------------------------------------------------- */
 .md-typeset figure.ns-shot { margin: 1.4em 0; display: block; }
+.md-typeset figure.ns-shot a { display: block; }
 .md-typeset figure.ns-shot img {
   display: block; margin: 0 auto; border: 1px solid var(--ns-border); border-radius: var(--ns-radius);
   box-shadow: var(--ns-shadow); background: #fff;
 }
 .md-typeset figure figcaption { font-size: .68rem; color: var(--md-default-fg-color--light); margin-top: .7em; max-width: 42rem; }
 .md-typeset figure.ns-diagram { margin: 1.6em 0; max-width: 100%; }
-.md-typeset figure.ns-diagram svg { width: 100%; height: auto; }
+.md-typeset figure.ns-diagram { overflow-x: auto; }
+.md-typeset figure.ns-diagram svg { width: 100%; min-width: 600px; height: auto; }
 
 /* Diagram classes, shared by every inline SVG in docs/assets/diagrams. */
 .ns-diagram { --d-line: var(--md-default-fg-color--lighter); }
@@ -182,8 +187,8 @@
 .md-typeset .ns-hero p { font-size: 1.08em; color: var(--md-default-fg-color--light); }
 .md-typeset .ns-hero .md-button { margin: .4em .5em .4em 0; }
 .md-typeset .ns-eyebrow { font-size: .66rem; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; color: var(--md-primary-fg-color); margin: 0; }
-.md-typeset .ns-locations { display: flex; flex-wrap: wrap; gap: .5rem; margin: .8rem 0 0; }
-.md-typeset .ns-locations > span {
+.md-typeset .ns-locations p { display: flex; flex-wrap: wrap; gap: .5rem; margin: .8rem 0 0; }
+.md-typeset .ns-locations span:not(.twemoji) {
   display: inline-flex; align-items: center; gap: .3rem; padding: .2rem .7rem; font-size: .7rem;
   border: 1px solid var(--ns-border); border-radius: 999px; background: var(--ns-surface);
 }
