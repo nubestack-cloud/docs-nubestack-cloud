@@ -16,7 +16,7 @@ and following the operation to its end.
 An owner or admin:
 
 1. Creates a [service account](../organization/service-accounts.md) `ci-deploy`, role **Member**.
-2. Gives it **Project member** on `web-shop` (**Settings → Access → Grant access**).
+2. Gives it **Project member** on `web-shop` (in the project, **IAM → People → Give access**).
 3. Chooses **Issue an API key**, 90 days, and stores the key in your CI's secret store as
    `NUBESTACK_API_KEY`.
 

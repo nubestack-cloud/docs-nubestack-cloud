@@ -9,23 +9,23 @@ A **security group** is a set of firewall rules: which traffic may reach an inst
 ports and from where, and what it may send. Traffic is refused unless a rule of one of the
 instance's groups allows it. Rules allow; nothing denies.
 
-Each group belongs to one location. Find them under **Networking → Security groups**.
+Each group belongs to the project. Find them under **Networking → Security groups**.
 
-![Security groups: name, location, rules and what uses each group](../assets/screens/networking/security-groups.webp)
+![Security groups: name, rules and what uses each group](../assets/screens/networking/security-groups.webp)
 
 ## The default group
 
-Every project has a group named `default` in each location, marked **cloud default**. The
-location makes it; it cannot be renamed or deleted. The instance create page chooses it to start
-with, and an instance given no other group gets it. Its rules apply to every instance of the
-project in that location that uses `default`, so add rules to it with care.
+Every project has a group named `default`, marked **cloud default**. The location makes it; it
+cannot be renamed or deleted. The instance create page chooses it to start with, and an instance
+given no other group gets it. Its rules apply to every instance of the project that uses
+`default`, so add rules to it with care.
 
 ## Create a group
 
 === "Console"
 
     1. Choose **Create security group**.
-    2. **Location**: it applies only to instances there.
+    2. **Location** shows the project's location.
     3. **Name**: unique in your organization, ignoring case, and never `default`. For example
        `ssh-office` or `web`.
     4. **Starting rules**:
@@ -36,7 +36,7 @@ project in that location that uses `default`, so add rules to it with care.
         - **Empty**: no inbound rules.
     5. Choose **Create security group**.
 
-    ![Create security group: location, name and starting rules](../assets/screens/networking/security-group-create.webp)
+    ![Create security group: name and starting rules](../assets/screens/networking/security-group-create.webp)
 
 === "API"
 
@@ -115,7 +115,7 @@ no groups at all, the instance accepts and sends nothing.
 | Refusal | Why | Resolve |
 |---|---|---|
 | `security_group_in_use` | An instance or load balancer uses it; the message names each | Take the group off them first |
-| `default_security_group` | It is the location's `default` group | It cannot be deleted |
+| `default_security_group` | It is the project's `default` group | It cannot be deleted |
 
 ## Good practice
 

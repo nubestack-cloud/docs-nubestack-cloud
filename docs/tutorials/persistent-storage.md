@@ -8,7 +8,7 @@ description: Create a volume, attach, format and mount it in an instance, take a
 Put an application's data on a volume, so you can replace the instance without losing it, then
 take a snapshot and prove that you can restore it.
 
-**You will use:** an instance, a volume and a snapshot, in Karachi.
+**You will use:** an instance, a volume and a snapshot, in a project in Karachi.
 
 ## Before you start
 
@@ -19,11 +19,11 @@ take a snapshot and prove that you can restore it.
 
 === "Console"
 
-    1. Under **Storage → Volumes**, choose **Create volume**: **Location** Karachi, name
-       `db-data`, **Empty**, a **Type**, and **Size** `20`. Create it.
+    1. Under **Storage → Volumes**, choose **Create volume**: name `db-data`, **Empty**, a
+       **Type**, and **Size** `20`. Create it.
     2. When it is available, choose **Manage → Attach to instance** and pick `db-1`.
 
-    ![Attach a volume to an instance in the same location](../assets/screens/storage/volume-attach.webp)
+    ![Attach a volume to one of the project's instances](../assets/screens/storage/volume-attach.webp)
 
 === "API"
 

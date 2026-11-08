@@ -77,11 +77,11 @@ From an invitation to an instance you can log in to over SSH, in five short step
 
 -   :material-account-group-outline:{ .lg .middle } **[Organization](organization/index.md)**
 
-    Members, roles, service accounts, quota, the audit log, usage and statements.
+    People, roles, service accounts, billing, the audit log, quota and settings.
 
 -   :material-view-grid-outline:{ .lg .middle } **[Every service](services/index.md)**
 
-    All of them on one page, grouped as in the console's side panel.
+    All of them on one page, grouped as in the console's menu.
 
 </div>
 
@@ -100,7 +100,7 @@ quota and the same access.
 
 -   :material-monitor-dashboard:{ .lg .middle } **[Console](get-started/console.md)**
 
-    Every service in your browser, plus members, roles and settings.
+    Every service in your browser, plus people, roles, billing and settings.
 
 -   :material-api:{ .lg .middle } **[API](api/index.md)**
 
@@ -111,9 +111,9 @@ quota and the same access.
     Each location's own tools, with your NubeStack sign-in. They keep working when the console
     does not.
 
--   :material-file-code-outline:{ .lg .middle } **[Terraform and SDKs](native-access/openstack-cli.md#terraform-and-sdks)**
+-   :material-file-code-outline:{ .lg .middle } **[CLI and Terraform](tools/index.md)**
 
-    Terraform's OpenStack provider and the SDKs, from the same `clouds.yaml`.
+    The `nexus` CLI and Terraform provider, signed in as you or with an API key.
 
 </div>
 
@@ -125,12 +125,12 @@ quota and the same access.
 
 </div>
 
-Your **organization** holds **projects**. A project runs in one or more **locations**, and in each
-one it has its own networks, instances, volumes, public IPs and quota.
+Your **organization** holds **projects**. Each project runs in one **location**, with its own
+networks, instances, volumes, public IPs and quota there.
 
 <figure class="ns-diagram">
 --8<-- "resources.svg"
-<figcaption>The project web-shop in Karachi and Islamabad. Each location is a separate cloud: resources in one never move to, or depend on, the other.</figcaption>
+<figcaption>The project web-shop runs in Karachi and analytics in Islamabad. Each location is a separate cloud: resources in one never move to, or depend on, the other.</figcaption>
 </figure>
 
 <div class="ns-section-head" markdown>

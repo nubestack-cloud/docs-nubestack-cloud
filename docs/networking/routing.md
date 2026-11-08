@@ -1,20 +1,19 @@
 ---
 title: Routing
-description: The project's private router in each location, routes through an instance, and letting an instance forward traffic.
+description: The project's private router, routes through an instance, and letting an instance forward traffic.
 ---
 
 # Routing
 
-Each location of a project has one private router. It is set up with the location, without a
-public address, and every **routed** [network](networks.md) of the project there is attached to
-it, so instances on one routed network reach instances on another.
+Each project has one private router in its location. It is set up with the project, without a
+public address, and every **routed** [network](networks.md) of the project is attached to it, so
+instances on one routed network reach instances on another.
 
-Find the routers under **Networking → Routing**: one row per location, with the networks behind
-it.
+Find it under **Networking → Routing**, with the networks behind it.
 
-![Routing: the private router in each location and the networks behind it](../assets/screens/networking/routing.webp)
+![Routing: the project's private router and the networks behind it](../assets/screens/networking/routing.webp)
 
-You do not create or delete this router; it comes and goes with the project's location. Nothing
+You do not create or delete this router; it comes and goes with the project. Nothing
 on it reaches the Internet until you add an [Internet gateway](internet-gateways.md).
 [Security groups](security-groups.md) decide what traffic is allowed; the router only carries it.
 
@@ -22,7 +21,7 @@ on it reaches the Internet until you add an [Internet gateway](internet-gateways
 
 A network joins private routing when you create it as **Routed**. To change that later, use the
 network's **Manage** menu: **Detach from private routing** or **Attach to private routing**. A
-network must not overlap another routed network in the location to attach.
+network must not overlap another routed network of the project to attach.
 
 ## Send a range through an instance
 
@@ -31,7 +30,7 @@ reaches your office.
 
 === "Console"
 
-    1. On **Routing**, choose **Manage → Routes and attached networks** for the location.
+    1. On **Routing**, choose **Manage → Routes and attached networks** on the router.
     2. On the **Routes** tab, choose **Add a route**.
     3. **Destination**: the range, such as `192.168.50.0/24`. Not `0.0.0.0/0`, which goes
        through the Internet gateway, and not the range of an attached network.
@@ -101,7 +100,7 @@ them removed first (`DELETE …/routers/{id}?remove_interfaces=true` in the API)
 
 ## Limits
 
-- One private router per project location; up to 16 routes on it.
+- One private router per project; up to 16 routes on it.
 - The project's own router cannot be deleted (`router_managed`).
 
 ## Related

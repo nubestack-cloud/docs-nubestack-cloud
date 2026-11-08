@@ -23,7 +23,8 @@ Find them under **Storage → Snapshots**.
     2. Detach the volume. A stopped instance keeps its volumes attached, and an attached volume
        cannot be snapshotted by hand.
     3. Choose **Manage → Create snapshot** on the volume and name it, or **Create snapshot** on
-       the **Snapshots** page and pick the volume.
+       the **Snapshots** page and pick the volume. For owners, admins and the billing role, the
+       dialog says the price per GiB-hour and per month.
     4. Choose **Create snapshot**.
 
     ![Create snapshot from a volume's menu](../assets/screens/storage/volume-snapshot.webp)

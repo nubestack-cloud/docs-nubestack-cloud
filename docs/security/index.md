@@ -5,8 +5,8 @@ description: TLS certificates for HTTPS load balancers, several certificates on 
 
 # Security
 
-The **Security** section of a project holds the TLS certificates your HTTPS load balancers serve.
-This part of the docs also covers how you and your colleagues sign in safely.
+The **Security** group of a project's menu holds the TLS certificates your HTTPS load balancers
+serve. This part of the docs also covers how you and your colleagues sign in safely.
 
 <div class="grid cards" markdown>
 

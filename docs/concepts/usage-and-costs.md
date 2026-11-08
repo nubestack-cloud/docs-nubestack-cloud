@@ -12,9 +12,11 @@ the **cost explorer**.
 
 !!! warning "Provisional"
 
-    Every usage figure, statement and cost in the console is marked **provisional**. Measurement is
-    still being checked against each location's own records, and until that is done the figures can
-    change. A provisional statement is not a final invoice. Use the commercial information supplied with your account for billing questions; the console does not collect payments or calculate taxes.
+    Every usage figure, statement, price estimate and cost in the console is marked
+    **provisional**. Measurement is still being checked against each location's own records, and
+    until that is done the figures can change. A provisional statement is not an invoice. Use the
+    commercial information supplied with your account for billing questions; the console does not
+    collect payments or calculate taxes.
 
 ## What is measured
 
@@ -30,27 +32,33 @@ the **cost explorer**.
 | Internet gateway hours | hours | the gateway exists |
 | Load balancer hours | hours | the load balancer exists, in any state |
 
-Which measures are charged, and at what price, is set in NubeStack's rate card, shown at the bottom
-of the **Statements** page. A stopped instance still counts instance hours; a stopped instance's
-vCPU and RAM hours stop.
+Which measures are charged, and at what price, is set in NubeStack's rate card: **Billing →
+Prices**. A price for one size is set by its catalog name, such as an instance size, a volume type
+or a load balancer type, and applies in every location that offers it. A stopped instance still
+counts instance hours; its vCPU and RAM hours stop.
 
 ## Where to see it
 
-- **Usage**, in the organization's left panel, for owners, admins and the billing role: pick a
+- **Billing → Usage**, in the organization, for owners, admins and the billing role: pick a
   period, then break a measure down by project, location or kind of resource.
   See [Usage](../organization/usage.md).
-- **Statements** and **Cost explorer**, for owners, admins and the billing role: what each month
-  cost at the published rates, and where the money goes, by project, service, location or tag.
+- **Billing → Statements**, **Cost explorer** and **Prices**, for the same roles: what each month
+  cost at the published rates, where the money goes, and the rates themselves.
   See [Statements and cost explorer](../organization/statements-and-costs.md).
-- **Quota and usage**, at the bottom of a project's left panel: what that project used, for anyone
+- **Billing** in a project: that project's usage and cost, for the same roles.
+- **Quota**, at the bottom of a project's menu: what that project used this month, for anyone
   with a role on the project.
+- **Create pages**: owners, admins and the billing role see a price estimate per hour or per
+  month before they create something billed. Dialogs that create an Internet gateway or a
+  snapshot say its rate.
 
 ## How usage is built
 
 Usage comes from what each location reports every few minutes. When something starts or stops
 between two reports, the moment is estimated; such hours are marked **partly estimated**. A
-location that has not reported recently is shown with the time of its last report; missing hours
-are never filled in as zero, and are added when the location reports again. Corrections never
+location that has not reported recently is shown with the time of its last report. Missing hours
+are never filled in as zero: **Hours not counted** shows them, and they are added when the
+location reports again. Corrections never
 rewrite history silently: a correction to a month already closed appears on the next statement as
 an **adjustment**.
 

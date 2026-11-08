@@ -15,7 +15,7 @@ your password. It keeps your account safe when a password leaks.
 | You are an owner or admin of the organization | Always |
 | You sign in to a location's Horizon dashboard or the OpenStack CLI | Always |
 | Your organization requires it for every member | Always, after the grace period |
-| Sensitive actions: closing the organization, deleting a project with everything in it, inviting an owner or admin | Asked again at that moment |
+| Sensitive actions: making someone an owner (by a role change, an invitation or a new invitation link), closing the organization, deleting a project with everything in it, issuing or rotating an API key | You sign in again with it at that moment, unless your sign-in is recent |
 | Otherwise | Not asked |
 
 NubeStack can also require it for everyone on the platform; the settings page then says so.

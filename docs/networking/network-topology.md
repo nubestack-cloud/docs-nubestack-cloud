@@ -9,24 +9,24 @@ description: A drawing of a project's networks, routers, instances, load balance
 IPs, and the lines between them. Use it to check how a service is wired, or to see what a
 network change would affect.
 
-Find it at the top of **Networking**, or with **View topology** on the project's overview. The
-organization has a topology page too, across the projects you can see.
+Find it at the top of **Networking**, or with **View topology** on the project's overview. In the
+organization scope, **Networking → Network topology** summarises the projects you can see and
+leads into each one's drawing.
 
-![The network topology of web-shop in Karachi: networks, the router, instances, a load balancer and public IPs](../assets/screens/networking/topology.webp)
+![The network topology of web-shop: networks, the router, instances, a load balancer and public IPs](../assets/screens/networking/topology.webp)
 
 ## Read the drawing
 
 === "Console"
 
-    1. Pick a location to see one at a time.
-    2. Follow an instance to its network and the router; for a service on the Internet, to its
+    1. Follow an instance to its network and the router; for a service on the Internet, to its
        public IP and the Internet gateway.
-    3. Choose any node to open its own page.
+    2. Choose any node to open its own page.
 
 === "API"
 
     ```bash
-    curl -sS "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/network-topology?location=pak-khi-1" \
+    curl -sS "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/network-topology" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY"
     ```
 
@@ -37,8 +37,8 @@ the firewall inside an instance still decide that.
 
 ## Missing or old data
 
-The drawing says when each location was last read. If a location has not answered, its part is
-marked stale and shows what was last known; the other location still shows. An empty drawing can
+The drawing says when the location was last read. If it has not answered, the drawing is marked
+stale and shows what was last known. An empty drawing can
 mean an empty project, a filter, or resources not read yet: choose **Refresh** on a list before
 you assume something is gone.
 

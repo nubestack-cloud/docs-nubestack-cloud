@@ -32,7 +32,7 @@ console links. A console log can contain secrets; remove them before you share i
 ## Access problems
 
 If you think a key or credential has leaked, revoke it first (an owner or admin can do it under
-**Service accounts**), then tell us which one and when. Lost your password or phone? We send a
+**IAM → Service accounts**), then tell us which one and when. Lost your password or phone? We send a
 one-time reset link; see [Sign up and sign in](../get-started/account.md#lost-your-password-or-your-phone).
 
 ## Before you write

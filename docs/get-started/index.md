@@ -20,19 +20,19 @@ time; each takes a few minutes.
 
     ---
 
-    Organizations, projects, lists, operations and where each service lives.
+    The scope selector, the menu, lists, create pages and following a change.
 
 -   **3. [Understand your organization](organizations.md)**
 
     ---
 
-    Members, projects and the two kinds of role.
+    People, projects and the two kinds of role.
 
 -   **4. [Create a project](create-a-project.md)**
 
     ---
 
-    Choose a location, a quota preset and the project's first network.
+    Choose its location, a quota preset and its first network.
 
 -   **5. [Launch your first instance](first-instance.md)**
 

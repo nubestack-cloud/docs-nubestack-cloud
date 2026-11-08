@@ -13,12 +13,13 @@ storage you kept and for how long, how long you held public IPs. Every figure is
 
 ## Where to see it
 
-- **Usage**, in the organization's side panel: owners, admins and the billing role. Pick a
+- **Billing → Usage**, in the organization: owners, admins and the billing role. Pick a
   **Period** (this month, last month, the last 7 or 30 days), then a measure to break down by
   project, location or kind of resource. For this month and last month, each measure also shows
   its cost so far at the published rates.
-- **Quota and usage**, at the bottom of a project's side panel: that project's usage this month,
-  for anyone with a role on the project.
+- **Billing → Usage** in a project: that project's usage this month, for the same roles.
+- **Quota**, at the bottom of a project's menu: that project's usage this month, for anyone with
+  a role on the project.
 
 Periods run in whole hours, in UTC.
 
@@ -46,8 +47,18 @@ Which measures are charged, and at what price, is NubeStack's rate card: see
 - Measurement is still being checked against each location's own records. Until then, your bill
   can differ from this page, and the bill is the one that counts.
 
-A location that has not reported recently shows the time of its last report under **Usage
-freshness**. Missing hours are never filled in as zero; they are added when it reports again.
+A location that has not reported recently shows the time of its last report at the top of the
+page. Missing hours are never filled in as zero: **Hours not counted** shows them by project, as
+**Not counted yet** (measured late, counted once the location catches up), **Skipped** (a repair
+can still count them) or **Unknown** (before measurement reached the project; never counted).
+
+## Month by month, and exports
+
+Under the breakdown, the chosen measure is shown month by month. **Export** asks for a month's
+usage as a JSON lines file, every hour counted up to that moment; **Download** fetches it when it
+is ready, and **Export again** makes a newer one. Exports are provisional, like the page.
+
+Usage is kept by the hour for 13 months, and as monthly totals for good.
 
 ## Through the API
 

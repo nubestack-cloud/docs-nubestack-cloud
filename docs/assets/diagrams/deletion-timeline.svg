@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 890 446" role="img" aria-labelledby="dt-title dt-desc">
   <title id="dt-title">What happens when a project is deleted or the organization closed</title>
-  <desc id="dt-desc">Two timelines. Deleting a project, which project admins, owners and admins can do: at once the project is suspended and nothing new can be made in it. During the recovery window, 7 days unless agreed otherwise, Cancel deletion and then Resume project bring it back. When the window ends, or at once with Delete now, everything left is deleted in every location, and this cannot be cancelled once started. Afterwards, activity and usage records are kept. With Delete everything in it, instances, load balancers, public IPs, routers, networks and security groups go within minutes, while volumes, snapshots and images are kept for the window and are the only things that come back after Cancel deletion. With Delete only if empty, the deletion is refused while anything is left. Closing the organization, owners only: at once every instance stops, pending invitations are revoked and nothing can be changed, though owners can still read everything. During the recovery window, 30 days unless agreed otherwise, everything is kept, Cancel closure brings it back and an owner can request a data export of its records. When the window ends, every project is deleted in every location and every member removed; this cannot be undone. Afterwards the audit log and usage records are kept.</desc>
+  <desc id="dt-desc">Two timelines. Deleting a project, which project admins, owners and admins can do: at once the project is suspended and nothing new can be made in it. During the recovery window, 7 days unless agreed otherwise, Cancel deletion and then Resume project bring it back. When the window ends, or at once with Delete now, everything left is deleted, and this cannot be cancelled once started. Afterwards, activity and usage records are kept. With Delete everything in it, instances, load balancers, public IPs, routers, networks and security groups go within minutes, while volumes, snapshots and images are kept for the window and are the only things that come back after Cancel deletion. With Delete only if empty, the deletion is refused while anything is left. Closing the organization, owners only: at once every instance stops, pending invitations are revoked and nothing can be changed, though owners can still read everything. During the recovery window, 30 days unless agreed otherwise, everything is kept, Cancel closure brings it back and an owner can request a data export of its records. When the window ends, every project is deleted and every member removed; this cannot be undone. Afterwards the audit log and usage records are kept.</desc>
   <defs>
     <marker id="dt-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-arrow-teal" d="M0 0L8 4L0 8z"/></marker>
     <marker id="dt-arrow-grey" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-arrow" d="M0 0L8 4L0 8z"/></marker>
@@ -42,7 +42,7 @@
   <rect class="d-box" x="594" y="90" width="160" height="76" rx="8"/>
   <svg x="606" y="100" width="16" height="16" viewBox="0 0 24 24"><path class="d-glyph d-bad" d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6zM8 9h8v10H8zm7.5-5-1-1h-5l-1 1H5v2h14V4z"/></svg>
   <text class="d-title" x="628" y="113">Deleted</text>
-  <text class="d-muted" x="608" y="133">in every location; cannot</text>
+  <text class="d-muted" x="608" y="133">for good; this cannot</text>
   <text class="d-muted" x="608" y="149">be cancelled once started</text>
 
   <rect class="d-box" x="770" y="90" width="110" height="76" rx="8"/>
@@ -103,9 +103,9 @@
   <rect class="d-box" x="594" y="320" width="160" height="108" rx="8"/>
   <svg x="606" y="330" width="16" height="16" viewBox="0 0 24 24"><path class="d-glyph d-bad" d="M6 19a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7H6zM8 9h8v10H8zm7.5-5-1-1h-5l-1 1H5v2h14V4z"/></svg>
   <text class="d-title" x="628" y="343">Closed</text>
-  <text class="d-muted" x="608" y="363">Every project deleted in</text>
-  <text class="d-muted" x="608" y="379">every location, every</text>
-  <text class="d-muted" x="608" y="395">member removed. Cannot</text>
+  <text class="d-muted" x="608" y="363">Every project deleted,</text>
+  <text class="d-muted" x="608" y="379">every member removed.</text>
+  <text class="d-muted" x="608" y="395">This cannot</text>
   <text class="d-muted" x="608" y="411">be undone</text>
 
   <rect class="d-box" x="770" y="320" width="110" height="108" rx="8"/>

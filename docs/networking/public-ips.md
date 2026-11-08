@@ -11,7 +11,7 @@ counted in your usage, until you release it, even after the instance it was on i
 
 Find them under **Networking → Public IPs**.
 
-![Public IPs: each address, its location and what it is attached to](../assets/screens/networking/public-ips.webp)
+![Public IPs: each address and what it is attached to](../assets/screens/networking/public-ips.webp)
 
 ## Before you start
 
@@ -33,9 +33,11 @@ anyone a new address.
 === "Console"
 
     1. Choose **Allocate a public IP**.
-    2. Choose the location, add tags if you like, and confirm.
+    2. Add tags if you like. Owners, admins and the billing role see the price estimate in the
+       summary.
+    3. Choose **Allocate**.
 
-    ![Allocate a public IP: location and tags](../assets/screens/networking/public-ip-allocate.webp)
+    ![Allocate a public IP: tags and the price estimate](../assets/screens/networking/public-ip-allocate.webp)
 
 === "API"
 
@@ -53,8 +55,8 @@ anyone a new address.
 
 === "Console"
 
-    - **Manage → Attach** on the address: choose an instance or load balancer in the same
-      location. An instance on several routed networks asks which one the address reaches.
+    - **Manage → Attach** on the address: choose one of the project's instances or load
+      balancers. An instance on several routed networks asks which one the address reaches.
     - **Manage → Add public IP** on an instance does the same from the other side; on a load
       balancer, **Attach a public IP** under **Public exposure**.
     - **Detach**: the instance stops being reachable at this address at once. The address stays
@@ -98,7 +100,7 @@ Nothing blocks a release.
 ## Limits and good practice
 
 - IPv4 only. An address belongs to one location and cannot move to another.
-- Your [quota](../organization/quota.md) limits how many a project holds in each location.
+- Your [quota](../organization/quota.md) limits how many a project holds.
 - Release addresses you no longer need: they count in your usage while allocated.
 - Put a load balancer, not several public IPs, in front of a set of instances serving the same
   site.

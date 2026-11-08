@@ -31,7 +31,7 @@ with a link to follow the operation. The operation page shows:
 
 ![An operation that created the instance web-2, with its two steps](../assets/screens/concepts/operation.webp)
 
-Every operation of a project is under **Activity**, at the bottom of the project's left panel, and
+Every operation of a project is under **Activity**, at the bottom of the project's menu, and
 each resource has an **Activity** tab with its own. The organization's
 [audit log](../organization/activity.md) has every change, refusal and security event.
 
@@ -74,6 +74,7 @@ so a change never lands long after you stopped expecting it.
     operation**. Once it is running, cancelling is refused with `409 not_cancellable`.
 
 === "API"
+
     ```bash
     curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/operations/$OPERATION_ID:cancel" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY" \
@@ -105,12 +106,13 @@ so a change never lands long after you stopped expecting it.
 
 === "Console"
 
-    Lists show what each location last reported, and say when that was (**Last read**). A location that
-    has not answered for a while is marked stale; its rows stay, with the time they are from.
+    Lists show what the location last reported, and say how old it is (**updated 2 minutes ago**).
+    A list the location has not answered for a while is marked **Stale**; its rows stay, with the
+    time they are from.
 
-    Choose **Refresh** above a list, or **Check for changes** on a resource's page, to read it again from its
-    location now. Anything made with the location's own tools appears after the next regular read, or
-    at once after a refresh.
+    Choose **Refresh** above a list or on a resource's page to read it again from the location
+    now. Anything made with the location's own tools appears after the next regular read, or at
+    once after a refresh.
 
 === "API"
 

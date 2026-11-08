@@ -53,8 +53,11 @@ under `/v1`. Changes that run in a location answer at once with `202 Accepted` a
 ## Before you start
 
 1. An owner or admin creates a [service account](../organization/service-accounts.md) and gives it
-   a role on the project.
-2. They issue an **API key** for it and give it to you through a secret store.
+   a role on the project. For your own scripts on one project, you can instead make a
+   [personal service account](../organization/service-accounts.md#your-own-service-account-on-a-project)
+   there.
+2. They issue an **API key** for it and give it to you through a secret store, or you issue one
+   for your personal service account.
 3. You set these variables in your shell. The address is a placeholder: use the one NubeStack gives
    you, without `/v1`.
 
@@ -116,9 +119,11 @@ change in its **API** tab.
 
 ## What the API does not do
 
-- Create or delete projects, add or remove their locations, or manage members, roles, keys and
-  settings. A service account's key cannot; people do these in the console.
-- Sign a person in from a script. Use a service account's API key.
+- Create or delete projects, or manage people, roles, keys and settings, with a service
+  account's key. People do these in the console; the [NubeStack CLI](../tools/cli.md), signed in
+  as you, also creates projects.
+- Sign a person in from a script. Use a service account's API key, or the CLI's browser
+  sign-in.
 - Anything a location's own OpenStack API does directly. For that, use
   [native access](../native-access/index.md).
 - Prices and invoices beyond the provisional [usage and statements](../organization/statements-and-costs.md).

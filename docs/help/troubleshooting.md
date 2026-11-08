@@ -40,11 +40,11 @@ same request again unchanged rarely fixes a permission, dependency or quota prob
 
 | Message or code | What to do |
 |---|---|
-| `quota_exceeded` | The project's quota in that location is used up. Free something, or ask an owner or admin to [raise it](../organization/quota.md) |
-| No room for that size | The location is full for that size right now. Try another size, later, or the project's other location |
+| `quota_exceeded` | The project's quota is used up. Free something, or ask an owner or admin to [raise it](../organization/quota.md) |
+| No room for that size | The location is full for that size right now. Try another size, or try again later |
 | `403` / you lack the right | Your role does not allow it. Ask a project admin for a project role |
 | A change is still running | Wait for the resource's current operation to finish |
-| Not in this location | Images, networks, volumes, keys and certificates must be in the same location |
+| Not in this project | Images, networks, volumes and certificates must be the project's own |
 | `location_maintenance` | The location is in maintenance; retry later |
 | `412` / the version changed | Someone changed it after you loaded it. Reload, check, and apply your change again |
 
@@ -89,14 +89,16 @@ them yourself.
 
 ## A list looks wrong
 
-Check **Last read** and any stale or partial notice, and the location and tag filters. Choose
-**Refresh**: something made with a location's own tools appears after the next read. One location's
-trouble never empties the whole page, so a missing row is rarely a deleted resource.
+Check how old the list is (**updated … ago**), any **Stale** or partial notice, and the state and
+tag filters. Choose **Refresh**: something made with the location's own tools appears after the
+next read. A missing row is rarely a deleted resource. In the organization scope, a service's
+list is every project's, read-only: open the project to change something.
 
 ## Costs look incomplete
 
-Usage and costs are provisional. Check the time of the last report under **Usage freshness**, and
-the **Not rated** lines: usage without a rate is never counted as free. See
+Usage and costs are provisional. Check the time of each location's last report at the top of
+**Usage**, **Hours not counted**, and the **Not rated** lines: usage without a rate is never
+counted as free. See
 [Usage and costs](../concepts/usage-and-costs.md).
 
 ## Still stuck

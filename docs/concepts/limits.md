@@ -5,7 +5,7 @@ description: The fixed limits of NubeStack Cloud, apart from your quota.
 
 # Limits
 
-Your **quota** limits how much a project holds in each location, and your organization's
+Your **quota** limits how much a project holds, and your organization's
 **budget** limits the quota (see [Projects and quotas](projects-and-quotas.md#quota)).
 The limits below are fixed by the product. A request past one is refused with the code shown,
 before anything is made.
@@ -17,7 +17,7 @@ before anything is made.
 | Projects | set by NubeStack for your organization; the organization's **Overview** shows it | `project_limit` |
 | Service accounts | 100, unless NubeStack set another limit | `service_account_limit` |
 | Active API keys per service account | 2 (the key and its successor while you rotate) | `api_key_limit` |
-| Cloud credentials per service account, per project location | 2 | `credential_limit` |
+| Cloud credentials per service account, per project | 2 | `credential_limit` |
 | Custom roles for the organization | 50 | `role_limit` |
 | Custom roles of one project | 20 | `role_limit` |
 | Custom organization roles one member holds | 10 | |
@@ -31,7 +31,7 @@ before anything is made.
 | Launch templates | 50, each with up to 100 versions | `launch_template_limit`, `launch_template_version_limit` |
 | Schedules | 20, each acting on up to 10 volumes or instances in one location | `schedule_limit` |
 | Instance groups | 20 | `instance_group_limit` |
-| Certificates per location | 50 | `certificate_limit` |
+| Certificates | 50 | `certificate_limit` |
 | SSH keys per owner (you, or one project) | 50 | `ssh_key_limit` |
 
 ## Instances
@@ -40,7 +40,7 @@ before anything is made.
 |---|---|
 | Instances in one launch | 1 to 10 |
 | Data volumes attached at launch | 8 |
-| Server groups a project has in a location, and instances in one group | 10 each, set by the location |
+| Server groups in a project, and instances in one group | 10 each, set by the location |
 | Instances one host may run in a **Different hosts** group | 1 to 10 |
 | User data | 49,149 bytes |
 | Metadata keys | 1 to 64 letters, digits, `-` or `_`; values up to 255 characters |
@@ -64,7 +64,7 @@ before anything is made.
 | DNS servers per range | 4 |
 | Routes on a project's router | 16 |
 | Forwarded ranges per instance interface | 10 |
-| Internet gateways | 1 per project and location |
+| Internet gateways | 1 per project |
 | Load balancer listeners | 10 per load balancer, no two on the same protocol and port |
 | Pool members | 100 per pool |
 | Health check | every 1 to 3,600 s; 1 to 10 retries; the timeout shorter than the interval |

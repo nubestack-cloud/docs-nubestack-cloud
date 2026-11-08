@@ -49,7 +49,8 @@ balancer.
 
 ## Delete a project
 
-Project admins, owners and admins delete a project from its **Settings → Danger zone**. Choose
+Project admins, owners and admins delete a project from its **Settings → Danger zone**, or from
+the organization's **Settings → Projects**. Choose
 **Delete only if empty**, or **Delete everything in it**: instances, load balancers, public IPs,
 routers, networks and security groups go within minutes, while volumes, snapshots and images are
 kept for the recovery window. Step by step: [Projects](../organization/projects.md#delete-a-project).
@@ -58,7 +59,7 @@ kept for the recovery window. Step by step: [Projects](../organization/projects.
 |---|---|
 | At once | The project is suspended: nothing new can be made in it |
 | During the recovery window (7 days unless agreed otherwise) | **Cancel deletion**, then **Resume project**, brings it back. After **Delete everything**, only volumes, snapshots and images come back |
-| **Delete now**, or the window ends | Everything left is deleted in every location; this cannot be cancelled once started |
+| **Delete now**, or the window ends | Everything left is deleted; this cannot be cancelled once started |
 | Afterwards | Activity and usage records are kept |
 
 <figure class="ns-diagram">
@@ -70,8 +71,6 @@ The project's schedules pause when its deletion is requested; its launch templat
 instance groups and certificates go with it. Stacks and clusters made with a location's own tools
 must be deleted with those tools; the page names anything that stops the deletion, and the
 deletion carries on once it is gone.
-
-**Removing a location** from a project works the same way, for that location only.
 
 ## Clean up a project safely
 
@@ -95,8 +94,9 @@ While it is closing, an owner can download a copy of its records. See
 
 ## People leaving
 
-- **Removing a member** ends their access at once, deletes their personal SSH keys and signs them
-  out of every location within 15 minutes. What they made stays.
+- **Removing someone** from the organization ends their access at once, deletes their personal
+  SSH keys and service accounts, and signs them out of every location within 15 minutes. What
+  they made stays.
 - **Deleting a service account** stops its API keys at once, ends its project access and deletes
   its cloud credentials in every location.
 

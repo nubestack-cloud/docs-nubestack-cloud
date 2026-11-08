@@ -14,14 +14,14 @@ project. A person may do something if any of their roles allows it.
 | Organization role | In short |
 |---|---|
 | Owner | Everything, including the security settings, closing the organization and acting on other owners |
-| Admin | Members (except owners), projects, quota, settings and service accounts |
-| Billing | Sees the members, projects, locations, usage, statements and costs |
-| Member | Sees the members and locations; uses only the projects they are given a role on |
-| Viewer | Sees everything in the organization's projects, read only |
+| Admin | People (except owners), projects, quota, settings and service accounts |
+| Billing | Usage, cost explorer, statements and prices; sees the people, the roles and the projects |
+| Member | Uses only the projects they are given a role on |
+| Viewer | Sees everything in the organization's projects, read-only |
 
 | Project role | In short |
 |---|---|
-| Project admin | Uses the project, gives and takes access to it, removes its locations, deletes it |
+| Project admin | Uses the project, gives and takes access to it, deletes it |
 | Project member | Creates, changes and deletes the project's resources |
 | Project reader | Sees the project's resources, changes nothing |
 
@@ -49,8 +49,7 @@ a [custom role](../organization/custom-roles.md) holds.
 | `project.create` | Create a project | ✓ | ✓ | — | if allowed | — | — | — | — |
 | `project.read` | See a project | ✓ | ✓ | ✓ | — | ✓ | ✓ | ✓ | ✓ |
 | `project.delete` | Delete a project | ✓ | ✓ | — | — | — | ✓ | — | — |
-| `placement.create` | Add a location to a project | ✓ | ✓ | — | — | — | — | — | — |
-| `placement.delete` | Remove a location from a project | ✓ | ✓ | — | — | — | ✓ | — | — |
+| `placement.delete` | Remove one location from a project made in two | ✓ | ✓ | — | — | — | ✓ | — | — |
 | `grant.read` | See who has access to a project | ✓ | ✓ | — | — | ✓ | ✓ | ✓ | ✓ |
 | `grant.manage` | Give and take project access | ✓ | ✓ | — | — | — | ✓ | — | — |
 | `operations.read` | See operations (anyone sees their own) | ✓ | ✓ | — | — | — | ✓ | ✓ | ✓ |
@@ -67,6 +66,7 @@ a [custom role](../organization/custom-roles.md) holds.
 | `ssh_key.read` | See SSH keys (anyone sees their own personal keys) | ✓ | ✓ | — | — | — | ✓ | ✓ | — |
 | `ssh_key.add_own` | Add a personal SSH key | ✓ | ✓ | — | ✓ | ✓ | — | — | — |
 | `ssh_key.manage` | Share and remove SSH keys in a project | ✓ | ✓ | — | — | — | ✓ | — | — |
+| `personal_service_account.manage` | Have their own service account on the project, with its keys and cloud credentials | — | — | — | — | — | ✓ | ✓ | — |
 | `quota.read` | See budgets and what is allocated | ✓ | ✓ | — | — | — | — | — | — |
 | `quota.allocate` | Set each project's quota out of the budget | ✓ | ✓ | — | — | — | — | — | — |
 | `quota.request` | Ask NubeStack for a larger budget | ✓ | ✓ | — | — | — | — | — | — |
@@ -87,7 +87,11 @@ A project admin makes custom roles for their own project only.
 A [service account](../organization/service-accounts.md) holds the **member** or **viewer**
 organization role and the **project member** or **project reader** role on projects, or a custom
 role within those bounds. Whatever its roles say, it never manages people, project access, roles,
-API keys, settings or service accounts, and never creates or deletes projects or locations.
+API keys, settings or service accounts, and never creates or deletes projects.
+
+A project admin or project member can also make a **personal service account** on that project,
+for their own scripts: it holds project member there, its keys and credentials last 30 days at
+most, and it goes when the person's access to the project ends.
 
 ## Custom roles
 

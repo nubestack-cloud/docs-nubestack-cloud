@@ -11,7 +11,7 @@ key once; HTTPS listeners then choose it by name.
 
 Find them in a project under **Security → Certificates**.
 
-![Certificates: name, location, the names each covers, days left and how many listeners serve it](../assets/screens/security/certificates.webp)
+![Certificates: name, the names each covers, days left and how many listeners serve it](../assets/screens/security/certificates.webp)
 
 ## Before you start
 
@@ -26,8 +26,8 @@ Find them in a project under **Security → Certificates**.
 === "Console"
 
     1. Choose **Upload certificate**.
-    2. **Location**: where the load balancers that serve it run. A listener can only use a
-       certificate of its own location; upload it again for the other location.
+    2. **Location** shows the project's location. A listener can only use a certificate of its
+       own project: for a project in the other location, upload it there too.
     3. **Certificate**: the server's own certificate (`-----BEGIN CERTIFICATE-----`). It must be
        valid now and for at least another day.
     4. **Chain** (optional): the intermediate certificates, the one that issued yours first, at
@@ -37,7 +37,7 @@ Find them in a project under **Security → Certificates**.
     6. **Name**: how listeners choose it, for example `www-2026`.
     7. Choose **Upload certificate**.
 
-    ![Upload certificate: location, certificate, chain, private key and name](../assets/screens/security/certificate-upload.webp)
+    ![Upload certificate: certificate, chain, private key and name](../assets/screens/security/certificate-upload.webp)
 
 === "API"
 
@@ -113,12 +113,12 @@ The key is deleted from the key manager.
 |---|---|---|
 | `certificate_in_use` | A listener serves it, as its default or by host name; the message names the listeners | **Change certificates** on those listeners first |
 
-Deleting a project, or one of its locations, deletes every certificate and every other secret of
-the project in that location's key manager, after its load balancers.
+Deleting a project deletes every certificate and every other secret of the project in the
+location's key manager, after its load balancers.
 
 ## Limits and good practice
 
-- Up to 50 certificates per project in each location (`certificate_limit`).
+- Up to 50 certificates per project (`certificate_limit`).
 - Each PEM field up to 32,768 characters; the whole upload up to 64 KiB.
 - A certificate expiring within 24 hours cannot be put on a listener (`certificate_expired`).
 - Keep your own copy of each key; the console cannot give it back.

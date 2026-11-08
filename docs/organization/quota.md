@@ -10,8 +10,8 @@ rest. It is set in two layers:
 
 1. **NubeStack sets the organization's budget** in each location: how much the organization may
    hand out there.
-2. **Your owners and admins share that budget between projects**: each project gets its own quota
-   in each of its locations. Only owners and admins set project quota.
+2. **Your owners and admins share that budget between the projects** in that location: each
+   project gets its own quota. Only owners and admins set project quota.
 
 <figure class="ns-diagram">
 --8<-- "quota-layers.svg"
@@ -22,18 +22,19 @@ rest. It is set in two layers:
 
 ## See quota
 
-- **Owners and admins**: **Quota** in the organization's side panel. **Show quotas for** picks
-  one location or all together. The page warns when a budget is nearly or fully allocated.
-- **Everyone with a project role**: **Quota and usage** at the bottom of the project's side
-  panel shows the project's quota and what it uses.
+- **Owners and admins**: **Quota** at the bottom of the menu in the organization scope. **Show
+  quotas for** picks one location or all together. The page warns when a budget is nearly or
+  fully allocated, and the bell keeps the warning.
+- **Everyone with a project role**: **Quota** at the bottom of the project's menu shows the
+  project's quota, what it uses, and what it used this month.
 
 ## Set a project's quota
 
-1. On **Projects**, choose **Manage → Edit quotas** for the project.
-2. **Location**: quota is set per location.
-3. Change the figures under **Quota per resource**. **Budget left** beside each says how much
-   more the organization can give there.
-4. Choose **Save quota**. The location applies it within a few minutes.
+1. In the organization's **Settings → Projects**, choose **Manage → Edit quotas** for the
+   project.
+2. Change the figures under **Quota per resource**. **Budget left** beside each says how much
+   more the organization can give in the project's location.
+3. Choose **Save quota**. The location applies it within a few minutes.
 
 Project quota is set by people in the console. A service account's API key can read a project's
 quota (`GET …/projects/{project_id}/quota`) but not change it.
@@ -54,8 +55,8 @@ image storage (GiB), and load balancers where the location offers them.
 
 ## Quota presets
 
-A **quota preset** is the quota a new project starts with in each of its locations: the preset's
-figure, or what is left of the budget there, whichever is less. Owners and admins manage them
+A **quota preset** is the quota a new project starts with: the preset's figure, or what is left of
+the budget in its location, whichever is less. Owners and admins manage them
 from **Quota → Quota presets**.
 
 ![Quota presets: NubeStack's starters and Acme's own, with the default for new projects](../assets/screens/organization/quota-presets.webp)
@@ -85,7 +86,7 @@ One request per location can wait at a time; **Cancel request** withdraws it.
 
 Quota says how much you may use. Whether a location has room right now is separate: a request
 within quota can still fail when a location has no room for that size. The operation says so;
-try another size, later, or the project's other location.
+try another size, or try again later.
 
 ## Related
 

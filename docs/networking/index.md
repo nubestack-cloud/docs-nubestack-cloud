@@ -6,7 +6,7 @@ description: Private networks, routing, Internet gateways, security groups, publ
 # Networking
 
 Networking decides who can reach your instances and what they can reach. Everything here lives
-in one location: a network in Karachi never reaches one in Islamabad by itself.
+in the project's location: a network in Karachi never reaches one in Islamabad by itself.
 
 <figure class="ns-diagram">
 --8<-- "network-path.svg"
@@ -25,7 +25,7 @@ in one location: a network in Karachi never reaches one in Islamabad by itself.
 
     ---
 
-    The project's private router in each location, routes through an instance, and forwarding.
+    The project's private router, routes through an instance, and forwarding.
 
 -   :material-web:{ .lg .middle } **[Internet gateways](internet-gateways.md)**
 
@@ -63,11 +63,11 @@ in one location: a network in Karachi never reaches one in Islamabad by itself.
 
 | You want | You need |
 |---|---|
-| Instances to talk to each other | The same network, or two **routed** networks in the same location, and security group rules that allow it |
-| Instances to reach the Internet | A routed network and an **Internet gateway** in the location |
+| Instances to talk to each other | The same network, or two **routed** networks of the project, and security group rules that allow it |
+| Instances to reach the Internet | A routed network and an **Internet gateway** in the project |
 | The Internet to reach an instance | All of the above, a **public IP** on the instance, and a rule that allows the port |
 | One address for several instances | A **load balancer** with a public IP, and rules that let it reach the instances |
 | Traffic to an office or VPN range | A **route** through an instance that forwards for that range |
 
 A new project made with **Set up a network** and **Create an Internet gateway** has a routed
-network, `default` (`10.0.0.0/24`), and a gateway in each location from the start.
+network, `default` (`10.0.0.0/24`), and a gateway from the start.

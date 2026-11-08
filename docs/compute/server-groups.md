@@ -13,7 +13,7 @@ when you create an instance; an instance cannot join a group later, leave it, or
 
 Find them under **Compute → Server groups**.
 
-![Server groups: name, location, policy and members](../assets/screens/compute/server-groups.webp)
+![Server groups: name, policy and members](../assets/screens/compute/server-groups.webp)
 
 ## Before you start
 
@@ -40,7 +40,7 @@ Decide the policy before you create instances: membership is fixed when an insta
     4. **Name**: up to 64 characters, with no space at either end.
     5. Choose **Create server group**.
 
-    ![Create server group: location, policy and name](../assets/screens/compute/server-group-create.webp)
+    ![Create server group: policy and name](../assets/screens/compute/server-group-create.webp)
 
 === "API"
 

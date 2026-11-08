@@ -14,7 +14,7 @@ new data volumes, public IP, load balancer and user data.
 
 Find them under **Compute → Launch templates**.
 
-![Launch templates: name, location, size, image and current version](../assets/screens/compute/launch-templates.webp)
+![Launch templates: name, size, image and current version](../assets/screens/compute/launch-templates.webp)
 
 ## Save a template
 

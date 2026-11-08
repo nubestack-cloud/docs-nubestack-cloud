@@ -19,7 +19,7 @@ ssh ubuntu@203.0.113.21
 ```
 
 From the Internet you need the instance's **public IP**, a security group rule that allows TCP 22
-from your address, and an Internet gateway in the location. From another instance on the same
+from your address, and an Internet gateway in the project. From another instance on the same
 routed networks, use its private address.
 
 ## Open the browser console
@@ -56,7 +56,7 @@ it.
 
     On the instance's **Networks** tab:
 
-    - **Attach network** gives the instance an address on another network in the same location.
+    - **Attach network** gives the instance an address on another of the project's networks.
       If its system does not bring the new interface up by itself, bring it up inside the
       instance.
     - **Detach network** removes that address at once; the network stays.
@@ -123,7 +123,7 @@ Check, in this order:
 1. The instance is **Active**, and its **Console log** shows it finished starting.
 2. It has a public IP, or you connect from inside its networks.
 3. One of its security groups allows the port from your address.
-4. The location has an Internet gateway, and the network is routed.
+4. The project has an Internet gateway, and the network is routed.
 5. The service inside the instance listens on that port, and its own firewall allows it.
 
 More in [Troubleshooting](../help/troubleshooting.md).

@@ -25,8 +25,8 @@ once, only for the e-mail address it was sent to, and for seven days.
 
 3. Set up your second factor when asked: scan the code with an authenticator app on your phone,
    then type the six-digit code it shows.
-4. Check the organization and the role you are offered, then choose **Accept invitation**. An
-   owner or admin role asks for your second factor once more.
+4. Check the organization and the role you are offered, then choose **Accept invitation**. For
+   an owner or admin role you may be asked to sign in again with your second factor.
 
     ![The invitation, signed in: Acme offers the Member role with a role on one project](../assets/screens/get-started/invitation-accept.webp)
 
@@ -50,12 +50,12 @@ second factor:
 [Second factor](../security/second-factor.md) explains each case.
 
 If you belong to several organizations, the console asks which one to open. Leave **Open this one
-next time** ticked to skip the question from then on. Switch at any time with the
-**Organization** list at the top of every page.
+next time** ticked to skip the question from then on. Switch at any time with the organization
+selector at the top left of every page.
 
 What you see first depends on your role. Owners and admins land on the organization's
-**Overview**: projects, budgets and anything waiting on someone. Everyone else lands on their
-projects.
+**Overview**: projects, budgets and anything waiting on someone. Everyone else lands on the list
+of projects; choose one in the scope selector at the top to work in it.
 
 ![The organization overview for Acme: waiting items, projects, quota and usage](../assets/screens/get-started/org-overview.webp)
 

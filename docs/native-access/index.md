@@ -10,10 +10,10 @@ and with the **OpenStack CLI**, the SDKs and Terraform's OpenStack provider. The
 projects, with the same quota and the same access as the console, and keep working when the
 NubeStack Cloud console does not.
 
-Find the way in under **Consoles and CLI**, at the bottom of a project's side panel. You need a
-role on the project.
+Find the way in under the project's **Settings → Consoles and CLI**. You need a role on the
+project.
 
-![Consoles and CLI: each location with Open in Horizon and Connection details, and Download clouds.yaml](../assets/screens/native-access/consoles-and-cli.webp)
+![Consoles and CLI: the project's location with Open in Horizon and Connection details, and Download clouds.yaml](../assets/screens/native-access/consoles-and-cli.webp)
 
 <div class="grid cards" markdown>
 
@@ -63,9 +63,9 @@ until then.
 
 | What is down | Horizon and the CLI |
 |---|---|
-| The NubeStack Cloud console and API | Keep working: your access is already in each location. Access and quota changes wait until it is back |
+| The NubeStack Cloud console and API | Keep working: your access is already in the location. Access and quota changes wait until it is back |
 | NubeStack Cloud sign-in | New sign-ins fail; open sessions keep working until they expire |
-| One location | The other location keeps working |
+| One location | Projects in the other location keep working |
 
 ## For automation
 

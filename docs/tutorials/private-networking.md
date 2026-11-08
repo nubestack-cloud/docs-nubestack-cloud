@@ -25,13 +25,13 @@ Karachi.
 
 - A project in Karachi with an Internet gateway. The project's `default` network can serve as
   `app`.
-- Ranges that do not overlap other routed networks in the location.
+- Ranges that do not overlap the project's other routed networks.
 
 ## 1. Create the database network
 
 === "Console"
 
-    Under **Networking → Networks**, choose **Create network**: Karachi, name `db`, range
+    Under **Networking → Networks**, choose **Create network**: name `db`, range
     `10.0.1.0/24`, **Routed**. Routed networks of the project reach each other through its private
     router; nothing else is needed for the path.
 

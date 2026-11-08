@@ -15,13 +15,13 @@ assume them.
 
     ---
 
-    Karachi and Islamabad are independent clouds. What stays where, and why.
+    Karachi and Islamabad are independent clouds. A project runs in one of them.
 
 -   :material-folder-outline:{ .lg .middle } **[Projects and quotas](projects-and-quotas.md)**
 
     ---
 
-    How a project spans locations, who can use it, and how quota is shared.
+    What a project holds, who can use it, and how quota is shared.
 
 -   :material-progress-clock:{ .lg .middle } **[Operations](operations.md)**
 

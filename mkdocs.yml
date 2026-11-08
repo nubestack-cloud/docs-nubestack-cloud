@@ -170,16 +170,16 @@ nav:
           - Second factor: security/second-factor.md
       - Organization:
           - organization/index.md
-          - Members and invitations: organization/members.md
-          - Projects: organization/projects.md
+          - People and invitations: organization/members.md
           - Custom roles: organization/custom-roles.md
           - Service accounts and API keys: organization/service-accounts.md
+          - Usage: organization/usage.md
+          - Statements, prices and costs: organization/statements-and-costs.md
+          - Audit log and activity: organization/activity.md
           - Quota: organization/quota.md
+          - Projects: organization/projects.md
           - Settings: organization/settings.md
           - E-mail notices: organization/notifications.md
-          - Audit log and activity: organization/activity.md
-          - Usage: organization/usage.md
-          - Statements and cost explorer: organization/statements-and-costs.md
   - API:
       - api/index.md
       - Authentication: api/authentication.md

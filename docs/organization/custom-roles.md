@@ -9,7 +9,8 @@ The built-in roles fit most organizations. When they do not, owners and admins c
 roles**: a name and a set of the same actions the built-in roles are made of. A project admin can
 make roles for their own project.
 
-Find them under **Roles** in the organization's side panel.
+Find them under **IAM → Roles** in the organization. In a project, **IAM → Roles** shows the roles
+you can give there and the project's own.
 
 ![Roles: the built-in roles and Acme's custom roles](../assets/screens/organization/roles.webp)
 
@@ -33,9 +34,10 @@ owner, the security settings), and creating or changing resources as an **organi
 
 ![Create role: name, kind and actions](../assets/screens/organization/role-create.webp)
 
-Give an organization role from **Members → Manage → Organization roles**. Give a project role
-from the project's **Settings → Access**, from **Members → Manage → Project roles**, or on an
-invitation. A project's own roles are under **Settings → Access → Project roles**.
+Give an organization role from **IAM → People → Manage → Organization roles**. Give a project
+role from the project's **IAM → People → Give access**, from **Give access** on a person in the
+organization's **IAM → People**, or on an invitation. A project's own roles are under the
+project's **IAM → Roles**.
 
 ## You can only give what you hold
 
@@ -89,5 +91,5 @@ routes are in [API reference: Roles](../api/reference/roles.md).
 
 ## Related
 
-- [Roles and permissions](../concepts/roles-and-permissions.md) · [Members](members.md)
+- [Roles and permissions](../concepts/roles-and-permissions.md) · [People](members.md)
 - [API reference: Roles](../api/reference/roles.md)

@@ -10,10 +10,12 @@ job. It has an organization role and project access like a person, but never sig
 console. It works with two kinds of credential:
 
 - **API keys**, to call the [NubeStack Cloud API](../api/index.md);
-- **Cloud credentials**, for the OpenStack CLI, an SDK or Terraform's OpenStack provider in one
-  location of a project.
+- **Cloud credentials**, for the OpenStack CLI, an SDK or Terraform's OpenStack provider in a
+  project's location.
 
-Owners and admins manage them under **Service accounts** in the organization's side panel.
+Owners and admins manage the organization's service accounts under **IAM → Service accounts** in
+the organization. Project admins and members can also have a
+[personal service account](#your-own-service-account-on-a-project) on a project.
 
 ![Service accounts: name, role, projects and active keys](../assets/screens/organization/service-accounts.webp)
 
@@ -25,11 +27,11 @@ Owners and admins manage them under **Service accounts** in the organization's s
 4. **Organization role**: **Member** or **Viewer**.
 5. Choose **Create service account**.
 
-Then give it access to each project it works in: the project's **Settings → Access → Grant
-access**, with project member or project reader.
+Then give it access to each project it works in: in the project, **IAM → People → Give access**,
+choose the service account under **Service accounts**, with project member or project reader.
 
 Whatever its roles, a service account never manages people, access, roles, keys or settings, and
-never creates or deletes projects or their locations.
+never creates or deletes projects.
 
 ![A service account's page: its projects, API keys and cloud credentials](../assets/screens/organization/service-account.webp)
 
@@ -65,6 +67,10 @@ Under **API keys** on the service account:
 A service account holds at most 2 active keys, so you can rotate without a gap. An unknown,
 revoked or expired key is refused with `401 api_key_invalid`.
 
+A key whose issuer has since lost the right to issue it, for example because they left the
+organization, reads **needs owner**: it stops on the date shown unless an owner or admin chooses
+**Keep** on it. Cloud credentials work the same way.
+
 ## Get a cloud credential
 
 A cloud credential is an OpenStack application credential for one project in one location, for
@@ -72,8 +78,8 @@ unattended tools that cannot use the [CLI's browser sign-in](../native-access/op
 
 1. Give the service account member access to the project first.
 2. Open the service account and choose **Get a credential**.
-3. Choose the project's location and when the cloud stops accepting it (at most a year, 90 days
-   by default).
+3. **Where**: the project. **Lifetime**: when the cloud stops accepting it (at most a year, 90
+   days by default).
 4. Choose **Get credential**.
 
 A `clouds.yaml` entry with the secret is shown once. Add it to `~/.config/openstack/clouds.yaml`:
@@ -82,10 +88,24 @@ A `clouds.yaml` entry with the secret is shown once. Add it to `~/.config/openst
 openstack --os-cloud acme-web-shop-pak-khi-1 server list
 ```
 
-The credential has a project member's access in that location, under the project's quota. Each
-location holds two per service account, so you can make the next before revoking the old.
+The credential has a project member's access in the project's location, under the project's
+quota. A service account holds two per project, so you can make the next before revoking the
+old.
 **Revoke** deletes it; tools using it are refused within minutes. An expired one stays listed as
 **expired**.
+
+## Your own service account on a project
+
+A project admin or project member can have a **personal service account** on that project, for
+their own scripts and the CLI. In the project, open **IAM → Service accounts** and choose **Create
+my service account**.
+
+- It holds project member on that project only.
+- Its API keys and cloud credentials last 30 days at most.
+- It goes when your access to the project ends. **Delete** removes it sooner.
+
+Issue its keys and get its credentials on the same page, as above. Owners and admins see personal
+service accounts in the organization's list too.
 
 ## Delete a service account
 

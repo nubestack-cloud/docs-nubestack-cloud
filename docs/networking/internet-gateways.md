@@ -5,13 +5,12 @@ description: Let instances on a project's routed networks reach the Internet thr
 
 # Internet gateways
 
-An **Internet gateway** lets instances on a project's routed networks in one location reach the
-Internet. Their traffic goes out through one shared public address (NAT) that the location
+An **Internet gateway** lets instances on a project's routed networks reach the Internet. Their traffic goes out through one shared public address (NAT) that the location
 assigns. Nothing on the Internet can reach your instances through it: for that, give an instance
 a [public IP](public-ips.md), which also needs the gateway.
 
-A project has at most one Internet gateway per location. It serves every network attached to
-[private routing](routing.md) there; isolated networks never use it.
+A project has at most one Internet gateway. It serves every network attached to
+[private routing](routing.md); isolated networks never use it.
 
 <figure class="ns-diagram">
 --8<-- "network-path.svg"
@@ -26,16 +25,15 @@ Find it under **Networking → Internet gateways**.
 
 === "Console"
 
-    1. Choose **Create Internet gateway**.
-    2. **Location**: one of the project's locations without a gateway.
-    3. Choose **Create Internet gateway**. The outbound address shows once it is ready.
+    1. Choose **Create Internet gateway**. For owners, admins and the billing role, the dialog
+       says the price per hour and per month.
+    2. Confirm with **Create Internet gateway**. The outbound address shows once it is ready.
 
-    You can also create it with the project, or when adding a location to one: **Create an
-    Internet gateway (outbound NAT)**.
+    You can also create it with the project: **Create an Internet gateway (outbound NAT)**.
 
 === "API"
 
-    `{placement_id}` is the project's ID in that location: `placements[].id` in
+    `{placement_id}` is the project's ID in its location: `placements[0].id` in
     `GET /v1/orgs/$ORG/projects/$PROJECT`.
 
     ```bash
@@ -53,7 +51,7 @@ A gateway made or changed with the location's own tools and shown with outbound 
 
 === "Console"
 
-    1. Detach every public IP in that location from its instance or load balancer.
+    1. Detach every public IP of the project from its instance or load balancer.
     2. Choose **Manage → Delete gateway** and confirm.
 
 === "API"
@@ -71,7 +69,7 @@ and instances stay.
 
 | Refusal | Why | Resolve |
 |---|---|---|
-| `public_ips_in_use` | A public IP in the location is still attached; the message lists them | Detach them first, under **Public IPs** |
+| `public_ips_in_use` | A public IP of the project is still attached; the message lists them | Detach them first, under **Public IPs** |
 
 ## Limits and good practice
 

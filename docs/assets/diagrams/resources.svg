@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 470" role="img" aria-labelledby="dr-title dr-desc">
   <title id="dr-title">How an organization's resources fit together</title>
-  <desc id="dr-desc">The organization Acme has a project, web-shop, in two locations. In Karachi, a public IP points at a load balancer that sends traffic to the instances web-1 and web-2 on the private network app. The instance db-1 on the same network has a volume, db-data, attached. In Islamabad, the same project has its own network app with the instance batch-1. Nothing is shared between the two locations.</desc>
+  <desc id="dr-desc">The organization Acme has two projects, each in one location. The project web-shop runs in Karachi: a public IP points at a load balancer that sends traffic to the instances web-1 and web-2 on the private network app, and the instance db-1 on the same network has a volume, db-data, attached. The project analytics runs in Islamabad, with its own network default and the instance batch-1. Nothing is shared between the two locations.</desc>
   <defs>
     <marker id="dr-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-arrow-teal" d="M0 0L8 4L0 8z"/></marker>
   </defs>
@@ -12,14 +12,17 @@
   <rect class="d-zone" x="10" y="64" width="780" height="396" rx="14"/>
   <svg x="758" y="77" width="14" height="14" viewBox="0 0 24 24"><path class="d-glyph" d="M19 3v18h-6v-3.5h-2V21H5V3zm-4 4h2V5h-2zm-4 0h2V5h-2zM7 7h2V5H7zm8 4h2V9h-2zm-4 0h2V9h-2zm-4 0h2V9H7zm8 4h2v-2h-2zm-4 0h2v-2h-2zm-4 0h2v-2H7zm8 4h2v-2h-2zm-8 0h2v-2H7zM21 1H3v22h18z"/></svg>
   <text class="d-label" x="752" y="88" text-anchor="end">Organization · Acme</text>
-  <rect class="d-box" x="26" y="100" width="748" height="346" rx="12"/>
+  <rect class="d-box" x="26" y="100" width="532" height="346" rx="12"/>
+  <svg x="526" y="113" width="14" height="14" viewBox="0 0 24 24"><path class="d-glyph" d="M20 18H4V8h16m0-2h-8l-2-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2"/></svg>
+  <text class="d-label" x="520" y="124" text-anchor="end">Project · web-shop</text>
+  <rect class="d-box" x="566" y="100" width="208" height="346" rx="12"/>
   <svg x="742" y="113" width="14" height="14" viewBox="0 0 24 24"><path class="d-glyph" d="M20 18H4V8h16m0-2h-8l-2-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2"/></svg>
-  <text class="d-label" x="736" y="124" text-anchor="end">Project · web-shop</text>
+  <text class="d-label" x="736" y="124" text-anchor="end">Project · analytics</text>
 
   <rect class="d-zone" x="42" y="136" width="500" height="296" rx="10"/>
   <svg x="512" y="147" width="14" height="14" viewBox="0 0 24 24"><path class="d-glyph" d="M12 6.5A2.5 2.5 0 0 1 14.5 9a2.5 2.5 0 0 1-2.5 2.5A2.5 2.5 0 0 1 9.5 9 2.5 2.5 0 0 1 12 6.5M12 2a7 7 0 0 1 7 7c0 5.25-7 13-7 13S5 14.25 5 9a7 7 0 0 1 7-7m0 2a5 5 0 0 0-5 5c0 1 0 3 5 9.71C17 12 17 10 17 9a5 5 0 0 0-5-5"/></svg>
   <text class="d-label" x="506" y="158" text-anchor="end">Karachi · pak-khi-1</text>
-  <rect class="d-zone" x="558" y="136" width="200" height="296" rx="10"/>
+  <rect class="d-zone" x="582" y="136" width="176" height="296" rx="10"/>
   <svg x="728" y="147" width="14" height="14" viewBox="0 0 24 24"><path class="d-glyph" d="M12 6.5A2.5 2.5 0 0 1 14.5 9a2.5 2.5 0 0 1-2.5 2.5A2.5 2.5 0 0 1 9.5 9 2.5 2.5 0 0 1 12 6.5M12 2a7 7 0 0 1 7 7c0 5.25-7 13-7 13S5 14.25 5 9a7 7 0 0 1 7-7m0 2a5 5 0 0 0-5 5c0 1 0 3 5 9.71C17 12 17 10 17 9a5 5 0 0 0-5-5"/></svg>
   <text class="d-label" x="722" y="158" text-anchor="end">Islamabad · pak-isb-1</text>
 
@@ -62,19 +65,19 @@
   <text class="d-muted" x="78" y="394">Security groups filter what</text>
   <text class="d-muted" x="78" y="411">reaches each instance.</text>
 
-  <rect class="d-zone-teal" x="574" y="172" width="168" height="128" rx="10"/>
-  <svg x="590" y="181" width="14" height="14" viewBox="0 0 24 24"><path class="d-glyph" d="M10 2c-1.11 0-2 .89-2 2v3c0 1.11.89 2 2 2h1v2H2v2h4v2H5c-1.11 0-2 .89-2 2v3c0 1.11.89 2 2 2h4c1.11 0 2-.89 2-2v-3c0-1.11-.89-2-2-2H8v-2h8v2h-1c-1.11 0-2 .89-2 2v3c0 1.11.89 2 2 2h4c1.11 0 2-.89 2-2v-3c0-1.11-.89-2-2-2h-1v-2h4v-2h-9V9h1c1.11 0 2-.89 2-2V4c0-1.11-.89-2-2-2zm0 2h4v3h-4zM5 17h4v3H5zm10 0h4v3h-4z"/></svg>
-  <text class="d-label" x="610" y="192">Network · app</text>
-  <text class="d-muted d-mono" x="590" y="210">10.0.0.0/24</text>
+  <rect class="d-zone-teal" x="590" y="172" width="164" height="128" rx="10"/>
+  <svg x="598" y="181" width="14" height="14" viewBox="0 0 24 24"><path class="d-glyph" d="M10 2c-1.11 0-2 .89-2 2v3c0 1.11.89 2 2 2h1v2H2v2h4v2H5c-1.11 0-2 .89-2 2v3c0 1.11.89 2 2 2h4c1.11 0 2-.89 2-2v-3c0-1.11-.89-2-2-2H8v-2h8v2h-1c-1.11 0-2 .89-2 2v3c0 1.11.89 2 2 2h4c1.11 0 2-.89 2-2v-3c0-1.11-.89-2-2-2h-1v-2h4v-2h-9V9h1c1.11 0 2-.89 2-2V4c0-1.11-.89-2-2-2zm0 2h4v3h-4zM5 17h4v3H5zm10 0h4v3h-4z"/></svg>
+  <text class="d-label" x="616" y="192">Network · default</text>
+  <text class="d-muted d-mono" x="598" y="210">10.0.0.0/24</text>
 
-  <rect class="d-box" x="590" y="224" width="136" height="56" rx="8"/>
-  <svg x="604" y="235" width="16" height="16" viewBox="0 0 24 24"><path class="d-glyph" d="M2 4.6v4.8c0 .9.5 1.6 1.2 1.6h17.7c.6 0 1.2-.7 1.2-1.6V4.6C22 3.7 21.5 3 20.8 3H3.2C2.5 3 2 3.7 2 4.6M10 8V6H9v2zM5 8h2V6H5zm15 1H4V5h16zM2 14.6v4.8c0 .9.5 1.6 1.2 1.6h17.7c.6 0 1.2-.7 1.2-1.6v-4.8c0-.9-.5-1.6-1.2-1.6H3.2c-.7 0-1.2.7-1.2 1.6m8 3.4v-2H9v2zm-5 0h2v-2H5zm15 1H4v-4h16z"/></svg>
-  <text class="d-title" x="626" y="248">batch-1</text>
-  <text class="d-muted" x="606" y="267">Instance · stopped</text>
+  <rect class="d-box" x="598" y="224" width="140" height="56" rx="8"/>
+  <svg x="612" y="235" width="16" height="16" viewBox="0 0 24 24"><path class="d-glyph" d="M2 4.6v4.8c0 .9.5 1.6 1.2 1.6h17.7c.6 0 1.2-.7 1.2-1.6V4.6C22 3.7 21.5 3 20.8 3H3.2C2.5 3 2 3.7 2 4.6M10 8V6H9v2zM5 8h2V6H5zm15 1H4V5h16zM2 14.6v4.8c0 .9.5 1.6 1.2 1.6h17.7c.6 0 1.2-.7 1.2-1.6v-4.8c0-.9-.5-1.6-1.2-1.6H3.2c-.7 0-1.2.7-1.2 1.6m8 3.4v-2H9v2zm-5 0h2v-2H5zm15 1H4v-4h16z"/></svg>
+  <text class="d-title" x="634" y="248">batch-1</text>
+  <text class="d-muted" x="614" y="267">Instance · stopped</text>
 
-  <text class="d-muted" x="574" y="336">Same project, its own</text>
-  <text class="d-muted" x="574" y="353">networks, volumes,</text>
-  <text class="d-muted" x="574" y="370">public IPs and quota.</text>
+  <text class="d-muted" x="594" y="336">Another project, with</text>
+  <text class="d-muted" x="594" y="353">its own networks,</text>
+  <text class="d-muted" x="594" y="370">volumes and quota.</text>
 
   <path class="d-flow" d="M137 48V172" marker-end="url(#dr-arrow)"/>
   <path class="d-flow" d="M222 198H250" marker-end="url(#dr-arrow)"/>

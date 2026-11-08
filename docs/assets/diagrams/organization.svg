@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 860 376" role="img" aria-labelledby="dg-title dg-desc">
   <title id="dg-title">How an organization is organized</title>
-  <desc id="dg-desc">The organization Acme has members, service accounts and projects. Its members are Ayesha, the owner, Bilal, an admin, Sara, a member, and Hina, with the billing role. It has one service account, automation-prod. It has two projects: web-shop, in Karachi and Islamabad, which holds instances, networks, volumes, load balancers, certificates and more; and analytics, in Islamabad.</desc>
+  <desc id="dg-desc">The organization Acme has members, service accounts and projects. Its members are Ayesha, the owner, Bilal, an admin, Sara, a member, and Hina, with the billing role. It has one service account, automation-prod. It has two projects: web-shop, in Karachi, which holds instances, networks, volumes, load balancers, certificates and more; and analytics, in Islamabad.</desc>
   <defs>
   </defs>
 
@@ -66,9 +66,6 @@
   <rect class="d-chip" x="644" y="182" width="80" height="22" rx="11"/>
   <svg x="652" y="186" width="14" height="14" viewBox="0 0 24 24"><path class="d-glyph" d="M12 6.5A2.5 2.5 0 0 1 14.5 9a2.5 2.5 0 0 1-2.5 2.5A2.5 2.5 0 0 1 9.5 9 2.5 2.5 0 0 1 12 6.5M12 2a7 7 0 0 1 7 7c0 5.25-7 13-7 13S5 14.25 5 9a7 7 0 0 1 7-7m0 2a5 5 0 0 0-5 5c0 1 0 3 5 9.71C17 12 17 10 17 9a5 5 0 0 0-5-5"/></svg>
   <text class="d-tag" x="670" y="197">Karachi</text>
-  <rect class="d-chip" x="730.2" y="182" width="93" height="22" rx="11"/>
-  <svg x="738.2" y="186" width="14" height="14" viewBox="0 0 24 24"><path class="d-glyph" d="M12 6.5A2.5 2.5 0 0 1 14.5 9a2.5 2.5 0 0 1-2.5 2.5A2.5 2.5 0 0 1 9.5 9 2.5 2.5 0 0 1 12 6.5M12 2a7 7 0 0 1 7 7c0 5.25-7 13-7 13S5 14.25 5 9a7 7 0 0 1 7-7m0 2a5 5 0 0 0-5 5c0 1 0 3 5 9.71C17 12 17 10 17 9a5 5 0 0 0-5-5"/></svg>
-  <text class="d-tag" x="756.2" y="197">Islamabad</text>
 
   <rect class="d-chip" x="546" y="222" width="93" height="22" rx="11"/>
   <svg x="554" y="226" width="14" height="14" viewBox="0 0 24 24"><path class="d-glyph" d="M2 4.6v4.8c0 .9.5 1.6 1.2 1.6h17.7c.6 0 1.2-.7 1.2-1.6V4.6C22 3.7 21.5 3 20.8 3H3.2C2.5 3 2 3.7 2 4.6M10 8V6H9v2zM5 8h2V6H5zm15 1H4V5h16zM2 14.6v4.8c0 .9.5 1.6 1.2 1.6h17.7c.6 0 1.2-.7 1.2-1.6v-4.8c0-.9-.5-1.6-1.2-1.6H3.2c-.7 0-1.2.7-1.2 1.6m8 3.4v-2H9v2zm-5 0h2v-2H5zm15 1H4v-4h16z"/></svg>

@@ -25,7 +25,7 @@ wildcard or multi-domain certificate.
 
 - An HTTPS listener that ends TLS (**HTTPS, TLS ends here**, `TERMINATED_HTTPS` in the API).
   Other protocols take no certificate.
-- Each certificate [uploaded](certificates.md) in the load balancer's location, valid for at least
+- Each certificate [uploaded](certificates.md) to the load balancer's project, valid for at least
   another 24 hours.
 - DNS for each domain pointing at the load balancer's public IP.
 
@@ -103,7 +103,7 @@ and one of these reasons in `errors[]`; the console shows it under the picker.
 | `certificate_is_default` | A certificate is both the default and served by host name |
 | `certificate_duplicate` | The same certificate twice in the list |
 | `certificate_is_sni` | Making a by-host-name certificate the default without sending the new list |
-| `certificate_not_found` | Not a certificate of this project in this location |
+| `certificate_not_found` | Not a certificate of this project |
 | `certificate_expired` | Expired, or expiring within 24 hours |
 
 More than ten by host name is refused too. A certificate uploaded but not stored yet answers

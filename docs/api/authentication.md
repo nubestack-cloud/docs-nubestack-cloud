@@ -19,7 +19,9 @@ curl -sS "$NUBESTACK_API/v1/me" -H "Authorization: Bearer $NUBESTACK_API_KEY"
 ## Get a key
 
 Owners and admins create the service account, give it a role on each project it works in, and
-choose **Issue an API key**. The key is shown once; store it in your secret store. See
+choose **Issue an API key**. A project admin or member can also issue keys for their own
+personal service account on that project; those last 30 days at most. The key is shown once;
+store it in your secret store. See
 [Service accounts and API keys](../organization/service-accounts.md).
 
 ## What a key may do
@@ -31,7 +33,7 @@ A key can do what its service account's roles allow, and no more:
   bounds), on the projects it was given.
 
 Whatever its roles, a service account never manages people, project access, roles, API keys,
-settings or service accounts, and never creates or deletes projects or their locations.
+settings or service accounts, and never creates or deletes projects.
 
 Two opt-in permissions, chosen when the key is issued, add to what the roles allow:
 

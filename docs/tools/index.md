@@ -1,15 +1,15 @@
 ---
 title: Tools
-description: Command-line and infrastructure-as-code tools for NubeStack Cloud, what is available today and what is coming later.
+description: The nexus command-line tool and Terraform provider for NubeStack Cloud, and the OpenStack tools for each location.
 ---
 
 # Tools
 
-| Tool | Status | Use today |
+| Tool | What it works with | Sign in |
 |---|---|---|
-| [NubeStack CLI](cli.md) | Coming later | The [API](../api/index.md) with `curl` or any HTTP client |
-| [Terraform provider](terraform.md) | Coming later | Terraform's OpenStack provider with [native access](../native-access/openstack-cli.md#terraform-and-sdks) |
-| OpenStack CLI and SDKs | Available | [OpenStack CLI](../native-access/openstack-cli.md) |
+| [NubeStack CLI](cli.md) | NubeStack Cloud's API: projects, instances, networks, volumes and the rest | Your account in the browser, or a service account's API key |
+| [Terraform provider](terraform.md) | The same, from Terraform or OpenTofu | The CLI's profile, or an API key |
+| [OpenStack CLI and SDKs](../native-access/openstack-cli.md) | One location's own OpenStack APIs | Your account in the browser, or a cloud credential |
 
-Pages for tools that are coming later say what to use meanwhile. They will be filled in when the
-tools are released.
+Every create page in the console shows its change as a `nexus` command and as Terraform under
+**Equivalent code**.

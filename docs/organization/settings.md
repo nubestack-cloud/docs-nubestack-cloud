@@ -5,11 +5,12 @@ description: Who may create projects, how members sign in, invitation domains, t
 
 # Settings
 
-The organization's **Settings**, at the bottom of its side panel, decide how it works for its
-members. Owners and admins change most of them; the security settings and closing are the owners'
-alone. The tabs are **General**, **Security**, **Audit and retention** and **Danger zone**.
+The organization's **Settings**, at the bottom of the menu in the organization scope, decide how
+it works for its people. Owners and admins change most of them; the security settings and closing
+are the owners' alone. The tabs are **General**, **Projects**, **Security**, **Audit and
+retention** and **Danger zone**. [Projects](projects.md) has its own page.
 
-![Organization settings: General, Security, Audit and retention, Danger zone](../assets/screens/organization/settings.webp)
+![Organization settings: General, Projects, Security, Audit and retention, Danger zone](../assets/screens/organization/settings.webp)
 
 The organization's name and short name are set by NubeStack; ask [support](../help/support.md) to
 change them.
@@ -50,7 +51,7 @@ to type the organization's name.
 |---|---|
 | At once | Every instance stops and pending invitations are revoked. Nothing can be changed; owners can still read everything |
 | During the recovery window (30 days unless agreed otherwise) | Everything is kept. **Cancel closure** brings it back |
-| When the window ends | Every project is deleted in every location and every member removed. This cannot be undone |
+| When the window ends | Every project is deleted and every member removed. This cannot be undone |
 | Afterwards | The audit log and usage records are kept for the period the page shows |
 
 While the organization is closing, an owner can take a copy of its records: **Request data
@@ -66,8 +67,8 @@ copy those yourself before the window ends.
 ### Leave the organization
 
 **Leave organization** ends your own membership and your personal SSH keys here. The only owner
-cannot leave: make someone else an owner first, with **Members → Manage → Make owner**.
+cannot leave: make someone else an owner first, with **IAM → People → Manage → Make owner**.
 
 ## Related
 
-- [Second factor](../security/second-factor.md) · [Members](members.md) · [Deletion and retention](../concepts/deletion-and-retention.md)
+- [Second factor](../security/second-factor.md) · [People](members.md) · [Deletion and retention](../concepts/deletion-and-retention.md)

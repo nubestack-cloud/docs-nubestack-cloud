@@ -20,9 +20,9 @@ command signs you in through your browser when it needs to.
 
 ## Set it up
 
-1. In the project, open **Consoles and CLI** and choose **Download clouds.yaml**. The file has one
-   entry for each location of the project where you have a role, named
-   `<organization>-<project>-<location>`, for example `acme-web-shop-pak-khi-1`.
+1. In the project, open **Settings → Consoles and CLI** and choose **Download clouds.yaml**. The
+   file has an entry for the project, named `<organization>-<project>-<location>`, for example
+   `acme-web-shop-pak-khi-1`.
 2. Save it as `~/.config/openstack/clouds.yaml`, or merge its entries into the one you have.
 
 The entries use `auth_type: v3oidcdeviceauthz`. The file is safe to keep: it holds no secret.
@@ -39,7 +39,7 @@ on.
 
 ## Connection details
 
-**Connection details**, beside each location under **Consoles and CLI**, shows the same settings
+**Connection details**, beside the location under **Consoles and CLI**, shows the same settings
 one by one, for tools that do not read `clouds.yaml`: the sign-in address (Keystone endpoint),
 region, identity provider, protocol, CLI client and the project's ID in that location.
 
@@ -63,7 +63,8 @@ an application credential for one project in one location.
   **Refresh**, marked **outside Nexus**, and counts against the same quota.
 - One organization at a time: to switch, sign out and wait three minutes, or start a fresh
   session in a private browser window.
-- A NubeStack Cloud CLI of its own, for the console's API, is [coming later](../tools/cli.md).
+- The [NubeStack CLI](../tools/cli.md), `nexus`, works with NubeStack Cloud's own API instead:
+  projects, instances and the rest, the same as the console.
 
 ## Related
 

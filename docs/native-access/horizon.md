@@ -16,8 +16,8 @@ in to it with your NubeStack Cloud account.
 
 ## Open a project in Horizon
 
-1. In the project, open **Consoles and CLI** at the bottom of the side panel.
-2. Choose **Open in Horizon** beside the location.
+1. In the project, open **Settings → Consoles and CLI**.
+2. Choose **Open in Horizon** beside the project's location.
 3. On Horizon's sign-in page, choose the NubeStack Cloud sign-in (the option may be labelled
    **Nexus**).
 4. Sign in with your account, choose the organization, and give your second factor.

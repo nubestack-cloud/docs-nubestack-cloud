@@ -10,11 +10,11 @@ Internet at a public IP. It is a starting point for a single-server site; for se
 behind one address, continue with [Serve an application over HTTPS](https-load-balancer.md).
 
 **You will use:** an instance, an SSH key, a network, an Internet gateway, a security group and a
-public IP, all in Karachi.
+public IP, in a project in Karachi.
 
 ## Before you start
 
-- A project with a network and an Internet gateway in Karachi, and your SSH key added. The steps
+- A project in Karachi with a network and an Internet gateway, and your SSH key added. The steps
   are in [Launch your first instance](../get-started/first-instance.md), steps 1 and 2.
 - A role of project admin or project member.
 
@@ -39,7 +39,7 @@ location once and is not kept or shown again.
 === "Console"
 
     1. Under **Compute**, choose **Instances**, then **Create instance**.
-    2. **Location** Karachi, **Name** `web-1`, a small **Size** and an Ubuntu **Image**.
+    2. **Name** `web-1`, a small **Size** and an Ubuntu **Image**. **Location** shows Karachi.
     3. **Network**: the project's network. **Public IP**: **A new public IP**.
     4. **Access**: your SSH key. Turn on **Allow web traffic (ports 80 and 443) from anywhere**.
        For SSH, prefer a rule for your own address range in a

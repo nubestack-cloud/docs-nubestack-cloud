@@ -19,30 +19,29 @@ changing the address, and for serving HTTPS with your certificates.
 
 Find them under **Networking → Load balancers**.
 
-![Load balancers: name, location, address, listeners and health](../assets/screens/networking/load-balancers.webp)
+![Load balancers: name, address, listeners and health](../assets/screens/networking/load-balancers.webp)
 
 ## Where they are offered
 
-Load balancers exist only in locations that offer them. The create page lists only those
-locations, and each **Type** says which protocols, balancing methods and health checks it
-supports. Type names come from the location's catalog. Ending HTTPS on the load balancer with
+Load balancers exist only in locations that offer them. In a project whose location offers none,
+the create page says so. Each **Type** says which protocols, balancing methods and health checks
+it supports. Type names come from the location's catalog. Ending HTTPS on the load balancer with
 your certificate is offered only by types that say **HTTPS with your certificate**.
 
 ## Before you start
 
-- Instances in the same location, on a network the load balancer can use, serving on a known
-  port.
+- Instances of the project, on a network the load balancer can use, serving on a known port.
 - A [security group](security-groups.md) rule that lets the load balancer reach that port, for
   example TCP 8080 from the network's range.
 - For HTTPS that ends on the load balancer, your [certificates](../security/certificates.md),
-  uploaded in the same location.
+  uploaded to the project.
 
 ## Create a load balancer
 
 === "Console"
 
     1. Choose **Create load balancer**.
-    2. **Location**, **Name** and **Type**.
+    2. **Name** and **Type**. **Location** shows the project's location.
     3. **Subnet**: the network its private address is on. Choose a routed network if you will
        give it a public IP.
     4. **Listeners**, for each port it answers on:
@@ -55,9 +54,10 @@ your certificate is offered only by types that say **HTTPS with your certificate
           **Balancing** method, such as round robin.
         - **Health check**: how often to test each instance (**Every (s)**) and how long to wait
           (**Timeout (s)**). Without one, traffic goes to every instance, answering or not.
-    5. Choose **Create load balancer**.
+    5. Check the summary, with the price estimate for owners, admins and the billing role, and
+       choose **Create load balancer**.
 
-    ![Create load balancer: location, type, subnet and a listener with its pool](../assets/screens/networking/load-balancer-create.webp)
+    ![Create load balancer: type, subnet and a listener with its pool](../assets/screens/networking/load-balancer-create.webp)
 
 === "API"
 

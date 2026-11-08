@@ -7,32 +7,33 @@ description: Block storage that keeps its data apart from any one instance. Crea
 
 A **volume** is block storage that keeps its data apart from any one instance. Attach it to an
 instance and it appears there as a new disk; detach it and attach it to another, and the data
-goes with it. A volume stays in its location and attaches only to instances there.
+goes with it. A volume attaches only to instances of its own project.
 
 **Use it for** databases, uploads and anything that must outlive an instance.
 
 Find them under **Storage → Volumes**.
 
-![Volumes: name, location, size, type, status and what each is attached to](../assets/screens/storage/volumes.webp)
+![Volumes: name, size, type, status and what each is attached to](../assets/screens/storage/volumes.webp)
 
 ## Before you start
 
-A role of project admin or project member, and room in the project's volume quota in the location.
+A role of project admin or project member, and room in the project's volume quota.
 
 ## Create a volume
 
 === "Console"
 
     1. Choose **Create volume**.
-    2. **Location** and **Volume name** (up to 255 characters).
+    2. **Volume name** (up to 255 characters). **Location** shows the project's location.
     3. **Contents**: **Empty**, or **An image** (the volume is marked bootable). To make one from
        a snapshot, use the snapshot's **Create volume from it** instead.
     4. **Type**: the kind of storage, from the location's catalog. The list marks a volume
        **encrypted** when the location reports it.
     5. **Size**: whole GiB from 1 to 4096. A volume can grow later, never shrink.
-    6. Choose **Create volume**. The summary shows the project's quota afterwards.
+    6. Choose **Create volume**. The summary shows the project's quota afterwards and, for
+       owners, admins and the billing role, the price estimate.
 
-    ![Create volume: location, name, contents, type and size](../assets/screens/storage/volume-create.webp)
+    ![Create volume: name, contents, type and size](../assets/screens/storage/volume-create.webp)
 
 === "API"
 
@@ -53,11 +54,11 @@ You can also create empty volumes with a new instance, in its **Volumes** sectio
 === "Console"
 
     - **Manage → Attach to instance**, or **Manage → Attach volume** on the instance: a running
-      or stopped instance in the same location.
+      or stopped instance of the project.
     - **Manage → Detach**: unmount the disk inside the instance first, or data still being
       written can be lost. Stopping an instance does not detach its volumes.
 
-    ![Attach a volume: pick an instance in the same location](../assets/screens/storage/volume-attach.webp)
+    ![Attach a volume: pick one of the project's instances](../assets/screens/storage/volume-attach.webp)
 
 === "API"
 
@@ -89,7 +90,7 @@ These need the volume **detached**; the menu says so when it is not.
 | **Extend** | A larger size. Grow the partition and file system inside the instance afterwards, for example with `growpart` and `resize2fs`. | `:extend` `{"size_gb": 50}` |
 | **Change type** | Moves it to another volume type of the location. | `:retype` `{"volume_type": "fast"}` |
 | **Create snapshot** | A point-in-time copy; see [Snapshots](snapshots.md). | `:snapshot` `{"display_name": "…"}` |
-| **Move to project** | Moves it, with its data, to another project in the same location. Only a volume with no snapshots can move. | `:transfer` `{"target_project_id": "prj_…"}` |
+| **Move to project** | Moves it, with its data, to another of your projects in the same location. Only a volume with no snapshots can move. | `:transfer` `{"target_project_id": "prj_…"}` |
 
 Any time: **Mark bootable** / **Mark not bootable** (`:set-bootable`), **Rename** (`PATCH`), and
 **Tags**.

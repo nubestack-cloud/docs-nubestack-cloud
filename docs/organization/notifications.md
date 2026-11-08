@@ -38,4 +38,4 @@ apply once e-mail is sent. The console shows the same events meanwhile: operatio
 
 ## Related
 
-- [Schedules](../storage/schedules.md) · [Quota](quota.md) · [Locations](../concepts/locations.md)
+- [Schedules](../storage/schedules.md) · [Quota](quota.md) · [Locations](../concepts/locations.md#maintenance)

@@ -1,9 +1,9 @@
 ---
-title: Statements and cost explorer
-description: What each month's usage cost at NubeStack's published rates, and where the money goes, by project, service, location or tag.
+title: Statements, prices and costs
+description: What each month's usage cost at NubeStack's published rates, where the money goes, and the prices themselves.
 ---
 
-# Statements and cost explorer
+# Statements, prices and costs
 
 A **statement** is what your organization's usage cost in one calendar month, at NubeStack's
 published rates. It is not an invoice: invoices come separately, and while statements are marked
@@ -14,7 +14,7 @@ the monthly statements.
 
 ## Statements
 
-Open **Statements** in the organization's side panel and pick the month at the top right. **All
+In the organization, open **Billing → Statements** and pick the month at the top right. **All
 months** lists every statement with its state and total.
 
 ![A month's statement: total of rated usage, lines by measure and location, and the rates in force](../assets/screens/organization/statements.webp)
@@ -28,15 +28,29 @@ months** lists every statement with its state and total.
   volume type: quantity, unit price, rates version, amount and days.
 - **Corrections** to an open month change its statement. A correction to a closed month appears
   on the next open statement as an **adjustment**, which can be negative.
-- **Rates in force**, at the bottom: the prices your usage is rated at, and the next scheduled
-  change.
+- **Hours not counted**: the month's usage that has not been measured yet, so is not on the
+  statement. See [Usage](usage.md#why-the-figures-are-provisional).
+- **Rates in force**, at the bottom: the rate card's version, the next scheduled change, and a
+  link to **Prices**.
 
 Before NubeStack publishes a rate card, the page says **No statements yet**.
 
+## Prices
+
+**Billing → Prices** shows what each kind of usage costs: NubeStack's rate card in force, and its
+next published change. A price for one size names the size, volume type or load balancer type as
+the create pages show it, and applies wherever that is offered.
+
+![Prices: the rate card in force, by measure and size](../assets/screens/organization/prices.webp)
+
+The same rates give the **price estimate** on the console's create pages, and the rate in the
+Internet gateway and snapshot dialogs.
+
 ## Cost explorer
 
-**Cost explorer**, under Statements, shows where the money goes: the month's cost so far by
-**Project**, **Service**, **Location** or **Tag**, as a bar for each day.
+**Billing → Cost explorer** shows where the money goes: the month's cost so far by
+**Project**, **Service**, **Location** or **Tag**, as a bar for each day. In a project, the same
+page shows that project's cost.
 
 ![The cost explorer: cost so far, projected for the month, last month, and daily cost by project](../assets/screens/organization/cost-explorer.webp)
 

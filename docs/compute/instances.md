@@ -1,12 +1,12 @@
 ---
 title: Instances
-description: Create virtual machines in Karachi or Islamabad, with their network, public IP, SSH key, firewall, user data and volumes.
+description: Create virtual machines with their network, public IP, SSH key, firewall, user data and volumes, and see what they will cost.
 ---
 
 # Instances
 
-An **instance** is a virtual machine in one of your project's locations. It keeps its disk, its
-addresses and its security groups in that location; nothing about it moves to another.
+An **instance** is a virtual machine in your project's location. It keeps its disk, its
+addresses and its security groups there; nothing about it moves to another location.
 
 **Use it for** anything you would run on a server: web and application servers, databases,
 build agents, batch jobs. To start several alike, use a [launch template](launch-templates.md);
@@ -14,39 +14,42 @@ to keep a number of them running, an [instance group](instance-groups.md).
 
 Find instances in a project under **Compute → Instances**.
 
-![The instances list: name, location, status, address, size and tags](../assets/screens/compute/instances-list.webp)
+![The instances list: name, status, address, size and tags](../assets/screens/compute/instances-list.webp)
 
 ## Before you start
 
 - A role of project admin or project member. Project readers, and organization owners, admins
   and viewers, can see instances but not create them.
-- A [network](../networking/networks.md) in the location. The project's first network is made
-  for you when the project is created.
+- A [network](../networking/networks.md). The project's first network is made for you when the
+  project is created.
 - An [SSH key](ssh-keys.md), to log in to a Linux instance.
-- For a public IP, an [Internet gateway](../networking/internet-gateways.md) in the location.
+- For a public IP, an [Internet gateway](../networking/internet-gateways.md) in the project.
 
 ## Create an instance
 
 === "Console"
 
-    Choose **Create instance**. The summary on the right says what will be made and what the
-    project's quota in that location will be afterwards.
+    Choose **Create instance**. The summary on the right says what will be made, what the
+    project's quota will be afterwards and, for owners, admins and the billing role, the price
+    estimate per hour or per month.
 
-    ![The create page filled in for web-3 in Karachi, with the summary on the right](../assets/screens/compute/instance-create.webp)
+    ![The create page filled in for web-3, with the summary and price estimate on the right](../assets/screens/compute/instance-create.webp)
 
     1. **Start from**: your own settings, or [a launch template](launch-templates.md).
-    2. **Location**: where the instance runs. Sizes, images and networks below come from it.
+    2. **Location**: the project's location, shown for reference. Sizes, images and networks
+       below come from it.
     3. **Instance name**: up to 255 characters. It is also the name in the location's own
        tools, and you can rename it later. **Instances**, beside it, starts one to ten at once,
        named `name-1`, `name-2` and so on.
     4. **Size**: vCPUs, memory and root disk, from the sizes the location offers. A size that
-       would go over the project's quota is marked. Change it later with
+       would go over the project's quota is marked; the others say how many more fit. Change it
+       later with
        [Resize](manage-instances.md#resize).
     5. **Image**: the operating system it starts from. The location's images come first; your
        own [images](images.md) follow under **Your images**.
     6. **Network**:
-        - One of the project's networks in that location. Without a network, the instance has
-          no network access at all.
+        - One of the project's networks. Without a network, the instance has no network access
+          at all.
         - **Private address (optional)**: leave it empty and the location picks one. A fixed
           address must come from a range the network keeps for static addresses; with DHCP off
           on the network, you must give one.
@@ -67,9 +70,10 @@ Find instances in a project under **Compute → Instances**.
     9. **Volumes** (optional): up to 8 data disks, existing available volumes or new empty
        ones, attached in the order listed once the instance runs.
     10. **Load balancer** (optional): a pool of one of the project's
-        [load balancers](../networking/load-balancers.md) in this location, and the port the
-        instance serves on.
-    11. Choose **Create instance**. **Save as launch template** keeps these settings for later.
+        [load balancers](../networking/load-balancers.md), and the port the instance serves on.
+    11. Choose **Create instance**. **Save as launch template** keeps these settings for later,
+        and **Equivalent code** shows the same request as a `nexus` command, Terraform or
+        `curl`.
 
     The page shows **Instance requested**. The instance appears as **Creating**, then **Active**.
 
@@ -94,7 +98,8 @@ Find instances in a project under **Compute → Instances**.
       }'
     ```
 
-    `offering` and `image` are `slug`s from `GET /v1/orgs/$ORG/catalog?location=…`. Other
+    `location` is the project's location (`loc_…`). `offering` and `image` are `slug`s from
+    `GET /v1/orgs/$ORG/catalog?location=…`. Other
     fields: `fixed_ip`, `public_ip_id` (one you have), `security_group_templates` (`ssh`,
     `web`), `user_data` (plain text), `server_group_id` and `load_balancer`
     (`{pool_id, port}`).
@@ -110,9 +115,10 @@ says **partially succeeded**. Attach the volume or add the member afterwards.
 
 === "Console"
 
-    The list shows each instance's location, status, address, size and tags. Type in **Find by
-    name, ID or address**, or filter by location, state or tag. Instances made with a location's
-    own tools are listed too.
+    The list shows each instance's status, address, size and tags. Type in **Find by name, ID
+    or address**, or filter by state or tag. Instances made with the location's own tools are
+    listed too. In the organization scope, **Instances** lists every project's, read-only, with
+    the project each is in.
 
     Open an instance for its page: **Overview**, **Networks**, **Tags**, **Metadata**,
     **Console log**, **Schedules** and **Activity**.
@@ -122,7 +128,7 @@ says **partially succeeded**. Attach the volume or add the member afterwards.
 === "API"
 
     ```bash
-    curl -sS "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers?location=pak-khi-1&tag=env:prod" \
+    curl -sS "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers?tag=env:prod" \
       -H "Authorization: Bearer $NUBESTACK_API_KEY"
     ```
 
@@ -177,8 +183,8 @@ What goes with it and what stays:
 
 - Up to 8 data volumes at creation, 10 security groups and 1 to 10 instances per request.
 - User data up to 49,149 bytes. Keep secrets out of it where you can.
-- Not offered: starting an instance from a volume, or moving one to another location. Save it as
-  an [image](images.md) and start a new one in the same location.
+- Not offered: starting an instance from a volume, or moving one to another location or
+  project. Save it as an [image](images.md) and start a new one from it.
 - Keep data on volumes, not the system disk, so you can replace an instance without losing it.
 - Tag instances (`env`, `team`) to filter lists and break down [costs](../organization/statements-and-costs.md).
 

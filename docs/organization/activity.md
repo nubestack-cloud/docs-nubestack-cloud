@@ -15,8 +15,8 @@ Two places answer "who did that?":
 
 ## Read the audit log
 
-Owners and admins read it, and viewers when the organization allows it. Open **Audit log** in the
-organization's side panel.
+Owners and admins read it. In the organization scope, open **Activity** at the bottom of the
+menu.
 
 ![The audit log: when, who, what and how it went](../assets/screens/organization/audit-log.webp)
 
@@ -30,7 +30,7 @@ service account, or **Nexus** for NubeStack Cloud's own work.
 
 ## Read a project's activity
 
-Open **Activity** at the bottom of the project's side panel. Filter to your own operations, or
+In the project, open **Activity** at the bottom of the menu. Filter to your own operations, or
 open one to see each step and how the location answered.
 
 ![A project's activity: each operation, its resource, who asked and its state](../assets/screens/concepts/project-activity.webp)
@@ -61,7 +61,7 @@ project is deleted or the organization closed.
 
 ## When you ask for help
 
-Give the event's time, request ID, operation ID, project and location, and the refusal's code.
+Give the event's time, request ID, operation ID and project, and the refusal's code.
 Never send an API key, invitation link, private key or console link.
 
 ## Related

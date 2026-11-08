@@ -14,8 +14,8 @@ each domain, and sends plain HTTP to the instances.
 <figcaption>One HTTPS listener with a default certificate and one served by host name. The instances behind it receive plain HTTP on port 8080.</figcaption>
 </figure>
 
-**You will use:** instances, a security group, certificates, a load balancer and a public IP, all
-in Karachi.
+**You will use:** instances, a security group, certificates, a load balancer and a public IP, in
+a project in Karachi.
 
 ## Before you start
 
@@ -25,7 +25,7 @@ in Karachi.
 - A security group on both instances that allows TCP 8080 from the network's range, for example
   `10.0.0.0/24`, so the load balancer can reach them.
 - A certificate and its private key for each domain, in PEM, from your certificate authority.
-- A location that offers HTTPS termination: the load balancer's **Type** list says
+- A project whose location offers HTTPS termination: the load balancer's **Type** list says
   **HTTPS with your certificate** for a type that can end TLS. If none does, use a TCP listener on
   443 and end TLS on the instances.
 
@@ -34,7 +34,7 @@ in Karachi.
 === "Console"
 
     1. Under **Security**, choose **Certificates**, then **Upload certificate**.
-    2. **Location** Karachi. Paste the **Certificate**, the **Chain** if your authority gave you
+    2. Paste the **Certificate**, the **Chain** if your authority gave you
        one, and the **Private key**. **Name**: `www-2026`.
     3. Choose **Upload certificate**. Repeat for the second domain, named `shop-2026`.
 
@@ -63,7 +63,7 @@ in Karachi.
 === "Console"
 
     1. Under **Networking**, choose **Load balancers**, then **Create load balancer**.
-    2. **Location** Karachi, **Name** `web-lb`, and a **Type** that offers HTTPS with your
+    2. **Name** `web-lb`, and a **Type** that offers HTTPS with your
        certificate.
     3. **Subnet**: the instances' network.
     4. **Listeners**: protocol **HTTPS, TLS ends here**, port `443`, **Certificate** `www-2026`.
@@ -109,7 +109,7 @@ in Karachi.
 
 === "Console"
 
-    1. Under **Networking**, choose **Public IPs**, then **Allocate a public IP** in Karachi.
+    1. Under **Networking**, choose **Public IPs**, then **Allocate a public IP**.
     2. Open the load balancer. Under **Public exposure**, choose **Attach a public IP** and pick
        the address.
 

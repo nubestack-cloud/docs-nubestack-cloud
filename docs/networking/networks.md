@@ -5,24 +5,25 @@ description: Private IPv4 networks for your instances in one location, with DHCP
 
 # Networks
 
-A **network** gives the instances on it private addresses from one range, in one location.
-**Routed** networks join the project's [private routing](routing.md) there and reach each other.
+A **network** gives the instances on it private addresses from one range, in the project's
+location. **Routed** networks join the project's [private routing](routing.md) and reach each
+other.
 Reaching the Internet is a separate step: an [Internet gateway](internet-gateways.md).
 
 Find them under **Networking → Networks**.
 
-![Networks: name, location, range, routing and Internet access](../assets/screens/networking/networks.webp)
+![Networks: name, range, routing and Internet access](../assets/screens/networking/networks.webp)
 
 ## The network a project starts with
 
-A project created with **Set up a network** gets one routed network, `default`, in each of its
-locations, with the range `10.0.0.0/24` unless the creator chose another. It is yours to change
-or delete. A location with no network shows a notice on the **Networks** page; **Set up
-network** there makes the same network.
+A project created with **Set up a network** gets one routed network, `default`, with the range
+`10.0.0.0/24` unless the creator chose another. It is yours to change or delete. A project with
+no network shows a notice on the **Networks** page; **Set up network** there makes the same
+network.
 
 ## Before you start
 
-- Plan the range. It cannot change later, and two routed networks in the same location must not
+- Plan the range. It cannot change later, and two routed networks of the project must not
   overlap. A `/24` (256 addresses) suits most networks.
 - A role of project admin or project member.
 
@@ -31,7 +32,7 @@ network** there makes the same network.
 === "Console"
 
     1. Choose **Create network**.
-    2. **Location** and **Network name**.
+    2. **Location** shows the project's location. Enter the **Network name**.
     3. **Address range**:
         - **Range (CIDR)**: a private IPv4 range from `/16` to `/28`, inside `10.0.0.0/8`,
           `172.16.0.0/12` or `192.168.0.0/16`. The form warns when it would overlap another
@@ -43,7 +44,7 @@ network** there makes the same network.
        network reach each other, with no Internet and no public IPs.
     5. Choose **Create network**.
 
-    ![Create network: location, name, range and private routing](../assets/screens/networking/network-create.webp)
+    ![Create network: name, range and private routing](../assets/screens/networking/network-create.webp)
 
 === "API"
 
@@ -90,7 +91,7 @@ network** there makes the same network.
       -d '{"enabled": false}'
     ```
 
-    `:set-internet-access` with `{"enabled": …}` attaches the network to the location's
+    `:set-internet-access` with `{"enabled": …}` attaches the network to the project's
     Internet gateway or detaches it. `PATCH …/networks/{id}` renames it.
 
 The range itself cannot change; to use another, create a new network.
@@ -98,9 +99,9 @@ The range itself cannot change; to use another, create a new network.
 ## How networks connect
 
 - **Instances** get an address on a network when they are created, or with **Attach network**.
-- **Routed** networks of the project in one location reach each other through
-  [private routing](routing.md). Isolated networks do not.
-- A routed network reaches the Internet through the location's
+- **Routed** networks of the project reach each other through [private routing](routing.md).
+  Isolated networks do not.
+- A routed network reaches the Internet through the project's
   [Internet gateway](internet-gateways.md), and is needed for [public IPs](public-ips.md).
 - A [load balancer](load-balancers.md) takes its private address from a network's range.
 

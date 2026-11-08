@@ -27,8 +27,8 @@ with the API; follow either.
         cat ~/.ssh/id_ed25519.pub
         ```
 
-    2. In the console, pick `web-shop` in **Workspace**. Under **Compute**, choose **SSH keys**,
-       then **Add SSH key**.
+    2. In the console, choose `web-shop` in the scope selector. Under **Compute**, choose **SSH
+       keys**, then **Add SSH key**.
     3. Paste the whole line into **Public key**. Never paste the private key: the console
        refuses it.
     4. Leave **Who can use it** on **Only me** and choose **Add SSH key**.
@@ -54,10 +54,9 @@ location. A project made with **Set up a network** and **Create an Internet gate
 === "Console"
 
     1. Under **Networking**, choose **Networks**. The network `default` (`10.0.0.0/24`) was made
-       with the project. No network in Karachi? [Create one](../networking/networks.md).
-    2. Under **Networking**, choose **Internet gateways**. If Karachi has none, choose **Create
-       Internet gateway**, pick **Karachi** and confirm. It is ready when its outbound address
-       shows.
+       with the project. No network? [Create one](../networking/networks.md).
+    2. Under **Networking**, choose **Internet gateways**. If the list is empty, choose **Create
+       Internet gateway** and confirm. It is ready when its outbound address shows.
 
     ![Internet gateways: Karachi's gateway with its outbound address and the networks behind it](../assets/screens/networking/internet-gateways.webp)
 
@@ -70,8 +69,8 @@ location. A project made with **Set up a network** and **Create an Internet gate
       -H "Authorization: Bearer $NUBESTACK_API_KEY"
     ```
 
-    Add a gateway if the location has none. `{placement_id}` is the project's ID in that
-    location: `placements[].id` in `GET /v1/orgs/$ORG/projects/$PROJECT`.
+    Add a gateway if the project has none. `$PLACEMENT` is the project's ID in its location:
+    `placements[0].id` in `GET /v1/orgs/$ORG/projects/$PROJECT`.
 
     ```bash
     curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/placements/$PLACEMENT/internet-gateway" \
@@ -88,20 +87,22 @@ location. A project made with **Set up a network** and **Create an Internet gate
 === "Console"
 
     1. Under **Compute**, choose **Instances**, then **Create instance**.
-    2. **Location**: Karachi.
+    2. **Location** shows the project's location, Karachi.
     3. **Name**: `web-1`.
     4. **Size**: a small size is enough; you can resize later.
     5. **Image**: an Ubuntu image.
     6. **Network**: `default`. Under **Public IP**, choose **A new public IP**.
     7. **Access**: choose your SSH key and turn on **Allow SSH (port 22) from anywhere**.
-    8. Check the summary on the right, then choose **Create instance**.
+    8. Check the summary on the right, then choose **Create instance**. Owners, admins and the
+       billing role also see the price estimate there.
 
     ![The create page filled in: Karachi, a size, an Ubuntu image, the network with a new public IP, and an SSH key](../assets/screens/compute/instance-create.webp)
 
 === "API"
 
     Sizes and images come from the location's catalog:
-    `GET /v1/orgs/$ORG/catalog?location=$KHI`. Use their `slug`s.
+    `GET /v1/orgs/$ORG/catalog?location=$KHI`. Use their `slug`s. `location` is the project's
+    location, `loc_…` from `GET /v1/orgs/$ORG/locations`.
 
     ```bash
     curl -sS -X POST "$NUBESTACK_API/v1/orgs/$ORG/projects/$PROJECT/servers" \

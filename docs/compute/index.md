@@ -6,8 +6,8 @@ description: Instances and everything that helps you start them, place them and 
 # Compute
 
 Compute is where your workloads run: **instances**, the virtual machines, and the pieces that
-help you start them, place them and keep a number of them running. Find it in a project's side
-panel under **Compute**.
+help you start them, place them and keep a number of them running. Find it in a project's menu
+under **Compute**.
 
 <div class="grid cards" markdown>
 
@@ -15,8 +15,8 @@ panel under **Compute**.
 
     ---
 
-    Create a virtual machine in Karachi or Islamabad with its network, public IP, SSH key,
-    firewall, user data and volumes.
+    Create a virtual machine with its network, public IP, SSH key, firewall, user data and
+    volumes.
 
 -   :material-tune-variant:{ .lg .middle } **[Manage an instance](manage-instances.md)**
 
@@ -40,7 +40,8 @@ panel under **Compute**.
 
     ---
 
-    The operating systems each location offers, and instances you saved as images.
+    The operating systems each location offers, instances you saved, and image files you
+    imported.
 
 -   :material-server-network:{ .lg .middle } **[Server groups](server-groups.md)**
 
@@ -65,9 +66,9 @@ panel under **Compute**.
 
 ## How compute connects
 
-- An instance runs in one **location** and never moves. Its size and image come from that
-  location's catalog.
-- It joins one or more **networks** in the same location and is filtered by **security groups**.
+- An instance runs in its project's **location** and never moves. Its size and image come from
+  that location's catalog.
+- It joins one or more of the project's **networks** and is filtered by **security groups**.
   A **public IP** makes it reachable from the Internet. See [Networking](../networking/index.md).
 - Its system disk goes with it. Keep data on a **volume**, which outlives it. See
   [Storage](../storage/index.md).

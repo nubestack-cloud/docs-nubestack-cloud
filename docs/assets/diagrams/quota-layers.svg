@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 880 370" role="img" aria-labelledby="dq-title dq-desc">
   <title id="dq-title">Quota in two layers</title>
-  <desc id="dq-desc">In each location, Karachi pak-khi-1 and Islamabad pak-isb-1, NubeStack sets the organization's budget: how much Acme may hand out there. Acme's owners and admins share that budget between projects, so each project has its own quota in each of its locations: web-shop in Karachi; web-shop and analytics in Islamabad. A new project starts from a quota preset: the preset's figure, or what is left of the budget there, whichever is less. When a budget runs short, owners and admins ask NubeStack for more, one location at a time. Each location enforces its own quota, and quota is not capacity: a location can still be out of room.</desc>
+  <desc id="dq-desc">In each location, Karachi pak-khi-1 and Islamabad pak-isb-1, NubeStack sets the organization's budget: how much Acme may hand out there. Acme's owners and admins share that budget between projects, so each project has its own quota in the location it runs in: web-shop in Karachi; reports and analytics in Islamabad. A new project starts from a quota preset: the preset's figure, or what is left of the budget there, whichever is less. When a budget runs short, owners and admins ask NubeStack for more, one location at a time. Each location enforces its own quota, and quota is not capacity: a location can still be out of room.</desc>
   <defs>
     <marker id="dq-arrow" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-arrow-teal" d="M0 0L8 4L0 8z"/></marker>
     <marker id="dq-arrow-grey" viewBox="0 0 8 8" refX="7" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path class="d-arrow" d="M0 0L8 4L0 8z"/></marker>
@@ -58,7 +58,7 @@
   <rect class="d-box" x="342" y="262" width="141" height="56" rx="8"/>
   <rect class="d-chip" x="354" y="275" width="30" height="30" rx="7"/>
   <svg x="359" y="280" width="20" height="20" viewBox="0 0 24 24"><path class="d-glyph" d="M20 18H4V8h16m0-2h-8l-2-2H4c-1.11 0-2 .89-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2"/></svg>
-  <text class="d-title" x="394" y="286">web-shop</text>
+  <text class="d-title" x="394" y="286">reports</text>
   <text class="d-muted" x="394" y="305">Project quota</text>
 
   <rect class="d-box" x="499" y="262" width="141" height="56" rx="8"/>

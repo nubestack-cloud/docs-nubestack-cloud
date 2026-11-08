@@ -1,58 +1,63 @@
 ---
 title: Projects
-description: Give people access to a project, add or remove its locations, and delete a project safely.
+description: List your organization's projects, give people access to one, and delete a project safely.
 ---
 
 # Projects
 
-A project groups what you run and who may use it. It runs in one or more locations, with its own
-quota in each. Find them under **Projects** in the organization's side panel; each project's own
-**Settings** has tabs **General**, **Access**, **Locations** and **Danger zone**.
+A project groups what you run and who may use it. It runs in one location, with its own quota
+there. Owners and admins find every project in the organization's **Settings → Projects**; each
+project's own **Settings** has the tabs **General**, **Consoles and CLI** and **Danger zone**.
 
-![Projects: name, locations, your role and state](../assets/screens/get-started/projects.webp)
+![Settings, Projects: each project with its location and when it was made](../assets/screens/get-started/projects.webp)
 
 To create one, see [Create a project](../get-started/create-a-project.md).
+
+## The projects list
+
+**Settings → Projects** lists every project with its location and state. A location still
+setting up, or not ready, says so beside the project. From a project's **Manage** menu:
+
+- **Edit quotas**: owners and admins; see [Quota](quota.md).
+- **Open project**: the project itself, as the scope selector does.
+- **Copy ID**.
+- **Delete project**: see below.
+
+Choose a project's name for its settings, **General** and **Danger zone**, without leaving the
+organization.
 
 ## Who can use a project
 
 An organization role alone does not let anyone use a project's resources. People and service
-accounts use a project through a project role, which applies in every location of the project.
+accounts use a project through a project role.
 
 | Project role | What it allows |
 |---|---|
-| Project admin | Everything a member can, plus giving and taking access, removing a location, deleting the project, sharing SSH keys and cancelling operations |
+| Project admin | Everything a member can, plus giving and taking access, deleting the project, sharing SSH keys and cancelling operations |
 | Project member | Create, change and delete instances, networks, volumes and the rest |
 | Project reader | See everything in the project, change nothing |
 
 To give access:
 
-1. Open the project's **Settings → Access**.
-2. Choose **Grant access**, pick a member or a service account, and a role.
+1. In the project, open **IAM → People**.
+2. Choose **Give access**, pick a person or a service account and a role, and confirm.
 
-![Settings, Access: who holds which role on web-shop](../assets/screens/concepts/project-access.webp)
+![IAM, People in web-shop: who holds which role, and its state](../assets/screens/concepts/project-people.webp)
 
-**Revoke access** beside someone takes the role away in every location within minutes. What they
-made stays. A project's own [custom roles](custom-roles.md) are under **Settings → Access →
-Project roles**.
+The role reaches the project's location within a few minutes; the **State** column says when it
+has. From a row's **Manage** menu, **Change access** gives another role in one change, and
+**Remove access** takes it away. What they made stays. Owners and admins also see **Add people**,
+to invite someone who is not in the organization yet with a role on this project.
 
-## Add or remove a location
-
-On **Settings → Locations**:
-
-- **Add location**: owners and admins only, as it draws on the organization's budget there. You
-  can set up a network (`10.0.0.0/24`) and an Internet gateway at the same time. Nothing is
-  copied from the project's other locations.
-- **Remove location**: project admins, owners and admins. It works like deleting the project, for
-  that location only (below).
-
-![Settings, Locations: each location of the project and its state](../assets/screens/concepts/project-locations.webp)
+**Roles in this project**, under the list, shows what each role may do there and the
+[custom roles](custom-roles.md) made for this project.
 
 ## Delete a project
 
-Project admins, owners and admins delete projects from **Settings → Danger zone**, or **Delete
-project** in the **Projects** list.
+Project admins, owners and admins delete projects from the project's **Settings → Danger zone**,
+or with **Delete project** in **Settings → Projects**.
 
-1. Choose **Delete project**. The dialog lists what the project holds in each location.
+1. Choose **Delete project**. The dialog lists what the project holds.
 2. **What to delete**:
     - **Delete only if empty**: refused while anything is left.
     - **Delete everything in it**: instances, load balancers, public IPs, routers, networks and
@@ -60,18 +65,19 @@ project** in the **Projects** list.
       recovery period.
 3. Type the project's name and choose **Delete project**.
 
-![Delete project: what it holds in each location, and the two ways to delete](../assets/screens/concepts/project-delete.webp)
+![Delete project: what it holds, and the two ways to delete](../assets/screens/concepts/project-delete.webp)
 
 During the recovery period (7 days unless NubeStack agreed another with you):
 
 - the project is suspended: nothing new can be made in it;
 - **Cancel deletion** stops it. The project stays suspended until a project admin chooses
   **Resume project**. After **Delete everything**, only volumes, snapshots and images come back;
-- **Delete now** ends the period early. You may be asked for your second factor.
+- **Delete now** ends the period early. You may be asked to sign in again with your second
+  factor.
 
-When the period ends, everything left is deleted in every location. Once that has started, it
-cannot be cancelled. If something stops it, such as a resource made with a location's own tools
-that cannot be deleted for you, the page names it and why. See
+When the period ends, everything left is deleted. Once that has started, it cannot be cancelled.
+If something stops it, such as a resource made with the location's own tools that cannot be
+deleted for you, the page names it and why. See
 [Deletion and retention](../concepts/deletion-and-retention.md).
 
 <figure class="ns-diagram">
@@ -84,12 +90,13 @@ that cannot be deleted for you, the page names it and why. See
 | Refusal | Why | Resolve |
 |---|---|---|
 | Delete only if empty, and something is left | The project still holds resources | Delete them, or choose **Delete everything in it** |
-| `second_factor_required` | Deleting everything, or deleting now, asks for your second factor | Confirm with your authenticator app |
+| `second_factor_required` | Deleting everything, or deleting now, asks for your second factor | Sign in again with your authenticator app |
 
 ## Through the API
 
-A service account's API key cannot create or delete projects or add and remove locations. With a
-role that allows it, it can read projects and manage what is inside them.
+A service account's API key cannot create or delete projects. With a role that allows it, it
+can read projects and manage what is inside them. People can create projects with the
+[NubeStack CLI](../tools/cli.md) signed in as themselves; deleting one is done in the console.
 
 ## Related
 

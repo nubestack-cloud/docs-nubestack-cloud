@@ -32,7 +32,7 @@ stopping and starting instances for a power schedule. A project reader cannot ma
        tab.
     2. What it does: **Back up volumes**, **Back up instances** (every volume attached to each
        instance) or **Stop and start instances**.
-    3. The location and up to 10 volumes or instances there.
+    3. Up to 10 of the project's volumes or instances.
     4. When, and the time zone, such as `Asia/Karachi`.
     5. For a backup, how many snapshots to keep of each volume (1 to 100).
     6. Name it and choose **Create schedule**.
@@ -128,7 +128,7 @@ the schedule can **Resume** it; it then runs as them.
 
 ## Limits
 
-- Up to 20 schedules per project and 10 targets per schedule, in one location.
+- Up to 20 schedules per project and 10 targets per schedule.
 - Nothing runs more often than once an hour.
 
 ## Related

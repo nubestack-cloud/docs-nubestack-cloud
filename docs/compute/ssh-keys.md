@@ -9,7 +9,9 @@ Add the public key of the computer you connect from, then choose it when you cre
 instance. It is copied into the instance, and you log in with SSH without a password. The private
 key never leaves your computer; NubeStack Cloud never makes one for you.
 
-Find them in a project under **Compute → SSH keys**.
+Find them in a project under **Compute → SSH keys**. Keys are kept once for the organization, so a
+personal key you add is offered in every project you work in. In the organization scope, owners
+and admins see every person's and every project's keys there; keys are added from a project.
 
 ![SSH keys: personal keys and keys shared with the project](../assets/screens/compute/ssh-keys.webp)
 

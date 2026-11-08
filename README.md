@@ -27,8 +27,16 @@ Open <http://localhost:8000>. Pages reload as you edit. Restart `mkdocs serve` a
 
 ```bash
 .venv/bin/mkdocs build --strict    # fails on any broken link, missing anchor or absolute link
-.venv/bin/python scripts/check.py  # built links, alt text, no external loads, forbidden values
+.venv/bin/python scripts/check.py  # built links, alt text, no external loads, forbidden values, console links
 ```
+
+The console's **Learn more** and help links add paths to `https://docs.nubestack.com/`. They are
+listed in `data/console-links.json`, taken from the Nexus portal's `src/docs.ts` (`DOCS`). Where a
+path is not a page of this site, `data/redirects.json` names the page it opens, and
+`scripts/hooks.py` writes a small redirect page for it at build time (a meta refresh with
+`rel=canonical`). It also writes `problems/<code>/` for each error code, where an API problem's
+`type` URL points. `check.py` fails when a console path or a redirect does not land on a page;
+with `NEXUS_PORTAL_DIR` set it also compares the list with the portal's `docs.ts`.
 
 The output is `site/`, a static site with no external requests (fonts, icons and the API
 reference are all local).
@@ -55,7 +63,8 @@ a `CNAME` file in the build output does not configure it. See
 ## Regenerate the screenshots
 
 Screenshots are taken from the Nexus portal running on Vite against a mock API with this site's
-sample world (Acme, web-shop and analytics, Karachi and Islamabad, Ayesha Khan). You need Node 24
+sample world (Acme; web-shop in Karachi, analytics and web-shop-dr in Islamabad; Ayesha Khan;
+PKR prices). You need Node 24
 and a Nexus checkout with the portal's dependencies:
 
 ```bash
@@ -89,6 +98,7 @@ page per service with Neoteroi's `essentials-openapi`, offline.
 | `openapi/v1.json` | The customer API contract the reference is built from |
 | `data/problems.json` | The error codes the Errors page lists |
 | `data/screen-text/` | The text each screenshot showed, for review and the forbidden-value scan |
+| `data/console-links.json`, `data/redirects.json` | The console's links into these docs, and the redirect pages built for them |
 | `scripts/` | Build hooks, the API refresh, the link fixer, the checker and the screenshot runner |
 
 ## Writing pages
