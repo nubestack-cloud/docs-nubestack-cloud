@@ -5,6 +5,10 @@
    are written to .cache/api/ at build time; nothing generated is committed.
 2. The Errors page's problem-code table, from data/problems.json (`<!-- problem-table -->`).
 3. A screenshot alone in a paragraph becomes a captioned figure.
+4. Redirect pages, written after the build: every path in data/redirects.json (old addresses and
+   the console's links into these docs), and `problems/<code>/` for each error code, which is
+   where an API problem's `type` URL points. Each is a small HTML page with a meta refresh and
+   rel=canonical; nothing to install.
 """
 from __future__ import annotations
 
@@ -202,7 +206,9 @@ def on_page_markdown(markdown, page, config, files):
     if "<!-- problem-table -->" in markdown:
         problems = json.loads((ROOT / "data" / "problems.json").read_text())
         rows = ['<div class="ns-compact" markdown>', "", "| Code | Meaning | Retry? |", "|---|---|:-:|"]
-        rows += [f"| `{p['code']}` | {_cell(p['title'])} | {'Yes' if p['retryable'] else '—'} |" for p in problems]
+        # Each row is the anchor an error's `type` URL lands on (problems/<code>/, on_post_build).
+        rows += [f"| <span id=\"{p['code']}\"></span>`{p['code']}` | {_cell(p['title'])} | {'Yes' if p['retryable'] else '—'} |"
+                 for p in problems]
         rows += ["", "</div>"]
         markdown = markdown.replace("<!-- problem-table -->", "\n".join(rows))
     return markdown
@@ -229,3 +235,50 @@ def on_page_content(content, page, config, files):
         return f'<figure class="ns-shot">{link}<figcaption>{caption}</figcaption></figure>'
 
     return _FIGURE.sub(figure, content)
+
+
+_REDIRECT = """<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Moved: {title}</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="{canonical}">
+<meta http-equiv="refresh" content="0; url={relative}">
+<script>location.replace({relative_js})</script>
+</head>
+<body>
+<p>This page has moved to <a href="{relative}">{canonical}</a>.</p>
+</body>
+</html>
+"""
+
+
+def redirects() -> dict[str, str]:
+    """data/redirects.json, plus `problems/<code>` → the code's row on the Errors page."""
+    table = {k: v for k, v in json.loads((ROOT / "data" / "redirects.json").read_text()).items()
+             if not k.startswith("_")}
+    for problem in json.loads((ROOT / "data" / "problems.json").read_text()):
+        table[f"problems/{problem['code']}"] = f"api/errors#{problem['code']}"
+    return table
+
+
+def on_post_build(config):
+    """A redirect page at `<path>/index.html` for every entry, never over a real page."""
+    site = Path(config["site_dir"])
+    base = config["site_url"].rstrip("/") + "/"
+    for source, target in sorted(redirects().items()):
+        page = site / source / "index.html"
+        if page.exists():
+            raise RuntimeError(f"Redirect {source} would replace a real page: remove it from data/redirects.json")
+        path, _, anchor = target.partition("#")
+        path = path.strip("/") + "/"
+        fragment = f"#{anchor}" if anchor else ""
+        relative = "../" * (source.count("/") + 1) + path
+        page.parent.mkdir(parents=True, exist_ok=True)
+        # The script keeps an anchor the reader came with; without one it adds the target's own.
+        target_js = json.dumps(relative)
+        page.write_text(_REDIRECT.format(
+            title=html.escape(path), canonical=html.escape(base + path + fragment),
+            relative=html.escape(relative + fragment),
+            relative_js=f"{target_js} + (location.hash || {json.dumps(fragment)})"))

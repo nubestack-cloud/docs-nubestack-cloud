@@ -1,0 +1,23 @@
+{
+  "_comment": "The paths the console's Learn more and help links add to https://docs.nubestack.com/ (Nexus portal/src/docs.ts, DOCS). scripts/check.py fails when one does not resolve in the built site, and, with NEXUS_PORTAL_DIR set, when docs.ts names a customer path missing here. The operator paths (reference/, guides/) are not on this site.",
+  "paths": [
+    "api",
+    "cli",
+    "compute/images",
+    "compute/instances",
+    "compute/key-pairs",
+    "compute/server-groups",
+    "networking/certificates",
+    "networking/internet-gateways",
+    "networking/load-balancers",
+    "networking/networks",
+    "networking/private-routing",
+    "networking/public-ips",
+    "networking/security-groups",
+    "organizations/projects",
+    "organizations/service-accounts",
+    "storage/snapshots",
+    "storage/volumes"
+  ],
+  "operator_prefixes": ["reference/", "guides/"]
+}

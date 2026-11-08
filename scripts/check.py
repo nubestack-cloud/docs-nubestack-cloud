@@ -9,10 +9,14 @@
 3. Every screenshot and diagram has alt text, every screenshot its captured-text audit, every
    diagram a title and description, and no page loads anything from another host.
 4. No unfinished stubs, and the search index has the core terms.
+5. Every path the console links to (data/console-links.json) opens a page, directly or through a
+   redirect, and every redirect lands on a page. With NEXUS_PORTAL_DIR set to a Nexus portal, the
+   list is also compared with the portal's own (src/docs.ts, DOCS).
 """
 from __future__ import annotations
 
 import json
+import os
 import re
 import sys
 import xml.etree.ElementTree as ET
@@ -111,6 +115,8 @@ def check() -> list[str]:
         if not shot.exists():
             errors.append(f"Text audit without its screenshot: {audit.relative_to(ROOT)}")
 
+    errors += console_links(pages)
+
     index = SITE / "search/search_index.json"
     entries = json.loads(index.read_text()).get("docs", []) if index.exists() else []
     for term in ("Instances", "Certificates", "SNI", "Idempotency", "API reference"):
@@ -119,7 +125,46 @@ def check() -> list[str]:
 
     if not errors:
         print(f"Passed: {len(pages)} HTML pages (links, anchors, alt text, no external loads), "
-              f"{len(shots)} screenshots with text audits, diagrams, forbidden-value scan, search index.")
+              f"{len(shots)} screenshots with text audits, diagrams, forbidden-value scan, search index, "
+              f"console links and redirects.")
+    return errors
+
+
+_REFRESH = re.compile(r'<meta http-equiv="refresh" content="0; url=([^"]+)"')
+
+
+def _lands(path: str, pages: dict[str, Page], hops: int = 0) -> str | None:
+    """Where a site path ends up: the page's file, following redirect pages; None if nowhere."""
+    file = (path.strip("/") + "/index.html").lstrip("/")
+    if file not in pages:
+        return None
+    moved = _REFRESH.search((SITE / file).read_text())
+    if not moved or hops > 3:
+        return file if not moved else None
+    target = urlsplit(urljoin(f"https://{HOST}/{file}", moved[1].replace("&amp;", "&")))
+    landed = _lands(unquote(target.path), pages, hops + 1)
+    if landed and target.fragment and target.fragment not in pages[landed].ids:
+        return None
+    return landed
+
+
+def console_links(pages: dict[str, Page]) -> list[str]:
+    spec = json.loads((ROOT / "data/console-links.json").read_text())
+    errors = [f"Console link does not resolve: https://{HOST}/{path}" for path in spec["paths"]
+              if _lands(path, pages) is None]
+    redirects = {k: v for k, v in json.loads((ROOT / "data/redirects.json").read_text()).items() if not k.startswith("_")}
+    errors += [f"Redirect does not land on a page: {source} -> {target}" for source, target in redirects.items()
+               if _lands(source, pages) is None]
+    portal = os.environ.get("NEXUS_PORTAL_DIR")
+    if portal:
+        source = Path(portal, "src", "docs.ts").read_text()
+        block = re.search(r"export const DOCS = \{(.*?)\} as const", source, re.S)
+        named = set(re.findall(r':\s*"([^"]+)"', block[1])) if block else set()
+        customer = {p for p in named if not p.startswith(tuple(spec["operator_prefixes"]))}
+        errors += [f"The console links to {path} (docs.ts) but data/console-links.json does not list it"
+                   for path in sorted(customer - set(spec["paths"]))]
+        if not block:
+            errors.append(f"No DOCS table found in {portal}/src/docs.ts")
     return errors
 
 

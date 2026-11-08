@@ -1,0 +1,10 @@
+{
+  "_comment": "Old or alternative paths and the page each now lives at. scripts/hooks.py writes a small redirect page for each at build time; scripts/check.py checks the targets. Paths have no leading or trailing slash.",
+  "cli": "tools/cli",
+  "compute/key-pairs": "compute/ssh-keys",
+  "networking/certificates": "security/certificates",
+  "networking/private-routing": "networking/routing",
+  "organizations": "organization",
+  "organizations/projects": "organization/projects",
+  "organizations/service-accounts": "organization/service-accounts"
+}
