@@ -1,23 +1,22 @@
 NubeStack Cloud
+Scope
 Organization
-Acme
-Workspace
-Organization
-⌄
+Search
+Ctrl K
 ◐
 A
-Organization
 Overview
-Projects
-Quota
-Locations
-Members
+Compute
+Networking
+Storage
+Security
+IAM
+People
 Roles
 Service accounts
-Usage
-Statements
-Cost explorer
-Audit log
+Billing
+Activity
+Quota
 Settings
 Collapse
 automation-prod
@@ -54,4 +53,3 @@ To do:
 Name the key
 Issue key
 Cancel
-View the API request

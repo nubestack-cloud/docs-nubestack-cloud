@@ -1,9 +1,8 @@
 NubeStack Cloud
-Organization
-Acme
-Workspace
+Project · Karachi
 web-shop
-⌄
+Search
+Ctrl K
 ◐
 A
 Overview
@@ -18,11 +17,16 @@ Public IPs
 Load balancers
 Storage
 Security
-Quota and usage
-Consoles and CLI
+IAM
+Billing
 Activity
+Quota
 Settings
 Collapse
+
+PROJECT
+web-shop
+
 Networks
 /
 New
@@ -41,13 +45,8 @@ Private routing
 , done
 Location
 Where the network exists
-Location
 Karachi
 pak-khi-1
-ready
-Islamabad
-pak-isb-1
-ready
 
 Each location is an independent cloud: a network and the instances on it stay in the location you create them in.
 
@@ -114,4 +113,4 @@ Subnets
 Ready to create
 Create network
 Cancel
-View the API request
+Equivalent code

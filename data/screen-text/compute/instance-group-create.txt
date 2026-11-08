@@ -1,9 +1,8 @@
 NubeStack Cloud
-Organization
-Acme
-Workspace
+Project · Karachi
 web-shop
-⌄
+Search
+Ctrl K
 ◐
 A
 Overview
@@ -17,11 +16,16 @@ Instance groups
 Networking
 Storage
 Security
-Quota and usage
-Consoles and CLI
+IAM
+Billing
 Activity
+Quota
 Settings
 Collapse
+
+PROJECT
+web-shop
+
 Instance groups
 /
 New
@@ -30,22 +34,16 @@ Create an instance group
 Keeps a number of instances of a launch template running, replaces any that fail, and keeps a load balancer pool in step. It creates and deletes instances as you: you need the rights it uses.
 
 Cancel
-1
 Location
 A group keeps its instances in one location
-Location
 Karachi
 pak-khi-1
-ready
-Islamabad
-pak-isb-1
-ready
 2
 Launch template
 What each instance is made from
-
-No launch template makes instances in this location. Create a launch template
-
+Launch template
+web
+medium · ubuntu-24-04 · v2
 Size
 How many to keep running
 Instances
@@ -60,6 +58,7 @@ Load balancer
 Optional: a pool its instances join
 Pool
 None
+web-pool
 Each instance joins once it runs, and leaves before it is deleted
 5
 Group name
@@ -71,7 +70,7 @@ not created yet
 new group
 No template yet
 Location
-not set
+Karachi
 Template
 not set
 Instances
@@ -81,11 +80,9 @@ none
 Acts as
 you
 To do:
-Choose a location
-To do:
 Choose a launch template
 To do:
 A name of letters, digits, '.', '_' and '-', up to 48
 Create instance group
 Cancel
-View the API request
+Equivalent code

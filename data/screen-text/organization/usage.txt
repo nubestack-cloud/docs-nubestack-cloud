@@ -1,25 +1,29 @@
 NubeStack Cloud
+Scope
 Organization
-Acme
-Workspace
-Organization
-⌄
+Search
+Ctrl K
 ◐
 A
-Organization
 Overview
-Projects
-Quota
-Locations
-Members
-Roles
-Service accounts
+Compute
+Networking
+Storage
+Security
+IAM
+Billing
 Usage
-Statements
 Cost explorer
-Audit log
+Statements
+Prices
+Activity
+Quota
 Settings
 Collapse
+
+ORGANIZATION
+Acme
+
 Usage
 
 What this organization has used, by period and broken down by project, location or kind of resource.
@@ -69,6 +73,8 @@ h
 Load balancer hours
 744
 h
+Hours not counted
+Not here: either it does not exist, or your access does not include it.
 Instance hours by
 project
 resource type
@@ -77,3 +83,9 @@ location
 web-shop
 2,232 h
 100%
+Instance hours by month
+
+An export holds every hour counted up to the time it was made, as JSON lines. Provisional, like the figures here.
+
+Not here: either it does not exist, or your access does not include it.
+Not here: either it does not exist, or your access does not include it.

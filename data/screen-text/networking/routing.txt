@@ -1,9 +1,8 @@
 NubeStack Cloud
-Organization
-Acme
-Workspace
+Project · Karachi
 web-shop
-⌄
+Search
+Ctrl K
 ◐
 A
 Overview
@@ -18,35 +17,30 @@ Public IPs
 Load balancers
 Storage
 Security
-Quota and usage
-Consoles and CLI
+IAM
+Billing
 Activity
+Quota
 Settings
 Collapse
+
+PROJECT
+web-shop
+
 Routing
 
 One private router per project location connects routed networks. Security groups control permitted traffic.
 
 Network topology
-All locations
-Karachi
-Islamabad
-2 routers
+1 router
 Refresh
-Name	Location	Status	Networks	Last read
+Name	Status	Networks	Last read
 Actions
 
 
 Private router
-	Karachi	Active
+	Active
 app
 db
-	2 min ago	Manage
-⌄
-
-
-Private router
-	Islamabad	Active
-app
 	2 min ago	Manage
 ⌄

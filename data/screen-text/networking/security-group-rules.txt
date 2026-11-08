@@ -1,9 +1,8 @@
 NubeStack Cloud
-Organization
-Acme
-Workspace
+Project · Karachi
 web-shop
-⌄
+Search
+Ctrl K
 ◐
 A
 Overview
@@ -18,11 +17,16 @@ Public IPs
 Load balancers
 Storage
 Security
-Quota and usage
-Consoles and CLI
+IAM
+Billing
 Activity
+Quota
 Settings
 Collapse
+
+PROJECT
+web-shop
+
 Security groups
 /
 web

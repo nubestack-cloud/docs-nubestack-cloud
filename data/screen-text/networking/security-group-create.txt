@@ -1,9 +1,8 @@
 NubeStack Cloud
-Organization
-Acme
-Workspace
+Project · Karachi
 web-shop
-⌄
+Search
+Ctrl K
 ◐
 A
 Overview
@@ -18,11 +17,16 @@ Public IPs
 Load balancers
 Storage
 Security
-Quota and usage
-Consoles and CLI
+IAM
+Billing
 Activity
+Quota
 Settings
 Collapse
+
+PROJECT
+web-shop
+
 Security groups
 /
 New
@@ -31,16 +35,10 @@ Create a security group
 A set of firewall rules for instances in one location. Start from a template; change the rules on the group's page at any time.
 
 Cancel
-1
 Location
 Where the group exists; it applies to instances there
-Location
 Karachi
 pak-khi-1
-ready
-Islamabad
-pak-isb-1
-ready
 2
 Name
 How the group is listed and chosen
@@ -74,17 +72,18 @@ not created yet
 new security group
 1 inbound rule
 Location
-not set
+Karachi
 Template
 SSH
 Inbound
 TCP 22
 Outbound
 anywhere
-To do:
-Choose a location
+Project quota in pak-khi-1 after this group
+Security groups
+4 + 1 / 10
 To do:
 Name the group
 Create security group
 Cancel
-View the API request
+Equivalent code

@@ -1,9 +1,8 @@
 NubeStack Cloud
-Organization
-Acme
-Workspace
+Project · Karachi
 web-shop
-⌄
+Search
+Ctrl K
 ◐
 A
 Overview
@@ -18,11 +17,16 @@ Public IPs
 Load balancers
 Storage
 Security
-Quota and usage
-Consoles and CLI
+IAM
+Billing
 Activity
+Quota
 Settings
 Collapse
+
+PROJECT
+web-shop
+
 Public IPs
 /
 New
@@ -31,16 +35,10 @@ Allocate a public IP
 An address from the location's public network. It stays allocated, and charged, until you release it.
 
 Cancel
-1
 Location
 Where the address is; it reaches instances and load balancers there
-Location
 Karachi
 pak-khi-1
-ready
-Islamabad
-pak-isb-1
-ready
 Tags
 Optional labels for the public IP, such as env: prod
 Key	Value
@@ -56,13 +54,25 @@ not created yet
 new public IP
 IPv4, from the location's public network
 Location
-not set
+Karachi
 Tags
 none
 Attached to
 nothing yet
-To do:
-Choose a location
+Price estimate
+Per hour
+Per month
+Public IP
+PKR 1.20
+Total
+PKR 1.20/hour
+
+At rate card version 2; a month is 730 hours. Provisional until usage is validated.
+
+Project quota in pak-khi-1 after this address
+Public IPs
+3 + 1 / 5
+Ready to create
 Allocate
 Cancel
-View the API request
+Equivalent code

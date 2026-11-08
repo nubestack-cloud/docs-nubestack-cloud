@@ -1,9 +1,8 @@
 NubeStack Cloud
-Organization
-Acme
-Workspace
+Project · Karachi
 web-shop
-⌄
+Search
+Ctrl K
 ◐
 A
 Overview
@@ -14,11 +13,16 @@ Volumes
 Snapshots
 Schedules
 Security
-Quota and usage
-Consoles and CLI
+IAM
+Billing
 Activity
+Quota
 Settings
 Collapse
+
+PROJECT
+web-shop
+
 Snapshots
 
 A point-in-time copy of one volume, kept (and charged for its size) until you delete it. To restore, make a new volume from it; the original volume is not changed.
@@ -26,15 +30,10 @@ A point-in-time copy of one volume, kept (and charged for its size) until you de
 A snapshot sits in the same storage as the volume it came from, so it protects you against a change you want to undo — not against losing that storage. Nexus does not offer backups to separate storage yet.
 
 Create snapshot
-All locations
-Karachi
-Islamabad
 2 snapshots
 Refresh
 2 active
 Name
-⇅
-	Location
 ⇅
 	Status
 ⇅
@@ -49,14 +48,14 @@ Actions
 
 
 db-data-before-upgrade
-	Karachi	Active	100 GiB
+	Active	100 GiB
 db-data
 	9 days ago	Manage
 ⌄
 
 
 nightly-20261101-0200
-	Karachi	Active	100 GiB
+	Active	100 GiB
 db-data
 	9 days ago	Manage
 ⌄

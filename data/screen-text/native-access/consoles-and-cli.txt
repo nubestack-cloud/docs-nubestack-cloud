@@ -1,31 +1,32 @@
 NubeStack Cloud
-Organization
-Acme
-Workspace
+Project · Karachi
 web-shop
-⌄
+Search
+Ctrl K
 ◐
 A
 Overview
 Compute
-Instances
-SSH keys
-Images
-Server groups
-Launch templates
-Instance groups
 Networking
 Storage
 Security
-Quota and usage
-Consoles and CLI
+IAM
+Billing
 Activity
+Quota
 Settings
 Collapse
+
+PROJECT
+web-shop
+
 Consoles and CLI
 
-Each location's own console and the OpenStack CLI, with the same quota and access as Nexus.
+The location's own console and the OpenStack CLI, with the same quota and access as Nexus.
 
+General
+Consoles and CLI
+Danger zone
 Locations
 Download clouds.yaml
 
@@ -33,12 +34,6 @@ Changes made there appear here after the next inventory refresh. clouds.yaml sig
 
 Karachi
 pak-khi-1
-Console
-Open in Horizon ↗
-CLI and SDK
-Connection details
-Islamabad
-pak-isb-1
 Console
 Open in Horizon ↗
 CLI and SDK

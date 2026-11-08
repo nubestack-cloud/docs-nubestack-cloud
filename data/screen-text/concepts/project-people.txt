@@ -1,0 +1,61 @@
+NubeStack Cloud
+Project · Karachi
+web-shop
+Search
+Ctrl K
+◐
+A
+Overview
+Compute
+Networking
+Storage
+Security
+IAM
+People
+Roles
+Service accounts
+Billing
+Activity
+Quota
+Settings
+Collapse
+
+PROJECT
+web-shop
+
+Who can use web-shop
+
+Who can use this project, and with which role. Only people in this organization can be added.
+
+Add people
+Give access
+Person	Role	State
+Actions
+
+
+Ayesha Khan
+	Project admin	Ready	Manage
+⌄
+
+
+Bilal Ahmed
+	Project admin	Ready	Manage
+⌄
+
+
+Sara Malik
+	Project member	Ready	Manage
+⌄
+
+
+Usman Tariq
+	Project reader	Ready	Manage
+⌄
+
+
+automation-prod
+Service account
+	Deployer	Ready	Manage
+⌄
+
+Roles in this project: what each role may do here, and roles made for this project.

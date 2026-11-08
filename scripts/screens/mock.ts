@@ -28,7 +28,9 @@ export async function installMock(page: Page, helpers: Helpers, options: MockOpt
   const projects = W.PROJECTS.map((p) => (p.id === W.PROJECT && options.role ? { ...p, your_role: options.role } : p));
   let opCount = 0;
 
-  await page.route("**/auth/session", (route) => route.fulfill({ json: { authenticated: true, csrf_token: "t", banner: null } }));
+  // The session names this site as the docs root, so a "Learn more" link shows its real address.
+  await page.route("**/auth/session", (route) => route.fulfill({ json: { authenticated: true, csrf_token: "t", banner: null,
+    docs_url: "https://docs.nubestack.com" } }));
   await page.route("**/api/**", async (route) => {
     const request = route.request();
     const url = new URL(request.url());
@@ -70,8 +72,6 @@ export async function installMock(page: Page, helpers: Helpers, options: MockOpt
       return json({ retention_s: 7 * 86400, data_as_of: W.NOW, placements: [
         { placement_id: W.PL_KHI, location: "pak-khi-1", empty: false, externally_visible: [],
           counts: { server: 3, volume: 2, volume_snapshot: 2, network: 2, floating_ip: 3, load_balancer: 1, security_group: 4 } },
-        { placement_id: W.PL_ISB, location: "pak-isb-1", empty: false, externally_visible: [],
-          counts: { server: 1, volume: 1, network: 1 } },
       ] });
     }
     if (path === O) return json(W.ORGANIZATION);
@@ -198,11 +198,12 @@ export async function installMock(page: Page, helpers: Helpers, options: MockOpt
     }
     if (path.endsWith("/activity")) return json({ items: [], next_cursor: null });
     const collection = path.split("/").pop() ?? "";
-    if (path.startsWith(`${P}/`) && collection in W.LISTS) {
-      const location = url.searchParams.get("location");
-      return json(envelope((W.LISTS[collection] ?? []).filter((r) => !location || r.location === location)));
+    const where: Record<string, string> = { [W.PROJECT]: W.KHI.slug, [W.PROJECT_2]: W.ISB.slug };
+    const owner = path.match(/^\/v1\/orgs\/[^/]+\/projects\/(prj_[a-z0-9]+)\//)?.[1];
+    if (owner && collection in W.LISTS) {
+      return json(envelope((W.LISTS[collection] ?? []).filter((r) => r.location === where[owner])));
     }
-    if (path.startsWith(`${O}/projects/${W.PROJECT_2}/`)) return json(envelope([]));
+    if (owner && owner !== W.PROJECT) return json(envelope([]));
     return json({ status: 404, code: "not_found", title: "Not found" }, 404);
   });
 }

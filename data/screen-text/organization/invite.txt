@@ -1,23 +1,22 @@
 NubeStack Cloud
+Scope
 Organization
-Acme
-Workspace
-Organization
-⌄
+Search
+Ctrl K
 ◐
 A
-Organization
 Overview
-Projects
-Quota
-Locations
-Members
+Compute
+Networking
+Storage
+Security
+IAM
+People
 Roles
 Service accounts
-Usage
-Statements
-Cost explorer
-Audit log
+Billing
+Activity
+Quota
 Settings
 Collapse
 Members
@@ -25,7 +24,7 @@ Members
 New
 Invite someone
 
-A one-time link that makes the person a member of this organization with the role you choose, and optionally gives them roles on projects.
+A one-time link that makes the person a member of this organization with the role you choose, and optionally gives them access to projects.
 
 Cancel
 Person
@@ -50,11 +49,11 @@ An organization role never implies a project role: a member sees only the projec
 
 3
 Project access
-Optional: roles on projects, in every location
+Optional: a role in each project
 
-No project roles: they will see no projects until you give them a role on one.
+No project access: they will see no projects until they are given access to one.
 
-+ Add a project
+Give access
 Summary
 not created yet
 zain@acme.example

@@ -2,10 +2,11 @@
 // docs/assets/screens/<name>.webp, which the pages import.
 import type { Page } from "playwright";
 import type { Shot } from "./take.ts";
-import { ID, INVITATION_ID, INVITEE, ORG, PROJECT, SERVICE_ACCOUNT, TEMPLATE } from "./world.ts";
+import { ID, INVITATION_ID, INVITEE, ORG, PROJECT, PROJECT_3, SERVICE_ACCOUNT, TEMPLATE } from "./world.ts";
 
 const org = (section: string) => `/orgs/${ORG}/${section}`;
 const project = (section: string) => `/orgs/${ORG}/projects/${PROJECT}/${section}`;
+const emptyProject = (section: string) => `/orgs/${ORG}/projects/${PROJECT_3}/${section}`;
 
 /** Opens a row's or a page's Manage menu: the button named "Manage <name>", or the first "Manage". */
 const manage = (name?: string) => async (page: Page) => {
@@ -40,7 +41,9 @@ const chain = (...steps: ((page: Page) => Promise<void>)[]) => async (page: Page
 
 export const SHOTS: Shot[] = [
   // Customer-guide review: task details and dialogs missing from the original set.
-  { name: "compute/image-create", path: project("images"), wait: "main h1", act: click("Create image"), clip: "dialog" },
+  { name: "compute/image-create", path: project("images"), wait: "main h1", act: click("Save an instance"), clip: "dialog" },
+  { name: "compute/image-import", path: project("images/new"), wait: "main h1", clip: "main", height: 1300,
+    act: chain(fill(/^Name$/, "ubuntu-24-04-custom"), fill(/^Address/, "https://cloud-images.ubuntu.com/noble/current/noble-server-cloudimg-amd64.img")) },
   { name: "compute/instance-tags", path: project(`instances/${ID.web1}`), wait: "main h1", act: click(/^Tags/, "tab"), clip: "main" },
   { name: "storage/snapshot-restore", path: project(`volumes/new?snapshot=${ID.snap}`), wait: "main h1", clip: "main", height: 1200,
     act: fill(/^Name$/, "db-data-restored") },
@@ -51,11 +54,10 @@ export const SHOTS: Shot[] = [
     act: chain(click(/^Listeners/, "tab"), click(/^Change certificates/)) },
   { name: "security/listener-sni", path: project(`load-balancers/${ID.lb}`), wait: "main h1", clip: "main", height: 1300,
     act: click(/^Listeners/, "tab") },
-  { name: "security/second-factor", path: org("settings"), wait: "main h1", clip: "main", height: 1000,
-    act: click(/^Security/, "tab") },
+  { name: "security/second-factor", path: org("settings?tab=security"), wait: "main h1", clip: "main", height: 1000 },
   { name: "organization/quota-presets", path: org("quota-presets"), wait: "main h1", clip: "main" },
   { name: "organization/quota-requests", path: org("quota-requests"), wait: "main h1", clip: "main" },
-  { name: "organization/member-project-roles", path: org("members"), wait: "Bilal Ahmed", act: chain(manage("Bilal Ahmed"), item("Project roles")), clip: "dialog" },
+  { name: "organization/member-project-roles", path: org("members"), wait: "Bilal Ahmed", act: chain(manage("Bilal Ahmed"), item("Give access")), clip: "dialog" },
   { name: "organization/notifications", path: org("notifications"), wait: "main h1", clip: "main" },
   { name: "organization/quota-request", path: org("quota-requests/new"), wait: "main h1", clip: "main", height: 1200 },
   // Get started
@@ -63,6 +65,11 @@ export const SHOTS: Shot[] = [
   { name: "get-started/projects", path: org("projects"), wait: "web-shop", clip: "main" },
   { name: "get-started/new-project", path: org("projects/new"), wait: "main h1", clip: "main", height: 1300 },
   { name: "get-started/project-overview", path: project("overview"), wait: "main h1" },
+  // The scope selector open over a project page.
+  { name: "get-started/scope-selector", path: project("overview"), wait: "main h1", height: 760,
+    act: async (page) => { await page.locator("details.scope-picker > summary").click(); await page.waitForTimeout(300); } },
+  // An empty list: web-shop-dr has nothing yet.
+  { name: "get-started/empty-list", path: emptyProject("volumes"), wait: "main h2", clip: "main" },
 
   // Compute
   { name: "compute/instances-list", path: project("instances"), wait: "web-1", clip: "main" },
@@ -132,11 +139,11 @@ export const SHOTS: Shot[] = [
   { name: "organization/usage", path: org("usage"), wait: "main h1", clip: "main", height: 1100 },
   { name: "organization/statements", path: org("statements"), wait: "main h1", clip: "main", height: 1200 },
   { name: "organization/cost-explorer", path: org("billing/costs"), wait: "main h1", clip: "main", height: 1100 },
+  { name: "organization/prices", path: org("billing/prices"), wait: "main h1", clip: "main" },
 
   // Project
   { name: "concepts/project-quota", path: project("quota"), wait: "main h1", clip: "main", height: 1100 },
-  { name: "concepts/project-access", path: project("settings?tab=access"), wait: "main h1", clip: "main" },
-  { name: "concepts/project-locations", path: project("settings?tab=locations"), wait: "main h1", clip: "main" },
+  { name: "concepts/project-people", path: project("people"), wait: "main h1", clip: "main" },
   { name: "concepts/project-delete", path: project("settings?tab=danger"), wait: "main h1",
     act: click("Delete project"), clip: "dialog", height: 1100 },
   { name: "concepts/operation", path: project(`operations/op_01jbweb2create000000000001`), wait: "main h1", clip: "main" },

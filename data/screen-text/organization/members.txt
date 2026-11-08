@@ -1,28 +1,31 @@
 NubeStack Cloud
+Scope
 Organization
-Acme
-Workspace
-Organization
-⌄
+Search
+Ctrl K
 ◐
 A
-Organization
 Overview
-Projects
-Quota
-Locations
-Members
+Compute
+Networking
+Storage
+Security
+IAM
+People
 Roles
 Service accounts
-Usage
-Statements
-Cost explorer
-Audit log
+Billing
+Activity
+Quota
 Settings
 Collapse
-Members and roles
 
-Organization roles decide what someone may do across the organization; project roles give a member access to a project in every location. An organization role never implies a project role.
+ORGANIZATION
+Acme
+
+People in Acme
+
+Organization roles decide what someone may do across the organization; access to a project is given on its own, with a role in that project. An organization role never gives project access.
 
 Invite someone
 6

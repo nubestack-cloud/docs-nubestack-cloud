@@ -1,9 +1,8 @@
 NubeStack Cloud
-Organization
-Acme
-Workspace
+Project · Karachi
 web-shop
-⌄
+Search
+Ctrl K
 ◐
 A
 Overview
@@ -14,11 +13,16 @@ Volumes
 Snapshots
 Schedules
 Security
-Quota and usage
-Consoles and CLI
+IAM
+Billing
 Activity
+Quota
 Settings
 Collapse
+
+PROJECT
+web-shop
+
 Schedules
 /
 New
@@ -36,21 +40,18 @@ Back up instances
 Snapshot every volume attached to chosen instances.
 Stop and start instances
 On a weekly timetable; a stopped instance is not charged for vCPU or RAM.
-1
 Location
 A schedule acts in one location
-Location
 Karachi
 pak-khi-1
-ready
-Islamabad
-pak-isb-1
-ready
 3
 Volumes
 Up to 10, in this location
-
-No volumes in this location.
+Targets
+db-data
+In use
+scratch
+Available
 
 Volumes in use are snapshotted as they are
 ?
@@ -94,11 +95,9 @@ Keeps
 Runs as
 you
 To do:
-Choose a location
-To do:
 Choose a volume
 To do:
 Name the schedule
 Create schedule
 Cancel
-View the API request
+Equivalent code

@@ -1,23 +1,19 @@
 NubeStack Cloud
+Scope
 Organization
-Acme
-Workspace
-Organization
-⌄
+Search
+Ctrl K
 ◐
 A
-Organization
 Overview
-Projects
+Compute
+Networking
+Storage
+Security
+IAM
+Billing
+Activity
 Quota
-Locations
-Members
-Roles
-Service accounts
-Usage
-Statements
-Cost explorer
-Audit log
 Settings
 Collapse
 Projects
@@ -36,7 +32,7 @@ Up to 200 characters, for example Web shop.
 Advanced
 2
 Location
-Where the project runs. One is usual
+Where the project runs
 Location
 Karachi
 pak-khi-1
@@ -44,9 +40,8 @@ PK
 Islamabad
 pak-isb-1
 PK
-Place it in more than one location
 
-You can add or remove locations later in the project's settings.
+A project's location never changes. To run in a second location, create a second project there and give the same people access.
 
 Quota preset
 How much the project starts with
@@ -66,7 +61,7 @@ yours
 16 GiB RAM
 4 instances
 
-Clipped to what each location's budget has left. Organization owners and admins can change it later, and make presets of their own under Quota presets.
+Clipped to what the location's budget has left. Organization owners and admins can change it later, and make presets of their own under Quota presets.
 
 Network
 Ready for instances
@@ -79,7 +74,7 @@ Summary
 not created yet
 new project
 no short name yet
-Locations
+Location
 not set
 Quota
 Standard
@@ -88,7 +83,7 @@ Network
 To do:
 Name the project
 To do:
-Choose at least one location
+Choose a location
 Create project
 Cancel
-View the API request
+Equivalent code

@@ -1,0 +1,46 @@
+NubeStack Cloud
+Project · Islamabad
+web-shop-dr
+Search
+Ctrl K
+◐
+A
+Overview
+Compute
+Networking
+Storage
+Volumes
+Snapshots
+Schedules
+Security
+IAM
+Billing
+Activity
+Quota
+Settings
+Collapse
+
+PROJECT
+web-shop-dr
+
+Volumes
+
+Block storage in one location. A volume is attached to one instance there at a time (a multi-attach volume to several) and keeps its data when detached.
+
+Create volume
+Refresh
+Storage
+No volumes yet
+
+A volume is block storage that keeps its data apart from any one instance: attach it, detach it, and attach it to another.
+
+Persistent
+Its data outlives the instance it is attached to.
+Types
+Volume types of the location, and a larger size later.
+Billed
+GiB-hours while it exists, attached or not.
+Create volume
+Learn more
+docs.nubestack.com/storage/volumes
+(opens in a new tab)

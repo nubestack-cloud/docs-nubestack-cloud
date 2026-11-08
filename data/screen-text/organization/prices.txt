@@ -1,0 +1,52 @@
+NubeStack Cloud
+Scope
+Organization
+Search
+Ctrl K
+◐
+A
+Overview
+Compute
+Networking
+Storage
+Security
+IAM
+Billing
+Usage
+Cost explorer
+Statements
+Prices
+Activity
+Quota
+Settings
+Collapse
+
+ORGANIZATION
+Acme
+
+Prices
+
+What each kind of usage costs in this organization: the provider's rate card in force, and its next published change.
+
+Statements
+In force
+Version 2
+Since
+2026-09-01
+Currency
+PKR
+Next change
+None published
+Prices in force
+10
+Usage	Location	Only for	Price per unit (PKR)
+Instance hours	Every location	small	4.25 per h
+Instance hours	Every location	medium	8.5 per h
+Instance hours	Every location	large	17 per h
+Volumes	Every location	standard	0.0715 per GiB·h
+Volumes	Every location	fast	0.12 per GiB·h
+Snapshots	Every location	—	0.035 per GiB·h
+Images	Every location	—	0.035 per GiB·h
+Public IP hours	Every location	—	1.2 per h
+Internet gateway hours	Every location	—	2.5 per h
+Load balancer hours	Every location	standard	12 per h

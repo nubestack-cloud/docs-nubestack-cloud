@@ -1,9 +1,8 @@
 NubeStack Cloud
-Organization
-Acme
-Workspace
+Project · Karachi
 web-shop
-⌄
+Search
+Ctrl K
 ◐
 A
 Overview
@@ -12,11 +11,16 @@ Networking
 Storage
 Security
 Certificates
-Quota and usage
-Consoles and CLI
+IAM
+Billing
 Activity
+Quota
 Settings
 Collapse
+
+PROJECT
+web-shop
+
 Certificates
 /
 New
@@ -25,16 +29,10 @@ Upload a certificate
 A certificate, its chain and its private key, for HTTPS load balancers in one location. The key is checked, sealed at once and stored in the location's key manager; Nexus never shows it again.
 
 Cancel
-1
 Location
 Where its load balancers are; a listener serves only a certificate in its own location
-Location
 Karachi
 pak-khi-1
-ready
-Islamabad
-pak-isb-1
-ready
 2
 Certificate
 The server's own certificate, PEM
@@ -60,13 +58,11 @@ not created yet
 new certificate
 TLS certificate
 Location
-not set
+Karachi
 Chain
 none
 Key
 not set
-To do:
-Choose a location
 To do:
 Name the certificate
 To do:
@@ -75,4 +71,4 @@ To do:
 Paste the private key
 Upload certificate
 Cancel
-View the API request
+Equivalent code

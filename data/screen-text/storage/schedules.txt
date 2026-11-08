@@ -1,9 +1,8 @@
 NubeStack Cloud
-Organization
-Acme
-Workspace
+Project · Karachi
 web-shop
-⌄
+Search
+Ctrl K
 ◐
 A
 Overview
@@ -14,11 +13,16 @@ Volumes
 Snapshots
 Schedules
 Security
-Quota and usage
-Consoles and CLI
+IAM
+Billing
 Activity
+Quota
 Settings
 Collapse
+
+PROJECT
+web-shop
+
 Schedules
 
 Snapshots of volumes on a timetable, keeping the newest few, and instances stopped and started on a weekly timetable.

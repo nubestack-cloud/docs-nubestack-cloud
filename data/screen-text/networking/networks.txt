@@ -1,9 +1,8 @@
 NubeStack Cloud
-Organization
-Acme
-Workspace
+Project · Karachi
 web-shop
-⌄
+Search
+Ctrl K
 ◐
 A
 Overview
@@ -18,31 +17,33 @@ Public IPs
 Load balancers
 Storage
 Security
-Quota and usage
-Consoles and CLI
+IAM
+Billing
 Activity
+Quota
 Settings
 Collapse
+
+PROJECT
+web-shop
+
 Networks
 
 Private networks for this project's instances, one location each. Routed networks reach each other; an Internet gateway adds outbound NAT.
 
 Network topology
 Create network
-All locations
-Karachi
-Islamabad
 Filter by tag
 env: prod
-3 networks
+2 networks
 Refresh
-3 active
-Name	Location	Status	Range	Routing	Tags	Created
+2 active
+Name	Status	Range	Routing	Tags	Created
 Actions
 
 
 app
-	Karachi	Active
+	Active
 10.0.0.0/24
 
 Routed
@@ -52,18 +53,10 @@ env: prod
 
 
 db
-	Karachi	Active
+	Active
 10.0.1.0/24
 
 Routed
 env: prod
 	9 days ago	Manage
-⌄
-
-
-app
-	Islamabad	Active
-10.0.0.0/24
-
-Routed	—	9 days ago	Manage
 ⌄

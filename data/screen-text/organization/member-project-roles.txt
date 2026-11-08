@@ -1,28 +1,31 @@
 NubeStack Cloud
+Scope
 Organization
-Acme
-Workspace
-Organization
-⌄
+Search
+Ctrl K
 ◐
 A
-Organization
 Overview
-Projects
-Quota
-Locations
-Members
+Compute
+Networking
+Storage
+Security
+IAM
+People
 Roles
 Service accounts
-Usage
-Statements
-Cost explorer
-Audit log
+Billing
+Activity
+Quota
 Settings
 Collapse
-Members and roles
 
-Organization roles decide what someone may do across the organization; project roles give a member access to a project in every location. An organization role never implies a project role.
+ORGANIZATION
+Acme
+
+People in Acme
+
+Organization roles decide what someone may do across the organization; access to a project is given on its own, with a role in that project. An organization role never gives project access.
 
 Invite someone
 6
@@ -103,25 +106,26 @@ omar@acme.example
 Viewer
 	No project access	Active	Manage
 ⌄
-Project roles of Bilal Ahmed
+Give access
 
-What Bilal Ahmed may do in each project, in every location of it. Changes apply within a few minutes.
+A role in one project. It reaches the project's location within a few minutes.
 
-Project roles
-web-shop
-No access
-Project admin
-Project member
-Project reader
-Deployer
+Person
+Bilal Ahmed
+Project
+Choose a project
+web-shop (Admin now)
 analytics
-No access
-Project admin
-Project member
-Project reader
-Deployer
+web-shop-dr
+Role
+Admin
+Member
+Reader
+
+Creates, changes and deletes the project's resources.
+
 Cancel
-Save roles
+Give access
 Invitations
 E-mail	Organization role	Project access	Expires
 Actions

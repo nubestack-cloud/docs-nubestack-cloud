@@ -1,25 +1,28 @@
 NubeStack Cloud
+Scope
 Organization
-Acme
-Workspace
-Organization
-⌄
+Search
+Ctrl K
 ◐
 A
-Organization
 Overview
-Projects
-Quota
-Locations
-Members
+Compute
+Networking
+Storage
+Security
+IAM
+People
 Roles
 Service accounts
-Usage
-Statements
-Cost explorer
-Audit log
+Billing
+Activity
+Quota
 Settings
 Collapse
+
+ORGANIZATION
+Acme
+
 Roles
 
 What each role may do. Make your own from the same actions the built-in roles are made of; you can only use actions you hold.

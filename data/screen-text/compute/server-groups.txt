@@ -1,9 +1,8 @@
 NubeStack Cloud
-Organization
-Acme
-Workspace
+Project · Karachi
 web-shop
-⌄
+Search
+Ctrl K
 ◐
 A
 Overview
@@ -17,24 +16,26 @@ Instance groups
 Networking
 Storage
 Security
-Quota and usage
-Consoles and CLI
+IAM
+Billing
 Activity
+Quota
 Settings
 Collapse
+
+PROJECT
+web-shop
+
 Server groups
 
 Keep instances on different hosts, or together on one. An instance joins a group when it is created and stays in it.
 
 Create server group
-All locations
-Karachi
-Islamabad
 1 server group
 Refresh
 1 active
-Name	Location	Status	Policy	Instances	Created
+Name	Status	Policy	Instances	Created
 
 web-spread
-	Karachi	Active	different hostsstrict	2	9 days ago	Manage
+	Active	different hostsstrict	2	9 days ago	Manage
 ⌄

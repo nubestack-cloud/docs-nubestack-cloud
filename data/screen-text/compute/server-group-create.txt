@@ -1,9 +1,8 @@
 NubeStack Cloud
-Organization
-Acme
-Workspace
+Project · Karachi
 web-shop
-⌄
+Search
+Ctrl K
 ◐
 A
 Overview
@@ -17,11 +16,16 @@ Instance groups
 Networking
 Storage
 Security
-Quota and usage
-Consoles and CLI
+IAM
+Billing
 Activity
+Quota
 Settings
 Collapse
+
+PROJECT
+web-shop
+
 Server groups
 /
 New
@@ -32,13 +36,8 @@ Where the location's cloud places the instances you create in this group: on dif
 Cancel
 Location
 Where the group exists; only instances there can join it
-Location
 Karachi
 pak-khi-1
-ready
-Islamabad
-pak-isb-1
-ready
 Policy
 Where its instances go
 Policy
@@ -76,4 +75,4 @@ only when they are created
 Ready to create
 Create server group
 Cancel
-View the API request
+Equivalent code

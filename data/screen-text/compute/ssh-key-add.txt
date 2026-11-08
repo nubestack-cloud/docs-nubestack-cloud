@@ -1,9 +1,8 @@
 NubeStack Cloud
-Organization
-Acme
-Workspace
+Project · Karachi
 web-shop
-⌄
+Search
+Ctrl K
 ◐
 A
 Overview
@@ -17,11 +16,16 @@ Instance groups
 Networking
 Storage
 Security
-Quota and usage
-Consoles and CLI
+IAM
+Billing
 Activity
+Quota
 Settings
 Collapse
+
+PROJECT
+web-shop
+
 SSH keys
 /
 New
@@ -61,4 +65,4 @@ To do:
 Name the key
 Add SSH key
 Cancel
-View the API request
+Equivalent code

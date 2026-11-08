@@ -1,72 +1,77 @@
 NubeStack Cloud
-Organization
-Acme
-Workspace
+Project · Karachi
 web-shop
-⌄
+Search
+Ctrl K
 ◐
 A
 Overview
 Compute
-Instances
-SSH keys
-Images
-Server groups
-Launch templates
-Instance groups
 Networking
 Storage
 Security
-Quota and usage
-Consoles and CLI
+IAM
+Billing
 Activity
+Quota
 Settings
 Collapse
+
+PROJECT
+web-shop
+
 Quota and usage
 
-What your organization allocated to this project in each location, what is in use, and what it used this month.
+What your organization allocated to this project, what is in use, and what it used this month.
 
 Project quotas
 
 Allocated to this project by your organization, and in use now. Each quota is enforced in its own location.
 
+Only what is in use
 In use
 Allocated to the project
-60%
-All locations
-2 locations
-Tightest: Public IPs in Karachi
-60%
-Karachi
-Tightest: Public IPs
-33%
-Islamabad
-Tightest: Networks
 Compute
-Tightest: vCPUs at 40% in Karachi
+Tightest: vCPUs at 40%
 Resource	Use of allocation	In use	Allocated	Free	In use %
 Instances
-	4	14	10	29%
+instances
+
+	3	10	7	30%
 vCPUs
-	9	28	19	32%
+vcpu
+
+	8	20	12	40%
 RAMGiB
-	18	56	38	32%
+ram_gib
+
+	16	40	24	40%
 Networking
-Tightest: Public IPs at 60% in Karachi
+Tightest: Public IPs at 60%
 Resource	Use of allocation	In use	Allocated	Free	In use %
 Networks
-	3	8	5	38%
+networks
+
+	2	5	3	40%
 Security groups
-	5	15	10	33%
+security_groups
+
+	4	10	6	40%
 Public IPs
-	3	7	4	43%
+floating_ips
+
+	3	5	2	60%
 Storage
-Tightest: Volume storage at 25% in Islamabad
+Tightest: Volume storage at 24%
 Resource	Use of allocation	In use	Allocated	Free	In use %
 Volumes
-	3	15	12	20%
+volumes
+
+	2	10	8	20%
 Volume storageGiB
-	170	700	530	24%
+volume_gb
+
+	120	500	380	24%
 
 As of 07:28:00 UTC · in use comes from each location's inventory.
 

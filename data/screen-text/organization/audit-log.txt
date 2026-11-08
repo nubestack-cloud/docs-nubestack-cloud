@@ -1,25 +1,25 @@
 NubeStack Cloud
+Scope
 Organization
-Acme
-Workspace
-Organization
-⌄
+Search
+Ctrl K
 ◐
 A
-Organization
 Overview
-Projects
+Compute
+Networking
+Storage
+Security
+IAM
+Billing
+Activity
 Quota
-Locations
-Members
-Roles
-Service accounts
-Usage
-Statements
-Cost explorer
-Audit log
 Settings
 Collapse
+
+ORGANIZATION
+Acme
+
 Audit log
 
 Every change, refusal and security event in this organization. An event that started background work links to that operation's progress.

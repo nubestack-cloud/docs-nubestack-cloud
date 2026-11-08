@@ -1,23 +1,19 @@
 NubeStack Cloud
+Scope
 Organization
-Acme
-Workspace
-Organization
-⌄
+Search
+Ctrl K
 ◐
 A
-Organization
 Overview
-Projects
+Compute
+Networking
+Storage
+Security
+IAM
+Billing
+Activity
 Quota
-Locations
-Members
-Roles
-Service accounts
-Usage
-Statements
-Cost explorer
-Audit log
 Settings
 Collapse
 E-mail notices

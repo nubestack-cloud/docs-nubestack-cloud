@@ -1,9 +1,8 @@
 NubeStack Cloud
-Organization
-Acme
-Workspace
+Project · Karachi
 web-shop
-⌄
+Search
+Ctrl K
 ◐
 A
 Overview
@@ -14,11 +13,16 @@ Volumes
 Snapshots
 Schedules
 Security
-Quota and usage
-Consoles and CLI
+IAM
+Billing
 Activity
+Quota
 Settings
 Collapse
+
+PROJECT
+web-shop
+
 Volumes
 /
 New
@@ -29,13 +33,8 @@ An empty block-storage volume in the web-shop project. Attach it to an instance 
 Cancel
 Location
 Where the volume is stored
-Location
 Karachi
 pak-khi-1
-ready
-Islamabad
-pak-isb-1
-ready
 
 A volume stays in its location: it can be attached only to instances there.
 
@@ -99,6 +98,16 @@ Type
 not set
 Size
 20 GiB
+Price estimate
+Per hour
+Per month
+Storage
+no charge
+Total
+PKR 0.00/hour
+
+At rate card version 2; a month is 730 hours. Provisional until usage is validated.
+
 Project quota in pak-khi-1 after this volume
 Volumes
 2 + 1 / 10
@@ -108,4 +117,4 @@ To do:
 Choose a volume type
 Create volume
 Cancel
-View the API request
+Equivalent code

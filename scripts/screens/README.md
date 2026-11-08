@@ -8,7 +8,7 @@ sample world. No live installation or cloud is ever reached.
 |---|---|
 | `take.ts` | The runner: starts Vite, takes each shot, encodes WebP, writes the text audit |
 | `shots.ts` | Every shot: its name, portal path, what to click, and what to crop to |
-| `world.ts` | The sample world: Acme, web-shop and analytics, Karachi and Islamabad, Ayesha Khan and colleagues |
+| `world.ts` | The sample world: Acme; web-shop in Karachi, analytics and web-shop-dr in Islamabad; Ayesha Khan and colleagues |
 | `mock.ts` | Answers the API routes from `world.ts`, importing the portal mock's join helpers |
 | `register.mjs` | Lets Node load the portal's TypeScript helpers |
 
@@ -40,12 +40,13 @@ A failed shot leaves a PNG in `scripts/screens/failed/` (ignored) and the old im
 
 ## Sample data rules
 
-- Organization **Acme**, projects **web-shop** and **analytics**, locations **Karachi
-  (pak-khi-1)** and **Islamabad (pak-isb-1)**, person **Ayesha Khan &lt;ayesha@acme.example&gt;**;
-  colleagues are invented names at `acme.example`.
+- Organization **Acme**. Each project lives in one location: **web-shop** in **Karachi
+  (pak-khi-1)**, **analytics** and the empty **web-shop-dr** in **Islamabad (pak-isb-1)**. Person
+  **Ayesha Khan &lt;ayesha@acme.example&gt;**, an owner; colleagues are invented names at
+  `acme.example`.
 - Public addresses only from 203.0.113.0/24, 198.51.100.0/24 and 192.0.2.0/24. Private networks
   use 10.0.0.0/24 and 10.0.1.0/24, because a location accepts only private ranges for networks.
-- Prices and quantities are invented and marked provisional.
+- Prices are in PKR, set per catalog name (`small`, `standard`), invented and marked provisional.
 
 ## Add a shot
 

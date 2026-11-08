@@ -1,9 +1,8 @@
 NubeStack Cloud
-Organization
-Acme
-Workspace
+Project · Karachi
 web-shop
-⌄
+Search
+Ctrl K
 ◐
 A
 Overview
@@ -17,34 +16,29 @@ Instance groups
 Networking
 Storage
 Security
-Quota and usage
-Consoles and CLI
+IAM
+Billing
 Activity
+Quota
 Settings
 Collapse
+
+PROJECT
+web-shop
+
 Instances
 
 Virtual machines, each in one location. An instance keeps its disk, addresses and security groups in that location; nothing about it moves to another.
 
 Create instance
-All locations
-Karachi
-Islamabad
-All states
-Active
-Stopped
 Filter by tag
-env: dev
 env: prod
 team: data
 team: web
-4 instances
+3 instances
 Refresh
 3 active
-1 stopped
 Name
-⇅
-	Location
 ⇅
 	Status
 ⇅
@@ -59,7 +53,7 @@ Actions
 
 
 web-1
-	Karachi	Active
+	Active
 203.0.113.21
 public
 	Medium
@@ -88,7 +82,7 @@ Delete
 
 
 web-2
-	Karachi	Active
+	Active
 10.0.0.12
 private
 	Medium
@@ -99,21 +93,11 @@ team: web
 
 
 db-1
-	Karachi	Active
+	Active
 10.0.1.10
 private
 	Large
 env: prod
 team: data
-	9 days ago	Manage
-⌄
-
-
-batch-1
-	Islamabad	Stopped
-10.0.0.20
-private
-	Small
-env: dev
 	9 days ago	Manage
 ⌄

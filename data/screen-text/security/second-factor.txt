@@ -1,30 +1,31 @@
 NubeStack Cloud
+Scope
 Organization
-Acme
-Workspace
-Organization
-⌄
+Search
+Ctrl K
 ◐
 A
-Organization
 Overview
-Projects
+Compute
+Networking
+Storage
+Security
+IAM
+Billing
+Activity
 Quota
-Locations
-Members
-Roles
-Service accounts
-Usage
-Statements
-Cost explorer
-Audit log
 Settings
 Collapse
+
+ORGANIZATION
+Acme
+
 Organization settings
 
 How the organization works for its members: its name, how they sign in, its audit log, and closing it.
 
 General
+Projects
 Security
 Audit and retention
 Danger zone

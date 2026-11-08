@@ -1,33 +1,38 @@
 NubeStack Cloud
+Scope
 Organization
-Acme
-Workspace
-Organization
-⌄
+Search
+Ctrl K
 ◐
 A
-Organization
 Overview
-Projects
+Compute
+Networking
+Storage
+Security
+IAM
+Billing
+Activity
 Quota
-Locations
-Members
-Roles
-Service accounts
-Usage
-Statements
-Cost explorer
-Audit log
 Settings
 Collapse
+
+ORGANIZATION
+Acme
+
 Projects
 
-A project groups what you run and who may use it. Each project runs in the locations you choose for it, and keeps its own quota there.
+A project groups what you run and who may use it. Each project runs in the one location you choose for it, and keeps its own quota there.
 
 updated 0s ago
 Network topology
 New project
-2
+General
+Projects
+Security
+Audit and retention
+Danger zone
+3
 projects
 0
 setting up a location
@@ -35,15 +40,13 @@ setting up a location
 with a location not ready
 0
 suspended or deleting
-Project	Locations	Created
+Project	Location	Created
 Actions
 
 
 web-shop
 
 Karachi
-ready
-Islamabad
 ready
 	40 days ago	Manage
 ⌄
@@ -54,4 +57,12 @@ analytics
 Islamabad
 ready
 	12 days ago	Manage
+⌄
+
+
+web-shop-dr
+
+Islamabad
+ready
+	2 days ago	Manage
 ⌄

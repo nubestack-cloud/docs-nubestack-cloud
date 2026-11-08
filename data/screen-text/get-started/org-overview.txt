@@ -1,25 +1,25 @@
 NubeStack Cloud
+Scope
 Organization
-Acme
-Workspace
-Organization
-⌄
+Search
+Ctrl K
 ◐
 A
-Organization
 Overview
-Projects
+Compute
+Networking
+Storage
+Security
+IAM
+Billing
+Activity
 Quota
-Locations
-Members
-Roles
-Service accounts
-Usage
-Statements
-Cost explorer
-Audit log
 Settings
 Collapse
+
+ORGANIZATION
+Acme
+
 Organization overview
 
 Your projects, their share of the budget, and anything waiting on someone.
@@ -57,18 +57,22 @@ Locations
 of 2 available
 
 Projects
-2
-Project	Locations	Instances
+3
+Project	Location	Instances
 Open
 
 
 web-shop
 
 Karachi
-Islamabad
 	4	Open project
 
 analytics
+
+Islamabad
+	0	Open project
+
+web-shop-dr
 
 Islamabad
 	0	Open project

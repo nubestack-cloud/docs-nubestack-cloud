@@ -1,9 +1,8 @@
 NubeStack Cloud
-Organization
-Acme
-Workspace
+Project · Karachi
 web-shop
-⌄
+Search
+Ctrl K
 ◐
 A
 Overview
@@ -17,20 +16,25 @@ Instance groups
 Networking
 Storage
 Security
-Quota and usage
-Consoles and CLI
+IAM
+Billing
 Activity
+Quota
 Settings
 Collapse
+
+PROJECT
+web-shop
+
 Launch templates
 
 A reusable instance blueprint: launch one to ten instances from it at once.
 
 Create launch template
-Name	Location	Size · image	Version	Updated
+Name	Size · image	Version	Updated
 
 web
 user data
 Web front end, Ubuntu 24.04, joins web-pool
-	Karachi	medium · ubuntu-24-04	v2	6 days ago	Manage
+	medium · ubuntu-24-04	v2	6 days ago	Manage
 ⌄

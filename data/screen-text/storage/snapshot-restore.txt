@@ -1,9 +1,8 @@
 NubeStack Cloud
-Organization
-Acme
-Workspace
+Project · Karachi
 web-shop
-⌄
+Search
+Ctrl K
 ◐
 A
 Overview
@@ -14,11 +13,16 @@ Volumes
 Snapshots
 Schedules
 Security
-Quota and usage
-Consoles and CLI
+IAM
+Billing
 Activity
+Quota
 Settings
 Collapse
+
+PROJECT
+web-shop
+
 Volumes
 /
 New
@@ -29,13 +33,8 @@ A volume with the data of the snapshot db-data-before-upgrade, in its location; 
 Cancel
 Location
 The snapshot's location
-Location
 Karachi
 pak-khi-1
-ready
-Islamabad
-pak-isb-1
-Not the snapshot's location
 
 A volume stays in its location: it can be attached only to instances there.
 
@@ -85,6 +84,16 @@ Type
 not set
 Size
 100 GiB
+Price estimate
+Per hour
+Per month
+Storage
+no charge
+Total
+PKR 0.00/hour
+
+At rate card version 2; a month is 730 hours. Provisional until usage is validated.
+
 Project quota in pak-khi-1 after this volume
 Volumes
 2 + 1 / 10
@@ -94,4 +103,4 @@ To do:
 Choose a volume type
 Create volume
 Cancel
-View the API request
+Equivalent code

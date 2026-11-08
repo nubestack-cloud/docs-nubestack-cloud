@@ -1,9 +1,8 @@
 NubeStack Cloud
-Organization
-Acme
-Workspace
+Project · Karachi
 web-shop
-⌄
+Search
+Ctrl K
 ◐
 A
 Overview
@@ -18,11 +17,16 @@ Public IPs
 Load balancers
 Storage
 Security
-Quota and usage
-Consoles and CLI
+IAM
+Billing
 Activity
+Quota
 Settings
 Collapse
+
+PROJECT
+web-shop
+
 Load balancers
 /
 New
@@ -34,13 +38,8 @@ Cancel
 1
 Location
 Where it runs; its instances must be there too
-Location
 Karachi
 pak-khi-1
-ready
-Islamabad
-pak-isb-1
-not offered here
 2
 Load balancer name
 How you will find it
@@ -75,9 +74,16 @@ Listeners
 not set
 Instances
 not set
+Price estimate
+Per hour
+Per month
+
+Choose a location and a size to see the price.
+
 To do:
 Choose a location
 To do:
 Name the load balancer
 Create load balancer
 Cancel
+Equivalent code

@@ -1,9 +1,8 @@
 NubeStack Cloud
-Organization
-Acme
-Workspace
+Project · Karachi
 web-shop
-⌄
+Search
+Ctrl K
 ◐
 A
 Overview
@@ -14,19 +13,21 @@ Volumes
 Snapshots
 Schedules
 Security
-Quota and usage
-Consoles and CLI
+IAM
+Billing
 Activity
+Quota
 Settings
 Collapse
+
+PROJECT
+web-shop
+
 Volumes
 
 Block storage in one location. A volume is attached to one instance there at a time (a multi-attach volume to several) and keeps its data when detached.
 
 Create volume
-All locations
-Karachi
-Islamabad
 All states
 In use
 Available
@@ -34,13 +35,11 @@ Filter by tag
 env: dev
 env: prod
 team: data
-3 volumes
+2 volumes
 Refresh
-2 available
 1 in use
+1 available
 Name
-⇅
-	Location
 ⇅
 	Status
 ⇅
@@ -57,7 +56,7 @@ Actions
 
 
 db-data
-	Karachi	In use	100 GiB
+	In use	100 GiB
 standard
 
 db-1
@@ -69,7 +68,7 @@ team: data
 
 
 scratch
-	Karachi	Available	20 GiB
+	Available	20 GiB
 fast
 	—
 env: dev
@@ -85,10 +84,3 @@ web-2
 db-1
 Cancel
 Attach volume
-
-
-batch-data
-	Islamabad	Available	50 GiB
-standard
-	—	—	9 days ago	Manage
-⌄

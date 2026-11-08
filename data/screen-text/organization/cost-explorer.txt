@@ -1,25 +1,29 @@
 NubeStack Cloud
+Scope
 Organization
-Acme
-Workspace
-Organization
-⌄
+Search
+Ctrl K
 ◐
 A
-Organization
 Overview
-Projects
-Quota
-Locations
-Members
-Roles
-Service accounts
+Compute
+Networking
+Storage
+Security
+IAM
+Billing
 Usage
-Statements
 Cost explorer
-Audit log
+Statements
+Prices
+Activity
+Quota
 Settings
 Collapse
+
+ORGANIZATION
+Acme
+
 Cost explorer
 
 Where this organization's money goes: the month's cost so far by project, service, location or tag, day by day.

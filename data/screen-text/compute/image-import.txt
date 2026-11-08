@@ -1,0 +1,106 @@
+NubeStack Cloud
+Project · Karachi
+web-shop
+Search
+Ctrl K
+◐
+A
+Overview
+Compute
+Instances
+SSH keys
+Images
+Server groups
+Launch templates
+Instance groups
+Networking
+Storage
+Security
+IAM
+Billing
+Activity
+Quota
+Settings
+Collapse
+
+PROJECT
+web-shop
+
+Images
+/
+New
+Import an image
+
+A private image of the web-shop project, downloaded by the location from an https address you give. Start instances from it once it is active.
+
+Cancel
+Location
+Where the image is kept
+Karachi
+pak-khi-1
+
+An image stays in its location: instances there start from it.
+
+Image name
+How the image is listed
+Name
+Up to 255 characters.
+Image file
+Its address and disk format
+Address
+An https address the location can download without signing in, such as a distribution's cloud image. An address with a token or signature in it is refused: Nexus does not keep secrets.
+Disk format
+
+Disk format
+
+qcow2
+Most cloud images (.img, .qcow2)
+raw
+A plain disk (.raw)
+vmdk
+VMware
+vdi
+VirtualBox
+vhd
+Hyper-V (older)
+vhdx
+Hyper-V
+iso
+An installer disc
+What it needs
+Optional: sizes too small for it are not offered
+Minimum disk (GiB)
+Minimum memory (MiB)
+Operating system
+Such as ubuntu, debian, rocky, windows.
+Version
+Such as 24.04.
+Summary
+not created yet
+ubuntu-24-04-custom
+qcow2
+Location
+Karachi
+From
+cloud-images.ubuntu.com
+Format
+qcow2
+Price estimate
+Per hour
+Per month
+Per GiB stored
+PKR 0.04
+Total
+PKR 0.04/hour
+
+At rate card version 2; a month is 730 hours. Provisional until usage is validated.
+
+Project quota in pak-khi-1 after this image
+Images
+1 + 1 / 10
+Image storage
+3 / 100 GiB
+Ready to create
+Import image
+Cancel
+Equivalent code

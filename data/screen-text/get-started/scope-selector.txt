@@ -1,0 +1,134 @@
+NubeStack Cloud
+Project · Karachi
+web-shop
+Organization
+People, billing and settings; every project's services, read-only
+Projects
+3
+Karachi
+pak-khi-1
+1
+W
+web-shop
++
+New project here
+Islamabad
+pak-isb-1
+2
+A
+analytics
+W
+web-shop-dr
++
+New project here
+Search
+Ctrl K
+◐
+A
+Overview
+Compute
+Networking
+Storage
+Security
+IAM
+Billing
+Activity
+Quota
+Settings
+Collapse
+
+PROJECT
+web-shop
+
+Overview
+
+Project admin · Karachi
+
+View topology
+Create instance
+Failed
+Extend volume failed for scratch
+
+The operation did not finish. Requested 15 h ago.
+
+See what happened
+Pinned
+
+Nothing pinned yet. Choose the star on a service to keep it here.
+
+Get started
+Instances
+Compute
+Networks
+Networking
+Volumes
+Storage
+Security groups
+Networking
+Public IPs
+Networking
+Load balancers
+Networking
+Instances
+
+3
+
+3 active
+
+Networks
+
+2
+
+Volumes
+
+2
+
+120 GiB
+
+Public IPs
+
+3
+
+2 attached
+
+Load balancers
+
+1
+
+1 active
+
+Recent activity
+All activity
+What happened	Resource	Status	When
+Create instance
+web-3
+	Running	1 min ago
+Create instance
+web-2
+	Succeeded	4 min ago
+Volume: snapshot
+db-data
+	Succeeded	30 min ago
+Change load balancer
+web-lb
+	Succeeded	10 h ago
+Extend volume
+scratch
+	Failed	15 h ago
+Quota
+All quotas
+In use
+Allocated to the project
+vCPUs
+8/20
+RAMGiB
+16/40
+Volume storageGiB
+120/500
+Public IPs
+3/5
+Locations
+all ready
+Karachi
+Ready
+read 2 min ago

@@ -1,9 +1,8 @@
 NubeStack Cloud
-Organization
-Acme
-Workspace
+Project · Karachi
 web-shop
-⌄
+Search
+Ctrl K
 ◐
 A
 Overview
@@ -18,30 +17,32 @@ Public IPs
 Load balancers
 Storage
 Security
-Quota and usage
-Consoles and CLI
+IAM
+Billing
 Activity
+Quota
 Settings
 Collapse
+
+PROJECT
+web-shop
+
 Public IPs
 
 A public IP stays yours (and is charged) until you release it, even after its instance is deleted.
 
 Allocate public IP
-All locations
-Karachi
-Islamabad
 Filter by tag
 env: prod
 3 public IPs
 Refresh
 3 active
-Address	Location	Status	Attached to	Tags
+Address	Status	Attached to	Tags
 Actions
 
 
 203.0.113.21
-	Karachi	Active
+	Active
 →
 10.0.0.11
 web-1
@@ -52,7 +53,7 @@ env: prod
 
 
 203.0.113.40
-	Karachi	Active
+	Active
 →
 10.0.0.50
 web-lb
@@ -63,7 +64,7 @@ env: prod
 
 
 198.51.100.7
-	Karachi	Active	Not attached	—	Manage
+	Active	Not attached	—	Manage
 ⌄
 Attach 198.51.100.7
 

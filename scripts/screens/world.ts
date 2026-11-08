@@ -1,6 +1,6 @@
-// The sample world the documentation's screenshots show: the organization Acme, its projects
-// web-shop and analytics in NubeStack's two locations, Karachi (pak-khi-1) and Islamabad
-// (pak-isb-1), and its people. Sample data only: names are invented, e-mail addresses use
+// The sample world the documentation's screenshots show: the organization Acme, its projects,
+// each in one of NubeStack's two locations (web-shop in Karachi, pak-khi-1; analytics and
+// web-shop-dr in Islamabad, pak-isb-1), and its people. Sample data only: names are invented, e-mail addresses use
 // acme.example, every public address is from a documentation range (203.0.113.0/24,
 // 198.51.100.0/24, 192.0.2.0/24), and private networks use 10.0.0.0/24 and 10.0.1.0/24, the kind
 // of private range a location accepts (10.0.0.0/24 is a new project's default). Shapes are the
@@ -17,6 +17,8 @@ const DAY = 24 * 60;
 export const ORG = "org_01jbacme00000000000000001";
 export const PROJECT = "prj_01jbwebshop000000000000001";
 export const PROJECT_2 = "prj_01jbanalytics00000000000001";
+/** A project with nothing in it yet, for the empty lists. */
+export const PROJECT_3 = "prj_01jbwebshopdr000000000000001";
 
 export const KHI = { id: "loc_01jbkhi00000000000000000001", slug: "pak-khi-1", display_name: "Karachi" };
 export const ISB = { id: "loc_01jbisb00000000000000000001", slug: "pak-isb-1", display_name: "Islamabad" };
@@ -31,9 +33,11 @@ export const PL_ISB = "plc_01jbisb00000000000000000001";
 
 export const PROJECTS = [
   { id: PROJECT, slug: "web-shop", display_name: "web-shop", lifecycle_state: "active", created_at: ago(40 * DAY),
-    your_role: "project_admin", placements: [placement(PL_KHI, KHI, 2), placement(PL_ISB, ISB, 3)] },
+    your_role: "project_admin", placements: [placement(PL_KHI, KHI, 2)] },
   { id: PROJECT_2, slug: "analytics", display_name: "analytics", lifecycle_state: "active", created_at: ago(12 * DAY),
-    your_role: "project_admin", placements: [placement("plc_01jbana00000000000000000001", ISB, 4)] },
+    your_role: "project_admin", placements: [placement(PL_ISB, ISB, 4)] },
+  { id: PROJECT_3, slug: "web-shop-dr", display_name: "web-shop-dr", lifecycle_state: "active", created_at: ago(2 * DAY),
+    your_role: "project_admin", placements: [placement("plc_01jbwebshopdr0000000000000001", ISB, 3)] },
 ];
 
 // ---- Resources ----------------------------------------------------------------------------
@@ -125,7 +129,7 @@ export const LISTS: Record<string, Row[]> = {
     resource("network", ID.netDb, C.netDb, "pak-khi-1", "db", { subnets: [C.subDb], routed: true }, { tags: { env: "prod" },
       routing: { enabled: true, router_id: ID.rtrKhi, pending: false },
       internet_access: { enabled: true, router_id: ID.rtrKhi, pending: false, observed_gateway: true, project_gateway: true } }),
-    resource("network", ID.netIsb, C.netIsb, "pak-isb-1", "app", { subnets: [C.subIsb], routed: true }, {
+    resource("network", ID.netIsb, C.netIsb, "pak-isb-1", "default", { subnets: [C.subIsb], routed: true }, {
       routing: { enabled: true, router_id: ID.rtrIsb, pending: false },
       internet_access: { enabled: false, router_id: ID.rtrIsb, pending: false, observed_gateway: false, project_gateway: false } }),
   ],
@@ -145,7 +149,7 @@ export const LISTS: Record<string, Row[]> = {
       external_gateway: { network_id: "public-khi", enable_snat: true, external_fixed_ips: [{ ip_address: "198.51.100.2" }] },
       routes: [] }, { project_gateway: true, private_router: true,
       internet_gateway: { snat_enabled: true, addresses: ["198.51.100.2"], enabled: true, pending: false, desired: true, state: "active" } }),
-    resource("router", ID.rtrIsb, C.rtrIsb, "pak-isb-1", "web-shop-private", { external_gateway: null, routes: [] },
+    resource("router", ID.rtrIsb, C.rtrIsb, "pak-isb-1", "analytics-private", { external_gateway: null, routes: [] },
       { project_gateway: true, private_router: true,
         internet_gateway: { snat_enabled: null, addresses: [], enabled: false, pending: false, desired: false, state: "absent" } }),
   ],
@@ -377,13 +381,8 @@ export const QUOTA = {
       quotaClass("ram_gib", "RAM (GiB)", "gib", 40, 16), quotaClass("volumes", "Volumes", "count", 10, 2),
       quotaClass("volume_gb", "Volume storage (GiB)", "gib", 500, 120), quotaClass("networks", "Networks", "count", 5, 2),
       quotaClass("subnets", "Subnets", "count", 10, 2), quotaClass("security_groups", "Security groups", "count", 10, 4),
-      quotaClass("floating_ips", "Public IPs", "count", 5, 3) ] },
-    { placement: { id: PL_ISB, location: "pak-isb-1", deployment: "dep" }, classes: [
-      quotaClass("instances", "Instances", "count", 4, 1), quotaClass("vcpu", "vCPUs", "count", 8, 1),
-      quotaClass("ram_gib", "RAM (GiB)", "gib", 16, 2), quotaClass("volumes", "Volumes", "count", 5, 1),
-      quotaClass("volume_gb", "Volume storage (GiB)", "gib", 200, 50), quotaClass("networks", "Networks", "count", 3, 1),
-      quotaClass("subnets", "Subnets", "count", 5, 1), quotaClass("security_groups", "Security groups", "count", 5, 1),
-      quotaClass("floating_ips", "Public IPs", "count", 2, 0) ] },
+      quotaClass("floating_ips", "Public IPs", "count", 5, 3), quotaClass("images", "Images", "count", 10, 1),
+      quotaClass("image_gib", "Image storage (GiB)", "gib", 100, 3) ] },
   ],
 };
 
@@ -455,14 +454,15 @@ export const MEMBER_GRANTS = { items: [
 ], next_cursor: null, visibility: "organization" };
 const projectGrant = (id: string, member: number, role: string, days: number) => ({
   id, project_id: PROJECT, principal_id: MEMBERS.items[member]!.principal_id, principal_type: "human", role, version: 1,
-  status: { state: "active", placements: [{ id: PL_KHI, locations: ["pak-khi-1"], status: "ready", reason: null },
-    { id: PL_ISB, locations: ["pak-isb-1"], status: "ready", reason: null }] }, created_at: ago(days * DAY) });
+  // A placement's projection is a condition: "true" once the role has reached the location.
+  status: { state: "active", placements: [{ id: PL_KHI, locations: ["pak-khi-1"], status: "true", reason: null }] },
+  created_at: ago(days * DAY) });
 export const PROJECT_GRANTS = { items: [
   projectGrant("grt_01jb1", 0, "project_admin", 40), projectGrant("grt_01jb3", 1, "project_admin", 30),
   projectGrant("grt_01jb4", 2, "project_member", 20), projectGrant("grt_01jb6", 3, "project_reader", 5),
   { id: "grt_01jbsa1", project_id: PROJECT, principal_id: "sa_01jbterraform000000000000001", principal_type: "service",
     service_account_name: "automation-prod", role: "rol_01jbdeployer00000000000001", version: 1,
-    status: { state: "active", placements: [{ id: PL_KHI, locations: ["pak-khi-1"], status: "ready", reason: null }] }, created_at: ago(18 * DAY) },
+    status: { state: "active", placements: [{ id: PL_KHI, locations: ["pak-khi-1"], status: "true", reason: null }] }, created_at: ago(18 * DAY) },
 ], next_cursor: null };
 export const INVITATION_ID = "inv_01jbzain00000000000000000001";
 export const INVITEE = { id: "usr_01jbzain0000000000000000001", profile: { display_name: "Zain Hussain", email: "zain@acme.example" }, memberships: [] };
@@ -627,20 +627,29 @@ const ssum = (id: string, start: Date, state: "open" | "closed", total: string, 
   closes_at: iso(plusDays(state === "open" ? NEXT : CUR, 5)), closed_at: state === "closed" ? iso(plusDays(CUR, 5)) : null });
 export const STATEMENT_OPEN = { ...ssum("stm_01jbcurrent00000000000001", CUR, "open", "18420.50", 4, 1),
   adjustments_after: iso(plusDays(CUR, 5)), built_at: iso(HOUR_AGO), items: [
-    sline("stl_1", "usage", CUR, "compute.instance.hours", "hour", { key: "flavor", value: "Medium" }, "1440", "8.5", "12240"),
+    sline("stl_1", "usage", CUR, "compute.instance.hours", "hour", { key: "offering", value: "medium" }, "1440", "8.5", "12240"),
     sline("stl_2", "usage", CUR, "block.volume.gb_hours", "gb_hour", { key: "volume_type", value: "standard" }, "86400", "0.0715", "6177.60"),
     sline("stl_3", "usage", CUR, "network.floating_ip.hours", "hour", null, "1440", null, null),
-    sline("stl_4", "adjustment", PREV, "compute.instance.hours", "hour", { key: "flavor", value: "Medium" }, "0.2", "8.5", "1.70"),
+    sline("stl_4", "adjustment", PREV, "compute.instance.hours", "hour", { key: "offering", value: "medium" }, "0.2", "8.5", "1.70"),
   ] };
 const statementTotal = "17010.00";
 export const STATEMENT_CLOSED = { ...ssum("stm_01jbprevious0000000000001", PREV, "closed", statementTotal, 1, 0),
   adjustments_after: null, built_at: iso(plusDays(CUR, 5)),
-  items: [sline("stl_9", "usage", PREV, "compute.instance.hours", "hour", { key: "flavor", value: "Medium" }, "2001.18", "8.5", statementTotal)] };
+  items: [sline("stl_9", "usage", PREV, "compute.instance.hours", "hour", { key: "offering", value: "medium" }, "2001.18", "8.5", statementTotal)] };
 export const STATEMENTS = { items: [STATEMENT_OPEN, STATEMENT_CLOSED].map(({ items: _i, adjustments_after: _a, built_at: _b, ...s }) => s), next_cursor: null };
 export const RATE_CARD = { currency: "PKR", provisional: true,
+  // Q65: a price for one size names the catalog's size, volume type or load balancer type.
   in_force: { version: 2, effective_from: iso(PREV), lines: [
-    { metric: "compute.instance.hours", location: null, dimension: { key: "flavor", value: "Medium" }, unit_price: "8.5" },
+    { metric: "compute.instance.hours", location: null, dimension: { key: "offering", value: "small" }, unit_price: "4.25" },
+    { metric: "compute.instance.hours", location: null, dimension: { key: "offering", value: "medium" }, unit_price: "8.5" },
+    { metric: "compute.instance.hours", location: null, dimension: { key: "offering", value: "large" }, unit_price: "17" },
     { metric: "block.volume.gb_hours", location: null, dimension: { key: "volume_type", value: "standard" }, unit_price: "0.0715" },
+    { metric: "block.volume.gb_hours", location: null, dimension: { key: "volume_type", value: "fast" }, unit_price: "0.12" },
+    { metric: "block.snapshot.gb_hours", location: null, dimension: null, unit_price: "0.035" },
+    { metric: "image.gb_hours", location: null, dimension: null, unit_price: "0.035" },
+    { metric: "network.floating_ip.hours", location: null, dimension: null, unit_price: "1.2" },
+    { metric: "network.gateway.hours", location: null, dimension: null, unit_price: "2.5" },
+    { metric: "loadbalancer.hours", location: null, dimension: { key: "offering", value: "standard" }, unit_price: "12" },
   ] }, next: null };
 
 type Grouping = "project" | "service" | "location" | "tag:env" | "tag:team";

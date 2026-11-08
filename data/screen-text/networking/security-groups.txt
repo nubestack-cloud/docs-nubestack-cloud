@@ -1,9 +1,8 @@
 NubeStack Cloud
-Organization
-Acme
-Workspace
+Project · Karachi
 web-shop
-⌄
+Search
+Ctrl K
 ◐
 A
 Overview
@@ -18,29 +17,31 @@ Public IPs
 Load balancers
 Storage
 Security
-Quota and usage
-Consoles and CLI
+IAM
+Billing
 Activity
+Quota
 Settings
 Collapse
+
+PROJECT
+web-shop
+
 Security groups
 
 Firewall rules for instances. Traffic is refused unless a rule allows it; instances can always reach out.
 
 Create security group
-All locations
-Karachi
-Islamabad
 4 security groups
 Refresh
 4 active
-Name	Location	Status	Rules	Created
+Name	Status	Rules	Created
 Actions
 
 
 default
 cloud default
-	Karachi	Active
+	Active
 ↓
 1
 in
@@ -52,7 +53,7 @@ out
 
 
 web
-	Karachi	Active
+	Active
 ↓
 3
 in
@@ -64,7 +65,7 @@ out
 
 
 ssh-office
-	Karachi	Active
+	Active
 ↓
 1
 in
@@ -76,7 +77,7 @@ out
 
 
 db
-	Karachi	Active
+	Active
 ↓
 1
 in

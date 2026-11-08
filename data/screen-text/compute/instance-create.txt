@@ -1,9 +1,8 @@
 NubeStack Cloud
-Organization
-Acme
-Workspace
+Project · Karachi
 web-shop
-⌄
+Search
+Ctrl K
 ◐
 A
 Overview
@@ -17,11 +16,16 @@ Instance groups
 Networking
 Storage
 Security
-Quota and usage
-Consoles and CLI
+IAM
+Billing
 Activity
+Quota
 Settings
 Collapse
+
+PROJECT
+web-shop
+
 Instances
 /
 New
@@ -61,13 +65,8 @@ A launch template
 1 saved in this project; choose how many to launch
 Location
 Where this instance runs
-Location
 Karachi
 pak-khi-1
-ready
-Islamabad
-pak-isb-1
-ready
 
 Each location is an independent cloud: the instance, its disk and its network stay where you create them. Sizes, images and networks below come from the chosen location.
 
@@ -87,16 +86,19 @@ Small
 2 GiB RAM
 20 GiB disk
 small
+room for 7 more
 Medium
 2 vCPU
 4 GiB RAM
 40 GiB disk
 medium
+room for 6 more
 Large
 4 vCPU
 8 GiB RAM
 80 GiB disk
 large
+room for 3 more
 
 A size that would exceed the project's quota in this location is marked; the cloud refuses it. An organization owner or admin can raise the project's quota.
 
@@ -256,6 +258,22 @@ Load balancer
 not set
 Instances
 not set
+Price estimate
+Per hour
+Per month
+Instance
+PKR 8.50
+vCPU
+no charge
+Memory
+no charge
+Public IP
+PKR 1.20
+Total
+PKR 9.70/hour
+
+At rate card version 2; a month is 730 hours. Provisional until usage is validated.
+
 Project quota in pak-khi-1 after this instance
 Instances
 3 + 1 / 10
@@ -267,4 +285,4 @@ Ready to create
 Create instance
 Cancel
 Save as launch template
-View the API request
+Equivalent code

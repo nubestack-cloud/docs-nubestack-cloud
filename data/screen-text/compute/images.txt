@@ -1,9 +1,8 @@
 NubeStack Cloud
-Organization
-Acme
-Workspace
+Project · Karachi
 web-shop
-⌄
+Search
+Ctrl K
 ◐
 A
 Overview
@@ -17,25 +16,26 @@ Instance groups
 Networking
 Storage
 Security
-Quota and usage
-Consoles and CLI
+IAM
+Billing
 Activity
+Quota
 Settings
 Collapse
+
+PROJECT
+web-shop
+
 Images
 
-Your own images: an instance saved as it is, private to this project, to start new instances from. Kept (and charged for their size) until you delete them.
+Your own images, private to this project, to start new instances from: an instance saved as it is, or an image file imported from an address. Kept (and charged for their size) until you delete them.
 
-Create image
-All locations
-Karachi
-Islamabad
+Save an instance
+Import image
 1 image
 Refresh
 1 active
 Name
-⇅
-	Location
 ⇅
 	Status
 ⇅
@@ -50,7 +50,8 @@ Actions
 
 
 web-golden
-	Karachi	Active
+outside Nexus
+	Active
 qcow2
 	3.0 GiB	9 days ago	Manage
 ⌄
