@@ -55,6 +55,11 @@
     "retryable": false
   },
   {
+    "code": "attestation_lapsed",
+    "title": "Too late to keep",
+    "retryable": false
+  },
+  {
     "code": "audit_export_disabled",
     "title": "Audit export disabled",
     "retryable": false
@@ -145,6 +150,11 @@
     "retryable": false
   },
   {
+    "code": "console_sign_in_required",
+    "title": "Console sign-in required",
+    "retryable": false
+  },
+  {
     "code": "credential_limit",
     "title": "Credential limit reached",
     "retryable": false
@@ -167,6 +177,11 @@
   {
     "code": "deletion_irreversible",
     "title": "Deletion irreversible",
+    "retryable": false
+  },
+  {
+    "code": "entitlement_cap",
+    "title": "Too many projects in one cloud for this person",
     "retryable": false
   },
   {
@@ -210,8 +225,18 @@
     "retryable": false
   },
   {
+    "code": "grant_from_group",
+    "title": "This access comes from a group",
+    "retryable": false
+  },
+  {
     "code": "grant_required",
     "title": "Project access required",
+    "retryable": false
+  },
+  {
+    "code": "groups_not_enabled",
+    "title": "Groups are not enabled yet",
     "retryable": false
   },
   {
@@ -232,6 +257,11 @@
   {
     "code": "idempotency_key_reused",
     "title": "Idempotency key reused",
+    "retryable": false
+  },
+  {
+    "code": "image_incompatible",
+    "title": "Image does not fit this size",
     "retryable": false
   },
   {
@@ -277,6 +307,11 @@
   {
     "code": "internet_access_on",
     "title": "Internet access already on",
+    "retryable": false
+  },
+  {
+    "code": "invalid_access_rules",
+    "title": "Invalid access rules",
     "retryable": false
   },
   {
@@ -475,6 +510,11 @@
     "retryable": false
   },
   {
+    "code": "location_not_found",
+    "title": "Location not found",
+    "retryable": false
+  },
+  {
     "code": "location_not_placed",
     "title": "Location not placed",
     "retryable": false
@@ -483,6 +523,11 @@
     "code": "location_unavailable",
     "title": "Location temporarily unavailable",
     "retryable": true
+  },
+  {
+    "code": "mapping_not_admitted",
+    "title": "Not admitted by the cloud's conformance",
+    "retryable": false
   },
   {
     "code": "member_not_active",
@@ -550,6 +595,11 @@
     "retryable": false
   },
   {
+    "code": "not_flagged",
+    "title": "Nothing to keep",
+    "retryable": false
+  },
+  {
     "code": "not_found",
     "title": "Not found",
     "retryable": false
@@ -570,8 +620,33 @@
     "retryable": false
   },
   {
+    "code": "offering_already_active",
+    "title": "Offering already offered",
+    "retryable": false
+  },
+  {
+    "code": "offering_already_retired",
+    "title": "Offering already retired",
+    "retryable": false
+  },
+  {
+    "code": "offering_exists",
+    "title": "Offering already exists",
+    "retryable": false
+  },
+  {
+    "code": "offering_in_use",
+    "title": "Offering in use",
+    "retryable": false
+  },
+  {
     "code": "offering_not_found",
     "title": "Offering not found",
+    "retryable": false
+  },
+  {
+    "code": "offering_retired",
+    "title": "Offering retired",
     "retryable": false
   },
   {
@@ -607,6 +682,16 @@
   {
     "code": "period_out_of_range",
     "title": "No costs for that month",
+    "retryable": false
+  },
+  {
+    "code": "personal_service_account",
+    "title": "Answers to its owner alone",
+    "retryable": false
+  },
+  {
+    "code": "personal_service_account_exists",
+    "title": "You have a personal service account here",
     "retryable": false
   },
   {
@@ -715,6 +800,11 @@
     "retryable": true
   },
   {
+    "code": "rekey_needs_maintenance",
+    "title": "A rekey code needs the cloud in maintenance",
+    "retryable": false
+  },
+  {
     "code": "report_stale",
     "title": "Report out of date",
     "retryable": false
@@ -762,6 +852,16 @@
   {
     "code": "resources_present",
     "title": "Resources present",
+    "retryable": false
+  },
+  {
+    "code": "restore_type_incompatible",
+    "title": "Volume type cannot take this snapshot",
+    "retryable": false
+  },
+  {
+    "code": "restore_type_unknown",
+    "title": "Snapshot's volume type unknown",
     "retryable": false
   },
   {
@@ -860,6 +960,11 @@
     "retryable": false
   },
   {
+    "code": "snapshot_not_available",
+    "title": "Snapshot not available",
+    "retryable": false
+  },
+  {
     "code": "snapshot_restore_pending",
     "title": "A volume is being made from this snapshot",
     "retryable": false
@@ -912,6 +1017,11 @@
   {
     "code": "unknown_resource_class",
     "title": "Unknown resource class",
+    "retryable": false
+  },
+  {
+    "code": "usage_detail_expired",
+    "title": "Hourly usage no longer kept",
     "retryable": false
   },
   {

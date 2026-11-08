@@ -107,6 +107,34 @@
         "title": "AcceptedProjectRole",
         "type": "object"
       },
+      "AccessRule": {
+        "additionalProperties": false,
+        "description": "One Keystone access rule: the credential may call only what some rule matches.",
+        "properties": {
+          "method": {
+            "description": "`GET`, `HEAD`, `POST`, `PUT`, `PATCH` or `DELETE`.",
+            "title": "Method",
+            "type": "string"
+          },
+          "path": {
+            "description": "The API path from `/`: `*` or `{name}` matches one segment, `**` any number.",
+            "title": "Path",
+            "type": "string"
+          },
+          "service": {
+            "description": "The service type, such as `compute` or `volumev3`.",
+            "title": "Service",
+            "type": "string"
+          }
+        },
+        "required": [
+          "service",
+          "method",
+          "path"
+        ],
+        "title": "AccessRule",
+        "type": "object"
+      },
       "AccountBody": {
         "additionalProperties": false,
         "properties": {
@@ -181,6 +209,32 @@
           }
         },
         "title": "ActionBody",
+        "type": "object"
+      },
+      "ActiveOperation": {
+        "description": "The operation acting on a resource now.",
+        "properties": {
+          "id": {
+            "description": "The operation (`op_…`).",
+            "title": "Id",
+            "type": "string"
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          },
+          "setting_up": {
+            "description": "True while it is the resource's own create, still finishing (a network's range being attached to the private router, say); false for a change to it.",
+            "title": "Setting Up",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "setting_up"
+        ],
+        "title": "ActiveOperation",
         "type": "object"
       },
       "Activity": {
@@ -398,6 +452,24 @@
       "ApiKey": {
         "description": "An API key, never with the key itself.",
         "properties": {
+          "accountable_owner": {
+            "description": "Who answers for it (`usr_…`).",
+            "title": "Accountable Owner",
+            "type": "string"
+          },
+          "attest_by": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Set when its accountable owner lost the right to manage it: it stops then unless an owner or admin keeps it.",
+            "title": "Attest By"
+          },
           "created_at": {
             "format": "date-time",
             "title": "Created At",
@@ -485,7 +557,9 @@
           "last_used_at",
           "created_by",
           "created_at",
-          "predecessor_id"
+          "predecessor_id",
+          "accountable_owner",
+          "attest_by"
         ],
         "title": "ApiKey",
         "type": "object"
@@ -651,6 +725,25 @@
           "volume_id"
         ],
         "title": "AttachBody",
+        "type": "object"
+      },
+      "Attested": {
+        "description": "A key or credential kept: the caller answers for it from now on.",
+        "properties": {
+          "accountable_owner": {
+            "title": "Accountable Owner",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "accountable_owner"
+        ],
+        "title": "Attested",
         "type": "object"
       },
       "AuditActor": {
@@ -2547,6 +2640,22 @@
       "CredentialBody": {
         "additionalProperties": false,
         "properties": {
+          "access_rules": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/AccessRule"
+                },
+                "maxItems": 16,
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Access Rules"
+          },
           "expires_in_days": {
             "anyOf": [
               {
@@ -2945,6 +3054,40 @@
           "code"
         ],
         "title": "ErrorCode",
+        "type": "object"
+      },
+      "ExportBody": {
+        "additionalProperties": false,
+        "properties": {
+          "month": {
+            "description": "The calendar month (UTC), `YYYY-MM`.",
+            "title": "Month",
+            "type": "string"
+          }
+        },
+        "required": [
+          "month"
+        ],
+        "title": "ExportBody",
+        "type": "object"
+      },
+      "ExportOperation": {
+        "properties": {
+          "href": {
+            "title": "Href",
+            "type": "string"
+          },
+          "id": {
+            "description": "`op_…`",
+            "title": "Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "href"
+        ],
+        "title": "ExportOperation",
         "type": "object"
       },
       "ExtendBody": {
@@ -3927,6 +4070,148 @@
         "title": "ImageBody",
         "type": "object"
       },
+      "ImageImportBody": {
+        "additionalProperties": false,
+        "description": "An image the location's image service downloads from an https address.",
+        "properties": {
+          "architecture": {
+            "anyOf": [
+              {
+                "pattern": "^[A-Za-z0-9._-]{1,64}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Architecture"
+          },
+          "disk_format": {
+            "pattern": "^(qcow2|raw|vmdk|vdi|vhd|vhdx|iso)$",
+            "title": "Disk Format",
+            "type": "string"
+          },
+          "display_name": {
+            "maxLength": 255,
+            "minLength": 1,
+            "pattern": "^[^\\x00-\\x1f\\x7f]+$",
+            "title": "Display Name",
+            "type": "string"
+          },
+          "execute_before": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Execute Before"
+          },
+          "location": {
+            "title": "Location",
+            "type": "string"
+          },
+          "min_disk_gb": {
+            "default": 0,
+            "maximum": 4096,
+            "minimum": 0,
+            "title": "Min Disk Gb",
+            "type": "integer"
+          },
+          "min_ram_mb": {
+            "default": 0,
+            "maximum": 4194304,
+            "minimum": 0,
+            "title": "Min Ram Mb",
+            "type": "integer"
+          },
+          "os_distro": {
+            "anyOf": [
+              {
+                "pattern": "^[A-Za-z0-9._-]{1,64}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Os Distro"
+          },
+          "os_version": {
+            "anyOf": [
+              {
+                "pattern": "^[A-Za-z0-9._-]{1,64}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Os Version"
+          },
+          "source_url": {
+            "description": "The image file's https address, readable without a password: no query or fragment, so an address that carries a signature or token is refused (NubeStack Cloud does not keep secrets in commands).",
+            "maxLength": 2048,
+            "minLength": 9,
+            "title": "Source Url",
+            "type": "string"
+          }
+        },
+        "required": [
+          "location",
+          "display_name",
+          "source_url",
+          "disk_format"
+        ],
+        "title": "ImageImportBody",
+        "type": "object"
+      },
+      "ImageSource": {
+        "description": "Where one of the project's own images came from: an instance saved through NubeStack Cloud, an\naddress NubeStack Cloud had the location's image service download, or made outside NubeStack Cloud.",
+        "properties": {
+          "address": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "An imported image: its address.",
+            "title": "Address"
+          },
+          "instance_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "An instance's image: the instance it was saved from.",
+            "title": "Instance Id"
+          },
+          "kind": {
+            "description": "`instance`, `address` or `outside` (native tools).",
+            "title": "Kind",
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind"
+        ],
+        "title": "ImageSource",
+        "type": "object"
+      },
       "InUse": {
         "properties": {
           "data_as_of": {
@@ -4036,6 +4321,17 @@
       "InventoryItem": {
         "description": "A resource as last read from its location. The fields after `phase` that are not common to\nevery type are present only on the types they belong to.",
         "properties": {
+          "active_operation": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ActiveOperation"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "The operation acting on the resource now (one at a time), or null. A resource the cloud reads as active is still being set up or changed while this is set: a network just created, say, while its range is attached to the private router."
+          },
           "attributes": {
             "additionalProperties": true,
             "description": "Its properties as the location reports them.",
@@ -4086,6 +4382,10 @@
           "id": {
             "title": "Id",
             "type": "string"
+          },
+          "image_source": {
+            "$ref": "#/components/schemas/ImageSource",
+            "title": "Image Source"
           },
           "internet_access": {
             "$ref": "#/components/schemas/NetworkInternetAccess",
@@ -4529,6 +4829,24 @@
       "IssuedApiKey": {
         "description": "A new key, with the key itself.",
         "properties": {
+          "accountable_owner": {
+            "description": "Who answers for it (`usr_…`).",
+            "title": "Accountable Owner",
+            "type": "string"
+          },
+          "attest_by": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Set when its accountable owner lost the right to manage it: it stops then unless an owner or admin keeps it.",
+            "title": "Attest By"
+          },
           "created_at": {
             "format": "date-time",
             "title": "Created At",
@@ -4621,7 +4939,9 @@
           "last_used_at",
           "created_by",
           "created_at",
-          "predecessor_id"
+          "predecessor_id",
+          "accountable_owner",
+          "attest_by"
         ],
         "title": "IssuedApiKey",
         "type": "object"
@@ -6385,6 +6705,39 @@
       "NativeCredential": {
         "description": "An OpenStack application credential of the service account in one location.",
         "properties": {
+          "access_rules": {
+            "anyOf": [
+              {
+                "items": {
+                  "$ref": "#/components/schemas/AccessRule"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "What it may call, when it was made with access rules.",
+            "title": "Access Rules"
+          },
+          "accountable_owner": {
+            "description": "Who answers for it (`usr_…`).",
+            "title": "Accountable Owner",
+            "type": "string"
+          },
+          "attest_by": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Set when its accountable owner lost the right to manage it: it is deleted then unless an owner or admin keeps it.",
+            "title": "Attest By"
+          },
           "created_at": {
             "format": "date-time",
             "title": "Created At",
@@ -6492,7 +6845,10 @@
           "expires_at",
           "requested_by",
           "created_at",
-          "revoked_at"
+          "revoked_at",
+          "accountable_owner",
+          "attest_by",
+          "access_rules"
         ],
         "title": "NativeCredential",
         "type": "object"
@@ -7050,6 +7406,17 @@
             },
             "title": "Steps",
             "type": "array"
+          },
+          "waiting_for": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/WaitingFor"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "A queued workload operation accepted while another command of the organization was acting on the same resource: the operation it waits for. It starts once that one ends, and fails `blocking_operation_failed` if that one left nothing to act on, or `wait_expired` at its `execute_before`. Null otherwise."
           }
         },
         "required": [
@@ -7887,6 +8254,130 @@
         "title": "PendingInvitation",
         "type": "object"
       },
+      "PersonalBody": {
+        "additionalProperties": false,
+        "properties": {
+          "description": {
+            "default": "",
+            "maxLength": 256,
+            "title": "Description",
+            "type": "string"
+          },
+          "display_name": {
+            "anyOf": [
+              {
+                "maxLength": 64,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Display Name"
+          }
+        },
+        "title": "PersonalBody",
+        "type": "object"
+      },
+      "PersonalServiceAccount": {
+        "description": "Your own service account on one project.",
+        "properties": {
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "created_by": {
+            "title": "Created By",
+            "type": "string"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "display_name": {
+            "title": "Display Name",
+            "type": "string"
+          },
+          "id": {
+            "description": "The service account (`sa_…`).",
+            "title": "Id",
+            "type": "string"
+          },
+          "kind": {
+            "description": "`organization`, or `personal` (one person's, one project).",
+            "title": "Kind",
+            "type": "string"
+          },
+          "operation": {
+            "$ref": "#/components/schemas/OperationLink",
+            "description": "Its access to the project being set up in each location.",
+            "title": "Operation"
+          },
+          "owner_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "A personal account's owner (`usr_…`).",
+            "title": "Owner Id"
+          },
+          "project_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "A personal account's project.",
+            "title": "Project Id"
+          },
+          "role": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Its organization role.",
+            "title": "Role"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "version": {
+            "description": "Its version, also its `ETag`.",
+            "title": "Version",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "id",
+          "display_name",
+          "description",
+          "kind",
+          "role",
+          "status",
+          "project_id",
+          "owner_id",
+          "created_by",
+          "created_at",
+          "version"
+        ],
+        "title": "PersonalServiceAccount",
+        "type": "object"
+      },
       "PlacementCondition": {
         "properties": {
           "observed_at": {
@@ -7921,44 +8412,6 @@
           "observed_at"
         ],
         "title": "PlacementCondition",
-        "type": "object"
-      },
-      "PlacementCreate": {
-        "additionalProperties": false,
-        "properties": {
-          "location": {
-            "title": "Location",
-            "type": "string"
-          },
-          "network": {
-            "anyOf": [
-              {
-                "$ref": "#/components/schemas/ProjectNetwork"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "default": null
-          },
-          "quota_profile": {
-            "anyOf": [
-              {
-                "pattern": "^(custom:)?[a-z][a-z0-9_]{0,31}$",
-                "type": "string"
-              },
-              {
-                "type": "null"
-              }
-            ],
-            "default": null,
-            "title": "Quota Profile"
-          }
-        },
-        "required": [
-          "location"
-        ],
-        "title": "PlacementCreate",
         "type": "object"
       },
       "PlacementDeletion": {
@@ -8693,7 +9146,7 @@
         "type": "object"
       },
       "Project": {
-        "description": "A project and its locations.",
+        "description": "A project and the location it lives in.",
         "properties": {
           "created_at": {
             "format": "date-time",
@@ -8718,6 +9171,11 @@
             "title": "Lifecycle State",
             "type": "string"
           },
+          "location": {
+            "description": "The slug of the location the project lives in. A project placed in two locations reads the earliest one it is not being removed from.",
+            "title": "Location",
+            "type": "string"
+          },
           "placements": {
             "items": {
               "$ref": "#/components/schemas/ProjectPlacement"
@@ -8734,6 +9192,7 @@
           "id",
           "slug",
           "display_name",
+          "location",
           "lifecycle_state",
           "desired_lifecycle_state",
           "created_at",
@@ -8751,14 +9210,10 @@
             "title": "Display Name",
             "type": "string"
           },
-          "locations": {
-            "items": {
-              "type": "string"
-            },
-            "maxItems": 10,
-            "minItems": 1,
-            "title": "Locations",
-            "type": "array"
+          "location": {
+            "description": "The location the project lives in (`loc_…`).",
+            "title": "Location",
+            "type": "string"
           },
           "network": {
             "anyOf": [
@@ -8793,7 +9248,7 @@
         "required": [
           "slug",
           "display_name",
-          "locations"
+          "location"
         ],
         "title": "ProjectCreate",
         "type": "object"
@@ -9091,7 +9546,7 @@
         "type": "object"
       },
       "ProjectView": {
-        "description": "A project, its locations and the caller's role on it.",
+        "description": "A project, its location and the caller's role on it.",
         "properties": {
           "created_at": {
             "format": "date-time",
@@ -9119,6 +9574,11 @@
           "lifecycle_state": {
             "description": "Such as `active`, `suspended`, `deletion_requested`, `retention` or `deleting`.",
             "title": "Lifecycle State",
+            "type": "string"
+          },
+          "location": {
+            "description": "The slug of the location the project lives in. A project placed in two locations reads the earliest one it is not being removed from.",
+            "title": "Location",
             "type": "string"
           },
           "placements": {
@@ -9149,6 +9609,7 @@
           "id",
           "slug",
           "display_name",
+          "location",
           "lifecycle_state",
           "desired_lifecycle_state",
           "created_at",
@@ -10647,6 +11108,24 @@
       "RotatedApiKey": {
         "description": "The replacement key, and the key it replaces with its new expiry.",
         "properties": {
+          "accountable_owner": {
+            "description": "Who answers for it (`usr_…`).",
+            "title": "Accountable Owner",
+            "type": "string"
+          },
+          "attest_by": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Set when its accountable owner lost the right to manage it: it stops then unless an owner or admin keeps it.",
+            "title": "Attest By"
+          },
           "created_at": {
             "format": "date-time",
             "title": "Created At",
@@ -10743,6 +11222,8 @@
           "created_by",
           "created_at",
           "predecessor_id",
+          "accountable_owner",
+          "attest_by",
           "predecessor"
         ],
         "title": "RotatedApiKey",
@@ -12041,8 +12522,33 @@
             "type": "string"
           },
           "kind": {
+            "description": "`organization`, or `personal` (one person's, one project).",
             "title": "Kind",
             "type": "string"
+          },
+          "owner_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "A personal account's owner (`usr_…`).",
+            "title": "Owner Id"
+          },
+          "project_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "A personal account's project.",
+            "title": "Project Id"
           },
           "role": {
             "anyOf": [
@@ -12073,6 +12579,8 @@
           "kind",
           "role",
           "status",
+          "project_id",
+          "owner_id",
           "created_by",
           "created_at",
           "version"
@@ -12133,6 +12641,7 @@
             "type": "string"
           },
           "kind": {
+            "description": "`organization`, or `personal` (one person's, one project).",
             "title": "Kind",
             "type": "string"
           },
@@ -12142,6 +12651,30 @@
             },
             "title": "Native Identities",
             "type": "array"
+          },
+          "owner_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "A personal account's owner (`usr_…`).",
+            "title": "Owner Id"
+          },
+          "project_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "A personal account's project.",
+            "title": "Project Id"
           },
           "role": {
             "anyOf": [
@@ -12172,6 +12705,8 @@
           "kind",
           "role",
           "status",
+          "project_id",
+          "owner_id",
           "created_by",
           "created_at",
           "version",
@@ -12246,8 +12781,33 @@
             "type": "string"
           },
           "kind": {
+            "description": "`organization`, or `personal` (one person's, one project).",
             "title": "Kind",
             "type": "string"
+          },
+          "owner_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "A personal account's owner (`usr_…`).",
+            "title": "Owner Id"
+          },
+          "project_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "A personal account's project.",
+            "title": "Project Id"
           },
           "role": {
             "anyOf": [
@@ -12278,6 +12838,8 @@
           "kind",
           "role",
           "status",
+          "project_id",
+          "owner_id",
           "created_by",
           "created_at",
           "version",
@@ -12671,6 +13233,14 @@
             "title": "Currency",
             "type": "string"
           },
+          "gaps": {
+            "description": "The month's hours whose usage is not known, as the last build saw them; a closed statement keeps those it closed with. Never counted as zero; hours derived later reach the next statement as adjustments.",
+            "items": {
+              "$ref": "#/components/schemas/StatementGap"
+            },
+            "title": "Gaps",
+            "type": "array"
+          },
           "id": {
             "description": "`stm_…`",
             "title": "Id",
@@ -12741,11 +13311,67 @@
           "as_of",
           "closes_at",
           "closed_at",
+          "gaps",
           "adjustments_after",
           "built_at",
           "items"
         ],
         "title": "Statement",
+        "type": "object"
+      },
+      "StatementGap": {
+        "description": "A span of a project's hours in the month that is not derived.",
+        "properties": {
+          "from": {
+            "format": "date-time",
+            "title": "From",
+            "type": "string"
+          },
+          "hours": {
+            "description": "Its width, a decimal as text.",
+            "title": "Hours",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "skipped",
+              "lost",
+              "pending"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "location": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Location"
+          },
+          "project": {
+            "description": "The project (`prj_…`).",
+            "title": "Project",
+            "type": "string"
+          },
+          "to": {
+            "format": "date-time",
+            "title": "To",
+            "type": "string"
+          }
+        },
+        "required": [
+          "project",
+          "location",
+          "kind",
+          "from",
+          "to",
+          "hours"
+        ],
+        "title": "StatementGap",
         "type": "object"
       },
       "StatementLine": {
@@ -12949,6 +13575,14 @@
             "title": "Currency",
             "type": "string"
           },
+          "gaps": {
+            "description": "The month's hours whose usage is not known, as the last build saw them; a closed statement keeps those it closed with. Never counted as zero; hours derived later reach the next statement as adjustments.",
+            "items": {
+              "$ref": "#/components/schemas/StatementGap"
+            },
+            "title": "Gaps",
+            "type": "array"
+          },
           "id": {
             "description": "`stm_…`",
             "title": "Id",
@@ -13011,7 +13645,8 @@
           "provisional",
           "as_of",
           "closes_at",
-          "closed_at"
+          "closed_at",
+          "gaps"
         ],
         "title": "StatementSummary",
         "type": "object"
@@ -14378,6 +15013,308 @@
         "title": "Usage",
         "type": "object"
       },
+      "UsageExportItem": {
+        "description": "One export of a month's hourly usage.",
+        "properties": {
+          "as_of": {
+            "description": "Usage collected up to this time is in the export.",
+            "format": "date-time",
+            "title": "As Of",
+            "type": "string"
+          },
+          "href": {
+            "description": "Where to download it once ready.",
+            "title": "Href",
+            "type": "string"
+          },
+          "id": {
+            "description": "`uex_…`",
+            "title": "Id",
+            "type": "string"
+          },
+          "month": {
+            "description": "The calendar month (UTC), `YYYY-MM`.",
+            "title": "Month",
+            "type": "string"
+          },
+          "operation": {
+            "$ref": "#/components/schemas/ExportOperation"
+          },
+          "ready_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ready At"
+          },
+          "requested_at": {
+            "format": "date-time",
+            "title": "Requested At",
+            "type": "string"
+          },
+          "state": {
+            "description": "`ready`: download it from `href`; `failed`: its operation ended without it (the month's hourly usage was removed meanwhile).",
+            "enum": [
+              "preparing",
+              "ready",
+              "failed"
+            ],
+            "title": "State",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "month",
+          "state",
+          "as_of",
+          "requested_at",
+          "ready_at",
+          "operation",
+          "href"
+        ],
+        "title": "UsageExportItem",
+        "type": "object"
+      },
+      "UsageExportList": {
+        "description": "The organization's usage exports, newest first. Their usage is provisional.",
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/UsageExportItem"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Cursor"
+          },
+          "provisional": {
+            "const": true,
+            "title": "Provisional",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "provisional",
+          "items",
+          "next_cursor"
+        ],
+        "title": "UsageExportList",
+        "type": "object"
+      },
+      "UsageGap": {
+        "description": "A span of a project's hours in one location that is not derived: never counted as zero.",
+        "properties": {
+          "from": {
+            "description": "The gap's start in the window (included).",
+            "format": "date-time",
+            "title": "From",
+            "type": "string"
+          },
+          "hours": {
+            "description": "Its width in the window, a decimal as text.",
+            "title": "Hours",
+            "type": "string"
+          },
+          "kind": {
+            "description": "`skipped`: hours the ledger left behind, which a repair can still derive; `lost`: hours before the change log's reach, unknown for ever; `pending`: hours not derived yet, more than six hours after they ended.",
+            "enum": [
+              "skipped",
+              "lost",
+              "pending"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "location": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Location"
+          },
+          "project": {
+            "description": "The project (`prj_…`).",
+            "title": "Project",
+            "type": "string"
+          },
+          "to": {
+            "description": "The gap's end in the window (excluded).",
+            "format": "date-time",
+            "title": "To",
+            "type": "string"
+          }
+        },
+        "required": [
+          "project",
+          "location",
+          "kind",
+          "from",
+          "to",
+          "hours"
+        ],
+        "title": "UsageGap",
+        "type": "object"
+      },
+      "UsageGaps": {
+        "description": "The organization's usage gaps in a window of whole hours.",
+        "properties": {
+          "from": {
+            "format": "date-time",
+            "title": "From",
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/UsageGap"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "provisional": {
+            "const": true,
+            "title": "Provisional",
+            "type": "boolean"
+          },
+          "to": {
+            "format": "date-time",
+            "title": "To",
+            "type": "string"
+          }
+        },
+        "required": [
+          "from",
+          "to",
+          "provisional",
+          "items"
+        ],
+        "title": "UsageGaps",
+        "type": "object"
+      },
+      "UsageMonthItem": {
+        "description": "One metric's quantity in one calendar month.",
+        "properties": {
+          "bounded": {
+            "description": "Whether an hour in the month has a start or end known only between two readings rather than exactly.",
+            "title": "Bounded",
+            "type": "boolean"
+          },
+          "metric": {
+            "title": "Metric",
+            "type": "string"
+          },
+          "month": {
+            "description": "The calendar month (UTC), `YYYY-MM`.",
+            "title": "Month",
+            "type": "string"
+          },
+          "quantity": {
+            "description": "A decimal, as text.",
+            "title": "Quantity",
+            "type": "string"
+          },
+          "source": {
+            "description": "`hourly`: summed from the hourly usage, which can be exported; `monthly_totals`: the month's totals, kept for ever after its hourly usage was removed.",
+            "enum": [
+              "hourly",
+              "monthly_totals"
+            ],
+            "title": "Source",
+            "type": "string"
+          },
+          "unit": {
+            "title": "Unit",
+            "type": "string"
+          }
+        },
+        "required": [
+          "month",
+          "metric",
+          "unit",
+          "quantity",
+          "bounded",
+          "source"
+        ],
+        "title": "UsageMonthItem",
+        "type": "object"
+      },
+      "UsageMonths": {
+        "description": "Provisional usage per calendar month, newest first. Never prices.",
+        "properties": {
+          "detail_from": {
+            "description": "The oldest month whose hourly usage is kept (13 months); earlier months have their totals only.",
+            "title": "Detail From",
+            "type": "string"
+          },
+          "from": {
+            "description": "The first month (included), `YYYY-MM`.",
+            "title": "From",
+            "type": "string"
+          },
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/UsageMonthItem"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "next_cursor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Next Cursor"
+          },
+          "provisional": {
+            "const": true,
+            "title": "Provisional",
+            "type": "boolean"
+          },
+          "quality": {
+            "const": "provisional",
+            "title": "Quality",
+            "type": "string"
+          },
+          "to": {
+            "description": "The last month (included), `YYYY-MM`.",
+            "title": "To",
+            "type": "string"
+          }
+        },
+        "required": [
+          "from",
+          "to",
+          "detail_from",
+          "provisional",
+          "quality",
+          "items",
+          "next_cursor"
+        ],
+        "title": "UsageMonths",
+        "type": "object"
+      },
       "UsageQuantity": {
         "description": "One metric's quantity in the window, for the group it is in.",
         "properties": {
@@ -14714,6 +15651,26 @@
           "size_gb"
         ],
         "title": "VolumeCreateBody",
+        "type": "object"
+      },
+      "WaitingFor": {
+        "description": "The operation a queued one waits for.",
+        "properties": {
+          "id": {
+            "description": "The operation (`op_…`) directly ahead of this one.",
+            "title": "Id",
+            "type": "string"
+          },
+          "kind": {
+            "title": "Kind",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "kind"
+        ],
+        "title": "WaitingFor",
         "type": "object"
       },
       "nexus__api__routes__consoles__PublicJwk": {
@@ -17711,7 +18668,7 @@
     },
     "/v1/orgs/{org_id}/projects": {
       "get": {
-        "description": "The projects the caller can see, with their locations and state.",
+        "description": "The projects the caller can see, with their location and state.",
         "operationId": "list_projects",
         "parameters": [
           {
@@ -17757,7 +18714,7 @@
         ]
       },
       "post": {
-        "description": "Creates a project in one or more locations, each with private routing and, if asked, a ready network. Accepted at once: follow the returned operation until it finishes.",
+        "description": "Creates a project in one location, with private routing and, if asked, a ready network there. A project's location never changes. Accepted at once: follow the returned operation until it finishes.",
         "operationId": "post_project",
         "parameters": [
           {
@@ -17912,7 +18869,7 @@
         ]
       },
       "get": {
-        "description": "One project with its locations, the state of each and the caller's role.",
+        "description": "One project with its location, its state there and the caller's role.",
         "operationId": "get_project",
         "parameters": [
           {
@@ -19376,6 +20333,89 @@
         "summary": "Change a project role",
         "tags": [
           "Project access"
+        ]
+      }
+    },
+    "/v1/orgs/{org_id}/projects/{project_id}/images": {
+      "post": {
+        "description": "Makes a private image of the project in one location, which the location's image service downloads from an https address. Accepted at once: follow the returned operation; the image is `importing` until the download ends, and an import that fails leaves nothing behind. Delete the image to stop an import in progress.",
+        "operationId": "import_image",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "title": "Org Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "idempotency-key",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ImageImportBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Accepted"
+                }
+              }
+            },
+            "description": "Accepted; the change runs as an operation."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "summary": "Import an image from an address",
+        "tags": [
+          "Images"
         ]
       }
     },
@@ -23100,10 +24140,65 @@
         ]
       }
     },
-    "/v1/orgs/{org_id}/projects/{project_id}/placements": {
+    "/v1/orgs/{org_id}/projects/{project_id}/personal-service-account": {
+      "get": {
+        "description": "Your own service account on this project, if you have one (else 404).",
+        "operationId": "get_personal_service_account",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "required": true,
+            "schema": {
+              "title": "Project Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "title": "Org Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServiceAccountDetail"
+                }
+              }
+            },
+            "description": "Your personal service account."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "summary": "Get your personal service account",
+        "tags": [
+          "Projects"
+        ]
+      },
       "post": {
-        "description": "Makes the project available in another location, with private routing and, if asked, a ready network there. Accepted at once: follow the returned operation until it finishes.",
-        "operationId": "post_placement",
+        "description": "Creates your own service account on this project, with member access here only. Its keys and location credentials last 30 days at most and end with your access to the project. One per person and project.",
+        "operationId": "create_personal_service_account",
         "parameters": [
           {
             "in": "path",
@@ -23144,22 +24239,22 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/PlacementCreate"
+                "$ref": "#/components/schemas/PersonalBody"
               }
             }
           },
-          "required": true
+          "required": false
         },
         "responses": {
           "202": {
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Accepted"
+                  "$ref": "#/components/schemas/PersonalServiceAccount"
                 }
               }
             },
-            "description": "Accepted; the change runs as an operation."
+            "description": "Your account."
           },
           "422": {
             "content": {
@@ -23177,7 +24272,7 @@
             "Authorization": []
           }
         ],
-        "summary": "Add a location to a project",
+        "summary": "Create your personal service account",
         "tags": [
           "Projects"
         ]
@@ -32835,6 +33930,88 @@
         ]
       }
     },
+    "/v1/orgs/{org_id}/service-accounts/{service_account_id}/api-keys/{key_id}:attest": {
+      "post": {
+        "description": "Keeps a key whose accountable owner lost the right to manage it, before its `attest_by`; you become its accountable owner. Needs a recent second-factor sign-in.",
+        "operationId": "attest_api_key",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "service_account_id",
+            "required": true,
+            "schema": {
+              "title": "Service Account Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "key_id",
+            "required": true,
+            "schema": {
+              "title": "Key Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "title": "Org Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "idempotency-key",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Attested"
+                }
+              }
+            },
+            "description": "Kept: you answer for it now."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "summary": "Keep an API key",
+        "tags": [
+          "Service accounts and API keys"
+        ]
+      }
+    },
     "/v1/orgs/{org_id}/service-accounts/{service_account_id}/api-keys/{key_id}:rotate": {
       "post": {
         "description": "Issues a replacement key, returned in this response only; the old one keeps working for the overlap you choose, then stops.",
@@ -33152,6 +34329,88 @@
           }
         ],
         "summary": "Revoke a location credential",
+        "tags": [
+          "Service accounts and API keys"
+        ]
+      }
+    },
+    "/v1/orgs/{org_id}/service-accounts/{service_account_id}/native-credentials/{credential_id}:attest": {
+      "post": {
+        "description": "Keeps a credential whose accountable owner lost the right to manage it, before its `attest_by`; you become its accountable owner. Needs a recent second-factor sign-in.",
+        "operationId": "attest_native_credential",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "service_account_id",
+            "required": true,
+            "schema": {
+              "title": "Service Account Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "credential_id",
+            "required": true,
+            "schema": {
+              "title": "Credential Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "title": "Org Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "idempotency-key",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Attested"
+                }
+              }
+            },
+            "description": "Kept: you answer for it now."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "summary": "Keep a location credential",
         "tags": [
           "Service accounts and API keys"
         ]
@@ -33913,6 +35172,409 @@
           }
         ],
         "summary": "Get the organization's usage",
+        "tags": [
+          "Usage and costs"
+        ]
+      }
+    },
+    "/v1/orgs/{org_id}/usage/exports": {
+      "get": {
+        "description": "Every export asked for, newest first, with its month, its cutoff and whether it is ready to download.",
+        "operationId": "list_usage_exports",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "title": "Org Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsageExportList"
+                }
+              }
+            },
+            "description": "A page of exports, newest first."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "summary": "List the organization's usage exports",
+        "tags": [
+          "Usage and costs"
+        ]
+      },
+      "post": {
+        "description": "Asks for an export of a calendar month's hourly usage, every resource and metric, as it stands now. Accepted at once: follow the returned operation, then download the export from its `href`.",
+        "operationId": "request_usage_export",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "title": "Org Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "header",
+            "name": "idempotency-key",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Idempotency-Key"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ExportBody"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Accepted"
+                }
+              }
+            },
+            "description": "Accepted; the change runs as an operation."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "summary": "Export a month's usage",
+        "tags": [
+          "Usage and costs"
+        ]
+      }
+    },
+    "/v1/orgs/{org_id}/usage/exports/{export_id}": {
+      "get": {
+        "description": "Once ready, the month's hourly usage as JSON lines: a header, one line per resource, metric and hour, and an end line with the totals. Every download of an export gives the same lines. Provisional until the shadow period ends.",
+        "operationId": "download_usage_export",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "export_id",
+            "required": true,
+            "schema": {
+              "title": "Export Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "title": "Org Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/x-ndjson": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "description": "The month's hourly usage, one JSON object per line."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "summary": "Download a usage export",
+        "tags": [
+          "Usage and costs"
+        ]
+      }
+    },
+    "/v1/orgs/{org_id}/usage/gaps": {
+      "get": {
+        "description": "The hours in a time window whose usage is not known, per project and location, with their width. Usage never counts them as zero.",
+        "operationId": "organization_usage_gaps",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "title": "Org Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "From"
+            }
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "date-time",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "To"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsageGaps"
+                }
+              }
+            },
+            "description": "The gaps in the window."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "summary": "List the organization's usage gaps",
+        "tags": [
+          "Usage and costs"
+        ]
+      }
+    },
+    "/v1/orgs/{org_id}/usage/months": {
+      "get": {
+        "description": "Provisional usage quantities per calendar month and metric, newest month first, including months older than the 13 months of hourly usage, which keep their totals. `from` and `to` are months (`YYYY-MM`), both included; by default the months of hourly usage up to this one. Never prices.",
+        "operationId": "organization_usage_months",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "org_id",
+            "required": true,
+            "schema": {
+              "title": "Org Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "from",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "From"
+            }
+          },
+          {
+            "in": "query",
+            "name": "to",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "To"
+            }
+          },
+          {
+            "in": "query",
+            "name": "cursor",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cursor"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Limit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsageMonths"
+                }
+              }
+            },
+            "description": "A page of monthly usage, newest month first."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "security": [
+          {
+            "Authorization": []
+          }
+        ],
+        "summary": "Get the organization's usage by month",
         "tags": [
           "Usage and costs"
         ]
