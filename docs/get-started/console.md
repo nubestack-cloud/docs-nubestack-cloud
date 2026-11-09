@@ -69,7 +69,11 @@ box, or filter by state or tag. Lists show what the location last reported; poin
 to see when that was. A list the location has not answered for a while is marked **Stale**; its
 rows stay. **Refresh** reads the list again from the location now.
 
-Open a resource for its page: its settings, what it is connected to, and its activity.
+Open a resource for its page: its settings, what it is connected to, and its activity. Its
+**Details** show its **ID** (what the API, the `nexus` CLI and Terraform call it) and its **Cloud
+ID** (what the location's own tools call it). **IDs for the CLI, Terraform, API and support**,
+under them, adds the project, location and organization IDs, the project's ID in the cloud, the
+command for each tool (a `terraform import` among them), and **Copy for a support request**.
 **Manage**, on a row or on a resource's page, holds the actions you can take now. An action that
 is greyed out says why when you point at it: your role, a change still running, or another
 resource in the way.

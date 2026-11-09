@@ -21,6 +21,11 @@ The quicker we can find what you saw, the quicker we can help:
 - where: the console, the API, Horizon or the OpenStack CLI;
 - for the API, the request with secrets removed.
 
+On a resource's page, **IDs for the CLI, Terraform, API and support** (under its details) has
+**Copy for a support request**: it copies the organization, project, location, resource and cloud
+IDs and the last operation, ready to paste. A refusal's **reference** (under the error) is its
+request ID; the audit log shows it too, as **Request reference**.
+
 Keep a failed operation's ID even after you clean up the resource: it is how we find what
 happened.
 
