@@ -23,10 +23,6 @@ Activity
 Quota
 Settings
 Collapse
-
-PROJECT
-web-shop
-
 Networks
 /
 New

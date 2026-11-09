@@ -23,10 +23,6 @@ Activity
 Quota
 Settings
 Collapse
-
-PROJECT
-web-shop
-
 Routing
 
 One private router per project location connects routed networks. Security groups control permitted traffic.

@@ -22,10 +22,6 @@ Activity
 Quota
 Settings
 Collapse
-
-PROJECT
-web-shop
-
 SSH keys
 
 The public-key library. You choose one of your own keys, or one shared with everyone in this project, when you create an instance. Another member's keys are listed here only so you can see and remove them.

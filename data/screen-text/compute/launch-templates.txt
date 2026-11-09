@@ -22,10 +22,6 @@ Activity
 Quota
 Settings
 Collapse
-
-PROJECT
-web-shop
-
 Launch templates
 
 A reusable instance blueprint: launch one to ten instances from it at once.

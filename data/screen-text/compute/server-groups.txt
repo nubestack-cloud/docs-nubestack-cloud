@@ -22,10 +22,6 @@ Activity
 Quota
 Settings
 Collapse
-
-PROJECT
-web-shop
-
 Server groups
 
 Keep instances on different hosts, or together on one. An instance joins a group when it is created and stays in it.

@@ -23,10 +23,6 @@ Activity
 Quota
 Settings
 Collapse
-
-PROJECT
-web-shop
-
 Internet gateways
 
 Outbound IPv4 NAT for all networks attached to a location’s private router. Public IPs are managed separately.

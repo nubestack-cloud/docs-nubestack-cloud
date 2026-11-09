@@ -20,10 +20,6 @@ Activity
 Quota
 Settings
 Collapse
-
-ORGANIZATION
-Acme
-
 Prices
 
 What each kind of usage costs in this organization: the provider's rate card in force, and its next published change.

@@ -63,5 +63,5 @@ and you can still read it, but new work there may wait or be refused with
 Owners and admins receive e-mail notices when maintenance starts, is extended and ends, unless
 they turn them off ([E-mail notices](../organization/notifications.md)).
 
-A location can also stop taking **new** projects while it keeps running what is there. Its
-**New project here** row then leaves the scope selector.
+A location can also stop taking **new** projects while it keeps running what is there. The new
+project page then shows it greyed out, with its state.

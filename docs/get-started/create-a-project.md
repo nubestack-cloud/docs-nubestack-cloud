@@ -21,9 +21,9 @@ top of the console.
 
 ## Create the project
 
-1. Open the scope selector at the top and choose **New project here** under Karachi (or
-   Islamabad). You can also start from the organization's **Settings → Projects → New
-   project**.
+1. Open the scope selector at the top and choose **New project** at the bottom of the list. You
+   can also start from the organization's **Settings → Projects → New project**. You choose
+   Karachi or Islamabad on the page that opens.
 
     ![The new project page: name, location, quota preset and network, with a summary on the right](../assets/screens/get-started/new-project.webp)
 

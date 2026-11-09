@@ -20,13 +20,12 @@ From left to right:
   only if you belong to more than one.
 - **The scope selector** shows where you are: **Organization**, or **Project ·** its location
   over the project's name, such as **Project · Karachi** over `web-shop`. Open it to switch:
-    - **Organization** comes first, as a card of its own, for owners, admins and the billing
-      role. Everyone else works in their projects and does not see it.
+    - **Organization** comes first, as a card of its own, for owners, admins, viewers and the
+      billing role. Members work in their projects and do not see it.
     - Then **Projects**, under a heading for each location with its name, code and how many
       projects it has. The one you are in has a check mark. Above eight projects, type in
       **Find a project**.
-    - Each location ends with a dashed **New project here** row, for people who may create
-      projects.
+    - Under the list, **New project**, for people who may create projects.
 - **Search** (++ctrl+k++, or ++cmd+k++ on a Mac) goes to a page, opens a project or starts a
   create page.
 - **Help** opens these docs, the API reference, the CLI page and the keyboard shortcuts.
@@ -36,7 +35,7 @@ From left to right:
 - **Your initial** opens your menu: **Password and sign-in**, **E-mail notices** and **Sign
   out**.
 
-![The scope selector: the Organization card, then the projects under Karachi and Islamabad, each location with a New project here row](../assets/screens/get-started/scope-selector.webp)
+![The scope selector: the Organization card, the projects under Karachi and Islamabad, and New project under the list](../assets/screens/get-started/scope-selector.webp)
 
 ## The menu
 
@@ -59,16 +58,16 @@ You see the entries your role may open. **SSH keys** are under **Compute** in bo
 everyone adds their own. Each group heading opens its group and closes the one open before it.
 **Collapse**, at the bottom, folds the menu to its icons.
 
-The line above each page's title names the scope, such as **Project · web-shop** or
-**Organization · Acme**. Switching scope keeps you on the same entry where it can: from a
+The scope selector always names the scope you are in, and a project's or organization's overview
+is headed with its name and ID. Switching scope keeps you on the same entry where it can: from a
 project's **Instances** you land on the organization's **Instances**.
 
 ## Lists
 
 A list shows the project's resources of one kind. Type a name, ID or address into the search
-box, or filter by state or tag. Lists show what the location last reported and say how old it is,
-for example **updated 2 minutes ago**. A list the location has not answered for a while is marked
-**Stale**; its rows stay. **Refresh** reads the list again from the location now.
+box, or filter by state or tag. Lists show what the location last reported; point at **Refresh**
+to see when that was. A list the location has not answered for a while is marked **Stale**; its
+rows stay. **Refresh** reads the list again from the location now.
 
 Open a resource for its page: its settings, what it is connected to, and its activity.
 **Manage**, on a row or on a resource's page, holds the actions you can take now. An action that

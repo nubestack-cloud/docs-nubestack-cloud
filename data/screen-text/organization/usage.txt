@@ -20,10 +20,6 @@ Activity
 Quota
 Settings
 Collapse
-
-ORGANIZATION
-Acme
-
 Usage
 
 What this organization has used, by period and broken down by project, location or kind of resource.

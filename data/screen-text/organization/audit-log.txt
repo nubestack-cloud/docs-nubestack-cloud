@@ -16,10 +16,6 @@ Activity
 Quota
 Settings
 Collapse
-
-ORGANIZATION
-Acme
-
 Audit log
 
 Every change, refusal and security event in this organization. An event that started background work links to that operation's progress.

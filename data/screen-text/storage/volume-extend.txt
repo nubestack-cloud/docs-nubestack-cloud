@@ -19,10 +19,6 @@ Activity
 Quota
 Settings
 Collapse
-
-PROJECT
-web-shop
-
 Volumes
 
 Block storage in one location. A volume is attached to one instance there at a time (a multi-attach volume to several) and keeps its data when detached.

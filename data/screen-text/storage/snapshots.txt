@@ -19,15 +19,9 @@ Activity
 Quota
 Settings
 Collapse
-
-PROJECT
-web-shop
-
 Snapshots
 
 A point-in-time copy of one volume, kept (and charged for its size) until you delete it. To restore, make a new volume from it; the original volume is not changed.
-
-A snapshot sits in the same storage as the volume it came from, so it protects you against a change you want to undo — not against losing that storage. Nexus does not offer backups to separate storage yet.
 
 Create snapshot
 2 snapshots

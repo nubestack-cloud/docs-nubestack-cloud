@@ -16,10 +16,6 @@ Activity
 Quota
 Settings
 Collapse
-
-ORGANIZATION
-Acme
-
 Quota
 
 The budget your provider set in each location, how much of it you allocated to projects, and what is in use now. Each budget is enforced in its own location.
@@ -49,15 +45,15 @@ Resource	Share of budget	In use	Allocated	Budget	Free	Allocated %
 vCPUs
 vcpu
 
-	9	36	80	44	45%
+	8	36	80	44	45%
 RAMGiB
 ram_gib
 
-	18	72	320	248	23%
+	16	72	320	248	23%
 Instances
 instances
 
-	4	18	32	14	56%
+	3	18	32	14	56%
 Networking
 Tightest: Public IPs at 50% in Karachi
 Resource	Share of budget	In use	Allocated	Budget	Free	Allocated %
@@ -71,4 +67,4 @@ Resource	Share of budget	In use	Allocated	Budget	Free	Allocated %
 Volume storageGiB
 volume_gb
 
-	170	900	3,000	2,100	30%
+	120	900	3,000	2,100	30%

@@ -23,10 +23,6 @@ Activity
 Quota
 Settings
 Collapse
-
-PROJECT
-web-shop
-
 Network topology
 
 Networks and their recorded connections, kept separate by location and region.

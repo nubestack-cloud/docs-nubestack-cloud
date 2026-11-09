@@ -16,10 +16,6 @@ Activity
 Quota
 Settings
 Collapse
-
-ORGANIZATION
-Acme
-
 Projects
 
 A project groups what you run and who may use it. Each project runs in the one location you choose for it, and keeps its own quota there.

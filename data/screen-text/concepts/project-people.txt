@@ -19,10 +19,6 @@ Activity
 Quota
 Settings
 Collapse
-
-PROJECT
-web-shop
-
 Who can use web-shop
 
 Who can use this project, and with which role. Only people in this organization can be added.
@@ -52,10 +48,6 @@ Usman Tariq
 	Project reader	Ready	Manage
 ⌄
 
-
-automation-prod
-Service account
-	Deployer	Ready	Manage
-⌄
+1 service account also has access to this project: Service accounts.
 
 Roles in this project: what each role may do here, and roles made for this project.

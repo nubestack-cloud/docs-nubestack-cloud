@@ -16,10 +16,6 @@ Activity
 Quota
 Settings
 Collapse
-
-PROJECT
-web-shop
-
 Settings
 
 What this project is, where it runs, and deleting it.

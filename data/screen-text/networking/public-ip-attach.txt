@@ -23,10 +23,6 @@ Activity
 Quota
 Settings
 Collapse
-
-PROJECT
-web-shop
-
 Public IPs
 
 A public IP stays yours (and is charged) until you release it, even after its instance is deleted.

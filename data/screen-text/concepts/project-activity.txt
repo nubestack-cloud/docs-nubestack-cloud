@@ -16,10 +16,6 @@ Activity
 Quota
 Settings
 Collapse
-
-PROJECT
-web-shop
-
 Activity
 
 Every action in this project, with the resource it acted on and how it went. Open one for each step's call status.

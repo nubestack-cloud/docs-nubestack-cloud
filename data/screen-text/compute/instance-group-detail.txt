@@ -22,10 +22,6 @@ Activity
 Quota
 Settings
 Collapse
-
-PROJECT
-web-shop
-
 Instance groups
 /
 web

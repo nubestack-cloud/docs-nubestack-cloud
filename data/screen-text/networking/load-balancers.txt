@@ -23,10 +23,6 @@ Activity
 Quota
 Settings
 Collapse
-
-PROJECT
-web-shop
-
 Load balancers
 
 Spread traffic for a port across instances in one location. Each load balancer has an address on one of your subnets; attach a public IP to reach it from the internet.

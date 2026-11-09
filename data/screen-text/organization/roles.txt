@@ -19,10 +19,6 @@ Activity
 Quota
 Settings
 Collapse
-
-ORGANIZATION
-Acme
-
 Roles
 
 What each role may do. Make your own from the same actions the built-in roles are made of; you can only use actions you hold.

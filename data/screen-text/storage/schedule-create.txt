@@ -19,10 +19,6 @@ Activity
 Quota
 Settings
 Collapse
-
-PROJECT
-web-shop
-
 Schedules
 /
 New

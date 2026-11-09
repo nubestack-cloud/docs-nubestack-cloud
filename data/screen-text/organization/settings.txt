@@ -16,10 +16,6 @@ Activity
 Quota
 Settings
 Collapse
-
-ORGANIZATION
-Acme
-
 Organization settings
 
 How the organization works for its members: its name, how they sign in, its audit log, and closing it.

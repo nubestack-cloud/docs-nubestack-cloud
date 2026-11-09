@@ -7,8 +7,8 @@ description: Manage your organization's people, roles, service accounts, billing
 
 The **Organization** scope is where owners and admins run the account: who is in it, which
 projects exist, how quota is shared, how people sign in, and what everything costs. Choose
-**Organization** at the top of the scope selector. The billing role sees it too, with people,
-roles, billing and settings.
+**Organization** at the top of the scope selector. The billing role and viewers see it too, with
+what their role allows.
 
 In the organization scope the menu's **IAM**, **Billing**, **Activity**, **Quota** and
 **Settings** are the organization's, and **Compute**, **Networking**, **Storage** and **Security**

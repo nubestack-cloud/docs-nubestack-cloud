@@ -20,10 +20,6 @@ Activity
 Quota
 Settings
 Collapse
-
-ORGANIZATION
-Acme
-
 Statements
 
 What this organization's usage cost each month, at the provider's published rates.

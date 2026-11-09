@@ -22,10 +22,6 @@ Activity
 Quota
 Settings
 Collapse
-
-PROJECT
-web-shop
-
 Instances
 
 Virtual machines, each in one location. An instance keeps its disk, addresses and security groups in that location; nothing about it moves to another.

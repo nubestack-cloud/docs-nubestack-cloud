@@ -16,10 +16,6 @@ Activity
 Quota
 Settings
 Collapse
-
-PROJECT
-web-shop
-
 Quota and usage
 
 What your organization allocated to this project, what is in use, and what it used this month.

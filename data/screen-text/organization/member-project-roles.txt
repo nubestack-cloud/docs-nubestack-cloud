@@ -19,10 +19,6 @@ Activity
 Quota
 Settings
 Collapse
-
-ORGANIZATION
-Acme
-
 People in Acme
 
 Organization roles decide what someone may do across the organization; access to a project is given on its own, with a role in that project. An organization role never gives project access.

@@ -22,10 +22,6 @@ Activity
 Quota
 Settings
 Collapse
-
-PROJECT
-web-shop
-
 Images
 
 Your own images, private to this project, to start new instances from: an instance saved as it is, or an image file imported from an address. Kept (and charged for their size) until you delete them.

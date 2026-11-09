@@ -23,10 +23,6 @@ Activity
 Quota
 Settings
 Collapse
-
-PROJECT
-web-shop
-
 Security groups
 
 Firewall rules for instances. Traffic is refused unless a rule allows it; instances can always reach out.

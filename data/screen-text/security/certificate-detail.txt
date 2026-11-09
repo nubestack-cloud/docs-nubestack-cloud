@@ -17,10 +17,6 @@ Activity
 Quota
 Settings
 Collapse
-
-PROJECT
-web-shop
-
 Certificates
 www-2026
 Active

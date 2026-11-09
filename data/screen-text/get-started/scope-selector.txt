@@ -10,8 +10,6 @@ pak-khi-1
 1
 W
 web-shop
-+
-New project here
 Islamabad
 pak-isb-1
 2
@@ -20,7 +18,7 @@ analytics
 W
 web-shop-dr
 +
-New project here
+New project
 Search
 Ctrl K
 ◐
@@ -36,11 +34,9 @@ Activity
 Quota
 Settings
 Collapse
-
-PROJECT
 web-shop
 
-Overview
+prj_01jbwebshop000000000000001
 
 Project admin · Karachi
 

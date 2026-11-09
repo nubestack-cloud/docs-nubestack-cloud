@@ -16,10 +16,6 @@ Activity
 Quota
 Settings
 Collapse
-
-PROJECT
-web-shop
-
 Consoles and CLI
 
 The location's own console and the OpenStack CLI, with the same quota and access as Nexus.

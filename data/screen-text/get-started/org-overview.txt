@@ -16,11 +16,9 @@ Activity
 Quota
 Settings
 Collapse
-
-ORGANIZATION
 Acme
 
-Organization overview
+org_01jbacme00000000000000001
 
 Your projects, their share of the budget, and anything waiting on someone.
 
@@ -65,7 +63,7 @@ Open
 web-shop
 
 Karachi
-	4	Open project
+	3	Open project
 
 analytics
 
@@ -82,13 +80,13 @@ In use
 Allocated
 Budget
 vCPUs
-9/36/80
+8/36/80
 RAMGiB
-18/72/320
+16/72/320
 Volume storageGiB
-170/900/3,000
+120/900/3,000
 InstancesIslamabad
-1/8/12
+0/8/12
 InstancesKarachi
 3/10/20
 

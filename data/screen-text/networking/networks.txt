@@ -23,10 +23,6 @@ Activity
 Quota
 Settings
 Collapse
-
-PROJECT
-web-shop
-
 Networks
 
 Private networks for this project's instances, one location each. Routed networks reach each other; an Internet gateway adds outbound NAT.

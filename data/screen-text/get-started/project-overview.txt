@@ -16,11 +16,9 @@ Activity
 Quota
 Settings
 Collapse
-
-PROJECT
 web-shop
 
-Overview
+prj_01jbwebshop000000000000001
 
 Project admin · Karachi
 

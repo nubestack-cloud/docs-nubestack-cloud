@@ -17,10 +17,6 @@ Activity
 Quota
 Settings
 Collapse
-
-PROJECT
-web-shop
-
 Certificates
 
 TLS certificates your HTTPS load balancers serve. A key is stored in the location's key manager and never shown again.

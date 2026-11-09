@@ -20,10 +20,6 @@ Activity
 Quota
 Settings
 Collapse
-
-ORGANIZATION
-Acme
-
 Cost explorer
 
 Where this organization's money goes: the month's cost so far by project, service, location or tag, day by day.
