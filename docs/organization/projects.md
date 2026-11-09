@@ -48,7 +48,9 @@ A service account is given access on its own page: see [Service accounts](servic
 
 The role reaches the project's location within a few minutes; the **State** column says when it
 has. From a row's **Manage** menu, **Change access** gives another role in one change, and
-**Remove access** takes it away. What they made stays. Owners and admins also see **Add people**,
+**Remove access** takes it away. What they made stays. You change or remove only the access of someone whose organization role holds nothing you
+don't: a project admin manages members' access, never an owner's, an admin's, a viewer's or
+the billing role's; an admin never an owner's. Owners and admins also see **Add people**,
 to invite someone who is not in the organization yet with a role on this project.
 
 **Roles in this project**, under the list, shows what each role may do there and the

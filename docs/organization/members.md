@@ -67,6 +67,10 @@ From the person's **Manage** menu:
 - **Remove**: they lose every project role, their personal SSH keys and service accounts are
   deleted, and they are signed out of every location within minutes. What they made stays.
 
+Suspending, resuming, removing or demoting an owner or an admin asks for your second factor
+again if your sign-in is not recent, as making an owner does; the console takes you to the
+sign-in page and back. It can't be done with the `nexus` CLI's sign-in.
+
 Access ends in the console and API at once. Each location's Horizon and the OpenStack CLI follow
 within 15 minutes; a session already open there keeps working until then.
 
