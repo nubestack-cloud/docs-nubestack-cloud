@@ -40,7 +40,9 @@ accounts use a project through a project role.
 To give access:
 
 1. In the project, open **IAM → People**.
-2. Choose **Give access**, pick a person or a service account and a role, and confirm.
+2. Choose **Give access**, pick a person and a role, and confirm.
+
+A service account is given access on its own page: see [Service accounts](service-accounts.md).
 
 ![IAM, People in web-shop: who holds which role, and its state](../assets/screens/concepts/project-people.webp)
 

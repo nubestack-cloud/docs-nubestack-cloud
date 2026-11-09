@@ -27,8 +27,10 @@ the organization. Project admins and members can also have a
 4. **Organization role**: **Member** or **Viewer**.
 5. Choose **Create service account**.
 
-Then give it access to each project it works in: in the project, **IAM → People → Give access**,
-choose the service account under **Service accounts**, with project member or project reader.
+Then give it access to each project it works in, on its own page: open **Project access**, choose
+**Give access**, and pick a project and a role (project member or project reader). Each project's
+row there has **Change access** and **Remove access**. A project's **IAM → People** lists people
+only, with a count of the service accounts that also have access.
 
 Whatever its roles, a service account never manages people, access, roles, keys or settings, and
 never creates or deletes projects.
