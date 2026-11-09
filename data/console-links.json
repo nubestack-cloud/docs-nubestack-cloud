@@ -4,8 +4,10 @@
     "api",
     "cli",
     "compute/images",
+    "compute/instance-groups",
     "compute/instances",
     "compute/key-pairs",
+    "compute/launch-templates",
     "compute/server-groups",
     "networking/certificates",
     "networking/internet-gateways",
@@ -16,8 +18,12 @@
     "networking/security-groups",
     "organizations/projects",
     "organizations/service-accounts",
+    "storage/schedules",
     "storage/snapshots",
     "storage/volumes"
   ],
-  "operator_prefixes": ["reference/", "guides/"]
+  "operator_prefixes": [
+    "reference/",
+    "guides/"
+  ]
 }
