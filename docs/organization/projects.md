@@ -66,7 +66,8 @@ or with **Delete project** in **Settings → Projects**.
     - **Delete only if empty**: refused while anything is left.
     - **Delete everything in it**: instances, load balancers, public IPs, routers, networks and
       security groups go within minutes. Volumes, snapshots and images are kept for the
-      recovery period.
+      recovery period. Only owners and admins have this choice; a project admin deletes a
+      project once it is empty.
 3. Type the project's name and choose **Delete project**.
 
 ![Delete project: what it holds, and the two ways to delete](../assets/screens/concepts/project-delete.webp)
@@ -77,7 +78,7 @@ During the recovery period (7 days unless NubeStack agreed another with you):
 - **Cancel deletion** stops it. The project stays suspended until a project admin chooses
   **Resume project**. After **Delete everything**, only volumes, snapshots and images come back;
 - **Delete now** ends the period early. You may be asked to sign in again with your second
-  factor.
+  factor. Owners and admins only.
 
 When the period ends, everything left is deleted. Once that has started, it cannot be cancelled.
 If something stops it, such as a resource made with the location's own tools that cannot be

@@ -69,7 +69,8 @@ From the person's **Manage** menu:
 
 Suspending, resuming, removing or demoting an owner or an admin asks for your second factor
 again if your sign-in is not recent, as making an owner does; the console takes you to the
-sign-in page and back. It can't be done with the `nexus` CLI's sign-in.
+sign-in page and back. It can't be done with the `nexus` CLI's sign-in. A suspension is lifted
+only by someone as senior as whoever made it: an owner's suspension only by an owner.
 
 Access ends in the console and API at once. Each location's Horizon and the OpenStack CLI follow
 within 15 minutes; a session already open there keeps working until then.
