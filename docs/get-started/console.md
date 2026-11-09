@@ -74,6 +74,23 @@ Open a resource for its page: its settings, what it is connected to, and its act
 is greyed out says why when you point at it: your role, a change still running, or another
 resource in the way.
 
+### Acting on several at once
+
+On **Instances**, **Volumes**, **Snapshots**, **Images**, **Security groups**, **Public IPs** and
+**Load balancers**, tick the box at the start of each row you want, or the box in the header for
+every row the list shows (after any search or filter). A bar above the list counts what is
+selected and offers what can be done to all of them: **Start**, **Stop**, **Reboot** and
+**Delete** for instances; **Delete** (or **Release** for public IPs) elsewhere.
+
+Before anything is sent, a dialog lists what will be done and what is left out and why, for
+example a volume still attached to an instance, or an instance that is already stopped. To delete
+more than one, type the count it shows, such as `delete 3`. At most 100 are sent at a time.
+
+Each item then becomes its own operation, exactly as if you had chosen it from its row, and the
+dialog shows each one's outcome: **Accepted** with a link to follow it, or why it was refused.
+**Retry** sends again only the refused ones. The boxes are there only if your role can change the
+project, and not on a phone.
+
 An empty list explains the resource: what it is, three facts about it, and a link to its page in
 these docs.
 
