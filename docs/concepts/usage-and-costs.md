@@ -22,9 +22,9 @@ the **cost explorer**.
 
 | Measure | Unit | Counted while |
 |---|---|---|
-| Instance hours | hours | the instance exists, in any state, including stopped and shelved |
-| vCPU hours | vCPU·hours | the instance is running or starting |
-| RAM | GiB·hours | the instance is running or starting |
+| Instance hours | hours | the instance holds its place on a host: running, stopped, paused or suspended |
+| vCPU hours | vCPU·hours | the same |
+| RAM | GiB·hours | the same |
 | Volumes | GiB·hours | the volume exists, attached or not |
 | Volume snapshots | GiB·hours | the snapshot exists |
 | Images | GiB·hours | one of your own images exists |
@@ -34,8 +34,9 @@ the **cost explorer**.
 
 Which measures are charged, and at what price, is set in NubeStack's rate card: **Billing →
 Prices**. A price for one size is set by its catalog name, such as an instance size, a volume type
-or a load balancer type, and applies in every location that offers it. A stopped instance still
-counts instance hours; its vCPU and RAM hours stop.
+or a load balancer type, and applies in every location that offers it. A stopped instance keeps
+its place on its host, so it counts as running does. An instance counts nothing while it starts
+for the first time, once it is shelved, or when it has failed: a launch that fails costs nothing.
 
 ## Where to see it
 
@@ -71,9 +72,9 @@ existed. After a project or the organization is deleted, its usage records are k
 - Release [public IPs](../networking/public-ips.md) you no longer need: an allocated address counts
   even when attached to nothing, and stays allocated after its instance is deleted.
 - Delete snapshots and images you no longer need; they count for as long as they exist.
-- Stop instances you are not using, or put them on a [power schedule](../storage/schedules.md):
-  vCPU and RAM hours stop while an instance is stopped. Instance hours, disks and addresses still
-  count.
+- Shelve instances you will not need for a while: a shelved instance gives up its place on its
+  host and its size stops counting. A stopped one keeps its place, so it still counts. Disks,
+  the image a shelve saves, and addresses count either way.
 - Delete an [Internet gateway](../networking/internet-gateways.md) you made only for a test.
 - Use [tags](tags.md) and the cost explorer's **Tag** view to see which team or
   environment spends what.

@@ -27,9 +27,9 @@ Periods run in whole hours, in UTC.
 
 | Measure | Unit | Counted while |
 |---|---|---|
-| Instance hours | hours | the instance exists, in any state, including stopped and shelved |
-| vCPU hours | vCPU·hours | the instance is running or starting |
-| RAM | GiB·hours | the instance is running or starting |
+| Instance hours | hours | the instance holds its place on a host: running, stopped, paused or suspended |
+| vCPU hours | vCPU·hours | the same |
+| RAM | GiB·hours | the same |
 | Volumes | GiB·hours | the volume exists, attached or not |
 | Volume snapshots | GiB·hours | the snapshot exists |
 | Images | GiB·hours | one of your own images exists |

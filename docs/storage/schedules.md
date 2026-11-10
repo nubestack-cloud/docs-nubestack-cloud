@@ -94,7 +94,9 @@ volume is not snapshotted; save the instance as an [image](../compute/images.md)
 
 At a stop time each running instance is stopped; at a start time each stopped one is started. An
 instance already in that state is left alone. The instance's page shows its next stop and start.
-A stopped instance is not counted for vCPU and RAM hours, but its disks and public IPs still are.
+A stopped instance keeps its place on its host, so it is still counted for its size, as are its
+disks and public IPs. A power schedule keeps an instance ready to start in seconds; it does not
+lower its cost.
 
 ## Pause, resume, change or delete
 

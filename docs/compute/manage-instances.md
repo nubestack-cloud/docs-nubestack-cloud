@@ -119,9 +119,10 @@ often shows why it would not start.
 
 ## Good practice
 
-- **Stop** keeps an instance's place on its host and starts quickly. **Shelve** frees the place;
-  use it for an instance you will not need for a while.
-- A stopped instance still counts for its disks and public IPs. See
+- **Stop** keeps an instance's place on its host and starts quickly, so it is still charged for
+  its size. **Shelve** frees the place and stops that charge; use it for an instance you will not
+  need for a while.
+- Disks and public IPs count whether an instance is stopped or shelved. See
   [Usage and costs](../concepts/usage-and-costs.md).
 - **Lock** production instances so nobody stops or deletes them by mistake.
 - To stop and start instances on a timetable, use a [power schedule](../storage/schedules.md).
