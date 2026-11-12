@@ -97,6 +97,10 @@ export async function installMock(page: Page, helpers: Helpers, options: MockOpt
     const operation = W.OPERATIONS.items.find((o) => path === `${O}/operations/${o.id}`);
     if (operation) return json(operation.id === W.OPERATION.id ? W.OPERATION : { ...operation, steps: [] });
     if (path === `${O}/usage` || path === `${P}/usage`) return json(W.usage(url.searchParams.get("group_by")));
+    // Every hour of the period counted; the months and the export behind "Instance hours by month".
+    if (path === `${O}/usage/gaps`) return json({ from: url.searchParams.get("from"), to: url.searchParams.get("to"), provisional: true, items: [] });
+    if (path === `${O}/usage/months`) return json(W.USAGE_MONTHS);
+    if (path === `${O}/usage/exports`) return json(W.USAGE_EXPORTS);
     if (path === `${O}/statements`) return json(W.STATEMENTS);
     if (path === `${O}/statements/${W.STATEMENT_OPEN.id}`) return json(W.STATEMENT_OPEN);
     if (path === `${O}/statements/${W.STATEMENT_CLOSED.id}`) return json(W.STATEMENT_CLOSED);

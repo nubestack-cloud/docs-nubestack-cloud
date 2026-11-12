@@ -10,7 +10,7 @@ Compute
 Instances
 SSH keys
 Images
-Server groups
+Placement groups
 Launch templates
 Instance groups
 Networking
@@ -30,13 +30,6 @@ Import an image
 A private image of the web-shop project, downloaded by the location from an https address you give. Start instances from it once it is active.
 
 Cancel
-Location
-Where the image is kept
-Karachi
-pak-khi-1
-
-An image stays in its location: instances there start from it.
-
 Image name
 How the image is listed
 Name
@@ -75,8 +68,6 @@ Summary
 not created yet
 ubuntu-24-04-custom
 qcow2
-Location
-Karachi
 From
 cloud-images.ubuntu.com
 Format
@@ -91,7 +82,7 @@ PKR 0.04/hour
 
 At rate card version 2; a month is 730 hours. Provisional until usage is validated.
 
-Project quota in pak-khi-1 after this image
+Project quota after this image
 Images
 1 + 1 / 10
 Image storage

@@ -10,7 +10,7 @@ Compute
 Instances
 SSH keys
 Images
-Server groups
+Placement groups
 Launch templates
 Instance groups
 Networking
@@ -34,7 +34,7 @@ team: web
 3 instances
 Refresh
 3 active
-Name
+	Name
 ⇅
 	Status
 ⇅

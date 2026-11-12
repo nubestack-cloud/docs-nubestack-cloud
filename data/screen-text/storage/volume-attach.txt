@@ -35,7 +35,7 @@ team: data
 Refresh
 1 in use
 1 available
-Name
+	Name
 ⇅
 	Status
 ⇅

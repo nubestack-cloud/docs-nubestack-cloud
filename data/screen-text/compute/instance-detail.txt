@@ -10,7 +10,7 @@ Compute
 Instances
 SSH keys
 Images
-Server groups
+Placement groups
 Launch templates
 Instance groups
 Networking
@@ -37,6 +37,7 @@ Open console
 Manage
 ⌄
 Overview
+Monitoring
 Networks
 1
 Tags
@@ -66,12 +67,13 @@ Size
 Medium
 Image
 Catalog image
+cloud ID
 img-ubuntu-240…
 Instance group
 web
 Launch template
 web version 2
-Server group
+Placement group
 web-spread
 SSH key
 ayesha-laptop
@@ -89,6 +91,7 @@ Cloud ID
 7c1d2e3f-0a1b-4c2d-8e3f-4a5b6c7d8e01
 Last read
 2026-10-21 07:28:00 UTC (2 min ago)
+IDs for the CLI, Terraform, API and support
 Networking
 Networks
 Address	Network	Type

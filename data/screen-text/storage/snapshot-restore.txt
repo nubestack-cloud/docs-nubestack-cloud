@@ -24,23 +24,15 @@ Volumes
 New
 Create a volume
 
-A volume with the data of the snapshot db-data-before-upgrade, in its location; the snapshot and its volume are not changed. Attach it to an instance in the same location once it is available.
+A volume with the data of the snapshot db-data-before-upgrade; the snapshot and its volume are not changed. Attach it to an instance once it is available.
 
 Cancel
-Location
-The snapshot's location
-Karachi
-pak-khi-1
-
-A volume stays in its location: it can be attached only to instances there.
-
 Volume name
 How the volume is listed
 Name
 Up to 255 characters.
-3
 Type
-The kind of storage, from this location's catalog
+The kind of storage
 Type
 Standard
 standard
@@ -74,8 +66,6 @@ db-data-restored
 100 GiB
 From snapshot
 db-data-before-upgrade
-Location
-Karachi
 Type
 not set
 Size
@@ -84,13 +74,13 @@ Price estimate
 Per hour
 Per month
 Storage
-no charge
+no price set
 Total
 PKR 0.00/hour
 
 At rate card version 2; a month is 730 hours. Provisional until usage is validated.
 
-Project quota in pak-khi-1 after this volume
+Project quota after this volume
 Volumes
 2 + 1 / 10
 Storage

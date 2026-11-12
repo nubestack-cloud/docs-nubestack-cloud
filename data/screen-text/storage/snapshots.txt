@@ -27,7 +27,7 @@ Create snapshot
 2 snapshots
 Refresh
 2 active
-Name
+	Name
 ⇅
 	Status
 ⇅

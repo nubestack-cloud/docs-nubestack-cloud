@@ -31,21 +31,12 @@ Create a network
 A private network in the web-shop project, with its address range. Networks attached to the project's private routing reach each other. Internet access is added separately.
 
 Cancel
-Location
-, done
 Name
 , done
 Address range
 , done
 Private routing
 , done
-Location
-Where the network exists
-Karachi
-pak-khi-1
-
-Each location is an independent cloud: a network and the instances on it stay in the location you create them in.
-
 Network name
 How the network is listed
 Name
@@ -66,7 +57,7 @@ DHCP never hands these out. Give one to an instance as its fixed private address
 Reserve a static range
 Advanced
 Private routing
-Whether it joins private routing in this location
+Whether it joins the project's private routing
 Private routing
 Routed (recommended)
 Instances reach the project's other routed networks. An Internet gateway adds outbound NAT separately.
@@ -89,8 +80,6 @@ Summary
 not created yet
 app-private
 range 10.20.0.0/24
-Location
-Karachi
 Range
 10.20.0.0/24
 Static addresses
@@ -101,7 +90,7 @@ DHCP
 on
 Private routing
 routed
-Project quota in pak-khi-1 after this network
+Project quota after this network
 Networks
 2 + 1 / 5
 Subnets

@@ -24,16 +24,9 @@ Volumes
 New
 Create a volume
 
-An empty block-storage volume in the web-shop project. Attach it to an instance in the same location once it is available.
+An empty block-storage volume in the web-shop project. Attach it to an instance once it is available.
 
 Cancel
-Location
-Where the volume is stored
-Karachi
-pak-khi-1
-
-A volume stays in its location: it can be attached only to instances there.
-
 Volume name
 How the volume is listed
 Name
@@ -54,9 +47,8 @@ rocky-9
 bootable
 web-golden
 your image · bootable
-4
 Type
-The kind of storage, from this location's catalog
+The kind of storage
 Type
 Standard
 standard
@@ -88,8 +80,6 @@ Summary
 not created yet
 app-data
 20 GiB
-Location
-Karachi
 Type
 not set
 Size
@@ -98,13 +88,13 @@ Price estimate
 Per hour
 Per month
 Storage
-no charge
+no price set
 Total
 PKR 0.00/hour
 
 At rate card version 2; a month is 730 hours. Provisional until usage is validated.
 
-Project quota in pak-khi-1 after this volume
+Project quota after this volume
 Volumes
 2 + 1 / 10
 Storage

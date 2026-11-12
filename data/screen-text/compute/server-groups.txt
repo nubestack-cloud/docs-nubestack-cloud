@@ -10,7 +10,7 @@ Compute
 Instances
 SSH keys
 Images
-Server groups
+Placement groups
 Launch templates
 Instance groups
 Networking
@@ -22,12 +22,12 @@ Activity
 Quota
 Settings
 Collapse
-Server groups
+Placement groups
 
 Keep instances on different hosts, or together on one. An instance joins a group when it is created and stays in it.
 
-Create server group
-1 server group
+Create placement group
+1 placement group
 Refresh
 1 active
 Name	Status	Policy	Instances	Created

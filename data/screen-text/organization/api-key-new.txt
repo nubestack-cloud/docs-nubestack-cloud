@@ -27,7 +27,6 @@ Issue an API key
 A key with which automation calls the Nexus API as automation-prod, under its role and project access. It is shown once.
 
 Cancel
-1
 Key
 What it is for and how long it lasts
 Name

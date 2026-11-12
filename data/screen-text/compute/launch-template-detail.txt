@@ -10,7 +10,7 @@ Compute
 Instances
 SSH keys
 Images
-Server groups
+Placement groups
 Launch templates
 Instance groups
 Networking
@@ -52,7 +52,7 @@ SSH key
 none
 Public IP
 a new one for each instance
-Server group
+Placement group
 none
 New volumes
 none

@@ -32,7 +32,11 @@ Small
 Standard
 Web team (yours)
 Save default
-Preset	vCPUs	RAM (GiB)	Instances	Volume storage (GiB)
+Preset	vCPUs	RAM
+GiB
+	Instances	Volume storage
+GiB
+
 
 Small
 4

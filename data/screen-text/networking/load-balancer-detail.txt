@@ -74,6 +74,7 @@ Cloud ID
 lb-web-khi
 Last read
 2026-10-21 07:28:00 UTC (2 min ago)
+IDs for the CLI, Terraform, API and support
 Recent activity
 All activity
 When	Action	By	Status

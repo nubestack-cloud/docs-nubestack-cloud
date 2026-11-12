@@ -10,7 +10,7 @@ Compute
 Instances
 SSH keys
 Images
-Server groups
+Placement groups
 Launch templates
 Instance groups
 Networking
@@ -37,6 +37,7 @@ Open console
 Manage
 ⌄
 Overview
+Monitoring
 Networks
 1
 Tags

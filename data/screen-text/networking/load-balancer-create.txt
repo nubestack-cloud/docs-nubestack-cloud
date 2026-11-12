@@ -28,58 +28,83 @@ Load balancers
 New
 Create a load balancer
 
-An address on one of your subnets that spreads each listener's traffic over a pool of instances in the same location.
+An address on one of your subnets that spreads each listener's traffic over a pool of instances.
 
 Cancel
-1
-Location
-Where it runs; its instances must be there too
-Karachi
-pak-khi-1
-2
 Load balancer name
 How you will find it
 Name
-3
 Type
-What this location's load balancers can do
-
-Choose a location first.
-
-4
+What each kind can do
+Type
+Standard
+HTTP · HTTPS · TCP · TERMINATED_HTTPS · UDP
+Least connections, Round robin, Source ip
+HTTPS with your certificate: TLS ends here
+HTTPS: TLS passes through to the instances
 Network
 The subnet its address is on
-
-Choose a location first.
-
-5
+Subnet
+app
+10.0.0.0/24
+db
+10.0.1.0/24
 Listeners
 Ports it answers on, and the instances behind each
+Listener 1
+Listener 1
+HTTP 80
+Remove listener
+Protocol
+HTTP
+HTTPS pass-through
+TCP
+HTTPS, TLS ends here
+UDP
+Port
+Pool
+Balancing
+Least connections
+Round robin
+Source ip
+Health check
+Instances behind it
 
-Choose a location and type first.
+No instances yet: traffic has nowhere to go until you add some.
+
+Choose an instance…
+web-1
+web-2
+db-1
+Add
+Add listener
+
+Add or change listeners, pools and backend instances later from the load balancer’s page.
 
 Summary
 not created yet
 new load balancer
-no type chosen yet
-Location
-not set
+Standard
 Subnet
 not set
 Listeners
-not set
+HTTP 80
 Instances
 not set
 Price estimate
 Per hour
 Per month
+Load balancer
+PKR 12.00
+Total
+PKR 12.00/hour
 
-Choose a location and a size to see the price.
+At rate card version 2; a month is 730 hours. Provisional until usage is validated.
 
-To do:
-Choose a location
 To do:
 Name the load balancer
+To do:
+Choose a subnet
 Create load balancer
 Cancel
 Equivalent code

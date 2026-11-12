@@ -47,7 +47,6 @@ read-only across the organization
 
 An organization role never implies a project role: a member sees only the projects they are given a role on.
 
-3
 Project access
 Optional: a role in each project
 

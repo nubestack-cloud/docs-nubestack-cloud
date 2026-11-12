@@ -24,13 +24,11 @@ Create a project
 A project holds instances, networks and volumes, and the people who may use them. It runs in one location and gets its own quota there.
 
 Cancel
-1
 Project name
 How the project is listed
 Name
 Up to 200 characters, for example Web shop.
 Advanced
-2
 Location
 Where the project runs
 Location

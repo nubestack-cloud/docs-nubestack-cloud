@@ -42,118 +42,94 @@ Last 7 days
 Last 30 days
 Last 90 days
 Custom range
-Time	Event	Category	Outcome	Actor	Target
+Time	Event	Category	Outcome	Actor
 
 07:26:00 UTC
 2026-10-21
 
-An instance was requested
+An instance was requested srv_01jbweb200000000000000001
 workload.server.create
 
 Management
 	Succeeded
 Sara Malik
-
-Server
-srv_01jbweb200000000000000001
 	Details
 
 07:00:00 UTC
 2026-10-21
 
-A volume snapshot was requested
+A volume snapshot was requested vol_01jbdbdata0000000000000001
 workload.volume.snapshot
 
 Management
 	Succeeded
 Scheduler
-
-Volume
-vol_01jbdbdata0000000000000001
 	Details
 
 05:55:00 UTC
 2026-10-21
 
-A member's organization roles changed
+A member's organization roles changed mem_01jbusman00000000000000000
 iam.member.roles_change
 
 Access
 	Succeeded
 You
-
-Usman Tariq
-Member
 	Details
 
 04:30:00 UTC
 2026-10-21
 
-Someone was invited
+Someone was invited inv_01jbzain00000000000000000001
 iam.invitation.created
 
 Access
 	Succeeded
 You
-
-Invitation
-inv_01jbzain00000000000000000001
 	Details
 
 02:30:00 UTC
 2026-10-21
 
-An API key was issued
+An API key was issued key_01jbgithub00000000000000001
 iam.api_key.created
 
 Credential
 	Succeeded
 Bilal Ahmed
-
-Api key
-key_01jbgithub00000000000000001
 	Details
 
 21:30:00 UTC
 2026-10-20
 
-A load balancer was changed
+A load balancer was changed lbs_01jbweblb0000000000000001
 workload.load_balancer.update
 
 Management
 	Succeeded
 Service account
 sa_01jbterraform000000000000001
-
-Load balancer
-lbs_01jbweblb0000000000000001
 	Details
 
 07:30:00 UTC
 2026-10-20
 
-A project was created
+A project was created prj_01jbanalytics00000000000001
 tenancy.project.created
 
 Management
 	Succeeded
 You
-
-analytics
-Project
 	Details
 
 06:30:00 UTC
 2026-10-20
 
-A request was refused
+A request was refused prj_01jbanalytics00000000000001
 iam.session.denied
 
 Security
 warning
 	Denied
 Sara Malik
-
-analytics
-Project
 	Details

@@ -31,7 +31,7 @@ Create security group
 4 security groups
 Refresh
 4 active
-Name	Status	Rules	Created
+	Name	Status	Rules	Created
 Actions
 
 

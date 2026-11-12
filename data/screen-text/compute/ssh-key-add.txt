@@ -10,7 +10,7 @@ Compute
 Instances
 SSH keys
 Images
-Server groups
+Placement groups
 Launch templates
 Instance groups
 Networking
@@ -30,12 +30,10 @@ Add an SSH key
 The public key of a computer you connect from. Choose it when you create an instance and it is copied into the instance; the private key never leaves your computer.
 
 Cancel
-1
 Public key
 The contents of your .pub file
 Public key
 For example the output of cat ~/.ssh/id_ed25519.pub. Ed25519, ECDSA or RSA (2048 bits or more); the comment is not stored.
-2
 Key name
 How you will recognise it
 Name

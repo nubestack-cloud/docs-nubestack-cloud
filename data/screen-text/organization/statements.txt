@@ -12,10 +12,6 @@ Storage
 Security
 IAM
 Billing
-Usage
-Cost explorer
-Statements
-Prices
 Activity
 Quota
 Settings
@@ -37,7 +33,7 @@ PKR 18,420.50
 
 provisional
 
-Not rated
+No price set
 
 1
 of 4 lines
@@ -61,7 +57,7 @@ standard
 	Karachi	86400 GiB·h	0.0715	2	PKR 6,177.60	2026-10-01 – 2026-10-21
 
 Public IP hours
-	Karachi	1440 h	Not rated	—	—	2026-10-01 – 2026-10-21
+	Karachi	1440 h	No price set	—	—	2026-10-01 – 2026-10-21
 Adjustments: corrections of months already closed, by the difference
 Corrects	Usage	Location	Quantity	Unit price	Rates	Amount	Hours
 September 2026
@@ -70,7 +66,7 @@ medium
 	Karachi	0.2 h	8.5	2	PKR 1.70	2026-09-01 – 2026-09-21
 All months
 2
-Month	State	Total	Not rated
+Month	State	Total	No price set
 October 2026	Open closes 2026-11-06	PKR 18,420.50	1
 September 2026	Closed on 2026-10-06	PKR 17,010.00	—
 Rates in force

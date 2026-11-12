@@ -31,7 +31,6 @@ Karachi
 A request is already waiting here
 Islamabad
 2 projects here
-2
 Budgets
 The total you want in this location; leave a resource blank to keep its budget
 Resource	Allocated	Budget now	Asking for
@@ -46,7 +45,6 @@ Instances	8	12
 
 Volume storage	400 GiB	1000 GiB
 1,001 GiB or more
-3
 Why
 Your provider reads this to decide
 Reason

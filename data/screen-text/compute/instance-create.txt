@@ -10,7 +10,7 @@ Compute
 Instances
 SSH keys
 Images
-Server groups
+Placement groups
 Launch templates
 Instance groups
 Networking
@@ -27,11 +27,9 @@ Instances
 New
 Create an instance
 
-A virtual machine in the web-shop project. The summary shows what it takes from the project's quota in the chosen location before you create it.
+A virtual machine in the web-shop project. The summary shows what it takes from the project's quota before you create it.
 
 Cancel
-Location
-, done
 Name
 , done
 Size
@@ -42,30 +40,23 @@ Network
 , done
 Access
 , done
-7
-Server group
+6
+Hosts
 , optional
-8
+7
 Volumes
 , optional
-9
+8
 Load balancer
 , optional
-10
+9
 Tags
 , optional
 Start from
 Your own settings
-Choose the location, size, image and the rest below.
+Choose the size, image and the rest below.
 A launch template
 1 saved in this project; choose how many to launch
-Location
-Where this instance runs
-Karachi
-pak-khi-1
-
-Each location is an independent cloud: the instance, its disk and its network stay where you create them. Sizes, images and networks below come from the chosen location.
-
 Instance name
 How the instance is listed
 Name
@@ -96,7 +87,7 @@ Large
 large
 room for 3 more
 
-A size that would exceed the project's quota in this location is marked; the cloud refuses it. An organization owner or admin can raise the project's quota.
+A size that would exceed the project's quota is marked; the cloud refuses it. An organization owner or admin can raise the project's quota.
 
 Image
 The operating system the instance boots
@@ -185,9 +176,9 @@ This rule applies to every instance in this project and location that uses defau
 SSH and web add only the rules none of the chosen groups already has, to the first group you choose, the cloud's default group included. With no group chosen, they go into one new group, named web-shop-access (a number is added when your organization already has a group of that name).
 
 Advanced
-Server group
-Hosts kept apart or together (optional)
-Server group
+Hosts
+Kept apart or together (optional)
+Placement group
 None
 web-spread · different hosts · 2 instances
 
@@ -226,8 +217,6 @@ Summary
 not created yet
 web-3
 2 vCPU · 4 GiB · 40 GiB disk
-Location
-Karachi
 Size
 Medium
 Image
@@ -246,7 +235,7 @@ Security groups
 default
 Firewall
 Adds port 22 to default
-Server group
+Placement group
 not set
 Volumes
 not set
@@ -260,9 +249,9 @@ Per month
 Instance
 PKR 8.50
 vCPU
-no charge
+no price set
 Memory
-no charge
+no price set
 Public IP
 PKR 1.20
 Total
@@ -270,7 +259,7 @@ PKR 9.70/hour
 
 At rate card version 2; a month is 730 hours. Provisional until usage is validated.
 
-Project quota in pak-khi-1 after this instance
+Project quota after this instance
 Instances
 3 + 1 / 10
 vCPUs

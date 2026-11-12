@@ -31,7 +31,7 @@ Create load balancer
 1 load balancer
 Refresh
 1 active
-Name	Address	Listeners	Status	Created
+	Name	Address	Listeners	Status	Created
 Actions
 
 

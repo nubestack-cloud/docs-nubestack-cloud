@@ -24,6 +24,7 @@ Roles
 What each role may do. Make your own from the same actions the built-in roles are made of; you can only use actions you hold.
 
 Create role
+Custom roles
 Name	Given	Actions	In each location	Held by	Changed
 Actions
 
@@ -40,3 +41,33 @@ Reads the audit log and usage
 ⌄
 Built-in roles
 6
+Role	Given	What it may do
+Owner	To members
+Read the organization's audit log
+org.close
+See the organization
+See usage
+
+Admin	To members
+Read the organization's audit log
+See the organization
+See usage
+
+Member	To members
+See the organization
+ssh_key.add_own
+
+Project admin	On a project
+See a project
+See instances, volumes, networks and other resources
+Create instances, volumes, networks and other resources
+
+Project member	On a project
+See a project
+See instances, volumes, networks and other resources
+Create instances, volumes, networks and other resources
+
+Project reader	On a project
+See a project
+See usage
+See instances, volumes, networks and other resources

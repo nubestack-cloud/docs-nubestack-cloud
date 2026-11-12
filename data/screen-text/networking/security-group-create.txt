@@ -28,14 +28,9 @@ Security groups
 New
 Create a security group
 
-A set of firewall rules for instances in one location. Start from a template; change the rules on the group's page at any time.
+A set of firewall rules for instances. Start from a template; change the rules on the group's page at any time.
 
 Cancel
-Location
-Where the group exists; it applies to instances there
-Karachi
-pak-khi-1
-2
 Name
 How the group is listed and chosen
 Name
@@ -67,15 +62,13 @@ Summary
 not created yet
 new security group
 1 inbound rule
-Location
-Karachi
 Template
 SSH
 Inbound
 TCP 22
 Outbound
 anywhere
-Project quota in pak-khi-1 after this group
+Project quota after this group
 Security groups
 4 + 1 / 10
 To do:

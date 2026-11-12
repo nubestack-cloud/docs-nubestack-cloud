@@ -28,13 +28,9 @@ Public IPs
 New
 Allocate a public IP
 
-An address from the location's public network. It stays allocated, and charged, until you release it.
+An address from the public network. It stays allocated, and charged, until you release it.
 
 Cancel
-Location
-Where the address is; it reaches instances and load balancers there
-Karachi
-pak-khi-1
 Tags
 Optional labels for the public IP, such as env: prod
 Key	Value
@@ -48,9 +44,7 @@ Lists filter by them, and the cost explorer adds up cost by each key. They are w
 Summary
 not created yet
 new public IP
-IPv4, from the location's public network
-Location
-Karachi
+IPv4, from the public network
 Tags
 none
 Attached to
@@ -65,7 +59,7 @@ PKR 1.20/hour
 
 At rate card version 2; a month is 730 hours. Provisional until usage is validated.
 
-Project quota in pak-khi-1 after this address
+Project quota after this address
 Public IPs
 3 + 1 / 5
 Ready to create

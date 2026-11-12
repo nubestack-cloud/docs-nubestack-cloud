@@ -22,21 +22,15 @@ Certificates
 New
 Upload a certificate
 
-A certificate, its chain and its private key, for HTTPS load balancers in one location. The key is checked, sealed at once and stored in the location's key manager; Nexus never shows it again.
+A certificate, its chain and its private key, for HTTPS load balancers. The key is checked, sealed at once and stored in the location's key manager; Nexus never shows it again.
 
 Cancel
-Location
-Where its load balancers are; a listener serves only a certificate in its own location
-Karachi
-pak-khi-1
-2
 Certificate
 The server's own certificate, PEM
 Certificate
 Starts with -----BEGIN CERTIFICATE-----. Valid for at least another day.
 Chain (optional)
 The intermediate certificates, the certificate's issuer first, at most 5. Leave out the root.
-3
 Private key
 Sealed at once; never shown again
 Private key
@@ -44,7 +38,6 @@ PEM, without a passphrase: RSA of at least 2048 bits, or EC on P-256 or P-384.
 
 Members of this project can read the key with the location's own tools, as with any secret in their project. Readers cannot.
 
-4
 Name
 How listeners choose it
 Name
@@ -53,8 +46,6 @@ Summary
 not created yet
 new certificate
 TLS certificate
-Location
-Karachi
 Chain
 none
 Key

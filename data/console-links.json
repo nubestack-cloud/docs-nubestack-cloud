@@ -8,6 +8,7 @@
     "compute/instances",
     "compute/key-pairs",
     "compute/launch-templates",
+    "compute/placement-groups",
     "compute/server-groups",
     "networking/certificates",
     "networking/internet-gateways",

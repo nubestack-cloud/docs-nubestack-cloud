@@ -12,10 +12,6 @@ Storage
 Security
 IAM
 Billing
-Usage
-Cost explorer
-Statements
-Prices
 Activity
 Quota
 Settings

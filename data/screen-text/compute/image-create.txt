@@ -10,7 +10,7 @@ Compute
 Instances
 SSH keys
 Images
-Server groups
+Placement groups
 Launch templates
 Instance groups
 Networking
@@ -31,7 +31,7 @@ Import image
 1 image
 Refresh
 1 active
-Name
+	Name
 ⇅
 	Status
 ⇅

@@ -636,6 +636,15 @@ const statementTotal = "17010.00";
 export const STATEMENT_CLOSED = { ...ssum("stm_01jbprevious0000000000001", PREV, "closed", statementTotal, 1, 0),
   adjustments_after: null, built_at: iso(plusDays(CUR, 5)),
   items: [sline("stl_9", "usage", PREV, "compute.instance.hours", "hour", { key: "offering", value: "medium" }, "2001.18", "8.5", statementTotal)] };
+// Instance hours by month since Acme's first month: last month's as on its closed statement, this
+// month's as on the usage page; last month's hourly export was ready when its statement closed.
+export const USAGE_MONTHS = { from: ym(PREV), to: ym(CUR), detail_from: ym(PREV), provisional: true, next_cursor: null,
+  items: [{ month: ym(CUR), quantity: "2232" }, { month: ym(PREV), quantity: STATEMENT_CLOSED.items[0]!.quantity }]
+    .map((m) => ({ ...m, metric: "compute.instance.hours", unit: "hour", bounded: false, source: "hourly" })) };
+const EXPORT_ID = "uex_01jbprevious0000000000001", EXPORT_OP = "op_01jbexport000000000000001";
+export const USAGE_EXPORTS = { provisional: true, next_cursor: null, items: [{ id: EXPORT_ID, month: ym(PREV), state: "ready",
+  as_of: iso(plusDays(CUR, 5)), requested_at: iso(plusDays(CUR, 5)), ready_at: iso(plusDays(CUR, 5)),
+  operation: { id: EXPORT_OP, href: `/v1/orgs/${ORG}/operations/${EXPORT_OP}` }, href: `/v1/orgs/${ORG}/usage/exports/${EXPORT_ID}` }] };
 export const STATEMENTS = { items: [STATEMENT_OPEN, STATEMENT_CLOSED].map(({ items: _i, adjustments_after: _a, built_at: _b, ...s }) => s), next_cursor: null };
 export const RATE_CARD = { currency: "PKR", provisional: true,
   // Q65: a price for one size names the catalog's size, volume type or load balancer type.

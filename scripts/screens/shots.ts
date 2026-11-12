@@ -136,7 +136,7 @@ export const SHOTS: Shot[] = [
   { name: "organization/settings", path: org("settings"), wait: "main h1", clip: "main", height: 1100 },
   { name: "organization/audit-log", path: org("activity"), wait: "main h1", clip: "main" },
   { name: "organization/quota", path: org("quota"), wait: "main h1", clip: "main", height: 1100 },
-  { name: "organization/usage", path: org("usage"), wait: "main h1", clip: "main", height: 1100 },
+  { name: "organization/usage", path: org("usage"), wait: "main h1", clip: "main", height: 1250 },
   { name: "organization/statements", path: org("statements"), wait: "main h1", clip: "main", height: 1200 },
   { name: "organization/cost-explorer", path: org("billing/costs"), wait: "main h1", clip: "main", height: 1100 },
   { name: "organization/prices", path: org("billing/prices"), wait: "main h1", clip: "main" },

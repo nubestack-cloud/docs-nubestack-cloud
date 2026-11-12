@@ -33,7 +33,7 @@ env: prod
 3 public IPs
 Refresh
 3 active
-Address	Status	Attached to	Tags
+	Address	Status	Attached to	Tags
 Actions
 
 

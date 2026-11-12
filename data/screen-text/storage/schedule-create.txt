@@ -24,7 +24,7 @@ Schedules
 New
 Create a schedule
 
-Snapshots of volumes on a timetable, or instances stopped and started every week. Each run is an ordinary operation, done as you: you need the rights it uses.
+Snapshots of volumes on a timetable, or instances turned off and on every week. Each run is an ordinary operation, done as you: you need the rights it uses.
 
 Cancel
 What it does
@@ -35,14 +35,9 @@ Snapshot chosen volumes and keep the newest few.
 Back up instances
 Snapshot every volume attached to chosen instances.
 Stop and start instances
-On a weekly timetable; a stopped instance is not charged for vCPU or RAM.
-Location
-A schedule acts in one location
-Karachi
-pak-khi-1
-3
+On a weekly timetable; stopped, or shelved to stop the charge for their size.
 Volumes
-Up to 10, in this location
+Up to 10
 Targets
 db-data
 In use
@@ -71,7 +66,6 @@ How many of its snapshots to keep
 Snapshots to keep of each volume
 1 to 100
 ?
-6
 Name
 How it is listed
 Name

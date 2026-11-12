@@ -13,9 +13,6 @@ Security
 IAM
 Billing
 Usage
-Cost explorer
-Statements
-Prices
 Activity
 Quota
 Settings
@@ -62,7 +59,7 @@ Networking
 Public IP hours
 2,232
 h
-not rated
+no price set
 Internet gateway hours
 0
 h
@@ -70,7 +67,7 @@ Load balancer hours
 744
 h
 Hours not counted
-Not here: either it does not exist, or your access does not include it.
+Every hour of this period is counted.
 Instance hours by
 project
 resource type
@@ -80,8 +77,21 @@ web-shop
 2,232 h
 100%
 Instance hours by month
+2 months
 
 An export holds every hour counted up to the time it was made, as JSON lines. Provisional, like the figures here.
 
-Not here: either it does not exist, or your access does not include it.
-Not here: either it does not exist, or your access does not include it.
+Month	Instance hours	Export	Action
+October 2026
+2,232 h
+	not exported
+Export
+
+September 2026
+2,001.2 h
+
+Ready
+to 2026-10-06 00:00 UTC
+
+Download
+Export again
